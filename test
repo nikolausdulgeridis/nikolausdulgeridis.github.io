@@ -1,6 +1,0 @@
----
-bla
----
-
-{% include header.html %}
-Meinbla<br> 
