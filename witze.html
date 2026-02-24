@@ -1,0 +1,1396 @@
+<!-- === Horizontale farbige Unterhaltungs-Navigation (dunkel, größer, purple, kein Umbruch) === -->
+<div class="unterhaltung-nav"><a href="https://nikolausdulgeridis.de.tl" class="mynav-home" id="nav_home">Unterhaltung</a>   <a href="https://nikolausdulgeridis.de.tl/Witze.htm" class="mynav-btn witze" id="nav_witze">Witze</a>   <a href="https://nikolausdulgeridis.de.tl/Sicherheitstest.htm" class="mynav-btn sicherheit" id="nav_sicherheit">Sicherheitstest</a>   <a href="https://nikolausdulgeridis.de.tl/Gleich-und-ungleich.htm" class="mynav-btn gleich" id="nav_gleich">Gleich &amp; Ungleich</a>   <a href="https://nikolausdulgeridis.de.tl/Fundsachen.htm" class="mynav-btn fundsachen" id="nav_fundsachen">Fundsachen</a>   <a href="https://nikolausdulgeridis.de.tl/Muehle.htm" class="mynav-btn muehle" id="nav_muehle">M&uuml;hle</a>   <a href="https://nikolausdulgeridis.de.tl/Sonstiges.htm" class="mynav-btn sonstiges" id="nav_sonstiges">Sonstiges</a>  <!-- Sprachwahl    <div style="margin-left:auto; display:flex; gap:6px;">  -->
+<div style="display:flex; flex-direction:rows; gap:3px; margin-left: 6px; margin-right: 2px;"><img id="nav_flag_en" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAUAPcAAAQCBPz+/AQC/PwCBG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYHOXsVoESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+iQ/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAHgPWVgCYdQB8AKApAOJAABWSAAB8AIAcM2ZAoxWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEAz/+ij/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowMwIAowAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABQAAAivAAEIHEiwoMGDBQcECCCgocOHAQYofEhRwMIBAiMqZFjRokSOFS8qFGhRI0iIHzuaZEiy4UqKJmF+BNnS4UuXKV3GfFjT5suYIhdW7Alx5cyZHQVkXMi0qUiJM506FQi1qtWrWK1Szcq1q8SlUpteDTsVQFKPG49OTEpU50a0DC8KHWq2aE64NpHyrIvzbd61bgErrSv3ZF/DJf0uvStTMMqNW+eqZAxTI8LLmA0GBAA7" onclick="setmylangen()" alt="lang=en" />     <img id="nav_flag_de" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAVAPcAAAQCBPz+BPwCBAAAAG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYPuXsK4ESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+hA/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAQAPWKwCYdQB8AKApAOJAABWSAAB8AIAcQGZA6hWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEBA/+jq/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowQAIA6gAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABUAAAhvAAEIHEiwoMGDCBMqXMiwocOHCQdInEixosWLEgUOgMhwIwCPHCNqxEiyZEYAAlKqXMmypcuUAl/KnKkyJs2bLW3i3ClAJ8+bPn/OFBigqNGjSJMqLUp0qdOnTAFAnaq0KdWrAaxinap169OQDwMCADs=" onclick="setmylangde()" alt="lang=de" /></div>
+<!-- Sprachwahl Ende --></div>
+<style type="text/css">
+.nav_flagimg {
+  width: 26px;
+  height: 14px;
+  min-width: 26px;
+  min-height: 14px;
+  border: 1px solid grey; /* Breite, Stil, Farbe */
+  border-radius: 4px;
+}
+
+
+.unterhaltung-nav {
+  background: #333;
+  padding: 6px 11px;
+  margin: 0 0 11px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.mynav-home {
+  color: white;
+  font-weight: bold;
+  font-size: 0,75rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #555;
+  margin-right: 12px;
+  transition: background 0.2s;
+}
+
+.mynav-home:hover {
+  background: #777;
+}
+
+.mynav-btn {
+  color: black;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: all 0.18s ease;
+  min-width: 36px;
+  text-align: center;
+}
+
+.mynav-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-.1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Farben – Netscape-kompatible Namen */
+.witze       { background-color: purple;      }
+.sicherheit  { background-color: orange;      }
+.gleich      { background-color: lightblue;   }
+.fundsachen  { background-color: limegreen;   }
+.muehle      { background-color: gold;        }
+.sonstiges   { background-color: tan;        }
+
+/* Aktives Element – silberner Inset-Rand statt schwarz */
+.unterhaltung-nav a.active {
+  box-shadow: inset 0 0 0 2px darkgray;
+  position: relative;
+  top: 1px;
+  filter: brightness(1.08) contrast(1.05);
+}
+</style>     <script>
+// Aktive-Seite-Erkennung
+(function markActiveNav() {
+  const currentPath = window.location.pathname.toLowerCase();
+  const fullUrl    = window.location.href.toLowerCase();
+  const links = document.querySelectorAll('.unterhaltung-nav a.mynav-btn');
+
+  // Startseite → nichts markieren
+  if (currentPath === '/' || 
+      currentPath === '' || 
+	  currentPath.endsWith('/unterhaltung') ||
+      fullUrl.endsWith('nikolausdulgeridis.de.tl') || 
+      fullUrl.endsWith('nikolausdulgeridis.de.tl/') ) {
+    return;
+  }
+
+  links.forEach(link => {
+    const href = link.getAttribute('href').toLowerCase();
+    const pageName = href.split('/').pop().split('.')[0];
+    
+    if (currentPath.includes(pageName) || fullUrl.includes(pageName)) {
+      link.classList.add('active');
+    }
+  });
+})();
+
+</script>     <script>
+var globalLanguageFlag = "de";  // default
+
+// Übersetzungen
+const navText = {
+  de: {
+    home: "Unterhaltung",
+    witze: "Witze",
+    sicherheit: "Sicherheitstest",
+    gleich: "Gleich & Ungl",
+    fundsachen: "Fundsachen",
+    muehle: "Mühle",
+    sonstiges: "Sonst",
+  },
+  en: {
+    home: "Entertainment",
+    witze: "Jokes",
+    sicherheit: "Security Test",
+    gleich: "Equal & Uneq",
+    fundsachen: "Lost & F",
+    muehle: "Mill Game",
+    sonstiges: "Misc",
+  }
+};
+
+// Sprache aus localStorage oder Browser ermitteln
+function detectLanguage() {
+  const stored = localStorage.getItem("language");
+
+  if (stored) {
+    globalLanguageFlag = stored;
+    return;
+  }
+
+  let navlang = navigator.language || navigator.userLanguage || "en";
+
+  if (!navlang.startsWith("de")) {
+    globalLanguageFlag = "en";
+  } else {
+    globalLanguageFlag = "de";
+  }
+}
+
+// Texte in Navbar setzen
+function applyLanguage() {
+  const L = navText[globalLanguageFlag];
+
+  document.getElementById("nav_home").textContent = L.home;
+  document.getElementById("nav_witze").textContent = L.witze;
+  document.getElementById("nav_sicherheit").textContent = L.sicherheit;
+  document.getElementById("nav_gleich").textContent = L.gleich;
+  document.getElementById("nav_fundsachen").textContent = L.fundsachen;
+  document.getElementById("nav_muehle").textContent = L.muehle;
+  document.getElementById("nav_sonstiges").textContent = L.sonstiges;
+}
+
+// Bei Klick auf Flaggen → Sprache setzen
+function setmylangde() {
+  globalLanguageFlag = "de";
+  localStorage.setItem("language", "de");
+  applyLanguage();
+}
+
+function setmylangen() {
+  globalLanguageFlag = "en";
+  localStorage.setItem("language", "en");
+  applyLanguage();
+}
+
+// Initialisierung
+detectLanguage();
+window.addEventListener("DOMContentLoaded", applyLanguage);
+
+//alert("ermittelte Sprache:"+globalLanguageFlag);
+</script>    <!-- === Ende Navigation === -->     <!-- === Ende Navigation === -->      <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->        <!-- === Ende Navigation === -->     <!-- === Ende Navigation === -->      <!-- === Ende Navigation === -->   <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->     <!-- === Ende Navigation === -->   <!-- === Ende Navigation === -->   <!-- === Ende Navigation === -->     <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->            <style type="text/css"> /* Generated by www.design-generator.de.tl */ td.edit_content_top{background: url() #345;} td.headline2{color: #eee;} td.edit_content{background: url() #edc;} td.edit_content_main div{overflow: visible!important;} td.edit_content_bottom{background: url() #789;} td.edit_content_bottom2{background: url() #456;} .edit_rechts_bottom{display:none;}
+</style>
+<link href="//img.webme.com/pic/n/nikolausdulgeridis/nikolaus-haus-a-32x32.ico" rel="SHORTCUT ICON" />
+<meta content="Nikolaus Dulgeridis Homepage Humor Informatik Festplattenstandby Videobearbeitung Muehlespiel Urldecoder Javascriptexamples" name="keywords">   <style type="text/css">.ulhoriz li {display: inline;list-style-type: none;padding-right: 20px;}</style>    <script>
+if(1) imgpath = "./ausw/";
+if(1) imgpath = "//img.webme.com/pic/n/nikolausdulgeridis/";
+
+var seiteimg1 = new Image();
+var witzimg1 = new Image();
+var nikohaus = new Image();
+var hexeblond = new Image();
+var leer     = new Image();
+hexeblond.src = imgpath+"hexeblond27.ico";
+nikohaus.src = imgpath+"nikolaus-haus-c-32x32.ico";
+leer.src     = imgpath+"leer.gif";
+/*witzimg1.src = imgpath+"knast1e0.gif";*/
+
+
+var witzimgAr= new Array();
+if(1) witzimgAr.push("pruefungenkannman.jpg");
+if(1) witzimgAr.push("arbeitsplatz.gif");
+if(1) witzimgAr.push("catnap_hardday.jpg");
+if(0) witzimgAr.push("catnap_inaction.jpg");
+if(1) witzimgAr.push("cat_on_dog_nap.jpg");
+if(1) witzimgAr.push("hundImBuero.jpg");
+if(0) witzimgAr.push("gelesen.jpg");
+if(1) witzimgAr.push("hund_imschlaf.jpg");
+if(1) witzimgAr.push("knast1e0.jpg");
+if(1) witzimgAr.push("schule.gif");
+if(1) witzimgAr.push("TouretteE450x223.jpg");
+if(1) witzimgAr.push("catnap_tv.jpg");
+if(0) witzimgAr.push("drogen.jpg");
+
+var seiteimgAr= new Array();
+if(1) seiteimgAr.push("arbeitsplatz.gif");
+
+var hoeheimg =36;
+var breiteimg = 44;
+var seiteimgPfad= "";
+if(1) seiteimgPfad= "//img.webme.com/pic/n/nikolausdulgeridis/";
+if(0) seiteimgPfad= "icons/";
+var seiteimgAr= new Array();
+if(1) seiteimgAr.push("ladyBug.png");
+if(1) seiteimgAr.push("Butterfly.png");
+if(1) seiteimgAr.push("Whirligig.png");
+if(1) seiteimgAr.push("home1.png");
+if(1) seiteimgAr.push("Hippopotamus.png");
+if(1) seiteimgAr.push("Cube.png");
+if(1) seiteimgAr.push("Dolphin.png");
+if(1) seiteimgAr.push("Sun.png");
+
+var zufbild= Math.floor(Math.random()*witzimgAr.length)
+witzimg1.src = imgpath+witzimgAr[zufbild].toLowerCase();
+
+
+/* out of scope */
+var toplogoAr= new Array();
+if(1) toplogoAr.push("toplogobaum.gif");
+if(1) toplogoAr.push("toplogohexen.gif");
+if(1) toplogoAr.push("toplogohexenA.gif");
+if(1) toplogoAr.push("toplogohexenB.gif");
+if(1) toplogoAr.push("toplogohexenC.gif");
+var toplogo = new Image();
+var zufbild= Math.floor(Math.random()*toplogoAr.length)
+toplogo.src = imgpath+toplogoAr[zufbild].toLowerCase();
+</script>    
+
+<!-- 
+**texte**
+Teacher: "You missed school yesterday didn't you?" Pupil: "Not very much!"
+##
+Lieber Robert,
+
+ich hoffe auf Deine Hilfe. Neulich fuhr ich zur Arbeit, während mein Mann noch wie üblich zu Hause blieb. Ich war gerade mal 5 Kilometer gefahren, als der Automotor seinen Geist aufgab. Ich lief zu Fuß nach Hause zurück, um meinen Mann um Hilfe zu bitten. Als ich zuhause ankam, konnte ich nicht glauben, was ich sah: Er war mit der Tochter unserer Nachbarn im Schlafzimmer! Ich bin 32 Jahre alt, mein Mann ist 34, und die Nachbarstochter ist 22. Wir sind seit 10 Jahren verheiratet.
+
+Als ich ihn zur Rede stellte, gestand er, dass die beiden seit sechs Monaten eine Affäre hatten. Ich habe ihm gesagt, dass ich ihn verlassen würde, wenn er diese nicht beenden würde. Er hat vor sechs Monaten seinen Arbeitsplatz verloren und sagt, dass er sich nutzlos vorkommt und deprimiert sei. Ich liebe ihn wirklich, aber seit meinem Ultimatum scheint er sich nur noch mehr von mir zurückzuziehen. Eine Eheberatung lehnt er ab, und meine verzweifelten Gesprächsversuche dringen nicht mehr zu ihm durch.
+
+Kannst Du mir bitte einen Rat geben?
+Susanne
+-------------------------------------
+
+Liebe Susanne,
+Wenn ein Motor bereits nach 5 Kilometern abschaltet, kann das eine ganze Reihe von Ursachen haben. Stelle zunächst sicher, dass die Benzinleitung frei und sauber ist. Überprüfe die Funktionsfähigkeit der Einspritzdüse und auch den Sicherungskasten, dessen Position in der Betriebsanleitung beschrieben ist. Wenn dies alles nicht die Ursache ist, ist wahrscheinlich die Benzinpumpe defekt, weshalb die Einspritzdüsen unterversorgt sind und darum nicht den notwendigen Druck aufbauen können.
+
+Ich hoffe, Dir geholfen zu haben.
+Robert
+##
+Ein notorischer Spieler gewinnt 1 Million Euro in der Spielbank. Er kommt nach Hause und erzählt es seiner Frau - die bekommt vor Aufregung einen Herzinfarkt und fällt tot um. Denkt sich der Mann: "Wenn's läuft, dann läuft's!"
+##
+Die Kinder sitzen spät abends vor dem Bildschirm. Da kommt die Mutter rein und sagt: Los Kinder, ab ins Bett. Seht ihr, die Frauen im Fernsehen haben sich auch schon ausgezogen."
+##
+Drei Wanderer sitzen nach einer langen Wanderung im Gasthaus und sind schon ein bisschen betrunken.
+Sie beschließen, ihren Frauen eine SMS mit dem gleichen Inhalt zu schicken: "Wenn ich ein Vöglein wäre, flög ich zu dir, da ich kein Vöglein bin, vögle ich hier."
+Die erste reagiert böse: "Zuhause warst du schon gemein und auch auf der Wanderung bleibst du ein Schwein!"
+Die zweite: "Von deiner Nachricht glaube ich kein Wort, du konntest nicht hier, geschweige denn dort!"
+Und die dritte: "Da du kein Vöglein bist, sondern ein Wanderer, sei beruhigt, mich vögelt grad ein anderer!"
+##
+"Eigentlich schade, dass Sie uns verlassen. Sie waren wie ein Sohn für mich", sagt der Chef zum scheidenden Mitarbeiter, "aufsässig, undankbar und nie um eine Ausrede verlegen!"
+##
+Der Papst hat eine Reise nach Australien gemacht. Bei einem Gottesdienst am Strand beobachtet er, wie im Wasser ein Typ mit einem Holland-Trikot von einem Hai angefallen wird.
+Mit einem Mal kommen zwei Deutsche in einem Motorboot angefahren. Der eine Deutsche springt mit einer Harpune ins Wasser und erledigt den Hai. Der andere Deutsche holt den Holländer aus dem Wasser.
+Als der Papst das sieht, lässt er nach den beiden schicken. "Für Euren selbstlosen Einsatz spreche ich euch im Namen Gottes selig."
+Als der Papst weg ist, sagt der eine Deutsche zum Anderen: "Wer war das denn?" "Keine Ahnung" sagt der Andere "ist ja auch egal, sieh mal lieber nach, ob unser Köder noch in Ordnung ist, oder ob wir einen Neuen brauchen."##
+Doktor: "Sie sind sterbenskrank, und Ihnen verbleibt nicht mehr viel Zeit!"
+Patient: "Wieviel habe ich denn noch?"
+Doktor: "Zehn."
+Patient: "Zehn was? Jahre, Monate, Wochen?"
+Doktor: "Neun ..."
+##
+Der Damenslip 
+
+Ein junger Mann wollte seiner Angebeten ein Geschenk machen. Die beiden hatten sich schon längere Zeit nicht mehr gesehen, und nach sorgfältiger Erwägung entschied er sich für den Kauf eines Paares Handschuhen: Romantisch, aber nicht zu persönlich.
+
+Begleitet von der jungen Schwester seiner Herzensdame, ging er ins Warenhaus und kaufte ein Paar weiße Handschuhe.
+Die Schwester der angebeteten kaufte sich ein Paar Slips.
+
+Während des Einpackens vertauschte die Kassiererin beide Pakete, so erhielt die Schwester die Handschuhe, und der Mann die Damenslips.
+
+Ohne den Inhalt des Päckchens zu kontrollieren, schickte er dieselben an seine Holde und fügte folgendes kleine Schreiben hinzu:
+
+"Ich habe diese ausgewählt, weil mir aufgefallen ist, das Du normalerweise keine trägst. Wenn's nach mir wäre, hätte ich lange mit Knöpfen genommen, aber Deine Schwester trägt auch kurze und diese sind leichter auszuziehen.
+Die Farbe scheint vielleicht etwas heikel, aber die Verkäuferin zeigte mir ihre, die sie bereits drei Wochen anhatte, und sie waren kaum beschmutzt.
+Sie hat auch Deine probehalber angezogen und es sah einfach chic aus.
+
+Ich wünsche ich könnte sie Dir zum ersten Male anziehen, denn bis ich dich am Freitag zum nächsten mal sehe, sind bestimmt schon viele damit in Kontakt gekommen. Wenn Du sie ausziehst, vergiss nicht hineinzublasen bevor Du sie weglegst, denn naturgemäß werden sie vom tragen innen etwas feucht.
+
+Denk wie oft ich sie im nächsten Jahr küssen werde! Ich hoffe Du wirst sie am Freitag für mich anziehen.
+In liebe Dein Schatz.
+
+PS: Nach neuster Mode trägt man sie übrigens umgeschlagen, so dass der Pelz ein wenig rausschaut. "
+##
+Oh man, bin ich doch gestern kontrolliert worden, und der Polizist sagt: "Fahrzeugpapiere und aussteigen, ich denke, Sie sind betrunken!"
+Ich: "Herr Inspektor, ich versichere Ihnen, ich habe nichts getrunken!"
+Polizist: "Ok, machen wir einen kleinen Test! Stellen Sie sich vor: Sie fahren im Dunkeln auf einer Straße, da kommen Ihnen zwei Lichter entgegen, was ist das?"
+Ich: "Ein Auto."
+Polizist: "Klar ein Auto! Aber welches? Ein Mercedes, ein Audi oder ein BMW?"
+Ich: "Keine Ahnung!"
+Polizist: "Also doch betrunken."
+Ich: "Unter Garantie nicht!"
+Polizist: "Okay, noch ein Test: Stellen Sie sich vor: Sie fahren im Dunkeln auf einer Straße, da kommt Ihnen ein Licht entgegen, was ist das?"
+Ich: "Ein Motorrad!"
+Polizist: "Klar ein Motorrad! Aber welches? Eine Honda, eine Kawasaki oder eine Harley?"
+Ich: "Keine Ahnung!"
+Polizist: "Wie ich sagte: betrunken!"
+Ich wurde langsam etwas sauer, deshalb wollte ich mal eine Gegenprobe machen:
+"So, Herr Inspektor, Gegenfrage: Es steht eine Frau am Straßenrand. Sie trägt einen Mini, Netzstrümpfe und hochhackige Schuhe. Wer ist das?"
+Polizist: "Na klar. Eine Hure."
+Ich: "Klar eine Hure, aber welche? Ihre Tochter, ihre Frau oder ihre Mutter?"
+##
+Ein Mullah reitet auf seinem Esel die staubige Strasse entlang. Er zockelt an einem Ehepaar vorbei, dass zu Fuss auf dem Weg in das nächste Dorf ist. Der Mann folgt der Frau im gebührlichen Abstand von 3 Metern. 
+
+Der Mullah gerät ausser sich und schreit: "Guter Mann, was machst du da? Warum geht deine Frau 3 Meter vor dir? Hast du keinen Respekt vor dem Islam?"
+
+"Verzeih mir" , antwortet der Mann, "aber das war doch der Islam bevor es Landminen gab!"
+##
+Ein Anwalt hat mit seiner Kanzlei Anlaufschwierigkeiten und beschwört daher den Teufel.
+Der kommt auch prompt, und sagt: "Diese Woche haben wir ein Sonderangebot. Du bekommst perfekte Gesundheit, gewinnst jeden Prozess, bist für Frauen unwiderstehlich, dein Tennis-Aufschlag ist nicht zu erwischen, jeden Morgen weißt du die Aktienkurse vom nächsten Tag, und Dein Mundgeruch ist weg. Dafür bekomme ich sofort Deine Frau und Deine Kinder, und die werden auf ewig in der Hölle schmoren. Na, was sagst Du?"
+
+Der Anwalt stutzt, seine Augen verengen sich zu schmalen Schlitzen - dann sagt er: "Moment mal. Irgendwo muss doch da ein Haken sein..."
+##
+Ein Biker kauft sich eine neue vor Chrom glänzende Harley. Der Verkäufer gibt ihm noch einen Tip: "Bevor es anfängt zu regnen, sollten Sie das Chrom immer mit Vaseline einreiben. So bleibt es immer glänzend und Rost hat keine Chance! Diese Dose Vaseline gebe ich Ihnen gleich gratis dazu!" Toll, denkt sich der Biker. Mit der neuen Maschine fährt er gleich bei seiner Freundin vor, die ihn zum Essen eingeladen hat, um ihre Familie kennenzulernen.
+Alles läuft prima, die Eltern haben einen ganz guten Eindruck vom neuen Freund der Tochter. Kurz vor dem Dessert sagt die Tochter zu ihrem Freund: "Wir haben da einen witzigen Familienbrauch, um jemanden für den Abwasch zu bestimmen. Wer nach dem Essen das erste Wort sagt, muss den ganzen Abwasch machen!" Na gut, denkt sich der Biker, spiele ich eben mit. Als alle fertig gegessen haben, breitet sich eisiges Schweigen aus. 5 Minuten, 10 Minuten vergehen, der Biker wird langsam ungeduldig.
+Um das Ganze zu beschleunigen und eine Reaktion von den Eltern zu provozieren, schnappt er die Tochter und beginnt wild mit ihr zu knutschen. Keiner sagt etwas! Er schnappt die Tochter, legt sie auf den Eßtisch, und vögelt sie richtig durch. Keiner sagt etwas. Also schnappt er sich die Mutter und besorgt es ihr auch.
+Noch immer sagt keiner etwas. Ziemlich frustriert blickt der Biker aus dem Fenster und merkt, dass es gerade zu regnen beginnt. Sofort denkt er an seine neue Harley und den Trick mit dem Chrom. Er greift in seine Lederjacke und zieht die Vaseline heraus.
+Da springt der Vater auf und ruft: "Okay, okay, ich mache ja den Abwasch!"
+##
+Ein Flugzeug ist auf dem Weg nach Melbourne als eine Blondine in der "Economy Class" aufsteht und in die "Erste Klasse" geht und sich dort hinsetzt.
+Die Stewardess beobachtet sie und fragt sie nach ihrem Ticket. Sie erklärt der Blondine, dass sie für die "Zweite Klasse" bezahlt hat und sie solle dorthin zurückgehen und sich dort wieder hinsetzen.
+Daraufhin antwortet die Blondine: "Ich bin blond, ich bin schön, ich fliege nach Melbourne und ich bleibe hier sitzen."
+Die Stewardess geht ins Cockpit und erzählt dem Pilot und dem Co-Pilot, dass in der "Ersten Klasse" eine dumme Blondine sitzt, die in die "Zweite Klasse" gehört und nicht zu ihrem Platz zurück will.
+Der Co-Pilot geht zu der Blondine und versucht ihr zu erklären, dass sie zurück soll, weil sie nur "Zweite Klasse" bezahlt hat.
+Die Blondine antwortet: "Ich bin blond, ich bin schön, ich fliege nach Melbourne und ich bleibe hier sitzen."
+Wutentbrannt erzählt es der Co-Pilot dem Pilot, dass es keinen Sinn hätte und er solle die Polizei informieren, dass sie am Flughafen auf die Blondine warten sollen und sie verhaften.
+Darauf hin sagt der Pilot ganz lässig: "Sie ist blond? Ich übernehme das. Ich bin mit einer Blondine verheiratet und ich spreche blond!"
+Er geht zur Blondine und flüstert ihr etwas ins Ohr. Sie sagt "Oh, tut mir leid, das wusste ich nicht!", steht auf und geht zurück zu ihrem Platz in der "Zweiten Klasse".
+Die Stewardess und der Co-Pilot sind beeindruckt und fragen den Pilot, was er der Blondine erzählt hat, damit sie ohne Widerrede zu ihrem Platz zurück ging.
+Pilot: "Ich habe ihr erzählt, dass die 'Erste Klasse' nicht nach Melbourne fliegt!"
+##
+"Lesen sie mal die Zahlen da vor! "Welche Zahlen? "Na, die an der Tafel da. "Welche Tafel?" Die an der Wand hängt! "Welche Wand? "Mein Herr, sie brauchen keine Brille, sie brauchen einen Blindenhund. "Was soll ich denn mit einem blinden Hund?...
+##
+Auf einer Kreuzfahrt tritt jeden Abend ein Zauberer auf. In der Ecke hängt ein Papageienkäfig. Nach jedem Kunststück krächzt der Papagei "Buh, fauler Zauber. Ich habe genau gesehen, was er gemacht hat!". Am nächsten Abend wieder: "Kinderkram, langweilig".
+
+Eines Abends gerät das Schiff in Seenot. Der Zufall will es, dass der Zauberer und der Papagei alleine in ein Rettungsboot gelangen. Ein Tag vergeht, keiner spricht ein Wort. Ein zweiter Tag vergeht. Nichts ist zu sehen als der Ozean. Endlich ergreift der Papagei das Wort.
+
+"Ok, ich gebe auf. Wie hast du das gemacht?"
+##
+Ein Mann lag seit längerem im Koma, aus dem er ab und zu erwachte. Seine Ehefrau war Tag und Nacht an seinem Bett. Eines Tages, als er wieder einmal bei Bewusstsein war, deutete er ihr, näher zu kommen. Er flüsterte: "In all den schlimmen Zeiten warst du stets an meiner Seite. Als ich entlassen wurde, warst du für mich da. Als dann mein Geschäft pleite ging hast du mich unterstützt. Als wir das Haus verloren haben, hieltest Du zu mir. Als es dann mit meiner Gesundheit abwärts ging, warst du stets in meiner Nähe. Weisst du was?" Ihre Augen füllten sich mit Tränen der Rührung. "Was denn, mein Liebling?" hauchte sie. "Ich glaube du bringst mir Pech!"
+##
+Ein Flugzeug ist gestartet. Als es seine normale Flughöhe erreicht hat, meldet sich der Pilot: "Guten Tag meine Damen und Herren, wir haben jetzt die normale Flughöhe erreicht. Es ist wunderbares Flugwetter und wir werden pünktlich ankomm ... Oh mein Gott, so eine verfluchte Scheiße!!"
+
+Stille.
+
+Die Passagiere schauen sich angsterfüllt an. Blankes Entsetzen steht in ihren Gesichtern geschrieben. Was ist wohl passiert? Die Flugbegleitung kann nichts sagen. Seltsamerweise kommt sie nicht ins Cockpit hinein. Angespannte, nervöse Stimmung macht sich breit - man kann die Luft förmlich schneiden ...
+
+Bevor im Flugzeug Panik ausbricht, meldet sich der Pilot: "Meine Damen und Herren, es ist nichts passiert. Dieser Idiot von Co-Pilot hat mir nur seinen Kaffee über die Hose geschüttet. Sie sollten mal meine Hose von vorne sehen ..."
+
+Da schreit ein Passagier von hinten: "Sie Arschloch! Sie sollten erst mal meine Hose sehen!"
+##
+Endlich wurde das Ergebnis einer Meinungsumfrage veröffentlicht, die von der UNO in Auftrag gegeben worden war.
+Die Frage lautete: "Sagen Sie bitte ehrlich Ihre Meinung zur Lebensmittel-Knappheit im Rest der Welt."
+Das Ergebnis war wie folgt:
+Die Europäer haben nicht verstanden, was "Knappheit" bedeutet.
+Die Afrikaner wussten nicht, was "Lebensmittel" sind.
+Die Amerikaner fragten, was unter "dem Rest der Welt" zu verstehen sei.
+Die Chinesen baten verwundert um zusätzliche Erklärung zum Begriff "Meinung".
+Im italienischen Parlament diskutiert man zur Stunde noch über die Bedeutung des Begriffs "ehrlich".
+##
+Bei der goldenen Hochzeit wird der Ehemann gefragt: "Was war denn die schönste Zeit in all den Ehejahren?"
+"Die fünf Jahre russische Kriegsgefangenschaft ..."
+##
+"Betrachten sie mich nicht als ihren Chef, sondern als guten Freund, der immer recht hat."
+##
+Ein 86-jähriger ging zum Doktor. "Ich werde nächste Woche nochmals heiraten, Herr Doktor." - "Schön für sie. Wie alt ist denn ihre Braut?" - "19", erwiderte der alte Mann. "Ach du lieber Gott!", sagte der Doktor, "Ich muss sie warnen, jegliche Aktivität im Bett könnte tödlich sein." - "OK", sagt der Mann, "wenn sie dann halt stirbt, dann stirbt sie."
+##
+Zwei Jäger marschieren durch den Wald.
+Plötzlich fällt einer von ihnen um.
+Der zweite nimmt sein Handy und ruft den Notartz: "Schnell ich glaube mein Kamerad ist tot!"
+Der Notartzt: "Nur ruhig, bitte vergewissern sie sich zuerst ob er wirklich tot ist."
+Es herrscht kurz Stille dann hört man einen Schuss.
+Der Jäger in sein Telefon: "Ok. und jetzt?"
+##
+Nach langem Drängen lässt sich ein Jäger von seiner Frau überreden, sie einmal mit auf die Jagd zu nehmen. Im Wald erklärt er ihr dann, wie sie das Gewehr zu bedienen hat und wie sie sich am besten versteckt. Weiterhin sagt er ihr, dass es auf der Jagd sehr wichtig sei, nach dem Schuss sofort zu dem erlegten Tier hinzueilen, weil derjenige seine Besitzansprüche darauf erheben kann, der als erster an dem Tier angelangt ist.
+Gesagt, getan.
+Die beiden verkriechen sich jeweils in ihre Deckung und warten.
+Nach kurzer Zeit hört der Jäger einen Schuss von seiner Frau. Schnell eilt er hin, um zu sehen, ob sie auch alles richtig macht.
+Schon aus weiter Entfernung kann er sehen, wie seine Frau und ein fremder Mann wild diskutieren.
+Als er näher herankommt, hört er den Mann sagen: 'Schon gut, schon gut, es ist ihr Hirsch, ich sehe es ja ein! Darf ich wenigstens noch vorher den Sattel abnehmen?
+##
+An der CIA-Schule stehen drei Agenten vor dem Abschlusstest.
+Der Ausbilder sagt zum ersten: "Im nächsten Raum befindet sich deine Freundin. Hier hast du eine Pistole. Du hast 30 Sekunden um sie umzubringen!"
+Nach 30 Sekunden kommt der Mann mit seiner Freundin an der Hand aus dem Raum, gibt dem Instruktor die Pistole zurück und sagt: "Tut mir leid, das kann ich nicht!"
+Als der zweite an der Reihe ist sagt der Ausbilder zu ihm: "Im nächsten Raum befindet sich deine Verlobte. Hier hast du eine Pistole. Du hast 30 Sekunden um sie umzubringen!"
+Nach 30 Sekunden kommt der Mann mit seiner Verlobten an der Hand aus dem Raum, gibt dem Instruktor die Pistole zurück und sagt: "Tut mir leid, das kann ich nicht!"
+Zum dritten sagt der Ausbilder: "Im nächsten Raum befindet sich deine Frau mit der du schon 10 Jahre verheiratet bist. Hier hast du eine Pistole. Du hast 30 Sekunden um sie umzubringen!"
+Der Mann geht in den Raum. Nach zwei Sekunden ertönt ein fürchterlicher Lärm und nach 20 Sekunden steht der Mann wieder vor der Tür und sagt zum Ausbilder: "Irgendein Idiot hat Platzpatronen in die Pistole getan. Ich habe sie mit dem Sessel erschlagen müssen!"
+##
+Hallo lieber Weihnachtsmann!
+
+Lieber guter Weihnachtsmann,
+jetzt ist`s soweit, jetzt bist du dran.
+Mein Chef ist nämlich Rechtsanwalt.
+Der klagt dich an, der stellt dich kalt.
+
+Schon seit vielen hundert Jahren,
+bist du nun durch das Land gefahren,
+ohne Nummernschild und Licht.
+Auch TÜV und ASU gab es nicht.
+
+Dein Schlitten eignet sich nur schwer,
+zur Teilnahme am Luftverkehr.
+Es wird vor Gericht zu klären sein:
+Besitzt du 'nen Pilotenschein?
+
+Durch den Kamin ins Haus zu kommen,
+ist rein rechtlich streng genommen
+Hausfriedensbruch - Einbruch sogar.
+Das gibt Gefängnis, das ist klar.
+
+Und stiehlst du nicht bei den Besuchern,
+von fremden Tellern Obst und Kuchen?
+Das wird bestraft, das muss man ahnden.
+Die Polizei lässt nach dir fahnden.
+
+Es ist auch allgemein bekannt,
+du kommst gar nicht aus diesem Land.
+Wie man so hört, steht wohl dein Haus
+am Nordpol, also sieht es aus,
+als kämmst du nicht aus der EU.
+Das kommt zur Klageschrift dazu!
+
+Hier kommt das Deutsche Recht zum Tragen.
+Ein jeder Richter wird sich fragen,
+ob deine Arbeit rechtens ist,
+weil du ohne Erlaubnis bist.
+
+Der Engel, der dich stets begleitet,
+ist minderjährig und bereitet
+uns daher wirklich Kopfzerbrechen.
+Das Jugendamt will mit dir sprechen!
+
+Jetzt kommen wir zu ernsten Sachen.
+Wir finden es gar nicht zum Lachen,
+dass Kindern du mit Schläge drohst.
+darüber ist mein Chef erbost.
+
+Nötigung heißt das Vergehen
+und wird bestraft, das wirst du sehen,
+mit Freiheitsentzug von ein paar Jahren.
+Aus ist's bald mit dem Schlittenfahren.
+
+Das Handwerk ist dir bald gelegt,
+es sei denn dieser Brief bewegt
+dich, die Kanzlei reich zu beschenken.
+Dann wird mein Chef es überdenken
+##
+Als das Telebimmel fonte, treppte ich die Rannte runter und türte gegen die Bums.
+##
+Ein Porschefahrer überschlägt sich mit seinem Wagen auf der Autobahn.
+Als die Sanitäter ihn aus dem Wagen bergen jammert dieser: "Mein Porsche, mein schöner schöner Porsche!"
+Sanitäter: "Der Wagen ist doch jetzt nicht wichtig, Mann! Sie haben den linken Arm verloren!"
+Darauf der Porschefahrer: "Oh Gott, meine Rolex!"
+##
+Heute war ich mit einem Freund in der Kirche. Auf einmal zündet der sich eine Zigarette an. Ich konnte es nicht glauben! Raucht der einfach eine Zigarette in der Kirche! Vor Schreck wäre mir fast mein Bier aus der Hand gefallen!
+##
+Der Weihnachtsmann kommt zu einem kleinen Mädchen zur Bescherung und sieht in der Ecke eine Geige liegen und spricht:
+"Spielst Du Geige?" - Das Mädchen antwortet:
+"Nein, oder hörst Du etwas."
+##
+Deutschland spielt bei der EM gegen Holland. Klinsmann und seine Spieler unterhalten sich vor dem Match in der Umkleidekabine: "Hört zu Jungs, ich weiß, die Holländer sind schlecht.", erklärt Klinsmann. "Aber wir müssen gegen sie spielen, um die UEFA glücklich zu machen."
+"Ich mach euch einen Vorschlag", sagt Oliver Kahn. "Ihr geht alle in ne Bar und ich spiele allein gegen sie. Was meint ihr dazu?" "Klingt vernünftig!", antworten der Teamchef und die anderen Spieler und gehen in eine Kneipe auf ein Bier und spielen Billard.
+Nach gut einer Stunde erinnert sich Michael Ballack, dass ja das Spiel läuft und schaltet den Fernseher an: Deutschland 1 (Kahn 10. Min.) - Holland 0 zeigt die Anzeigetafel. Zufrieden widmen sie sich wieder ihrem Billardspiel und dem Bier für eine weitere Stunde, bevor sie sich das Endresultat betrachten. Die Anzeigetafel zeigt: Deutschland 1 (Kahn 10. Min.) - Holland 1 (Davids 89. Min.)
+"Scheiße!" schreien alle Spieler und rennen entsetzt ins Stadion zurück, wo sie Oliver Kahn in der Kabine sitzen sehen, das Gesicht in den Händen vergraben. "Was zum Teufel ist passiert, Olli?" schreit Klinsmann. "Sorry Freunde", antwortet Kahn "aber dieser verdammte Schiedsrichter hat mich in der 11. Minute vom Platz gestellt!"
+##
+Ostfriesland sendet ein Fernschreiben an die Volksrepublik China: “Erklären den Krieg, haben 5 Panzer und 221 Soldaten.”
+Antwort der Chinesen: “Erklärung angenommen, haben 18’000 Panzer und 5 Millionen Soldaten.”
+Darauf Ostfriesland: “Nehmen Kriegserklärung zurück, haben nicht genug Betten für die Kriegsgefangenen…”
+##
+Ein Mann will in einer Bank in Zürich Geld einlegen. "Wieviel wollen Sie denn einzahlen?", fragt der Kassierer. Flüstert der Mann: "Drei Millionen." "Sie können ruhig lauter sprechen", sagt der Bankangestellte, "in der Schweiz ist Armut keine Schande... ."
+##
+Ein junger Türke kommt ins Sozialamt, geht zum Schalter und sagt zu dem Beamten: "Challo, isch wolle nix lebe mehr von die Stütze isch wolle gehe arbeite."
+Der Beamte des Sozialamtes strahlt den Mann an: "Sie haben irrsinniges Glück. Wir haben hier eine Offerte eines reichen Herrn, der einen Chauffeur und Leibwächter für seine nymphomanische Tochter sucht. Sie müssen mit einem riesigen schwarzen Mercedes fahren und ein bis zweimal täglich Sex mit dem Mädchen haben. Ihnen werden Anzüge, Hemden, Krawatten und Freizeitkleidung gestellt. Weil Sie viele Überstunden leisten, werden Ihnen sämtliche Mahlzeiten bezahlt. Da die junge Dame oft verreist, werden Sie diese auf Ihren Reisen begleiten müssen. Das Grundgehalt liegt bei 100.000 Euro jährlich."
+Darauf der junge Türke zum Beamten: "Du Idiot, willsu mich verarschen?!"
+Antwortet der Beamte: "Wer hat denn damit angefangen?"
+##
+Ein Franzose, ein Russe und ein Mantafahrer kommen für 20 Jahre in den Knast. Jeder darf sich wünschen, was er mit in den Bau nimmt.
+Der Franzose wünscht sich eine Frau, der Russe 20 Kisten Wodka und der Mantafahrer 20 Stangen Marlboro.
+Nach 20 Jahren kommen alle 3 wieder raus. Der Franzose ist mittlerweile Vater von 10 Kindern, der Russe ist total blau und der Mantafahrer hat 'ne Zigarette im Mund und fragt: "Hat mal einer Feuer, eyh?"
+##
+Alle ärztliche Hilfe war umsonst, las der Schotte McMoneysack, sprang auf und rief: "Die Adresse dieses Arztes muss ich haben!"
+##
+Zwei Männer im Supermarkt stoßen zusammen.
+Meint der eine völlig aufgelöst: "Entschuldige, aber ich bin total durcheinander, ich suche meine Frau!"
+Darauf der andere: "Mir geht es auch so, seit 30 Minuten suche ich schon. Wie sieht deine denn aus?"
+"Meine hat lange Haare, ist 1.80 m groß, braungebrannt, vollbusig, schlanke Figur, hat einen superkurzen Mini an, ein weißes, enges Top ohne BH und Schuhe mit sehr hohen Absätzen. Und wie sieht deine aus?"
+"Scheiß drauf, wir suchen deine."
+##
+Was ist eine Blondine auf der Rolltreppe?
+Dummheit am laufenden Band.
+
+An 99% aller Autounfälle sind die Männer schuld ...
+... weil sie ihrer Frau den Autoschlüssel gaben!
+##
+Zwei Männer arbeiten seit Jahren zusammen. Eines schönen Tages fällt einem der beiden auf, dass sein erzkonservativer Kollege einen Ohrring trägt.
+Er wundert sich darüber und spricht ihn darauf an: "Hey, ich wußte nicht, dass du Schmuck trägst? Seit wann hast du einen Ohrring?"
+Der antwortet: "Seit meine Frau ihn in unserem Bett gefunden hat!"
+##
+Ein Mann hatte gerade das Buch "Der Herr im Haus" fertig gelesen. Er stürmte zu seiner Frau. Mit dem Zeigefinger vor ihrem Gesicht fuchtelnd, sagte er: "Ich möchte, dass du weißt, dass ich von nun an der Herr im Haus bin, und mein Wort ist Gesetz! Ich möchte, dass du mir ein Gourmet-Abendessen herrichtest, gefolgt von einem exquisiten Dessert. Dann wirst du mir ein Bad einlassen, damit ich mich entspannen kann. Und wenn ich mit meinem Bad fertig bin, rate mal, wer mich anziehen und mir die Haare kämmen wird."
+Seine Frau antwortete: "Der Bestattungsunternehmer?"
+##
+Feuerwache.
+Ja, wo brennts?"
+"Wissen Sie, ich habe seit kurzem ein paar neue Blumen in meinem Garten ..."
+"Wo's brennt will ich wissen!"
+"Einige davon waren sehr teuer ..."
+"Verdammt nochmal, wo brennts!?"
+"Bei meinem Nachbarn. Und ich will nicht, dass ihre Leute meine Beete zertrampeln."
+##
+Richter: "Herr Zeuge, sie haben also den Angeklagten, der dort auf der Anklagebank sitzt, beobachtet, wie er ihre Schwiegermutter verfolgt, überfallen und ausgeraubt hat?"
+Zeuge: "Ja, das habe ich!"
+Richter: "Warum haben sie nicht geholfen?"
+Zeuge: "Zuerst wollte ich. Aber dann habe ich gesehen, dass er alleine klarkommt."
+##
+Aufsatz einer 8 jährigen in Beverly Hills:
+es lebte einmal eine ganz ganz arme Familie. Der Vater war arm, die Mutter war arm, die Kinder waren arm, der Gaertner war arm, der Chauffeur war arm ..
+##
+Zwei Männer vom örtlichen Gaswerk, ein älterer und ein jüngerer, sind unterwegs, um die Gasuhren abzulesen. Sie werden die ganze Zeit von einer interessierten Frau aus dem Fenster beobachtet.
+Als sie am Ende der Straße angekommen sind, zieht der Jüngere den Älteren auf und sie vereinbaren einen Wettlauf zurück zum Auto. Als die beiden beim Auto ankommen, merken sie, dass die Frau stöhnend und ächzend hinter ihnen hergelaufen kommt. Sie schnappen nach Luft und fragen die Frau, was denn los sei.
+Völlig außer Atem antwortet sie: "Wenn ich euch Jungs vom Gaswerk so schnell wegrennen sehe, dann überlege ich doch nicht lange, sondern renne hinterher!"
+##
+Anruf beim Gerichtsmediziner: Kommst du zur Pokerrunde? Die Kollegen von der Spurensicherung machen auch mit.
+
+Darauf seine Frau: Wer war das denn?
+
+Ein dringender Fall. Die Kollegen sind schon vor Ort.
+##
+Angeklagter, haben Sie noch etwas zu sagen, bevor ich das Urteil verlese?
+
+Ich bitte um Milde, Herr Richter. Damals, als ich die Taten begangen habe, war ich ohne Obdach, hatte nichts zu essen und überhaupt keine Freunde.
+
+Das habe ich alles bereits bedacht. Sie bekommen für die nächsten zwei Jahre eine feste Adresse, jeden Tag eine warme Mahlzeit und dazu viele neue Freunde.
+##
+Treffen sich drei Jäger. Alle tot.
+**texte**
+
+**engtexte**
+Teacher: "You missed school yesterday, didn't you?"
+Pupil: "Not very much!"
+
+##
+Dear Robert,I hope you can help me. The other day I was driving to work while my husband stayed at home as usual. 
+I had only driven about 5 kilometers when the car engine gave up the ghost. I walked back home to ask my husband for help. 
+When I got home, I couldn’t believe what I saw: He was in the bedroom with our neighbor’s daughter! 
+I’m 32 years old, my husband is 34, and the neighbor’s daughter is 22. We’ve been married for 10 years.
+When I confronted him, he admitted that they’ve been having an affair for six months. 
+I told him I would leave him if he didn’t end it. He lost his job six months ago and says he feels useless and depressed. 
+I really love him, but since my ultimatum he has only withdrawn from me even more. 
+He refuses marriage counseling, and my desperate attempts to talk to him no longer get through.Can you please give me some advice?
+Susanne
+
+Dear Susanne,
+If an engine dies after only 5 kilometers, there can be a whole range of causes. 
+First make sure the fuel line is clear and clean. 
+Check whether the injectors are working properly and also have a look at the fuse box (its location is described in the owner’s manual). If none of that is the problem, then it’s most likely the fuel pump that’s defective – that’s why the injectors aren’t getting enough supply and can’t build up the necessary pressure.I hope this helps you.
+Robert
+
+##
+A compulsive gambler wins 1 million euros in the casino. He comes home and tells his wife – she gets so excited she has a heart attack and drops dead.
+The man thinks: “When dice is on a roll, it rolls!”
+
+##
+The kids are sitting in front of the screen late at night. Mom comes in and says:
+“Come on kids, off to bed. Look, the women on TV have already undressed too.”
+
+##
+Three hikers are sitting in the pub after a long walk, already a bit drunk.
+They decide to send their wives the exact same text message:
+“If I were a little bird, I’d fly to you; since I’m no little bird, I’m fucking here.”The first wife replies angrily:
+“You were already an asshole at home and you’re still a pig on your hike! ”The second:
+“I don’t believe a word of your message – you couldn’t do it here, let alone there!” And the third:
+“Since you’re not a little bird but a hiker, don’t worry – right now someone else is showing me to fly!”
+
+##
+“Actually it’s a shame you’re leaving us. You were like a son to me,” says the boss to the departing employee, “insolent, ungrateful and never at a loss for an excuse!”
+
+##
+The Pope is on a trip to Australia. During a beach service he watches a guy in a Holland jersey getting attacked by a shark in the water.
+Suddenly two Germans come racing up in a motorboat. One German jumps into the water with a harpoon and kills the shark. The other German pulls the Dutchman out of the water.When the Pope sees this, he has the two men summoned.
+“For your selfless action I declare you blessed in the name of God.”After the Pope leaves, one German says to the other:
+“Who was that guy?”
+“No idea,” says the other, “doesn’t matter anyway – better check if our bait is still okay or if we need a new one.”
+
+##
+Doctor: “You are terminally ill and don’t have much time left!”
+Patient: “How much time do I have?”
+Doctor: “Ten.”
+Patient: “Ten what? Years, months, weeks?”
+Doctor: “Nine …”
+
+##
+The Ladies’ Panties
+A young man wanted to give his beloved a present. They hadn’t seen each other for quite a while, and after careful consideration he decided to buy a pair of gloves: romantic, but not too personal.Accompanied by his sweetheart’s younger sister, he went to the department store and bought a pair of white gloves.
+The sister bought herself a pair of panties.While wrapping the items, the cashier mixed up the packages – so the sister got the gloves and the man got the ladies’ panties.Without checking the contents, he sent them to his darling and added the following little note:“I chose these because I noticed you usually don’t wear any. If it were up to me I would have taken long ones with buttons, but your sister also wears short ones and these are easier to take off.
+The color may seem a bit daring, but the saleswoman showed me hers – she’s been wearing them for three weeks and they were hardly soiled.
+She also tried yours on for size and they looked really chic.I wish I could put them on you the first time, because by the time I see you again on Friday, a lot of people will probably have been in contact with them already. When you take them off, don’t forget to blow into them before you put them away, because naturally they get a bit damp inside from wearing.Think how often I’ll kiss them next year! I hope you’ll wear them for me on Friday.
+With love, your darling.
+
+
+##
+“Oh man, yesterday I got pulled over, and the cop says: ‘Vehicle documents and step out of the car, I think you’re drunk!’
+Me: ‘Officer, I assure you, I haven’t had anything to drink!’
+Cop: ‘Okay, let’s do a little test. Imagine: You’re driving in the dark on a road, two lights are coming towards you – what is it?’
+Me: ‘A car.’
+Cop: ‘Of course a car! But which one? A Mercedes, an Audi or a BMW?’
+Me: ‘No idea!’
+Cop: ‘So you are drunk after all.’
+Me: ‘Definitely not!’
+Cop: ‘Okay, another test. Imagine: You’re driving in the dark on a road, one light is coming towards you – what is it?’
+Me: ‘A motorcycle!’
+Cop: ‘Of course a motorcycle! But which one? A Honda, a Kawasaki or a Harley?’
+Me: ‘No idea!’
+Cop: ‘Like I said: drunk!’  I was slowly getting annoyed, so I decided to turn the tables:
+‘Alright, officer, counter-question: There’s a woman standing by the roadside. She’s wearing a mini skirt, fishnet stockings and high heels. Who is that?’
+Cop: ‘Obviously. A hooker.’
+Me: ‘Obviously a hooker, but which one? Your daughter, your wife or your mother?’”
+
+##
+A mullah is riding his donkey along a dusty road. He passes a married couple walking towards the next village. The man follows his wife at a respectful distance of 3 meters.The mullah loses it and shouts:
+“Good man, what are you doing? Why is your wife walking 3 meters ahead of you? Have you no respect for Islam?”“Forgive me,” the man replies, “but that was Islam before landmines existed!”
+
+##
+A lawyer whose practice is struggling summons the devil.
+The devil appears immediately and says:
+“This week we have a special offer. You get perfect health, you win every case, women find you irresistible, your tennis serve becomes unreturnable, every morning you know tomorrow’s stock prices, and your bad breath disappears. In return I immediately take your wife and your children – they will burn in hell forever. So, what do you say?”The lawyer pauses, his eyes narrow to slits – then he says:
+“Wait a minute. There has to be a catch somewhere…”
+
+##
+A biker buys himself a brand-new, chrome-shining Harley. The salesman gives him a tip:
+“Before it starts raining, always rub the chrome with Vaseline. That way it stays shiny and rust has no chance! I’ll give you this can of Vaseline for free!”Great, thinks the biker. He rides straight to his girlfriend’s place – she invited him for dinner to meet her family.
+Everything goes great, the parents have a really good impression of their daughter’s new boyfriend.
+Just before dessert the daughter says to her boyfriend:
+“We have this funny family tradition to decide who does the dishes. Whoever speaks the first word after dinner has to do all the washing up!”Okay, thinks the biker, I’ll play along. After everyone finishes eating, an icy silence spreads. 5 minutes, 10 minutes pass, the biker is slowly getting impatient.
+To speed things up and provoke a reaction from the parents, he grabs his girlfriend and starts making out wildly with her. Nobody says a word!
+He grabs her, lays her on the dining table and properly fucks her. Still nobody says anything.
+So he grabs the mother and gives it to her too.
+Still nobody says a word.
+Pretty frustrated, the biker looks out the window and notices it’s starting to rain. Immediately he remembers his new Harley and the chrome trick.
+He reaches into his leather jacket and pulls out the Vaseline.Suddenly the father jumps up and shouts:
+“Okay, okay, I’ll do the damn dishes!”
+
+
+##
+A plane is on its way to Melbourne when a blonde stands up in economy class, walks to first class and sits down there.
+The flight attendant notices and asks for her ticket. She explains to the blonde that she only paid for economy and should go back to her seat.The blonde replies:
+“I’m blonde, I’m beautiful, I’m flying to Melbourne and I’m staying here.”The flight attendant goes to the cockpit and tells the pilot and co-pilot that there’s a dumb blonde in first class who belongs in economy and refuses to go back.The co-pilot goes to the blonde and tries to explain that she has to return because she only paid for economy.
+The blonde answers:
+“I’m blonde, I’m beautiful, I’m flying to Melbourne and I’m staying here.”Furious, the co-pilot tells the pilot there’s no point and he should call the police to have her arrested at the airport.
+The pilot casually says:
+“She’s blonde? I’ll handle this. I’m married to a blonde – I speak blonde.”He goes to the blonde and whispers something in her ear.
+She says: “Oh, I’m sorry, I didn’t know that!” stands up and goes back to her economy seat.The flight attendant and co-pilot are impressed and ask the pilot what he told the blonde to make her return without protest.
+Pilot: “I told her that first class isn’t flying to Melbourne.”
+
+
+##
+“Read out the numbers there!”
+“Which numbers?”
+“The ones on the board.”
+“Which board?”
+“The one hanging on the wall!”
+“Which wall?”
+“Sir, you don’t need glasses – you need a dog for blinds.”
+“What would I do with a blind dog…?”
+
+
+
+##
+A ship is on a cruise and every evening a magician performs. In the corner hangs a parrot cage. After every trick the parrot squawks:
+“Boo, cheap trick. I saw exactly what he did!”
+The next evening again: “Kid stuff, boring.”
+One evening the ship gets into trouble and starts sinking. By chance, the magician and the parrot end up alone together in a lifeboat.
+One day passes, not a word is spoken. A second day passes. Nothing but ocean in sight. 
+Finally the parrot speaks up:“Okay, I give up. How did you do it?”
+
+##
+A man had been in a coma for a long time, waking up from time to time. His wife was by his bedside day and night.
+One day when he was conscious again, he beckoned her closer. He whispered:
+“In all these bad times you were always by my side. When I got fired, you were there for me. When my business went bankrupt, you supported me. When we lost the house, you stuck with me. When my health started going downhill, you were always close by. You know what?”
+Her eyes filled with tears of emotion.
+“What, my darling?” she breathed.
+“I think you’re bad luck for me!”
+
+##
+A plane has taken off. Once it reaches cruising altitude, the pilot comes on:
+“Good day ladies and gentlemen, we have now reached cruising altitude. The weather is beautiful and we will arrive on time… Oh my God, what the fucking hell!!”Silence.The passengers look at each other in terror. Pure horror is written on their faces. What happened? The cabin crew can’t say anything. Strangely, they can’t get into the cockpit either. Tense, nervous atmosphere spreads – you could cut the air with a knife…Just before panic breaks out, the pilot comes back on:
+“Ladies and gentlemen, nothing happened. That idiot co-pilot just spilled his coffee all over my pants. You should see the front of my trousers…”From the back a passenger yells:
+“You asshole! You should see the front of MY trousers!”
+
+##
+Finally the results of a UN-commissioned opinion poll were published.
+The question was: “Please honestly give your opinion on food shortages in the rest of the world.”The results were as follows:
+Europeans didn’t understand what “shortage” means.
+Africans didn’t know what “food” is.
+Americans asked what exactly is meant by “the rest of the world.”
+The Chinese asked in confusion for further explanation of the term “opinion.”
+In the Italian parliament they are still debating – to this very hour – the meaning of the word “honestly.”
+
+##
+At their golden wedding anniversary the husband is asked:
+“What was the best time in all your years of marriage?”
+“The five years I spent in Russian captivity…”
+
+##
+“Don’t think of me as your boss, but as a good friend who is always right.”
+
+##
+An 86-year-old man goes to the doctor.
+“I’m getting married again next week, doctor.”
+“Nice for you. How old is your bride?”
+“19,” replies the old man.
+“Good Lord!” says the doctor, “I have to warn you – any bedroom activity could be fatal.”
+“Okay,” says the man, “if she dies, she dies.”
+
+##
+Two hunters are marching through the forest.
+Suddenly one of them drops dead.
+The other takes out his mobile and calls emergency:
+“Quick, I think my buddy is dead!”
+Emergency doctor: “Calm down, first make sure he’s really dead.”
+There is a short silence, then a shot rings out.
+The hunter into the phone: “Okay. And now?”
+
+##
+After long nagging, a hunter lets his wife persuade him to take her hunting once. In the forest he explains how to handle the rifle and how best to hide. He also tells her that on a hunt it’s very important to run to the shot animal immediately after firing – whoever gets there first can claim it.So they hide in their respective spots and wait.
+Shortly afterwards the hunter hears a shot from his wife. He hurries over to see if she did everything right.
+From a distance he can already see his wife arguing wildly with a strange man.
+As he gets closer he hears the man say:
+“Alright, alright, it’s your deer, I see that! Can I at least take the saddle off first?”
+
+##
+At CIA school three agents are facing the final test.
+The instructor says to the first:
+“In the next room is your girlfriend. Here’s a pistol. You have 30 seconds to kill her!”
+After 30 seconds the man comes out hand-in-hand with his girlfriend, hands back the pistol and says:
+“Sorry, I can’t do that!”When it’s the second’s turn the instructor says:
+“In the next room is your fiancée. Here’s a pistol. You have 30 seconds to kill her!”
+After 30 seconds he comes out hand-in-hand with his fiancée, hands back the pistol:
+“Sorry, I can’t do that!”To the third the instructor says:
+“In the next room is your wife – you’ve been married 10 years. Here’s a pistol. You have 30 seconds to kill her!”
+The man goes in. After two seconds there’s terrible noise, and after 20 seconds he stands in the doorway again and says to the instructor:
+“Some idiot put blanks in the pistol. I had to beat her to death with the chair!”(Fortsetzung kommt gleich – sag einfach “weiter”, wenn du den Rest willst!) 
+
+
+Hier ist die Fortsetzung der englischen Übersetzung – wir sind jetzt bei den letzten Teilen angekommen:
+
+##
+Dear Santa Claus!Dear good Santa Claus,
+now it’s your turn, now you’re in trouble.
+Because my boss is a lawyer.
+He’s going to sue you, he’s going to shut you down.For many hundreds of years now,
+you’ve been travelling through the land
+without a license plate or lights.
+No TÜV [MOT] and no emissions test either.Your sleigh is hardly suitable
+for participation in air traffic.
+It will have to be clarified in court:
+Do you even have a pilot’s license?Coming down the chimney into the house
+is, strictly speaking, legally
+trespassing – actually burglary.
+That means prison, that’s clear.And don’t you steal from the visitors,
+fruit and cake from other people’s plates?
+That will be punished, that has to be prosecuted.
+The police will be looking for you.It’s also generally known
+that you don’t even come from this country.
+From what we hear, your house stands
+at the North Pole, so it looks
+as if you’re not from the EU.
+That will be added to the statement of claim!Now German law comes into play.
+Every judge will ask themselves
+whether your work is legal
+because you’re working without a permit.The angel that always accompanies you
+is underage and therefore really
+gives us a headache.
+The youth welfare office wants to talk to you!Now we come to serious matters.
+We don’t find it funny at all
+that you threaten children with beatings.
+My boss is furious about that.Coercion is the offense
+and it will be punished, you’ll see,
+with several years of imprisonment.
+Soon it’ll be over with sleigh-riding.Your craft will soon be forbidden
+unless this letter moves you
+to richly gift the law firm.
+Then my boss will reconsider…
+
+##
+Als das Telebimmel fonte, treppte ich die Rannte runter und türte gegen die Bums.
+(When the phone rang [Telebimmel = phone], I ran down the stairs [Rannte = stairs] and door-ed against the bang [türte gegen die Bums = opened the door / banged against the door].)→ A deliberately mangled / nonsense German sentence that only “sounds” right because of similar-sounding words.
+
+
+##
+A Porsche driver flips his car on the highway.
+When the paramedics pull him out, he moans:
+“My Porsche, my beautiful beautiful Porsche!”
+Paramedic: “The car isn’t important now, man! You lost your left arm!”
+Porsche driver: “Oh God, my Rolex!”
+
+##
+Today I was in church with a friend. Suddenly he lights a cigarette. I couldn’t believe it! He just lights a cigarette in church!
+In shock I almost dropped my beer!
+
+##
+Santa Claus comes to a little girl for the gift-giving and sees a violin lying in the corner. He says:
+“Do you play the violin?”
+The girl answers:
+“No, or do you hear anything?”
+
+##
+Germany is playing Holland at the European Championship. Klinsmann and his players are talking in the locker room before the match:
+“Listen guys, I know the Dutch are bad,” explains Klinsmann. “But we have to play them to keep UEFA happy.”
+“I’ll make you a suggestion,” says Oliver Kahn. “You all go to a bar and I’ll play alone against them. What do you think?”
+“Sounds reasonable!” answer the coach and the other players, and they head to a pub for a beer and to play pool.After about an hour Michael Ballack remembers that the game is on and turns on the TV: Germany 1 (Kahn 10th min.) – Holland 0 on the scoreboard.
+Satisfied, they go back to pool and beer for another hour before checking the final result. The scoreboard shows: Germany 1 (Kahn 10th min.) – Holland 1 (Davids 89th min.)“Shit!” shout all the players and run horrified back to the stadium, where they find Oliver Kahn sitting in the locker room, face buried in his hands.
+“What the hell happened, Olli?” shouts Klinsmann.
+“Sorry guys,” answers Kahn, “but that damn referee sent me off in the 11th minute!”
+
+##
+East Frisia sends a telegram to the People’s Republic of China:
+“Declare war, have 5 tanks and 221 soldiers.”
+Chinese reply:
+“Declaration of war accepted, have 18,000 tanks and 5 million soldiers.”
+East Frisia:
+“Withdraw declaration of war, don’t have enough beds for the prisoners…”
+
+##
+A man wants to deposit money in a bank in Zurich.
+“How much would you like to deposit?” asks the teller.
+The man whispers: “Three million.”
+“You can speak louder,” says the bank employee, “in Switzerland poverty is no disgrace…”
+
+##
+A young Turkish man goes to the social welfare office, approaches the counter and says to the clerk:
+“Hello, I no want live anymore from benefits, I want go work.”
+The welfare officer beams at him:
+“You’re in incredible luck. We have an offer here from a rich gentleman who’s looking for a chauffeur and bodyguard for his nymphomaniac daughter. You’d drive a huge black Mercedes and have sex with the girl one to two times a day. You’ll be provided with suits, shirts, ties and casual clothes. Because you’ll work a lot of overtime, all your meals will be paid for. Since the young lady often travels, you’ll have to accompany her on those trips. Base salary is 100,000 euros per year.”The young Turkish man to the clerk:
+“You idiot, are you fucking with me?!”
+The clerk replies:
+“Who started it?”
+
+##
+A Frenchman, a Russian and a Manta driver go to prison for 20 years. Each is allowed to take one thing with him.The Frenchman wishes for a woman, the Russian 20 crates of vodka, and the Manta driver 20 cartons of Marlboro.After 20 years all three come out.
+The Frenchman is now father of 10 children, the Russian is completely wasted, and the Manta driver has a cigarette in his mouth and asks:
+“Anyone got a light, mate?”
+
+##
+“All medical help was in vain,” read the Scot McMoneysack, jumped up and shouted:
+“I need the address of that doctor!”
+
+##
+Two men bump into each other in the supermarket.
+One says, completely flustered:
+“Sorry, but I’m totally confused, I’m looking for my wife!”
+The other:
+“Same here, I’ve been looking for 30 minutes. What does yours look like?”
+“Mine has long hair, is 1.80 m tall, tanned, big breasts, slim figure, wearing a super-short mini, a tight white top without a bra and very high heels. And what does yours look like?”
+“Screw it, let’s look for yours.”
+
+##
+What’s a blonde on an escalator?
+Stupidity on a continuous loop.
+
+In 99% of all car accidents the men are to blame…
+…because they gave their wife the car keys!
+
+##
+Two men have been working together for years. One day one of them notices that his ultra-conservative colleague is wearing an earring.
+He’s surprised and asks:
+“Hey, I didn’t know you wore jewelry? Since when do you have an earring?”
+The other answers:
+“Since my wife found it in our bed!”
+
+##
+A man has just finished reading the book “The Man of the House”. He storms over to his wife. Waving his index finger in her face, he says:
+“I want you to know that from now on I am the man of the house, and my word is law! I want you to prepare me a gourmet dinner, followed by an exquisite dessert. Then you will draw me a bath so I can relax. And when I’m done with my bath, guess who will dress me and comb my hair.”
+His wife answers:
+“The undertaker?”
+
+##
+Fire station.
+“Yes, where’s the fire?”
+“You know, I recently planted some new flowers in my garden…”
+“Where is the fire, I want to know!”
+“Some of them were very expensive…”
+“Damn it, where is the fire!?”
+“At my neighbor’s. And I don’t want your guys trampling my flowerbeds.”
+
+##
+Judge: “Mr. Witness, so you observed the defendant sitting there in the dock chasing, attacking and robbing your mother-in-law?”
+Witness: “Yes, I did!”
+Judge: “Why didn’t you help?”
+Witness: “At first I wanted to. But then I saw he could handle it alone.”
+
+##
+Essay by an 8-year-old in Beverly Hills:
+Once upon a time there was a very very poor family. The father was poor, the mother was poor, the children were poor, the gardener was poor, the chauffeur was poor…
+
+##
+Two men from the local gas company, an older and a younger one, are out reading gas meters. They are constantly being watched from a window by an interested woman.
+When they reach the end of the street, the younger one teases the older one and they agree to race back to the car. When the two arrive at the car, they notice the woman running after them, panting and groaning.
+Out of breath she asks what’s wrong.
+Completely breathless she answers:
+“When I see you gas company guys running away so fast, I don’t think twice – I just run after you!”
+
+##
+Phone call to the coroner: “Are you coming to poker night? The colleagues from forensics are playing too.”
+His wife: “Who was that?”
+“Urgent case. The colleagues are already on site.”
+
+##
+Defendant, do you have anything to say before I pronounce the sentence?
+I ask for leniency, Your Honor. Back when I committed the crimes, I was homeless, had nothing to eat and no friends at all.
+I’ve already taken all that into consideration. For the next two years you will get a fixed address, a hot meal every day, and lots of new friends.48.
+Three hunters meet. All dead.
+**engtexte**
+
+
+
+//-->  
+
+
+<script>
+var marker="**texte";
+
+if(typeof globalLanguageFlag != "undefined" && globalLanguageFlag=="en") marker="**engtexte*";
+
+var alltextAr=(document.documentElement.innerHTML).split(marker+"*");
+var alltext=alltextAr[1];
+if ((alltext) && (alltext.length>10)); else alert("Fehler: kein Text. Evtl. ist der Browser inkompatibel");
+
+var witzeArOrig=alltext.split("##");;
+
+if(1)
+{
+var t=alltext;
+t = t.replace(/Ä/g, "Ä");
+t = t.replace(/ä/g, "ä");
+t = t.replace(/Ö/g, "Ö");
+t = t.replace(/ö/g, "ö");
+t = t.replace(/Ü/g, "Ü");
+t = t.replace(/ü/g, "ü");
+t = t.replace(/ß/g, "ß");
+
+
+if(workaround=1) /* ersetzealle ist hier nicht möeglich daher workaround*/
+  for(pauschalmax=777;pauschalmax;pauschalmax--)
+  {
+   var newline=unescape("%0A");
+   t = t.replace(newline,"<br>");
+  };
+alltext=t;
+}
+
+
+if(0) document.write("<plaintext>");if(0)document.write(alltext);
+
+var witzeAr=alltext.split("##");;
+
+if(1) 
+  for (var i=0; i<witzeAr.length; i++)
+  {
+   if(witzeAr[i].indexOf("<br>")<3)
+   witzeAr[i] = witzeAr[i].replace(/<br>/, "");
+  };
+
+function entferneBr(text,bis)
+ {
+  var result=text;
+  for (var pauschal=6; pauschal; pauschal--)
+  for (var i=0; i<witzeAr.length;i++)
+  {
+   if(result.indexOf("<br>")<bis)
+   result = result.replace(/<br>/, "");
+  };
+ }
+
+
+if(0) alert(alltext);
+for (var i=0; i<witzeAr.length;i++)
+ {
+ witzeAr[i]=unescape(witzeAr[i]); 
+ };
+
+if(0) for (var i=0; i<witzeAr.length;i++)
+ {
+ for (var ii=0; ii<witzeAr[i].length;ii++)  alert(""+ii+witzeAr[i].substr(ii, 1));
+ document.write(witzeAr[i]);
+ };
+
+</script>    <!-- ********************* //-->   <!-- ------ Beginn ------- //-->   <!-- ********************* //-->     <SCRIPT language=JavaScript>
+/*witzeAr = text.split("##");*/
+Witzanzahl=witzeAr.length;
+var interval= 7;
+var tease= 96+16;
+var nump= Math.ceil(Witzanzahl/interval); /*aufrunden*/
+var page=0;
+var merkeMarkierung="";
+
+function elementViewzufall(ele)
+{
+var zufjoke= Math.floor(Math.random()*Witzanzahl)
+elementView(zufjoke,ele);
+}
+
+function elementViewplus(nr,ele)
+{
+var oldpage=Math.floor(nr/interval);
+var newpage=Math.floor((nr+1)/interval);
+if (0+(oldpage==newpage)) elementView(nr+1,ele);
+else elementView(oldpage*interval,ele);
+}
+
+function elementViewplusplus(nr,ele)
+{
+var oldpage=Math.floor(nr/interval);
+var newpage=Math.floor((nr+1)/interval);
+if (1+(oldpage==newpage)) elementView(nr+1,ele);
+else elementView(oldpage*interval,ele);
+}
+
+function elementViewminus(nr,ele)
+{
+var oldpage=Math.floor(nr/interval);
+var newpage=Math.floor((nr-1)/interval);
+if (0+(oldpage==newpage)) elementView(nr-1,ele);
+else elementView(oldpage*interval,ele);
+}
+
+function elementViewminusminus(nr,ele)
+{
+var oldpage=Math.floor(nr/interval);
+var newpage=Math.floor((nr-1)/interval);
+if (1+(oldpage==newpage)) elementView(nr-1,ele);
+else elementView(oldpage*interval,ele);
+}
+
+
+lastjoke=-1;
+function elementView(nr,ele)
+{
+ if(nr<0) nr=(Witzanzahl-1);
+ if(nr>=Witzanzahl) nr=0*(Witzanzahl-1);
+ var oldpage=Math.floor(lastjoke/interval);
+ lastjoke=nr;
+ page=Math.floor(lastjoke/interval);
+ if (oldpage==page) /* Optimierung, nur bei Wechsel der Seite */
+   zeigNurSeitennr(page,nr-page*interval+1,ele);
+ else
+   zeigSeitennr(page,nr-page*interval+1,ele);
+ document.getElementById("fullWin").innerHTML=witzeAr[nr];
+ document.getElementById("fullWin").style.backgroundColor= "cyan";
+ markShortList(page,nr);
+}
+
+function zeigNurSeitennr(ppage,unternr,ele)
+{
+ /* schreibe Seitennr oben rechts*/
+ document.getElementById("aktuelleSeitennr").innerHTML= 
+'<div align="center"> Seite '+(ppage+1) + "/"+ unternr + ' </div>';
+}
+
+var lastshown=-1;
+function zeigSeitennr(ppage,unternr,ele)
+{
+ zeigNurSeitennr(page,unternr,ele)
+ if (lastshown!=page)
+ {
+ lastshown=page;
+ /* markiere Seite oben */
+ for (var i =0; i< nump; i++)
+  document.getElementById("swpage"+i).className = "iinaktiv";
+ document.getElementById("swpage"+ppage).className = "aaktiv";
+ if (0) document.getElementById("swpage1").style.textDecoration = "underlined" ;
+ if (0) onmouseover='document.getElementById("swpage1").style.backgroundColor="magenta";'
+
+ seiteimg1.src=seiteimgPfad+seiteimgAr[ppage];
+ document.getElementById("nikohaus").src=seiteimg1.src;
+ /*<td align="left"><img alt="" id="nikohaus" src="witze_57959338-Dateien/hexeblond27.ico" onclick="chgpic(this)" onmouseover="chgpic(this)" /></td> */
+
+ /* schreibe Witze shortlist links*/
+ merkeMarkierung="";
+ document.getElementById("shortList").innerHTML=giveShortList(ppage,witzeArOrig);
+
+ /* schreibe Element Einzelansicht rechts */
+ if(ele===0); else elementView(page*interval+unternr-1,ele); /* bisschen unklar */
+ }
+}
+
+function gibSeitenListe(numpage)
+{
+ var outtext="";
+ var xouttext="";
+ var nbsb="&nbsb;";
+ var nbsb=" ";
+ var seitenimage="";
+ for (var i =0; i< numpage; i++)
+    xouttext+=((i?" ":"")+'<a id="xswpage'+i+'" onmouseover="page='+i+';zeigSeitennr('+i+',this);">Seite'+i+'</a>');
+ for (var i =0; i< numpage; i++)
+    {
+    seitenimage=seiteimgPfad+seiteimgAr[i];
+    outtext+='<img alt="Seite'+(i+1);
+    outtext+='" id="swpage'+i;
+    outtext+='" src="'+seitenimage+'" width="'+breiteimg+'" height="'+hoeheimg+'" ';
+    outtext+='" onclick="elementViewplus(lastjoke,this);" onmouseover="page='+i+';zeigSeitennr('+i+',1,this);"';
+    outtext+= '/>';
+    }
+ //return outtext;
+ document.getElementById("seitenListe").innerHTML=outtext;
+}
+
+
+function markShortList(page,dieser)
+{
+ var von=(page+0)*interval;
+ var bis=(page+1)*interval-1;
+ if(0)
+   {for (var i =0; i< witzeAr.length; i+=1)
+       if (i >= von && i<= bis)
+       document.getElementById("Jokenr"+i).className = "inaktiv";}
+ else
+   if(merkeMarkierung!="")
+     document.getElementById(merkeMarkierung).className = "inaktiv";
+ merkeMarkierung="Jokenr"+dieser;
+ document.getElementById("Jokenr"+dieser).className = "aktiv";
+}
+
+function giveShortList(page,jokesAr)
+{
+ var von=(page+0)*interval;
+ var bis=(page+1)*interval-1;
+ var outtext="";
+ for (var i =0; i< jokesAr.length; i++)
+ {
+  if (i>=von && i<= bis)
+   {
+    var short= "";
+    /*var short= (jokesAr[i].replace(/<br>/g, " ").substring(0,tease); */
+    var short= (unescape(jokesAr[i])).substring(0,tease).replace(/<br>/g," ");
+    outtext+= ('<p><b><a id="Jokenr'+i+'"onmouseover="elementView('+i+',this)">'+short+' ...'+'</a></b></p>');
+   }
+ }/*end for*/
+ return outtext;
+ alert(outtext);
+}
+
+function chgpic(tthis)
+{
+ document.getElementById("fullWin").innerHTML='<img id="witzimg1" alt="" border="4" src="" />';
+ if(0) document.getElementById("fullWin").style.backgroundColor= "cyan";
+ if(0) markShortList(page,0);
+
+ var zufbild= Math.floor(Math.random()*witzimgAr.length)
+ witzimg1.src = imgpath+witzimgAr[zufbild].toLowerCase();
+ document.getElementById("witzimg1").src=witzimg1.src;
+ document.getElementById("aktuelleSeitennr").src=witzimg1.src;
+ //document.getElementById("aktuelleSeitennr").innerHTML= 'witzimgAr[zufbild].toLowerCase();
+}
+
+
+</script>  <!-- Die Texte getrent mit ## in der folgenden Form an den Anfang stellen //-->  <!-- **texte**
+-witztexte-
+**texte** //-->  <style type="text/css">
+table#joktab td{font-size: 16px;}
+table#joktab {width:600;}</style> <style type="text/css">
+table#joktab a {font-size: 12px; font-weight:normal; color: black;text-decoration: none; font-family:tahoma,verdana,arial;}
+
+table#joktab a:link {color:blue; text-decoration:none; }
+table#joktab a:visited { color:silver; text-decoration:underlined; }
+table#joktab a:focus {  color:red; text-decoration:underline; }
+table#joktab a:hover { color:red;background-color:yellow; text-decoration:none; }
+table#joktab a:active { color:lime; text-decoration:underline; }
+
+th#seitenliste a {font-size: 12px; font-weight:bold;}
+td#shortList   a {font-size: 11px; font-weight:bold;} 
+td#shortList   a {font-size: 12px; font-weight:normal;} 
+
+div                  {font-size: 12px; font-family:tahoma,verdana,arial;}
+div#aaktuelleSeitennr {width:570px;font-size: 12px; font-weight:bold;}
+div#aktuelleSeitennr {font-size: 12px; font-weight:normal;}
+div#aktuelleSeitennrX {font-size: 12px; font-weight:bold;}
+table#aktuelleSeitennrwrap {width:570px;font-size: 12px; font-weight:bold;}
+div#fullWin    {width:570px;font-size: 16px; font-weight:normal; }
+</style> <style type="text/css">
+.zinaktiv { text-decoration:underline; background-color:silver}
+.zzinaktiv {background-color:silver}
+.yaktiv { background-color:yellow}
+.aktiv { background-color:silver}
+.aaktiv { background-color:silver;border: 1px solid black;
+border-right-color:black; border-bottom-color:black;padding:3px;}
+.iinaktiv {padding:4px;}
+</style>
+<table cellspacing="3" cellpadding="3" border="2" bgcolor="#efefff" xwidth="640" xheight="400" id="joktab">
+    <tbody>
+        <tr>
+            <th nowrap="nowrap" id="seitenListe">Nikolaus Dulgeridis 2013</th>
+            <th align="center">
+            <table cellspacing="0" cellpadding="0" border="0" id="aktuelleSeitennrwrap">
+                <tbody>
+                    <tr>
+                        <td>
+                        <div>&nbsp;</div>
+                        </td>
+                        <td align="left"><img height="28" width="40" onmouseover="chgpic(this)" onclick="chgpic(this)" src="" id="nikohaus" alt="" /></td>
+                        <td align="center">
+                        <div onmouseover="elementViewminusminus(lastjoke,this);" id="gehelinks">&nbsp;</div>
+                        </td>
+                        <td align="center">
+                        <div onmouseover="elementViewzufall(this);" id="aktuelleSeitennrX">Witze</div>
+                        </td>
+                        <td align="center">
+                        <div onmouseover="elementViewplusplus(lastjoke,this);" id="gehelinks">&nbsp;</div>
+                        </td>
+                        <td>
+                        <div id="aktuelleSeitennr">
+                        <div align="right">###</div>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </th>
+        </tr>
+        <tr>
+            <td valign="top" id="shortList">*shortlist* (needs javaScript)</td>
+            <td valign="top">
+            <div onclick="elementViewplusplus(lastjoke,this);" id="fullWin"><img border="4" src="./knast1e0.gif" alt="" id="witzimg1" /></div>
+            </td>
+        </tr>
+    </tbody>
+    <!-- Nikolaus Dulgeridis 2013, NikolausDulgeridis @ gmail.com //-->
+</table>
+<SCRIPT language=JavaScript>
+ gibSeitenListe(nump);
+ zeigSeitennr(page,1,0);
+ document.getElementById("witzimg1").src=witzimg1.src;
+ if(0) document.getElementById("nikohaus").src=nikohaus.src;
+ if(1) document.getElementById("nikohaus").src=hexeblond.src;
+ if (0) window.document.images[0].src = toplogo.src;
+ if (0) elementViewzufall(this);
+</script> <!-- Nikolaus Dulgeridis 2013, NikolausDulgeridis @ gmail.com //--> <br />
+<table>
+    <tbody>
+        <tr>
+            <td><!-- -------------------------- -->              <!-- -------------------------- -->
+            <p>&nbsp;</p>
+            <div><strong>Weiterer Stoff </strong></div>
+            <!-- -------------------------- -->              <!-- -------------------------- -->               <!-- -------------------------- -->
+            <ul class="ulhoriz">
+                <div><b>Onlinewahn</b></div>
+                <!-- -------------------------- -->
+                <li><a href="http://www.onlinewahn.de/quiz.htm">kurioses Quiz</a></li>
+                <li><a href="http://www.onlinewahn.de/bquiz.php">Beamtenquiz</a></li>
+                <li><a href="http://www.onlinewahn.de/unmoeg.htm">unmoegliche Bilder</a></li>
+                <li>&nbsp;</li>
+            </ul>
+            <!-- -------------------------- -->
+            <ul class="ulhoriz">
+                <div><b>Zami<br />
+                </b><b><b><a href="http://members.chello.at/zami/funnymail">funnymail</a><br />
+                </b><br />
+                Clickpix</b></div>
+                <!-- -------------------------- -->
+                <li><a href="http://web.archive.org/web/20140720173847/http://www.clickpix.de/girlpix/geruechte.htm">http://web.archive.org/web/20140720173847/http://www.clickpix.de/girlpix/geruechte.htm</a></li>
+                <li>&nbsp;</li>
+            </ul>
+            <ul class="ulhoriz">
+                <div>Nur Bilder</div>
+                <!-- -------------------------- -->
+                <li><a href="http://echtlustig.com">echtlustig.com</a></li>
+                <li><a href="http://www.schrottgelacht.com">schrottgelacht.com</a></li>
+                <li><a href="http://www.rawsucker.com">rawsucker.com</a></li>
+                <li><a href="http://www.nurbilder.com">nurbilder.co</a></li>
+                &nbsp;
+                <li><a href="http://imgur.com/gallery">imgur.com</a></li>
+            </ul>
+            <!-- -------------------------- -->                  	    <!-- -------------------------- --> <hr />
+            <ul>                 <font color="#0000ee" face="tahoma, verdana, arial"><b><u><span style="font-size: 12px;">Tests:</span><br />
+                <br />
+                <span style="font-size: 12px;"><a href="https://deecee.de/fun/tricks-tests-sammlung/moraltest">https://deecee.de/fun/tricks-tests-sammlung/moraltest</a></span><br />
+                <br />
+                </u></b></font>
+                <div><a href="https://www.testedich.de/quiz29/quiz/1308947073/Hast-du-eine-psychopathische-Veranlagung">https://www.testedich.de/quiz29/quiz/1308947073/Hast-du-eine-psychopathische-Veranlagung</a><br />
+                <br />
+                Falls Sie den psychologischen Test mit Erfolg bestanden haben, schreiben Sie uns nicht, melden Sie sich nicht, vergessen Sie dass Sie je hier waren! Danke.</div>
+                <br />
+            </ul>
+            <!-- ++++++++++++++++++++++++++ -->  <hr />
+            <div><br />
+            (unsortiert)</div>
+            <!-- ++++++++++++++++++++++++++ -->
+            <ul>
+                <li>www.rettet-das-internet.de/zensur-satire.htm</li>
+                <li><a href="http://wilmaskaffeeklatsch.yolasite.com">http://wilmaskaffeeklatsch.yolasite.com/witze-auf-deutsch-und-englisch.php</a></li>
+                <li><a href="http://tiger-1980-ostrach.de.tl/Witze.htm">tiger-1980-ostrach.de.tl/Witze.htm</a></li>
+                <li>witze-ohne-ende.npage.de</li>
+                <li><a href="https://lustigewitze.hpage.de/blondienen-witze.html">https://lustigewitze.hpage.de/blondienen-witze.htm</a>l</li>
+                <li>&nbsp;
+                <ul>
+                    <li>Eine Blondine hat mit ihrem Auto ein anderes&nbsp;</li>
+                    <li>Fahrzeug gerammt.</li>
+                    <li>Br&uuml;llt der Fahrer:,, Sie dummes Huhn, haben&nbsp;</li>
+                    <li>sie &uuml;berhaupt eine Fahrpr&uuml;fung gemacht?,,</li>
+                    <li>zischt die Blondine zur&uuml;ck:,,</li>
+                    <li>bestimmt &ouml;fter als sie&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>Zwei Blondinen unterhalten sich.&nbsp;</li>
+                    <li>Sagt die eine:,,</li>
+                    <li>Ich war beim Schwangerschaftest,,</li>
+                    <li>Daurauf die andere:,,</li>
+                    <li>Und, waren die Fragen schwer ?,,</li>
+                    <li>&nbsp;</li>
+                    <li>Fragt der Chef die blonde Sekret&auml;rin:</li>
+                    <li>,,Schauen sie doch bitte nach, was&nbsp;</li>
+                    <li>diese Woche im Terminkalender steht,,</li>
+                    <li>Darauf die Blondine:</li>
+                    <li>Montag, Dienstag, Mittwoch, Donnerstag, Freitag...</li>
+                    <li>&nbsp;</li>
+                    <li>,,Chef darf ich heute 2 Stunden fr&uuml;her Schluss machen ?</li>
+                    <li>meine Frau will mit mir noch Einkaufen gehen,,</li>
+                    <li>Darauf der Chef:,, Kommt ja &uuml;berhaupt nicht in Frage Schulze</li>
+                    <li>,,Vielen Dank Chef, ich wusste sie lassen mich nicht in Stich</li>
+                    <li>&nbsp;</li>
+                    <li>Hast du geh&ouml;rt, unser Chef ist verstorben,,</li>
+                    <li>Ja, und ich frage mich die ganze Zeit mit wem er gestorben ist,,</li>
+                    <li>Wieso mit ihm ?,,</li>
+                    <li>Na, in der Anzeige stand doch, mit ihm starb einer&nbsp;</li>
+                    <li>unserer f&auml;higsten mitarbeiter&nbsp;</li>
+                    <li>&nbsp;</li>
+                </ul>
+                </li>
+                <li>&nbsp;</li>
+                <li><a href="http://w-i-t-z-e.de.tl">w-i-t-z-e.de.tl</a></li>
+                <li><a href="http://witze-4-ever.de.tl">witze-4-ever.de.tl</a></li>
+            </ul>
+            <br />
+            <div style="width: 250px; background: none repeat scroll 0% 0% rgb(96, 138, 198); border: 5px solid rgb(96, 138, 198);"><a href="http://www.willis-witze.de/"><br />
+            <br />
+            <img height="100" width="250" alt="Lustige Witze und Spr&uuml;che auf willis-witze.de" src="http://www.willis-witze.de/img/witze-fuer-die-homepage/logo.png" /></a>
+            <div style="padding: 0pt 15px 15px; background: none repeat scroll 0% 0% rgb(211, 230, 225);"><script type="text/javascript" src="http://www.willis-witze.de/witze-fuer-die-homepage-witz-ausgabe.js.php"></script></div>
+            <div style="text-align: right; padding: 2px 0pt 0pt;"><a href="http://www.willis-witze.de/witze-fuer-die-homepage.html" style="color: white; font-weight: normal;">Witze f&uuml;r die Homepage</a></div>
+            </div>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+<!--
+<p>
+ <strong>Kontakt</strong>
+ <br>
+ 
+ <span style="color: rgb(153,153,153);">
+ Email: NikolausDulgeridis
+ </span>
+ <span style="color: rgb(153,153,153);">
+ @
+ </span>
+ <span style="color: rgb(153,153,153);">
+ gmail.com
+ </span>
+ <br>
+
+</p>
+-->  <!-- Last update 19.03.2016 -->  
+<!-- Last update 28.03.2016 kleine Aenderungen, viewElementzufall etc. --> <hr />
+<!-- Last update 28.03.2016 kleine Aenderungen, viewElementzufall etc. --> <hr />
+<!-- <meta>last updated 27.2.2019 (linkcheck) </meta> --> <hr />
+<!-- Last update 18.02.2026 engl --> <hr />

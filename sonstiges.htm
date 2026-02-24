@@ -1,0 +1,573 @@
+<!-- === Horizontale farbige Unterhaltungs-Navigation (dunkel, größer, purple, kein Umbruch) === -->
+<div class="unterhaltung-nav"><a href="https://nikolausdulgeridis.de.tl" class="mynav-home" id="nav_home">Unterhaltung</a>   <a href="https://nikolausdulgeridis.de.tl/Witze.htm" class="mynav-btn witze" id="nav_witze">Witze</a>   <a href="https://nikolausdulgeridis.de.tl/Sicherheitstest.htm" class="mynav-btn sicherheit" id="nav_sicherheit">Sicherheitstest</a>   <a href="https://nikolausdulgeridis.de.tl/Gleich-und-ungleich.htm" class="mynav-btn gleich" id="nav_gleich">Gleich &amp; Ungleich</a>   <a href="https://nikolausdulgeridis.de.tl/Fundsachen.htm" class="mynav-btn fundsachen" id="nav_fundsachen">Fundsachen</a>   <a href="https://nikolausdulgeridis.de.tl/Muehle.htm" class="mynav-btn muehle" id="nav_muehle">M&uuml;hle</a>   <a href="https://nikolausdulgeridis.de.tl/Sonstiges.htm" class="mynav-btn sonstiges" id="nav_sonstiges">Sonstiges</a>  <!-- Sprachwahl    <div style="margin-left:auto; display:flex; gap:6px;">  -->
+<div style="display:flex; flex-direction:rows; gap:3px; margin-left: 6px; margin-right: 2px;"><img id="nav_flag_en" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAUAPcAAAQCBPz+/AQC/PwCBG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYHOXsVoESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+iQ/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAHgPWVgCYdQB8AKApAOJAABWSAAB8AIAcM2ZAoxWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEAz/+ij/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowMwIAowAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABQAAAivAAEIHEiwoMGDBQcECCCgocOHAQYofEhRwMIBAiMqZFjRokSOFS8qFGhRI0iIHzuaZEiy4UqKJmF+BNnS4UuXKV3GfFjT5suYIhdW7Alx5cyZHQVkXMi0qUiJM506FQi1qtWrWK1Szcq1q8SlUpteDTsVQFKPG49OTEpU50a0DC8KHWq2aE64NpHyrIvzbd61bgErrSv3ZF/DJf0uvStTMMqNW+eqZAxTI8LLmA0GBAA7" onclick="setmylangen()" alt="lang=en" />     <img id="nav_flag_de" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAVAPcAAAQCBPz+BPwCBAAAAG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYPuXsK4ESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+hA/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAQAPWKwCYdQB8AKApAOJAABWSAAB8AIAcQGZA6hWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEBA/+jq/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowQAIA6gAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABUAAAhvAAEIHEiwoMGDCBMqXMiwocOHCQdInEixosWLEgUOgMhwIwCPHCNqxEiyZEYAAlKqXMmypcuUAl/KnKkyJs2bLW3i3ClAJ8+bPn/OFBigqNGjSJMqLUp0qdOnTAFAnaq0KdWrAaxinap169OQDwMCADs=" onclick="setmylangde()" alt="lang=de" /></div>
+<!-- Sprachwahl Ende --></div>
+<style type="text/css">
+.nav_flagimg {
+  width: 26px;
+  height: 14px;
+  min-width: 26px;
+  min-height: 14px;
+  border: 1px solid grey; /* Breite, Stil, Farbe */
+  border-radius: 4px;
+}
+
+
+.unterhaltung-nav {
+  background: #333;
+  padding: 6px 11px;
+  margin: 0 0 11px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.mynav-home {
+  color: white;
+  font-weight: bold;
+  font-size: 0,75rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #555;
+  margin-right: 12px;
+  transition: background 0.2s;
+}
+
+.mynav-home:hover {
+  background: #777;
+}
+
+.mynav-btn {
+  color: black;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: all 0.18s ease;
+  min-width: 36px;
+  text-align: center;
+}
+
+.mynav-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-.1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Farben - Netscape-kompatible Namen */
+.witze       { background-color: purple;      }
+.sicherheit  { background-color: orange;      }
+.gleich      { background-color: lightblue;   }
+.fundsachen  { background-color: limegreen;   }
+.muehle      { background-color: gold;        }
+.sonstiges   { background-color: tan;        }
+
+/* Aktives Element - silberner Inset-Rand statt schwarz */
+.unterhaltung-nav a.active {
+  box-shadow: inset 0 0 0 2px darkgray;
+  position: relative;
+  top: 1px;
+  filter: brightness(1.08) contrast(1.05);
+}
+</style>     <script>
+// Aktive-Seite-Erkennung
+(function markActiveNav() {
+  const currentPath = window.location.pathname.toLowerCase();
+  const fullUrl    = window.location.href.toLowerCase();
+  const links = document.querySelectorAll('.unterhaltung-nav a.mynav-btn');
+
+  // Startseite → nichts markieren
+  if (currentPath === '/' || 
+      currentPath === '' || 
+	  currentPath.endsWith('/unterhaltung') ||
+      fullUrl.endsWith('nikolausdulgeridis.de.tl') || 
+      fullUrl.endsWith('nikolausdulgeridis.de.tl/') ) {
+    return;
+  }
+
+  links.forEach(link => {
+    const href = link.getAttribute('href').toLowerCase();
+    const pageName = href.split('/').pop().split('.')[0];
+    
+    if (currentPath.includes(pageName) || fullUrl.includes(pageName)) {
+      link.classList.add('active');
+    }
+  });
+})();
+
+</script>     <script>
+var globalLanguageFlag = "de";  // default
+
+// Übersetzungen
+const navText = {
+  de: {
+    home: "Unterhaltung",
+    witze: "Witze",
+    sicherheit: "Sicherheitstest",
+    gleich: "Gleich & Ungl",
+    fundsachen: "Fundsachen",
+    muehle: "Mühle",
+    sonstiges: "Sonst",
+  },
+  en: {
+    home: "Entertainment",
+    witze: "Jokes",
+    sicherheit: "Security Test",
+    gleich: "Equal & Uneq",
+    fundsachen: "Lost & F",
+    muehle: "Mill Game",
+    sonstiges: "Misc",
+  }
+};
+
+// Sprache aus localStorage oder Browser ermitteln
+function detectLanguage() {
+  const stored = localStorage.getItem("language");
+
+  if (stored) {
+    globalLanguageFlag = stored;
+    return;
+  }
+
+  let navlang = navigator.language || navigator.userLanguage || "en";
+
+  if (!navlang.startsWith("de")) {
+    globalLanguageFlag = "en";
+  } else {
+    globalLanguageFlag = "de";
+  }
+}
+
+// Texte in Navbar setzen
+function applyLanguage() {
+  const L = navText[globalLanguageFlag];
+
+  document.getElementById("nav_home").textContent = L.home;
+  document.getElementById("nav_witze").textContent = L.witze;
+  document.getElementById("nav_sicherheit").textContent = L.sicherheit;
+  document.getElementById("nav_gleich").textContent = L.gleich;
+  document.getElementById("nav_fundsachen").textContent = L.fundsachen;
+  document.getElementById("nav_muehle").textContent = L.muehle;
+  document.getElementById("nav_sonstiges").textContent = L.sonstiges;
+}
+
+// Bei Klick auf Flaggen → Sprache setzen
+function setmylangde() {
+  globalLanguageFlag = "de";
+  localStorage.setItem("language", "de");
+  applyLanguage();
+}
+
+function setmylangen() {
+  globalLanguageFlag = "en";
+  localStorage.setItem("language", "en");
+  applyLanguage();
+}
+
+// Initialisierung
+detectLanguage();
+window.addEventListener("DOMContentLoaded", applyLanguage);
+
+//alert("ermittelte Sprache:"+globalLanguageFlag);
+</script>    <!-- === Ende Navigation === -->          <!-- === Ende Navigation === -->      <!-- === Ende Navigation === -->
+
+
+<title>Sinnlose Zitate</title>
+
+
+<!-- 
+
+**texte**
+
+Vaterfreuden 
+
+... und dann war da noch der 6-jährige der seinen Vater mit dem Auto von der Arbeit abholte.
+##
+Pferde-DNA-Test in Island: Prüfer finden kein Fleisch im Fleischgericht
+Lebensmittelkontrolleure in Island haben bei Tests im Zuge des Pferdefleisch-Skandals erstaunliches entdeckt: In keinem der überprüften Produkte stimmten Inhaltsangabe und Inhalt überein. In einer Fle...
+
+SPIEGEL ONLINE Mrz 2013
+##
+Primeval Episodenguide
+
+In Episode vier müssen drei Schüler nachsitzen. Der Lehrer holt sich einen Kaffee und wird dabei von einem Therocephalia gefressen. 
+
+https://de.wikipedia.org/wiki/Primeval_Rückkehr_der_Urzeitmonster
+##
+Es ist doch so. Zwei und zwei macht irgendwas, und vier und vier macht irgendwas. Leider nicht dasselbe, dann wär's leicht.
+Das ist aber auch schon höhere Mathematik.
+##
+Katzenforum
+Frage von Catss 
+wachsen die Schnurrhaare einer Katze nach??? ich habe meiner Katze ein Haarkneuel rausgeschnitte, und ich glaub, ich hab ihr ein Schnurrhaar abgeschnitten!!! was soll ich tun?
+
+nikki6979 Na klar wachsen die nach. Meine Katze hat auch ab und zu beim putzen und so ein Schnurrhaar verloren  und es ist wieder nachgewachsen.
+Andrea2009 Nix! Ab ist ab!
+nikki6979  Unsinn!!
+Andrea2009 WAS ist Unsinn??? Soll sie das Haar wieder ankleben??? Das wächst nach! Macht nicht so einen Trubel um ein Haar!
+nikki6979 Dann schreib auch das wieder nachwachsen! Deine Antwort kann man falsch verstehen!
+Andrea2009  Ach so...
+##
+Man könnte viele Beispiele für unsinnige Ausgaben nennen, 
+aber keines ist treffender als die Errichtung einer Friedhofsmauer. 
+Die, die drinnen sind, können sowieso nicht hinaus, und die, die draußen sind, wollen nicht hinein.
+Mark Twain
+##
+Nichts ist so gerecht verteilt, wie der Verstand; jeder meint er hat genügend davon.
+##
+Umfrage in einer deutschen Stadt: "Was halten Sie fuer das groessere Problem: Unwissenheit oder Gleichgueltigkeit?"
+"Weiß ich nicht, ist mir egal!"
+##
+Wer viel arbeitet, macht viele Fehler.
+Wer wenig arbeitet, macht wenig Fehler.
+Wer die wenigsten Fehler macht, wird befördert.
+##
+Da sage ich ein mal, nur ein einziges Mal die Wahrheit - und was ist?
+Keiner glaubt einem!
+##
+Glücklich das Volk, dessen Geschichte langweilg ist
+( Montesquieu)
+##
+Kommentar von Borna21 vor 12 Min.
+ich bin leider ein dickes kind
+
+Kommentar von FurImmerOnkelz vor 10 Min.
+Dann geh jetzt am Besten schlafen! Vielleicht bist du ja wenn du aufwachst ein schlankes Kind! Oder auch nicht...
+
+Kommentar von Borna21 vor 6 Min.
+dankechön
+##
+deshalb mag ich Binärtechnik. Da gibt es nur drei Zustände: High, Low und Kaputt. (Wau Holland)
+##
+"Funzt net ..." "Gab es denn keine Fehlermeldung?" "Doch, hab' ich weggeklickt, funzt immer noch net ..." 
+##
+Der beliebteste Fehler unter den Leuten, die etwas absolut Idiotensicheres konstruieren wollen ist der, dass sie den Erfindungsreichtum von absoluten Idioten unterschätzen.
+[Douglas Adams] 
+##
+Was ist der häufigste Bootsunfall?
+Betrunkener Mann fällt beim Pinkeln über Bord.
+##
+... an diesem Punkt auch vielen Dank an den einfallsreichen Programmierer, der "An@lysis" als vulgäres Wort miteinbindet - das waren für mich gerade 30 Minuten Fehlersuche nach Textabschluss ...
+
+(Kommentar eines unzufriedenen Nutzers in einem Matheforum)
+##
+Frage von ErfindungHilfe 28.02.2014 - 20:25
+Ich kann mich sehr gut an früher erinnern.
+ich bin immer auf der Couch eingeschlafen, aber im Bett aufgewacht... o.O
+nun meine Frage: Mit wie vielen Jahren statistisch gesehen verliert man die Fähigkeit sich zu Teleportieren?
+
+Antwort von Schuhu 28.02.2014 - 20:27
+Sobald du so schwer wirst, dass Mama oder Papa dich nicht mehr rübertragen können, ist es vorbei mit der Teleportation. Eigentlich schade.
+##
+Frage von xxxx vor 24 Min.
+Als ich neulich so betrunken war...habe ich gebrochen,viel geredet,geheult,getorkelt,umgekippt und so...meine Freundin ist ein bisschen getorkelt und hat sogar ne fremde Frau auf der Straße geschlagen...was ist schlimmer? Gibt es noch andere Arten von betrunken sein?
+
+noch keine Antwort
+##
+Der Tor braucht einen Keulenschlag, wo dem Weisen ein Wink genügen mag.
+##
+In welcher Farbe läuft ein Schlumpf an, wenn man ihn würgt?
+##
+Ich habe gerade meine Wäsche in den Kühlschrank getan. Manchmal denke ich, ich bin doof!
+Ich tu das die ganze Zeit.
+Deine Wäsche in den Kühlschrank?
+Nein, denken, dass du doof bist!
+##
+Der Erfinder der Autokorrektur ist ein Erdloch und sollte sich ins Knie fügen
+##
+Wenn ich Bombenbauer in einem Actionfilm wäre, würde ich die Bombe bei 00:00:03 explodieren lassen, um eine Entschärfung in letzter Sekunde effektiv zu verhindern.
+##
+Prüfer: Wie heißt die Hauptstadt Deutschlands?
+Azubi: Berlin.
+Prüfer: Bevor Berlin Hauptstadt wurde, welche Stadt war da Hauptstadt?
+Azubi: Da war Deutschland noch DDR, mit Hitler und so!
+Prüfer: Ach so? Wie hieß denn die Hauptstadt damals?
+Azubi: Frankfurt, oder?
+##
+Somuschlumamikola 
+
+Gängiges Kuerzel in SMS Nachrichten für - SO MUss SCHLUss MAchen MIr KOmmt ein LAster entgegen 
+
+Kalkofe Fresse Fernsehen
+##
+Du hast dich mit der Falschen angeschlumpft!! - Schlumpfine
+##
+... dann klingelt das Telefon und nach 7 Tagen wachst du morgens auf und merkst, du bist tot
+##
+Was sind die 4 härtesten Jahre im Leben eines Polizisten? Die 1. Klasse
+##
+Zwei Chancen, ein Tor - das nenne ich hundertprozentige Chancenauswertung. Roland Wohlfahrt
+##
+Der größte Fehler, den wir jetzt machen könnten, wäre, die Schuld beim Trainer zu suchen.- Der Trainer
+##
+Hass gehört nicht ins Stadion. Die Leute sollen ihre Emotionen zu Hause ausleben. Berti Vogts
+##
+Ich hatte noch nie Streit mit meiner Frau. Bis auf das eine Mal, als sie mit aufs Hochzeitsfoto wollte.
+Mehmet Scholl
+##
+Tafel über der Jagdhütte des Schiessvereins: Lernen Sie Schiessen und treffen Sie neue Freunde
+##
+Der Lehrer fragt Max:"Was ist 2x2?"
+Dieser antwortet:"2!"
+Darauf der Lehrer:"Tut mir leid, falsch!"
+Jedoch die ganze Klasse ruft:"Gebt ihm noch eine Chanze!"
+Der Lehrer sagt:"OK"
+Max 2. Versuch lautet:"3"
+Der Lehrer:" Wieder falsch."
+Aber die Klasse brüllt:" Gebt ihm noch eine Chanze."
+Der Lehrer sagt wieder:" Ok"
+Dann antwortet Max:"4"
+Und die Klasse:" Gebt ihm noch eine Chanze" 
+##
+"Angeklagter, wollen Sie noch etwas sagen, bevor ich das Urteil verkünde?"
+Ja, Herr Richter, es wäre mir angenehm, wenn Sie in Ihrer Rede irgendwie das Wort "Freispruch" unterbringen könnten.
+##
+"Jetzt sag ich's Ihnen zum letzten Mal", brüllt der Arzt die Krankeschwester an, "wenn sie einen Totenschein ausfüllen, dann schreiben sie unter Todesursache den Namen der Krankheit und nicht den des Arztes!"
+##
+Wer ist der Schutzpatron der Vergesslichen?
+Dingsbums
+##
+Der Arzt begegnet dem kleinen Sohn einer Patientin. "Wie geht es denn deiner Mutter?", erkundigt er sich.
+"Schon besser! Auf mich geht sie schon wieder los, nur Papi lässt sie vorläufig noch in Ruhe!"
+##
+So stirbt man standesgemäß:
+1. Der Beamte entschläft sanft.
+2. Der Zahnarzt hinterlässt eine schmerzliche Lücke.
+3. Die Putzfrau kehrt nie wieder.
+##
+"Wie geht's?", fragte ein Blinder einen Lahmen. "Wie sie sehen", antwortete der Lahme, "ganz passabel".
+**texte**
+
+**engtexte**
+Father`s Joy
+... and then there was also the 6-year-old who picked up his father from work with the car.
+##
+Horse DNA test in Iceland: Inspectors find no meat in the meat dish
+Food inspectors in Iceland made a surprising discovery during tests in the course of the horse meat scandal: 
+In none of the checked products did the declared ingredients match the actual content. 
+In a meat...
+
+##
+SPIEGEL ONLINE Mar 2013Primeval Episode GuideIn episode four, three students have to stay after class. The teacher goes to get a coffee and gets eaten by a Therocephalia in the process.https://de.wikipedia.org/wiki/Primeval_Rückkehr_der_Urzeitmonster
+##
+That`s just how it is. Two and two make something, and four and four make something. Unfortunately not the same thing, otherwise it would be easy.
+But that`s already higher mathematics.
+
+##
+Cat Forum
+Question from Catss
+Do a cat`s whiskers grow back??? I cut a hairball out of my cat, and I think I cut off one of her whiskers!!! What should I do?nikki6979 Of course they grow back. My cat occasionally loses a whisker while grooming and stuff and it grows back again.
+Andrea2009 Nothing! Gone is gone!
+nikki6979 Nonsense!!
+Andrea2009 WHAT is nonsense??? Should she glue it back on??? They grow back! Don`t make such a fuss about one hair!
+nikki6979 Then write that they grow back!! Your answer can be misunderstood!
+Andrea2009 Oh right...
+
+##
+One could name many examples of pointless spending,
+but none is more fitting than the erection of a cemetery wall.
+Those inside can`t get out anyway, and those outside don`t want to get in.
+Mark Twain
+
+##
+Nothing is distributed so fairly as intelligence; everyone thinks they have enough of it.
+##
+Survey in a German city: "What do you consider the bigger problem: ignorance or indifference?"
+"I don`t know, I don`t care!"
+
+##
+Whoever works a lot makes a lot of mistakes.
+Whoever works little makes few mistakes.
+Whoever makes the fewest mistakes gets promoted.
+
+##
+So I tell the truth just once - just one single time - and what happens?
+No one believes me!
+
+##
+Happy is the people whose history is boring
+(Montesquieu)
+##
+Comment by Borna21 12 min ago
+Unfortunately I`m a fat kid  Comment by FurImmerOnkelz 10 min ago
+Then you`d better go to sleep now! Maybe when you wake up you`ll be a slim kid! Or maybe not...
+Comment by Borna21 6 min ago
+thanks
+##
+That`s why I like binary technology. There are only three states: High, Low and Broken. (Wau Holland)"Doesn`t work..." "Was there no error message?" "Yes, but I clicked it away, still doesn`t work..."The most common mistake people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools.
+[Douglas Adams]
+
+##
+What is the most common boating accident?
+Drunk man falls overboard while peeing.... 
+
+##
+at this point also many thanks to the imaginative programmer who includes "An@lysis" as a vulgar word - that just cost me 30 minutes of bug hunting after finishing the text...(Comment from a dissatisfied user in a math forum)
+
+##
+Question from ErfindungHilfe 28.02.2014 - 20:25
+I can remember my early childhood very well.
+I always fell asleep on the couch, but woke up in bed... o.O
+Now my question: At what age, statistically speaking, does one lose the ability to teleport?Answer from Schuhu 28.02.2014 - 20:27
+As soon as you get so heavy that Mom or Dad can no longer carry you over, teleportation is over. Kind of a shame really.
+
+##
+Question from xxxx 24 min ago
+When I was really drunk the other day... I threw up, talked a lot, cried, staggered, collapsed and so on... my girlfriend just staggered a bit and even hit some random woman on the street... which is worse? Are there other kinds of being drunk?no replies yet
+
+##
+A fool needs a blow from a club where a wise man might suffice with a hint.
+
+##
+What color does a Smurf turn when you strangle him?
+
+##
+I just put my laundry in the fridge. 
+Sometimes I think I`m stupid!
+
+I do that all the time.
+Your laundry in the fridge?
+No, thinking that you`re stupid!The inventor of autocorrect is a fucking idiot and should go fuck himselfIf I were a bomb maker in an action movie, I would set the bomb to explode at 00:00:03 to effectively prevent any last-second defusing.
+
+##
+Examiner: What is the capital of Germany?
+Trainee: Berlin.
+Examiner: Before Berlin became the capital, which city was the capital?
+Trainee: Back then Germany was still the GDR, with Hitler and all that!
+Examiner: Oh really? What was the capital called back then?
+Trainee: Frankfurt, or?
+
+##
+You`ve messed with the wrong Smurf!! - Smurfette... then the phone rings and after 7 days you wake up in the morning and realize you`re dead
+
+##
+What are the 4 toughest years in a police officer`s life? First grade
+
+##
+Two chances, one goal - that`s what I call 100% chance conversion. Roland Wohlfahrt
+
+##
+The biggest mistake we could make now would be to look for blame with the coach. - The coach
+
+##
+Hate doesn`t belong in the stadium. People should live out their emotions at home. Berti Vogts
+
+##
+I`ve never had an argument with my wife. Except that one time when she wanted to be in the wedding photo too.
+Mehmet Scholl
+
+##
+Sign above the shooting club`s hunting lodge: Learn to shoot and meet new friends
+
+##
+The teacher asks Max: "What is 2×2?"
+He answers: "2!"
+The teacher: "Sorry, wrong!"
+But the whole class shouts: "Give him another chance!"
+The teacher says: "OK"
+Max`s second try: "3"
+The teacher: "Wrong again."
+But the class yells: "Give him another chance."
+The teacher says again: "OK"
+Then Max answers: "4"
+And the class: "Give him another chance"
+
+##
+"Defendant, do you wish to say anything before I pronounce the verdict?"
+Yes, Your Honor, it would be nice if you could somehow slip the word "acquittal" into your speech.
+
+## 
+"Now I`m telling you for the last time," the doctor yells at the nurse, "when you fill out a death certificate, you write the name of the disease under cause of death, not the name of the doctor!"
+
+## Who is the patron saint of the forgetful?
+Thingy
+
+##
+The doctor meets the little son of a patient. "How`s your mother doing?" he asks.
+"Better already! She`s starting to go after me again, she`s only leaving Daddy alone for now!"How to die with class:  
+
+##
+The civil servant passes away peacefully.  
+The dentist leaves a painful gap.  
+The cleaning lady never comes back.
+
+##
+"How are you?" a blind man asked a lame man. "As you can see," replied the lame man, "quite passable."
+
+**engtexte**
+
+
+
+//-->
+<h3 id="mytitle">Sinnlose Zitate</h3>
+<script>
+function encodeHTML(text) {
+    var entities = [
+        ['nixnix','apos'],
+        ['&','amp'],
+        ['<','lt'],
+        ['>','gt'],
+        ['Ä','Auml'],
+        ['Ö','Ouml'],
+        ['Ü','Uuml'],
+        ['ä','auml'],
+        ['ö','ouml'],
+        ['ü','uuml'],
+        ['ß','szlig'],
+        ["’",'rsquo'],
+        ["'",'rsquo'],
+        ["’",'rsquo']
+    ];
+
+    for (var i = 0, max = entities.length; i < max; ++i) 
+        text = text.replace(new RegExp(entities[i][0], 'g'), ("&"+entities[i][1])+";");
+    return text;
+}
+
+
+
+var marker="**texte*";
+var mytitleText="Sinnlose Zitate";
+if(typeof globalLanguageFlag != "undefined" && globalLanguageFlag=="en") 
+  {
+   marker="**engtexte*"; 
+   mytitleText="Meaningless quotes";
+   };
+document.getElementById("mytitle").innerHTML=mytitleText;
+
+
+
+
+var alltextAr=(document.documentElement.innerHTML).split(marker+"*");
+//var alltextAr=(document.documentElement.innerHTML).split("**texte*"+"*");
+
+
+if(0) for (i in alltextAr) alert("----->"+i+alltextAr[i]);
+var alltext=alltextAr[1];
+
+alltext=encodeHTML(alltext);
+
+var t=alltext;
+if(workaround=1) 
+  for(pauschalmax=222;pauschalmax;pauschalmax--)
+  {
+   var newline=unescape("%"+"0A");
+   t = t.replace(newline,"<br>");
+  };
+alltext=t;
+
+var Arzite=alltext.split("##");;
+
+var zuf= Math.floor(Math.random()*Arzite.length);
+if(0) for(i in Arzite) document.write("<br>"+i+" "+(Arzite[i]));
+if(1) document.write(""+" "+(Arzite[zuf]));
+if(1) document.write("<br>");
+</script>

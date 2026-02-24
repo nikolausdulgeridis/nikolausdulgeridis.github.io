@@ -1,0 +1,905 @@
+<!-- === Horizontale farbige Unterhaltungs-Navigation (dunkel, größer, purple, kein Umbruch) === -->
+<div class="unterhaltung-nav"><a href="https://nikolausdulgeridis.de.tl" class="mynav-home" id="nav_home">Unterhaltung</a>   <a href="https://nikolausdulgeridis.de.tl/Witze.htm" class="mynav-btn witze" id="nav_witze">Witze</a>   <a href="https://nikolausdulgeridis.de.tl/Sicherheitstest.htm" class="mynav-btn sicherheit" id="nav_sicherheit">Sicherheitstest</a>   <a href="https://nikolausdulgeridis.de.tl/Gleich-und-ungleich.htm" class="mynav-btn gleich" id="nav_gleich">Gleich &amp; Ungleich</a>   <a href="https://nikolausdulgeridis.de.tl/Fundsachen.htm" class="mynav-btn fundsachen" id="nav_fundsachen">Fundsachen</a>   <a href="https://nikolausdulgeridis.de.tl/Muehle.htm" class="mynav-btn muehle" id="nav_muehle">M&uuml;hle</a>   <a href="https://nikolausdulgeridis.de.tl/Sonstiges.htm" class="mynav-btn sonstiges" id="nav_sonstiges">Sonstiges</a>  <!-- Sprachwahl    <div style="margin-left:auto; display:flex; gap:6px;">  -->
+<div style="display:flex; flex-direction:rows; gap:3px; margin-left: 6px; margin-right: 2px;"><img id="nav_flag_en" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAUAPcAAAQCBPz+/AQC/PwCBG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYHOXsVoESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+iQ/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAHgPWVgCYdQB8AKApAOJAABWSAAB8AIAcM2ZAoxWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEAz/+ij/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowMwIAowAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABQAAAivAAEIHEiwoMGDBQcECCCgocOHAQYofEhRwMIBAiMqZFjRokSOFS8qFGhRI0iIHzuaZEiy4UqKJmF+BNnS4UuXKV3GfFjT5suYIhdW7Alx5cyZHQVkXMi0qUiJM506FQi1qtWrWK1Szcq1q8SlUpteDTsVQFKPG49OTEpU50a0DC8KHWq2aE64NpHyrIvzbd61bgErrSv3ZF/DJf0uvStTMMqNW+eqZAxTI8LLmA0GBAA7" onclick="setmylangen()" alt="lang=en" />     <img id="nav_flag_de" class="nav_flagimg" src="data:image/gif;base64,R0lGODlhIAAVAPcAAAQCBPz+BPwCBAAAAG2i5Bvp8gASgAAAfLk+YBwA6gAAEgAAAAAA+wAA8hUAgAAAfAsAOAAAAAAAAAAAAAAYsgIAGgAaAQAAAAAVAAEEAACSAAB8AMwehOgEABKSAAB8ANHYPuXsK4ESdXwAAAAkAAAAAAECAAAAAFbEsgDqGgASAQAAANQCAOcAABIAAAAAABdo/5ND/5OS/3x8//QA/+hA/xL9/wB/fwAAAekQAJGRAHx8AEBsAADpAJISAHwAAP8A9P8AAf8AAP8AAD08mADqAZISAHwAAG0ACOfpAIGRAHx8AABAFAAEABWSAAB8AFAAQAPWKwCYdQB8AKApAOJAABWSAAB8AIAcQGZA6hWSAAB8AAAIhAAC7QAAEgAAAH4u3QBn6wBpgcBmfAAAQwAAOgAAXAAAdP8+Zf8Abf8AcP8AXP9p8P8Anv8AgP8AfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAARUAFgAAAATOAOnqABISFgAAALoAAOYAAIEAFnwAAIAfvGYA6hUAEgAAADMCLeMAcIEAcnwAb+A+GAIA61FAEgAAAICAwGZqmgEVgwAAfGp8+ADtngASgAAAfEBA/+jq/xIA/wAA/wAc8ADqngASgAAAfKidaPsrThKDgwB8fAAAOOkAAZEAFnwAAEAAlQAA/5IAgHwAfP8AAP8AAP8AAP8AAD05AAA8AJKUAHx8ANrhAPTrAIASAHwAAAAMAAChABVPAAAAAABQAAAAAAAAAAAAAIAAAWYAABUAAAAAAAAA+AHq6gASEgAAAAAMAAChAABPAAAAAOeoqPT7+4ASEnwAACwAwOrpmhKRgwB8fIAQmGY8/xWUgAB8fAL//wD//wD//wD//yPhlQDr/wASgAAAfNAMiGmhgRVPQgAAAIBEOGrrARUSFgAAAAD/AABkAACDAAB8AAig4QBk6wqDEgB8AFwATEAAZJIAg3wAfBowQAIA6gAAAAB8AEPNTDryZACAgwB8fAAuagBncQBpSABmACH5BAAAAAAALAAAAAAgABUAAAhvAAEIHEiwoMGDCBMqXMiwocOHCQdInEixosWLEgUOgMhwIwCPHCNqxEiyZEYAAlKqXMmypcuUAl/KnKkyJs2bLW3i3ClAJ8+bPn/OFBigqNGjSJMqLUp0qdOnTAFAnaq0KdWrAaxinap169OQDwMCADs=" onclick="setmylangde()" alt="lang=de" /></div>
+<!-- Sprachwahl Ende --></div>
+<style type="text/css">
+.nav_flagimg {
+  width: 26px;
+  height: 14px;
+  min-width: 26px;
+  min-height: 14px;
+  border: 1px solid grey; /* Breite, Stil, Farbe */
+  border-radius: 4px;
+}
+
+
+.unterhaltung-nav {
+  background: #333;
+  padding: 6px 11px;
+  margin: 0 0 11px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.mynav-home {
+  color: white;
+  font-weight: bold;
+  font-size: 0,75rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: #555;
+  margin-right: 12px;
+  transition: background 0.2s;
+}
+
+.mynav-home:hover {
+  background: #777;
+}
+
+.mynav-btn {
+  color: black;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: all 0.18s ease;
+  min-width: 36px;
+  text-align: center;
+}
+
+.mynav-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-.1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Farben - Netscape-kompatible Namen */
+.witze       { background-color: purple;      }
+.sicherheit  { background-color: orange;      }
+.gleich      { background-color: lightblue;   }
+.fundsachen  { background-color: limegreen;   }
+.muehle      { background-color: gold;        }
+.sonstiges   { background-color: tan;        }
+
+/* Aktives Element - silberner Inset-Rand statt schwarz */
+.unterhaltung-nav a.active {
+  box-shadow: inset 0 0 0 2px darkgray;
+  position: relative;
+  top: 1px;
+  filter: brightness(1.08) contrast(1.05);
+}
+</style>     <script>
+// Aktive-Seite-Erkennung
+(function markActiveNav() {
+  const currentPath = window.location.pathname.toLowerCase();
+  const fullUrl    = window.location.href.toLowerCase();
+  const links = document.querySelectorAll('.unterhaltung-nav a.mynav-btn');
+
+  // Startseite → nichts markieren
+  if (currentPath === '/' || 
+      currentPath === '' || 
+	  currentPath.endsWith('/unterhaltung') ||
+      fullUrl.endsWith('nikolausdulgeridis.de.tl') || 
+      fullUrl.endsWith('nikolausdulgeridis.de.tl/') ) {
+    return;
+  }
+
+  links.forEach(link => {
+    const href = link.getAttribute('href').toLowerCase();
+    const pageName = href.split('/').pop().split('.')[0];
+    
+    if (currentPath.includes(pageName) || fullUrl.includes(pageName)) {
+      link.classList.add('active');
+    }
+  });
+})();
+
+</script>     <script>
+var globalLanguageFlag = "de";  // default
+
+// Übersetzungen
+const navText = {
+  de: {
+    home: "Unterhaltung",
+    witze: "Witze",
+    sicherheit: "Sicherheitstest",
+    gleich: "Gleich & Ungl",
+    fundsachen: "Fundsachen",
+    muehle: "Mühle",
+    sonstiges: "Sonst",
+  },
+  en: {
+    home: "Entertainment",
+    witze: "Jokes",
+    sicherheit: "Security Test",
+    gleich: "Equal & Uneq",
+    fundsachen: "Lost & F",
+    muehle: "Mill Game",
+    sonstiges: "Misc",
+  }
+};
+
+// Sprache aus localStorage oder Browser ermitteln
+function detectLanguage() {
+  const stored = localStorage.getItem("language");
+
+  if (stored) {
+    globalLanguageFlag = stored;
+    return;
+  }
+
+  let navlang = navigator.language || navigator.userLanguage || "en";
+
+  if (!navlang.startsWith("de")) {
+    globalLanguageFlag = "en";
+  } else {
+    globalLanguageFlag = "de";
+  }
+}
+
+// Texte in Navbar setzen
+function applyLanguage() {
+  const L = navText[globalLanguageFlag];
+
+  document.getElementById("nav_home").textContent = L.home;
+  document.getElementById("nav_witze").textContent = L.witze;
+  document.getElementById("nav_sicherheit").textContent = L.sicherheit;
+  document.getElementById("nav_gleich").textContent = L.gleich;
+  document.getElementById("nav_fundsachen").textContent = L.fundsachen;
+  document.getElementById("nav_muehle").textContent = L.muehle;
+  document.getElementById("nav_sonstiges").textContent = L.sonstiges;
+}
+
+// Bei Klick auf Flaggen → Sprache setzen
+function setmylangde() {
+  globalLanguageFlag = "de";
+  localStorage.setItem("language", "de");
+  applyLanguage();
+}
+
+function setmylangen() {
+  globalLanguageFlag = "en";
+  localStorage.setItem("language", "en");
+  applyLanguage();
+}
+
+// Initialisierung
+detectLanguage();
+window.addEventListener("DOMContentLoaded", applyLanguage);
+
+//alert("ermittelte Sprache:"+globalLanguageFlag);
+</script>    <!-- === Ende Navigation === -->             <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->    <!-- === Ende Navigation === -->
+
+
+<title id="sectitle">Erkenne den Sicherheitsversto&szlig; und reagiere richtig</title>
+<link href="https://img.webme.com/pic/n/nikolausdulgeridis/nikolaus-haus-32x32.ico" rel="shortcut icon" />      
+
+<style type="text/css">
+#haupt {width:1300px;}
+</style>
+
+
+<div style="border: 2px solid gray; padding: 4px; margin: 4px; clear: both;" id="haupt"><script>
+var bix="";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b01Baum-Haus.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/02-Baum-Haus.jpg";
+bix+="#" + "Baum-Haus";
+bix+="#" + "Hast du einen Fachmann bestellt, der den Baum faellt?";
+bix+="#" + "Nein.";
+bix+="#" + "Wieso denn. So einen bloeden Baum faelle ich immer noch selber.";
+bix+="#" + "Richtig so! Gespart ist gleich verdient.";
+bix+="#" + "Da ist so eine Sache passiert, echt witzig eigentlich.";
+bix+="#" + "Aber lass uns erst ueber dich reden, Schatz.";
+bix+="#" + "Zuerst die gute Nachricht. Der Streit mit der Schwiegermutter ist erledigt.";
+bix+="#" + "Fuer immer. ";
+
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b02Flugschule.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=230610";
+bix+="#" + "flugschule";
+bix+="#" + "Krieg ich den Schein nun oder sollen wir noch eine Runde drehen, Herr Ausbilder?";
+bix+="#" + "Das Flugzeug darf ohne freie Sicht nicht starten";
+bix+="#" + "Niemals!! Nicht, solange ich Lebe. ";
+bix+="#" + "Vorsicht mit dem was man sagt! Das Leben ist zu kurz.";
+bix+="#" + "Selbstverstaendlich! Ich gehe nur kurz brechen, dann bekommen Sie den Lappen.";
+bix+="#" + "Na also, geht doch!";
+bix+="#" + "Nnneeeiiiinnn!!! ";
+bix+="#" + "Diese Anfaelle sollten Sie untersuchen lassen. Mein Fahrlehrer hatte das auch. Der ist nie wieder in ein Auto eingestiegen";
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b03Fluchtwagen.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=190713";
+bix+="#" + "dauerparker";
+bix+="#" + "Warum hat der Fahrer dieses Wagens ein Problem?";
+bix+="#" + "Der Baum ueberragt die Abmessungen des PKW und muss daher mit einer roten Fahne gekennzeichnet werden";
+bix+="#" + "Das Fluchtauto steht im Parkverbot vor der Bank";
+bix+="#" + "Der Überfall ist seit vielen Jahren vorbei. Du brauchst nicht mehr auf deine Kumpels warten";
+bix+="#" + "Der Motor springt nicht an";
+bix+="#" + "Da ist kein Motor, du Anfaenger!";
+bix+="#" + "Die TUEV Plakette fehlt ";
+bix+="#" + "Nicht nur die TUEV Plakette fehlt, auch der Halter ist schon lange tot. Was ist wohl das groessere Problem?";
+bix+="#" + "Auf dem Fahrersitz ist ein Baum";
+bix+="#" + "Das muessen Sie schon alleine klaeren wer fahren darf. Ich kann dabei nicht helfen.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b04mannaufleiterb.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=121206";
+bix+="#" + "mannaufleiterleiter";
+bix+="#" + "Was ist hier falsch?";
+bix+="#" + "Es handelt sich um einen elementaren Sicherheitsverstoss";
+bix+="#" + "Alles richtig! Mach ich auch immer so.";
+bix+="#" + "Ich gebs auf! Ihnen kann man nicht helfen.";
+bix+="#" + "Haatschiiii.";
+bix+="#" + "Gesundheit!"; 
+
+
+/* ---------------- */
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b05bootsunfall.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=260309";
+bix+="#" + "Wasserschaden";
+bix+="#" + "Wen wird der Mann als naechstes anrufen?";
+bix+="#" + "Es gibt keine zufriedenstellende Loesung. Einfach sitzen bleiben ist eine gute Idee";
+bix+="#" + "Seinen Chef ";
+bix+="#" + "Viel Spass auch. Umschreiben Sie bitte mit netten Worten den Begriff -Kleiner Zwischenfall-";
+bix+="#" + "Seine Frau. Es wird spaeter. Ich habe hier ein kleines Problem mit dem Wagen. ";
+bix+="#" + "Seine Frau hat auch kein Verstaendnis mehr fuer seine Ausreden.";
+bix+="#" + "Die Lotto Zentrale.";
+bix+="#" + "Er hat letzte Woche nicht getippt.";
+
+/* bix+="##"+ "http://www.onlinewahn.de/bpics/b06autoingarage.jpg"; */
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b06autoingarage.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=070204";
+bix+="#" + "Parkschaden";
+bix+="#" + "Woran erkennen Sie dass Ihre Frau den Wagen hatte?";
+bix+="#" + "Der Wagen wurde passgenau in den kleinen Eingang gesetzt - das kann nur ein Mann gewesen sein!!";
+bix+="#" + "Vorne UND hinten ist eine Beule vom Einparken."; 
+bix+="#" + "Hinten ist keine Beule.";
+bix+="#" + "Der Wagen stinkt nach diesem Tannenzapfenzeugs.";
+bix+="#" + "Keine Sorge! Der Wagen stinkt nach Benzol und Motoroel.";
+bix+="#" + "Der Tank ist wieder mal leergefahren."; 
+bix+="#" + "Benzin ist drin."; 
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b07schneemobil.jpg";
+bix+="#" + "http://www.onlinewahn.de/bpics/b-150109.jpg";
+bix+="#" + "Schneeschaden";
+bix+="#" + "Woran erkennt man dass es Winter wird?";
+bix+="#" + "Der astronomische Winter beginnt, wenn die scheinbare geozentrische Länge der Sonne 270° beträgt. Das ist ca. der 21./22. Dezember.";
+bix+="#" + "Keine Ahnung. Einmal mit dem Eiskratzer drueber, dann gehts los.";
+bix+="#" + "Der Eiskratzer wird nicht reichen.";
+bix+="#" + "Ich ziehe die Winterreifen auf.";
+bix+="#" + "Ich sehe keine Reifen.";
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b08verkehrswacht.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=030213";
+bix+="#" + "grosser Mann";
+bix+="#" + "Wie ueberredet man den Mann mit aufs Revier zu kommen?";
+bix+="#" + "Es handelt sich um ein Fahrzeug der Strassenverkehrswacht. Eine Verhaftung ist nicht notwendig.";
+bix+="#" + "Er hat so ein ehrliches Gesicht. Er braucht nicht mitkommen. ";
+bix+="#" + "Darueber entscheidet der Staatsanwalt.";
+bix+="#" + "Es gibt Kaffee und Kuchen.";
+bix+="#" + "Er mag keinen Kuchen.";
+bix+="#" + "Er passt nicht in den Wagen. ";
+bix+="#" + "Platz ist genug, du Memme.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b09Schuhladenb.jpg";
+bix+="#" + "http://www.nurbilder.com/pics/72172edbf04ee4d62183.jpg";
+bix+="#" + "TagImSchuhladen";
+bix+="#" + "Tragen Wirbelstuerme weibliche oder maennliche Vornamen? ";
+bix+="#" + "Sowohl als auch (Andrews, Katrina). In diesem Fall empfiehlt sich ein weiblicher Vorname.";
+bix+="#" + "Wieso Wirbelsturm? Das ist ein normaler Tag im Schuhladen.";
+bix+="#" + "Dem widerspreche ich lieber nicht! Bitte, sei so nett und melde Deinen Besuch das naechste mal vorher an.";
+bix+="#" + "Sowieso alles Mist. Entweder stimmt die Farbe nicht oder sie haben die passende Groesse nicht vorraetig. ";
+bix+="#" + "Wohl wahr! XXL in Pink ist leider ausverkauft.";
+bix+="#" + "Weiblich. ";
+bix+="#" + "Nahe dran.";
+
+bix+="##" + "https://img.webme.com/pic/n/nikolausdulgeridis/b10nettertiger.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=040207";
+bix+="#" + "kumpeltiger";
+bix+="#" + "Der Mann hat das Futter vergessen. Wie erklaert er das dem Tiger?";
+bix+="#" + "Wildtiere sollen nicht zu sehr vermenschlicht werden, um ihre natuerlichen Instinkte zu erhalten.";
+bix+="#" + "Der Mann soll den Tiger nicht so stark drücken. Er koennte ihm weh tun.";
+bix+="#" + "Machen Sie sich um den Tiger keine Sorgen. Der haelt das aus.";
+bix+="#" + "Der Tiger darf nicht zusatzlich gefuettert werden. Er wird zu fett. ";
+bix+="#" + "Machen Sie sich um den Tiger keine Sorgen.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b11wie-kann-man-sich-nur-so-einparken.jpg";
+bix+="#" + "http://echtlustig.com/26655/wie-kann-man-sich-nur-so-einparken";
+bix+="#" + "wie-kann-man-sich-nur-so-einparken";
+bix+="#" + "Erste Fahrstunde?";
+bix+="#" + "Passt perfekt vorne und hinten! Das war kein Anfaenger. Das ist die Abschlussklasse.";
+bix+="#" + "Nein, 3te.  ";
+bix+="#" + "Gratuliere, man sieht echt den Fortschritt.";
+bix+="#" + "Nein, eiliger Friseurtermin. ";
+bix+="#" + "sic! Ich hoffe Sie verpassen die Yoga Stunde nicht.";
+bix+="#" + "Der Baum war gestern aber noch nicht da!";
+bix+="#" + "Genau. Klimaerwaermung und geheime Chemiewaffentests der Regierung. Das ist unser Untergang.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b12dogwanted.jpg";
+bix+="#" + "http://www.trendhure.com/2010/12/21/picdump-64/";
+bix+="#" + "Hund entsprungen";
+bix+="#" + "Was tun Sie, wenn Sie diesen Hund auffinden?";
+bix+="#" + "Bis professionelle Hilfe eintrifft, sollten sie ernsthaft erwaegen einen Kaefig zu bauen - in dem sie sich dann in Sicherheit bringen koennen! ";
+bix+="#" + "Och, ist der niedlich. ";
+bix+="#" + "Mein Englisch ist nicht das beste, aber wenn ich -rip your face off- richtig uebersetze  dann ist das kein freundlicher Hund. ";
+bix+="#" + "Ich liebe Tiere ";
+bix+="#" + "Tja, Tiere sind treu und anhaenglich.";
+bix+="#" + "Ich besorge mir ein Handbuch ueber Hundeerziehung";
+bix+="#" + "Beginnen Sie mit dem letzten Kapitel - Erste Hilfe und Schutzimpfungen.";
+bix+="#" + "Ich rufe den Besitzer an";
+bix+="#" + "Der Besitzer leugnet, diesen Hund zu kennen.";
+bix+="#" + "<hr>Anmerkung: (zum Hundebild) Es ist moeglich, dass blutruenstige Moerderhunde durch die Strassen schleichen. ";
+bix+=" " + "Dieser ist es nicht. Es handelt sich um ein Spassfoto dass sein Besitzer beim Spielen aufgenommen hat.<br>";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b13seepferd.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=230314";
+bix+="#" + "Seepferdchen";
+bix+="#" + "Was macht dieser Taucher falsch?";
+bix+="#" + "Die Uhr ist dazu gedacht die Dauer des Tauchgangs zu ermitteln, nicht um mit den Seepferdchen zu spielen.";
+bix+="#" + "Das Seepferdchen soll sich doch seine eigene Uhr mitbringen!";
+bix+="#" + "Pfui, wie gemein!";
+bix+="#" + "Die Uhr geht 2 Minuten vor.";
+bix+="#" + "Das wird das Seepferdchen nicht stören.";
+bix+="#" + "Die Uhr ist nicht wasserdicht.";
+bix+="#" + "Stimmt, dieses Modell hat ab 300 Meter Tauchtiefe Probleme.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b15verkaufe-dringend-haus-ruhige-lage-nah-am-seeb.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/verkaufe-dringend-haus-ruhige-lage-nah-am-see.jpg";
+bix+="#" + "verkaufe-dringend-haus-ruhige-lage-nah-am-see";
+bix+="#" + "Verkaufe dringend Haus. Was ist Ihre Meinung?";
+bix+="#" + "Greifen Sie ruhig zu. Perfekte Lage. Hier koennen Sie gar nichts falsch machen.";
+bix+="#" + "Hmm..ist es auch wirklich ruhig";
+bix+="#" + "Himmlisch! Kein Vergleich mit der Grosstadt";
+bix+="#" + "Gibt es hier Fische";
+bix+="#" + "Sie koennen sogar mit ihnen sprechen, wenn sie wollen";
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b16diese-gasse-ist-wohl-etwas-zu-eng-fuer-den-transporter1b.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/diese-gasse-ist-wohl-etwas-zu-eng-fuer-den-transporter1.jpg";
+bix+="#" + "hohle Gasse";
+bix+="#" + "Durch diese hohle Gasse muss er kommen";
+bix+="#" + "Schiller, aber durch diese Gasse wird er nicht mehr kommen";
+bix+="#" + "Goethe?";
+bix+="#" + "gute Wahl";
+bix+="#" + "Schiller?";
+bix+="#" + "gute Wahl";
+bix+="#" + "Heine?";
+bix+="#" + "gute Wahl";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b17spassvogel-21th.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/spassvogel-21th.jpg";
+bix+="#" + "Spassvogel";
+bix+="#" + "Warum laedt niemand mehr Onkel Willie zum Geburtstag ein?";
+bix+="#" + "Onkel Willie hat vor 20 Jahren seine Schwaegerin auf der Strasse nicht gegruesst. Seitdem sind die Familien verfeindet.";
+bix+="#" + "Weil er ständig den Namen des Geburtstagskindes vergisst?";
+bix+="#" + "Der Name steht doch auf der Torte. Das ist nicht der Grund.";
+bix+="#" + "Er ist immer so bierernst?";
+bix+="#" + "Nein, diese Seite hat Onkel Willie erfolgreich abgelegt.";
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b18entenfamilie.jpg";
+bix+="#"+  "https://img.webme.com/pic/n/nikolausdulgeridis/entenfamilie.jpg";
+bix+="#" + "entenfamilie";
+bix+="#" + "Was macht diese Frau wohl falsch?";
+bix+="#" + "Achtung! Betruegerische Entenfamilien sind gar nicht so selten. Unser Rat: Niemals mit Entenfamilien einlassen. Nachher folgen sie ihnen nach Hause und stellen die ganze Bude auf den Kopf.";
+bix+="#" + "Sie hat wieder einmal Tick und Track verwechselt?";
+bix+="#" + "Nein, Track ist links.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b19loewenjagd.jpg";
+bix+="#" + "http://www.onlinewahn.de/bdj";
+bix+="#" + "Loewenjagd";
+bix+="#" + "Wo ist er denn?";
+bix+="#" + "Grosswildjagd ist nichts für schwache Nerven.";
+bix+="#" + "Keine Ahnung. Siehst du was?";
+bix+="#" + "Nee, stinklangweilig. Ausserdem kriege ich Hunger";
+
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b20lastenesel.jpg";
+bix+="#" + "http://web.archive.org/web/20110623074812/http://clickpix.de/lustige_bilder.phtml";
+bix+="#" + "last";
+bix+="#" + "Was wird der Mann unternehmen um der Frau den Weg zu erleichtern?";
+bix+="#" + "Leider hat der Esel der tapferen kleinen Familie letzte Woche den letzten Gang angetreten. Boese Stimmen behaupten, man haette ihn zwischendurch fuettern muessen andere sagen er wollte einfach nicht mehr.";
+bix+="#" + "Pause?";
+bix+="#" + "Beeil dich, ich habe dich für den Nachmittag an den Nachbarn verliehen. Und wenn du mit der Feldarbeit fertig bist versorgst du die Kinder. Nicht dass die wieder eingehen, so wie letztes Jahr";
+bix+="#" + "Neuer Esel?";
+bix+="#" + "Damit unsere Nachbarn denken wir sind reich und dann wollen sie ihr Geld zurueck? Leider habe ich eine Prinzessin geheiratet und es nur nicht gewusst.";
+bix+="#" + "Freier Tag?";
+bix+="#" + "Wie letztes Jahr als du schwanger warst? Meine Mutter hat mich geboren, waehrend sie den Acker pfluegte";
+
+
+if(globalLanguageFlag=="en")
+{
+bix="";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b01Baum-Haus.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/02-Baum-Haus.jpg";
+bix+="#" + "Baum-Haus";
+bix+="#" + "Did you hire a professional to fell the tree?";
+bix+="#" + "No.";
+bix+="#" + "Why would I? I can still take down a stupid tree like that myself.";
+bix+="#" + "Right on! Saved money is money earned.";
+bix+="#" + "Something happened there, actually pretty funny.";
+bix+="#" + "But first let us talk about you, honey.";
+bix+="#" + "First the good news. The fight with my mother-in-law is over.";
+bix+="#" + "Forever.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b02Flugschule.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=230610";
+bix+="#" + "flugschule";
+bix+="#" + "Am I getting my license now or do we need to do another lap, Mr. Instructor?";
+bix+="#" + "The aircraft must not take off without clear visibility";
+bix+="#" + "Never!! Not as long as I live.";
+bix+="#" + "Be careful what you say! Life is too short.";
+bix+="#" + "Of course! I\'m just going to throw up quickly, then you\'ll get your license.";
+bix+="#" + "There we go!";
+bix+="#" + "Nnoooo!!!";
+bix+="#" + "You should get those attacks checked out. My driving instructor had the same thing. He never got into a car again.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b03Fluchtwagen.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=190713";
+bix+="#" + "dauerparker";
+bix+="#" + "Why does the driver of this car have a problem?";
+bix+="#" + "The tree exceeds the dimensions of the vehicle and must therefore be marked with a red flag";
+bix+="#" + "The getaway car is parked illegally in front of the bank";
+bix+="#" + "The robbery was years ago. You dont need to wait for your buddies anymore";
+bix+="#" + "The engine wont start";
+bix+="#" + "There is no engine, you beginner!";
+bix+="#" + "The TÜV sticker is missing";
+bix+="#" + "Not just the TÜV sticker is missing - the owner has been dead for a long time too. Which is the bigger problem?";
+bix+="#" + "There is a tree on the drivers seat";
+bix+="#" + "You will have to sort out who gets to drive on your own. I cant help with that.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b04mannaufleiterb.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=121206";
+bix+="#" + "mannaufleiterleiter";
+bix+="#" + "What\'s wrong here?";
+bix+="#" + "This is a fundamental safety violation";
+bix+="#" + "Everything\'s correct! I always do it this way too.";
+bix+="#" + "I give up! You can\'t be helped.";
+bix+="#" + "Haatschiiii.";
+bix+="#" + "Bless you!";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b05bootsunfall.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=260309";
+bix+="#" + "Wasserschaden";
+bix+="#" + "Who will the man call next?";
+bix+="#" + "There is no satisfactory solution. Just staying seated is a good idea";
+bix+="#" + "His boss";
+bix+="#" + "Have fun with that too. Please rephrase the term \'minor incident\' in nice words";
+bix+="#" + "His wife. It\'ll be later. I have a little problem with the car here.";
+bix+="#" + "His wife has run out of patience with his excuses too.";
+bix+="#" + "The lottery headquarters.";
+bix+="#" + "He didn\'t play last week.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b06autoingarage.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=070204";
+bix+="#" + "Parkschaden";
+bix+="#" + "How do you know your wife had the car?";
+bix+="#" + "The car was parked precisely in the small entrance - only a man could do that!!";
+bix+="#" + "There are dents front AND rear from parking.";
+bix+="#" + "There is no dent in the rear.";
+bix+="#" + "The car smells like that pine cone stuff.";
+bix+="#" + "No worries! The car smells like benzene and engine oil.";
+bix+="#" + "The tank has been run empty again.";
+bix+="#" + "There\'s gas in it.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b07schneemobil.jpg";
+bix+="#" + "http://www.onlinewahn.de/bpics/b-150109.jpg";
+bix+="#" + "Schneeschaden";
+bix+="#" + "How do you know winter is coming?";
+bix+="#" + "The astronomical winter begins when the apparent geocentric longitude of the sun reaches 270°. That is around December 21/22.";
+bix+="#" + "No idea. Scrape the ice once, then off we go.";
+bix+="#" + "The ice scraper wont be enough.";
+bix+="#" + "I am putting on winter tires.";
+bix+="#" + "I do not see any tires.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b08verkehrswacht.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=030213";
+bix+="#" + "grosser Mann";
+bix+="#" + "How do you convince the man to come to the station?";
+bix+="#" + "This is a vehicle of the road safety association. No arrest is necessary.";
+bix+="#" + "He has such an honest face. He doesnt need to come along.";
+bix+="#" + "The public prosecutor will decide that.";
+bix+="#" + "There is coffee and cake.";
+bix+="#" + "He doesnt like cake.";
+bix+="#" + "He doesnt fit in the car.";
+bix+="#" + "Theres plenty of space, you wimp.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b09Schuhladenb.jpg";
+bix+="#" + "http://www.nurbilder.com/pics/72172edbf04ee4d62183.jpg";
+bix+="#" + "TagImSchuhladen";
+bix+="#" + "Do hurricanes have female or male first names?";
+bix+="#" + "Both (Andrew, Katrina). In this case, a female first name is recommended.";
+bix+="#" + "Why hurricane? This is just a normal day at the shoe store.";
+bix+="#" + "I wont argue with that! Please be so kind and announce your visit next time in advance.";
+bix+="#" + "Everything sucks anyway. Either the color is wrong or they dont have the right size in stock.";
+bix+="#" + "True enough! XXL in pink is unfortunately sold out.";
+bix+="#" + "Female.";
+bix+="#" + "Close.";
+
+bix+="##" + "https://img.webme.com/pic/n/nikolausdulgeridis/b10nettertiger.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=040207";
+bix+="#" + "kumpeltiger";
+bix+="#" + "The man forgot the food. How does he explain that to the tiger?";
+bix+="#" + "Wild animals should not be anthropomorphized too much in order to preserve their natural instincts.";
+bix+="#" + "The man shouldn\'t hug the tiger so tightly. He could hurt him.";
+bix+="#" + "Dont worry about the tiger.";
+bix+="#" + "The tiger must not be additionally fed. He\'ll get too fat.";
+bix+="#" + "Dont worry about the tiger.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b11wie-kann-man-sich-nur-so-einparken.jpg";
+bix+="#" + "http://echtlustig.com/26655/wie-kann-man-sich-nur-so-einparken";
+bix+="#" + "wie-kann-man-sich-nur-so-einparken";
+bix+="#" + "First driving lesson?";
+bix+="#" + "Fits perfectly front and back! That wasn\'t a beginner. That\'s the advanced class.";
+bix+="#" + "No, third.";
+bix+="#" + "Congratulations, you can really see the progress.";
+bix+="#" + "No, urgent hair appointment.";
+bix+="#" + "Right! Hope you do not miss your yoga class.";
+bix+="#" + "But that tree wasnt there yesterday!";
+bix+="#" + "Exactly. Global warming and secret government chemical weapons tests. That will lead to our downfall.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b12dogwanted.jpg";
+bix+="#" + "http://www.trendhure.com/2010/12/21/picdump-64/";
+bix+="#" + "Hund entsprungen";
+bix+="#" + "What would you do if you found this dog?";
+bix+="#" + "Until professional help arrives, you should seriously consider building a cage, so you can get to safety in it!";
+bix+="#" + "Aww, how cute.";
+bix+="#" + "My textunderstanding isnt the best, but if I translate rip your face off correctly, that is not a friendly dog.";
+bix+="#" + "I love animals";
+bix+="#" + "Well, animals are loyal and affectionate.";
+bix+="#" + "Ill get myself a dog training manual";
+bix+="#" + "Start with the last chapter - First Aid and Vaccinations.";
+bix+="#" + "I\'ll call the owner";
+bix+="#" + "The owner denies knowing this dog";
+bix+=" " + "<hr>Note: (regarding the dog picture) It is possible that bloodthirsty killer dogs are roaming the streets.<br>";
+bix+=" " + "This one isnt. Its a fun photo his owner took while playing. <br>";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b13seepferd.jpg";
+bix+="#" + "http://www.onlinewahn.de/best-gal.php?pic=230314";
+bix+="#" + "Seepferdchen";
+bix+="#" + "What is this diver doing wrong?";
+bix+="#" + "The watch is meant to measure the duration of the dive, not to play with seahorses.";
+bix+="#" + "The seahorse should bring its own watch!";
+bix+="#" + "Shame on you, how mean!";
+bix+="#" + "The watch is two minutes fast.";
+bix+="#" + "That wont bother the seahorse.";
+bix+="#" + "The watch isn\'t waterproof.";
+bix+="#" + "True, this model has problems starting at 300 meters depth.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b15verkaufe-dringend-haus-ruhige-lage-nah-am-seeb.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/verkaufe-dringend-haus-ruhige-lage-nah-am-see.jpg";
+bix+="#" + "verkaufe-dringend-haus-ruhige-lage-nah-am-see";
+bix+="#" + "Urgently selling house. What\'s your opinion?";
+bix+="#" + "Go ahead and take it. Perfect location. You cant go wrong here.";
+bix+="#" + "Hmm is it really quiet?";
+bix+="#" + "Heavenly! No comparison to the big city";
+bix+="#" + "Are there fish here?";
+bix+="#" + "You can even talk to them if you want.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b16diese-gasse-ist-wohl-etwas-zu-eng-fuer-den-transporter1b.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/diese-gasse-ist-wohl-etwas-zu-eng-fuer-den-transporter1.jpg";
+bix+="#" + "hohle Gasse";
+bix+="#" + "He must come through this hollow lane";
+bix+="#" + "Schiller, but he won\'t come through this lane anymore";
+bix+="#" + "Goethe?";
+bix+="#" + "good choice";
+bix+="#" + "Schiller?";
+bix+="#" + "good choice";
+bix+="#" + "Heine?";
+bix+="#" + "good choice";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b17spassvogel-21th.jpg";
+bix+="#" + "https://img.webme.com/pic/n/nikolausdulgeridis/spassvogel-21th.jpg";
+bix+="#" + "Spassvogel";
+bix+="#" + "Why doesn\'t anyone invite Uncle Willie to birthdays anymore?";
+bix+="#" + "Twenty years ago Uncle Willie didn\'t greet his sister-in-law on the street. The families have been feuding ever since.";
+bix+="#" + "Because he always forgets the birthday persons name?";
+bix+="#" + "The name is on the cake. Thats not the reason.";
+bix+="#" + "He\'s always so dead serious?";
+bix+="#" + "No, Uncle Willie successfully shed that side long ago.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b18entenfamilie.jpg";
+bix+="#"+  "https://img.webme.com/pic/n/nikolausdulgeridis/entenfamilie.jpg";
+bix+="#" + "entenfamilie";
+bix+="#" + "What is this woman probably doing wrong?";
+bix+="#" + "Caution! Fraudulent duck families are not that rare. Our advice: Never get involved with duck families. They\'ll follow you home and turn the whole place upside down.";
+bix+="#" + "Did she mix up Tick and Track again?";
+bix+="#" + "No, Track is on the left.";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b19loewenjagd.jpg";
+bix+="#" + "http://www.onlinewahn.de/bdj";
+bix+="#" + "Loewenjagd";
+bix+="#" + "Where is he then?";
+bix+="#" + "Big game hunting is nothing for the faint of heart.";
+bix+="#" + "No idea. See anything?";
+bix+="#" + "Nah, boring as hell. Plus I am getting hungry";
+
+bix+="##"+ "https://img.webme.com/pic/n/nikolausdulgeridis/b20lastenesel.jpg";
+bix+="#" + "http://web.archive.org/web/20110623074812/http://clickpix.de/lustige_bilder.phtml";
+bix+="#" + "last";
+bix+="#" + "What will the man do to make the woman\'s way easier?";
+bix+="#" + "Unfortunately, the donkey of the brave little family passed away last week. Evil tongues claim he should have been fed in between; others say he just didn\'t want to go on.";
+bix+="#" + "A break?";
+bix+="#" + "Hurry up, Ive lent you to the neighbor for the afternoon. And when you are done with the field work, take care of the kids. We dont want them to die again like last year";
+bix+="#" + "New donkey?";
+bix+="#" + "So our neighbors think we are rich and then want their money back? Unfortunately I married a princess and didnt even know it.";
+bix+="#" + "Day off?";
+bix+="#" + "Like last year when you were pregnant? My mother gave birth to me while plowing the field";
+}
+
+
+
+/*
+bix+="##"+ "bild";
+bix+="#" + "ziel";
+bix+="#" + "bildname";
+bix+="#" + "frage";
+bix+="#" + "ergebnis";
+bix+="#" + "a";
+bix+="#" + "aa";
+bix+="#" + "a";
+bix+="#" + "aa";
+bix+="#" + "a";
+bix+="#" + "aa";
+*/
+
+
+
+</script>        <script>
+var windowqqqocation = window.location;
+var windowqqqocationhref = window.location.href;
+
+var dparm= new Object();
+function defparm(parm,ddefaultvalue)
+{dparm[parm.toLowerCase()]=ddefaultvalue;}
+
+function stripparm(href)
+ {return (((windowqqqocationhref).split('?'))[0]);}
+
+</script> <script>
+
+function readparm(parm)
+ {
+  var i,cmd,p1,p2,ArParams;
+  cmd=window.location.search.substr(1)+"&";
+  ArParams = cmd.split("&");
+  for(i in ArParams)
+   {
+    if (ArParams[i].indexOf("=")>0)
+     {
+       p1=(ArParams[i].split("="))[0];
+       p2=decodeURIComponent((ArParams[i].split("="))[1]);
+       if (p1.toLowerCase()==parm.toLowerCase()) return p2;
+     }
+   }
+  return ("");
+ }
+
+</script> <script>
+
+function getparm(parm)
+{
+ var tmp=readparm(parm);
+ if (tmp.length) return tmp;
+ return dparm[parm.toLowerCase()];
+}
+
+</script> <script>
+
+function restartpage(params)
+ {
+  if(1) (windowqqqocation.href= (((windowqqqocationhref+'?').split('?'))[0])+'?'+params);
+ }
+</script>   <script>
+
+
+
+/* Parameter */
+defparm("test",1); /*0-starte mit Zufallsauswahl, 1-starte mit Test 1*/
+defparm("start",1); /* Startbild */
+defparm("count",3); /* 3 Bilder pro Test bzw. Seite */
+defparm("random",0); /* beisst sich mit test, auf 0 lassen */
+var getparmtest=getparm("test");
+var testnumb= getparm("test"); 
+if (testnumb==0) testnumb=1;
+defparm("start",(testnumb-1)*getparm("count")+1);
+/* Ende Parameter */
+</script>
+<p>
+			
+	
+<table border="0">
+    <tbody>
+        <tr>
+            <td>
+                <b>Kleiner Sicherheitstest <!-- Nr. <script>document.write(getparm("test"));</script> --> </b> <br />
+                Erkenne den Sicherheitsverstoß <br />
+                und reagiere richtig
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <b>Small Safety Test <!-- No. <script>document.write(getparm("test"));</script> --> </b> <br />
+                Spot the safety violation <br />
+                and react correctly
+            </td>
+	
+			
+			
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td valign="top"><!-- Button Testauswahl display --> 
+			
+			
+			
+			<script>
+var anzButt=Math.ceil((bix.split("##").length-1) / getparm("count"));
+var btnTestleft= '<span style="border-radius: 8px; border: 1px solid #666; margin: 1px; padding: 1px;padding-left: 4px;padding-right: 1px;font-size: 12px;background-color:#btncol"><a href="javascript:restartpage('+"'Test=";
+var btnTestmid="'"+');"> Test ';
+var btnTestright= '</a> </span>';                    
+for (var i=1; i<=anzButt; i++)
+{
+tmp=btnTestleft+i+btnTestmid+i+btnTestright;
+if (testnumb!=i || getparmtest==0) 
+  tmp=tmp.replace(/#btncol/,"#bdc");
+else 
+  tmp=tmp.replace(/#btncol/,"#dfe");
+//alert(tmp);
+document.write(tmp);
+}
+</script> <script>document.write("");</script>  <!-- Button Vorlage <span style="border-radius: 9px; border: 1px solid #666; margin: 4px; padding: 4px;font-size: 12px;">
+<a href="javascript:restartpage('Test=4');"> Test 4 </a></span>--> &nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+</p>
+<script>
+var kopf=" <p> <b>unused!!Kleiner Sicherheitstest</b> <br></p>";
+var pictdiv='<div><a href="pictziel"><img border="0" src="picturl" width=400 alt="pictalt"/></a></div>';
+var ueberschr="<p> <i>ueberschr</i></p>";
+var radiofld;
+radiofld ='<input type="radio" name="fallnr" value="pause"'; 
+radiofld+='onclick="document.getElementById('+"'"+'auswertnr'+"'"+').innerHTML='+"'"+'auswerttext'+"'"+';">optionstext<br>';
+var auswertfld;
+auswertfld= '<p><div> Auswertung:</div> <div id="auswertnr"> </div></p>';
+var anmerkung="";
+
+/* Scramble (verwendet wenn random=1)*/
+var cixAr=new Array("null");
+for (var ccixAr=bix.split("##"); ccixAr.length>1; ccixAr.pop())
+  {
+     var zuf= Math.floor(Math.random()*(ccixAr.length-1))+1;
+     cixAr.push(ccixAr[zuf]);
+     ccixAr[zuf]=ccixAr[ccixAr.length-1];
+  }
+/* Ende Scramble */
+
+if(0) document.write(kopf);
+var aufloesungAr=new Array(0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0);
+var von=getparm("start");
+var anzahl= getparm("count");
+if(0+getparm("random")==0) if(getparmtest>0) cixAr=bix.split("##");
+var anzahlgesamt=cixAr.length-1;
+if(anzahl>anzahlgesamt-von+1) anzahl= anzahlgesamt-von+1;
+for (var i=von; i<von+anzahl; i++)
+  {
+   dixAr=cixAr[i].split("#");
+   document.write('<div id=beginndiv style="margin: 5px 5px; padding: 5px; float: left;border: 0px solid gray; width:400px; xheight:470px">');  
+   //document.write("div");  
+   tmp= ""+pictdiv;
+   tmp= tmp.replace(/picturl/,dixAr[0]);
+   tmp= tmp.replace(/pictziel/,dixAr[1]);
+   tmp= tmp.replace(/pictalt/,dixAr[2]);
+   document.write(tmp);
+   tmp= ueberschr.replace(/ueberschr/,dixAr[3]);
+   document.write(tmp);
+   var fallnr="fall"+i;
+   var auswertnr="auswert"+i;
+   aufloesungAr[i]= dixAr[4];
+   if(dixAr[dixAr.length-1].indexOf("nmerkung:")>0) anmerkung+=dixAr.pop();
+   if(Math.random()>0.3) anmerkung="";
+   for (var ii=5; ii<dixAr.length; ii+=2)
+    {
+    tmp= radiofld;
+    tmp= tmp.replace(/fallnr/,fallnr);
+    tmp= tmp.replace(/auswerttext/,dixAr[ii+1]);
+    tmp= tmp.replace(/optionstext/,dixAr[ii]);
+    tmp= tmp.replace(/auswertnr/,auswertnr);
+    document.write(tmp);
+    };
+    tmp= auswertfld;
+    tmp= tmp.replace(/auswertnr/,auswertnr);
+    document.write(tmp);
+    document.write("</div>"); // ende
+  };
+
+var aufloesungfld="";
+var aufloesungfld1="";
+var aufloesungfld2="";
+var aufloesungfld3="";
+var ergebnisfld="";
+
+if (globalLanguageFlag === "de") {
+aufloesungfld1 += "Aufloesung: <br>";
+aufloesungfld1 += "Leider stellt keine der angebotenen Optionen ";
+aufloesungfld1 += "eine zulässige Lösung dar.<br><br>";
+}
+
+if (globalLanguageFlag === "en") {
+    aufloesungfld1 += "Solution: <br>";
+    aufloesungfld1 += "Unfortunately, none of the offered options ";
+    aufloesungfld1 += "represents a permissible solution.<br><br>";
+}
+
+
+for (var i=von; i<von+anzahl; i++)
+ { aufloesungfld2+="Fall "+i+": "+aufloesungAr[i]+"<br>"; }
+aufloesungfld3+="<br>Ergebnis/Result: xxx Punkte ";
+aufloesungfld3=" ";
+aufloesungfld= aufloesungfld1+aufloesungfld2+aufloesungfld3+anmerkung;
+ergebnisfld="Result: xxx Punkte ";
+
+
+function aufloesung()
+{
+ var punkte=anzahl;
+ var opt=document.getElementsByTagName("input");
+ for (var i=0; i<opt.length; i++)
+ {
+  if(opt[i].type=="radio")  
+   if(opt[i].checked) punkte-=1;  
+ }
+  var tmp=aufloesungfld;
+  tmp= tmp.replace(/xxx/,""+(punkte));
+  document.getElementById("aufloesung").innerHTML=tmp;
+}
+
+function ergebnis()
+{
+ aufloesung();
+ var punkte=anzahl;
+ var opt=document.getElementsByTagName("input");
+ for (var i=0; i<opt.length; i++)
+ {
+  if(opt[i].type=="radio")  
+   if(opt[i].checked) punkte-=1;  
+ }
+  var tmp=ergebnisfld;
+  tmp= tmp.replace(/xxx/,""+(punkte));
+  document.getElementById("ergebnis").innerHTML=tmp;
+}
+
+function optreset()
+{
+ var opt=document.getElementsByTagName("input");
+ for (var i=0; i<opt.length; i++)
+ {
+  if(opt[i].type=="radio") if(opt[i].checked) opt[i].checked=!opt[i].checked;  
+ }
+}
+optreset();
+</script> <!-- Nikolaus Dulgeridis 2013, NikolausDulgeridis @ gmail.com //--> <noscript><h2>JavaScript benoetigt<h2></noscript>
+<div style="clear: both;"><hr />
+</div>
+<div id="aufloesung" style="clear: both; width:620px">Aufloesung:</div>
+<br />
+<input type="button" value="Ergebnis/Result" name="ergebnisbtn" onClick="ergebnis();" />  <br />
+<div id="ergebnis">&nbsp;</div>
+</div>
+<script>
+window.setTimeout("aufloesung()", 22000);
+</script>    <hr />
+<span style="color: rgb(128, 128, 128);">last update: 1.2.2020</span>
+<span style="color: rgb(128, 128, 128);">last update: 18.2.2026 Version englisch/deutsch</span>
+
