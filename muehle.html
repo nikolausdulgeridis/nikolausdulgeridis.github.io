@@ -15,8 +15,23 @@
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 <title>JavaScript - Muehlespiel</title>
 
+<style>
+/* =========================================================
+ Spielfeld – vereinfachtes, korrektes Auto-Layout
+ ========================================================= */
+:root {
+  --scale: 1;                          /* globaler Zoom */
 
-<style type="text/css">
+  /* Spielfeldgrößen */
+  --cell-size:     calc(52px * var(--scale));
+  --center-scale:  1.25;               /* ggf. 1.125, falls gewünscht */
+  --cell-center:   calc(var(--cell-size) * var(--center-scale));
+  --board-size:    calc(6 * var(--cell-size) + var(--cell-center));
+
+  /* Steine */
+  --stone:         calc(40px * var(--scale));
+  
+    
 
 /* =========================
    Original-CSS (belassen)
@@ -53,22 +68,46 @@ img#mittte {
 }
 
 
-/* =========================================================
-   Spielfeld – vereinfachtes, korrektes Auto-Layout
-   ========================================================= */
+/* ===========================================
+   (Optional) Scale-Buttons – falls benutzt
+   =========================================== */
+.scale-btn-group { display: inline-flex; gap: 2px; margin-right: 6px; vertical-align: middle; }
+.scale-btn { font: inherit; padding: 1px 4px; cursor: pointer; border: 1px solid #888; background: #efefef; border-radius: 3px; line-height: 1.0; }
+.scale-btn.active { background: #dde6ff; border-color: #5570ff; font-weight: bold; }
 
-:root {
-  --scale: 1;
-  --cell-size:     calc(52px * var(--scale));
-  --stone:         calc(40px * var(--scale));
-  --center-scale:  1.25;                         /* Mitte +25% */
-  --cell-center:   calc(var(--cell-size) * var(--center-scale));
 
-  /* ✅ Brettgröße: 6 normale + 1 vergrößerte Zelle */
-  --board-size:    calc(6 * var(--cell-size) + var(--cell-center));
+  /* Labels (schmal/flach, außerhalb des Boards) */
+  --label-h: 22px;    /* Top/Bottom – niedriger */
+  --label-w: 20px;    /* Left/Right – schmaler */
+
+  --label-color: #333;
+  --label-bg: rgba(100,200,150,0.20);
+  --label-font: 12px system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Tabelle selbst – Auto-Layout, darf nicht schrumpfen */
+/* ===========================================
+   BOARD-WRAPPER + SURFACE-LAYER (PNG)
+   =========================================== */
+.board-wrap {
+  position: relative;
+  display: inline-block;      /* nimmt nur so viel Platz wie nötig */
+  width:  var(--board-size);  /* exakt Spielfeldbreite */
+  height: var(--board-size);  /* exakt Spielfeldhöhe */
+}
+
+.board-surface {
+  position: absolute;
+  inset: 0;                   /* exakt deckungsgleich mit der Fläche */
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 100%; /* PNG 1:1 auf Fläche strecken */
+  pointer-events: none;       /* blockiert keine Klicks */
+  z-index: 0;
+}
+
+/* ===========================================
+   Tabelle (dein bestehendes Board)
+   =========================================== */
 table#board {
   border-collapse: collapse;
   border-spacing: 0;
@@ -87,7 +126,7 @@ table#board {
   background-position: left top; /* optional */
 }
 
-/* Basiszellen – Mindestmaße (beide Richtungen!) */
+/* Basiszellen – beides: Breite und Höhe */
 table#board td {
   width:  var(--cell-size);
   height: var(--cell-size);
@@ -95,24 +134,20 @@ table#board td {
   min-height: var(--cell-size);
   padding: 0;
   margin: 0;
-  border: 0;                     /* Debug-Border weglassen in Produktion */
-  box-sizing: content-box;       /* sichert, dass Minima nicht durch Box-Model „verfetten“ */
+  border: 0;                   /* Linien im PNG: dann hier 0 lassen */
+  box-sizing: content-box;
 }
 
-/* Mittelfeld (4,4) – 25% größer in BEIDEN Richtungen */
+/* Mittelfeld (Zeile 4, Spalte 4) größer */
 table#board tr:nth-child(4) td:nth-child(4) {
   width:  var(--cell-center);
   height: var(--cell-center);
   min-width:  var(--cell-center);
   min-height: var(--cell-center);
-  /* background: rgba(0, 80, 255, 0.35); sichtbar testen; später entfernen */
 }
 
-/* Steine zentriert (unverändert) */
-table#board .point {
-  position: relative;
-}
-
+/* Klickpunkte/Steine – unverändert */
+table#board .point { position: relative; text-align: center; }
 table#board .stone {
   position: absolute;
   top:  50%;
@@ -122,56 +157,120 @@ table#board .stone {
   height: var(--stone) !important;
 }
 
-/* Vorrat: alle Steine */
-/*
-table#vorrat img {
-  width: var(--stock) !important;
-  height: var(--stock) !important;
-}
-*/
-/* Besonderer mittlerer Vorratsplatz */
-/*
-  img#mittte {
-  width: var(--stock-mid-w) !important;
-  height: var(--stock-mid-h) !important;
-}
-*/
-
-/* =========================================================
-   Skalierungsbutton-Gruppe
-   ========================================================= */
-.scale-btn-group {
-  display: inline-flex;
-  gap: 2px;
-  margin-right: 6px;
-  vertical-align: middle;
+/* ===========================================
+   SCHMALE/FLACHE LABELS ALS OVERLAYS
+   (beeinflussen das Boardmaß nicht)
+   =========================================== */
+.labels {
+  position: absolute;
+  color: var(--label-color);
+  font: var(--label-font);
+  line-height: 1;
+  pointer-events: none;       /* Klicks gehen weiter aufs Board */
 }
 
-.scale-btn {
-  font: inherit;
-  padding: 1px 4px;
-  cursor: pointer;
-  border: 1px solid #888;
-  background: #efefef;
-  border-radius: 3px;
-  line-height: 1.0;
+/* TOP (A–G) – exakt über den 7 Spalten; kleinere Höhe */
+.labels-top {
+  left: 0;
+  top: calc(-1 * var(--label-h));  /* außerhalb oberhalb */
+  width: 100%;
+  height: var(--label-h);
+
+  display: grid;
+  align-items: center;             /* vertikal zentriert */
+  grid-template-columns:
+    var(--cell-size) var(--cell-size) var(--cell-size)
+    var(--cell-center)
+    var(--cell-size) var(--cell-size) var(--cell-size);
+  gap: 0;
+}
+.labels-top .lbl { text-align: center; background: var(--label-bg); border-radius: 3px; }
+
+/* BOTTOM (A–G) – analog unten */
+.labels-bottom {
+  left: 0;
+  bottom: calc(-1 * var(--label-h));
+  width: 100%;
+  height: var(--label-h);
+
+  display: grid;
+  align-items: center;
+  grid-template-columns:
+    var(--cell-size) var(--cell-size) var(--cell-size)
+    var(--cell-center)
+    var(--cell-size) var(--cell-size) var(--cell-size);
+}
+.labels-bottom .lbl { text-align: center; background: var(--label-bg); border-radius: 3px; }
+
+/* LEFT (7..1) – exakt an den 7 Zeilen; kleinere Breite */
+.labels-left {
+  top: 0;
+  left: calc(-1 * var(--label-w)); /* außerhalb links */
+  width: var(--label-w);
+  height: 100%;
+
+  display: grid;
+  justify-items: center;           /* horizontal zentriert */
+  grid-template-rows:
+    var(--cell-size) var(--cell-size) var(--cell-size)
+    var(--cell-center)
+    var(--cell-size) var(--cell-size) var(--cell-size);
+  gap: 0;
+}
+.labels-left .lbl { display: grid; place-items: center; width: 100%; height: 100%; background: var(--label-bg); border-radius: 3px; }
+
+/* RIGHT (7..1) – analog rechts */
+.labels-right {
+  top: 0;
+  right: calc(-1 * var(--label-w));
+  width: var(--label-w);
+  height: 100%;
+
+  display: grid;
+  justify-items: center;
+  grid-template-rows:
+    var(--cell-size) var(--cell-size) var(--cell-size)
+    var(--cell-center)
+    var(--cell-size) var(--cell-size) var(--cell-size);
+}
+.labels-right .lbl { display: grid; place-items: center; width: 100%; height: 100%; background: var(--label-bg); border-radius: 3px; }
+
+/* Ein-/Ausblenden pro Seite (optional) */
+.board-wrap.hide-top    .labels-top    { display: none; }
+.board-wrap.hide-bottom .labels-bottom { display: none; }
+.board-wrap.hide-left   .labels-left   { display: none; }
+.board-wrap.hide-right  .labels-right  { display: none; }
+
+
+
+.board-wrap.hide-labels .labels-top,
+.board-wrap.hide-labels .labels-bottom,
+.board-wrap.hide-labels .labels-left,
+.board-wrap.hide-labels .labels-right {
+  display: none;
 }
 
-.scale-btn.active {
-  background: #dde6ff;
-  border-color: #5570ff;
-  font-weight: bold;
+.xlabels-top,
+.xlabels-bottom {
+  display: none;
 }
+
+.xlabels-left,
+.xlabels-right {
+  display: none;
+}
+
+
+
+
+
+.board-wrap.hide-labels .labels-top,
+.board-wrap.hide-labels .labels-bottom,
+.board-wrap.hide-labels .labels-left,
+.board-wrap.hide-labels .labels-right { display: none; }
+
 
 </style>
-
-
-
-
-
-
-
-
 
 
 <style type="text/css">
@@ -522,7 +621,7 @@ function gibtZugstatistikHtml() {
 
             <div style="border-top: 1px solid #ccddee; padding-top: 10px;">
                 <b style="font-size: 0.9em; display: block; margin-bottom: 5px;">Top Moves:</b>
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; text-align: left;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.80em; text-align: left;">
                     <thead>
                         <tr style="color: #6600aa; border-bottom: 1px solid #eee;">
                             <th style="padding: 1px 0; font-weight: normal; width: 25px/;">#</th>
@@ -555,12 +654,19 @@ function gibtZugstatistikHtml() {
                         </tr>
 <tr>
     <!-- Hier wurde padding-right hinzugefügt (z. B. 20px) -->
-    <td style="padding: 1px 10px 6px 0;"> Current: </td> 
-    <td style="padding: 1px 0;">${getVal([globalcurrentinvestigated], 0, 'af')}</td>
-    <td style="padding: 1px 0;">${getVal([globalcurrentinvestigated], 0, 'zf')}</td>
-    <td style="padding: 1px 0;">${getVal([globalcurrentinvestigated], 0, 'wnf')}</td>
+    <td style="padding: 6px 10px 1px 0;">Current: </td> 
+    <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'af')}</small></td>
+    <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'zf')}</small></td>
+    <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'wnf')}</small></td>
 </tr>												
-						
+<tr>
+    <!-- Hier wurde padding-right hinzugefügt (z. B. 20px) -->
+    <td style="padding: 0px 0px 0px 0;">  </td> 
+    <td style="padding: 0px 0;"><small>${getVal([globalcurrentinvestigated1], 0, 'af')}</small></td>
+    <td style="padding: 0px 0;"><small>${getVal([globalcurrentinvestigated1], 0, 'zf')}</small></td>
+    <td style="padding: 0px 0;"><small>${getVal([globalcurrentinvestigated1], 0, 'wnf')}</small></td>
+</tr>												
+
                     </tbody>
                 </table>
             </div>
@@ -619,6 +725,25 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 <div "id=ZSControl">
 
+
+
+<button
+  id="toggleLabelsBtn"
+  class="scale-btn"
+  style="font-size:11px; padding:1px 4px;"
+  
+  class="xsmall-btn"
+  aria-pressed="false"
+  onclick="(function(btn){
+    var wrap = document.getElementById('wrap');
+    var hidden = wrap.classList.toggle('hide-labels'); // true = jetzt versteckt
+    btn.setAttribute('aria-pressed', hidden);
+    btn.textContent = hidden ? '&ii;' : '&hkswarow;';
+    btn.textContent = hidden ? '&ii;' : '&ii;' ;
+  })(this)">&ii;
+</button>
+
+
 <span class="zoom-strip horizontal">
 <font color="DarkSlateGray"><small> Zoom &nbsp;</small></font>
   <button class="zoom-level" data-scale="0.75"  title="Zoom 75"></button>
@@ -651,8 +776,6 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 <span class="stoneset-selector horizontal">
 
 &nbsp;
-&nbsp;
-&nbsp;
 
   <button class="stoneset-btn" data-set="red" title="red">
     <img src="data:image/gif;base64,R0lGODlhNgA4APcAAP///8YAIcYAIcYAIcYAIcYAIcYAIcYAIcYAIb0AIb0AIb0AIb0AIb0AIb0AIb0AIb0AIa0AIa0AIa0AIa0AIa0AIa0AIa0AIa0AIZwAGJwAGJwAGJwAGJwAGJwAGJwAGJwAGJQAGJQAGJQAGJQAGJQAGJQAGJQAGJQAGIQAGIQAGIQAGIQAGIQAGIQAGIQAGIQAGHsAGHsAGHsAGHsAGHsAGHsAGHsAGHsAGHNra3Nra3Nra3Nra3Nra3Nra3Nra3Nra2tra2tra2tra2tra2tra2tra2tra2tra2sAEGsAEGsAEGsAEGsAEGsAEGsAEGsAEGNjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2MAEGMAEGMAEGMAEGMAEGMAEGMAEGMAEFpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlJSUlJSUlJSUlJSUlJSUlJSUlJSUlJSUlIAEFIAEFIAEFIAEFIAEFIAEFIAEFIAEEpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkoACEoACEoACEoACEoACEoACEoACEoACEJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQjk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTkxMTkxMTkxMTkxMTkxMTkxMTkxMTkACDkACDkACDkACDkACDkACDkACDkACDExMTExMTExMTExMTExMTExMTExMTExMTEACDEACDEACDEACDEACDEACDEACDEACCkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSEhISEhISEhISEhISEhISEhISEhISEhISEAACEAACEAACEAACEAACEAACEAABgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgAABgAABgAABgAABgAABgAABgAABgAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAgICAgICAgICAgICAgICAgICAgICAgICAgAAAgAAAgAAAgAAAgAAAgAAAgAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAA2ADgABwj/AAEIHEiwoMEgYSIpXJgnjMGHECNKDBIJ172LGDNefBbJocSPIMNYvHctUJIMCQKoVJkhRRxkGCMFAUmTYBiMgTKs3MlTZYQk1y7KrPkxyMgkKXsq5ZkB1MU8RCHmuRgn6dKrO1MExTUz6sBIJHViHbszQaB7z7pGtQjKKtm3AWJc9FjTYiC4eFdmmFv33t28gPfeUxtxKijAiAOkQFv0HjK3ieEmuRdJ4rN7YiMDdkq34NQkmhNHYPyQZOjIk6F6vhfjdOIEpAmadp14cueboGkjho2LINgIuhM7lY0seGK5HoPcy208L+zKAKZmbo43qECwkKmTdQoVrHbAk3s//zv8He/kewDGl8e7eLD69W8Fh3kPf6zce3meFa8/9rzCe/z1J9RvAV7lFGU3pVDgUjEpF8eCPY0mVHr7QbjSeZQBQKCFKsHEl4McBiDhRV1dlh1/Z2H01XIWwoZRbwIpd8+J66X4FEGXPVigYBgRBhZmASbg4UUwDiTjPcDVZyNfBf34GHwYbvTQkU9+d19GnRE01UVVNndlTBKN5Nh0tC3Z40QaMXdaBkNiGZJGoJAJWAJRZqQaSFtmlNNuddoZVZ4ZIZNEkmOlYKZGdxJ1k0YYlXRSBpBCGkMSBzLqp1cxXmbpppxqlCWmP3YqakZDYXqQmKNu+synphJEUaqM4g/CaqsP5YEqp7jkQRhNAQEAOw==" alt="Weißer Stein - Red" width="16" height="16">
@@ -666,12 +789,14 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 </span>
 
 
+
 &nbsp;
-
-
 <span class="zielkreuz" onClick="toggleBg();" title="calibration test">
 <font color="DarkSlateGray"><small> &#x2316;</small></font>
 </span>
+
+
+
 
 </div>
 
@@ -784,6 +909,15 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 <style type="text/css">
 
+
+.small-btn {
+  font-size: 10px;      /* Schrift kleiner */
+  padding: 2px 6px;     /* weniger Innenabstand */
+  line-height: 1.0;
+  border-radius: 3px;   /* wenn du es rundlicher willst */
+}
+
+
 .zoom-strip *, 
 .stoneset-selector * {
   vertical-align: middle;
@@ -844,7 +978,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 /* Größen */
 .zoom-strip.vertical  .zoom-level { height: 32px; width: 10px;  }
-.zoom-strip.horizontal .zoom-level { width: 28px; height: 10px; }
+.zoom-strip.horizontal .zoom-level { width: 24px; height: 10px; }
 
 
 </style>
@@ -1253,7 +1387,13 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 						
 						
 						
-						
+				
+<div class="board-wrap hide-labels" id="wrap">
+  <!-- Hintergrund-PNG exakt 1:1 auf die 7×7 Fläche -->
+  <div class="board-surface" id="board-bg"></div>
+
+  <!-- Deine bestehende Tabelle -->
+		
 						
 						
 
@@ -1340,6 +1480,32 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 						</table>
 			
 
+  <!-- Schlanke/flache Beschriftungen (optional) -->
+  <div class="labels labels-top" aria-hidden="true">
+    <div class="lbl">A</div><div class="lbl">B</div><div class="lbl">C</div>
+    <div class="lbl">D</div>
+    <div class="lbl">E</div><div class="lbl">F</div><div class="lbl">G</div>
+  </div>
+
+  <div class="labels labels-bottom" aria-hidden="true">
+    <div class="lbl">A</div><div class="lbl">B</div><div class="lbl">C</div>
+    <div class="lbl">D</div>
+    <div class="lbl">E</div><div class="lbl">F</div><div class="lbl">G</div>
+  </div>
+
+  <div class="labels labels-left" aria-hidden="true">
+    <div class="lbl">7</div><div class="lbl">6</div><div class="lbl">5</div>
+    <div class="lbl">4</div>
+    <div class="lbl">3</div><div class="lbl">2</div><div class="lbl">1</div>
+  </div>
+
+  <div class="labels labels-right" aria-hidden="true">
+    <div class="lbl">7</div><div class="lbl">6</div><div class="lbl">5</div>
+    <div class="lbl">4</div>
+    <div class="lbl">3</div><div class="lbl">2</div><div class="lbl">1</div>
+  </div>
+</div>
+
 
 
 
@@ -1404,7 +1570,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
             <td><img id="vorrats3" height="11" width="11" src="" alt="" /></td>
             <td><img id="vorrats2" height="11" width="11" src="" alt="" /></td>
             <td><img id="vorrats1" height="11" width="11" src="" alt="" /></td>
-        <td><span><b>&nbsp; <span id="Varianteflag" nowrap=""></span></b></span></td>
+        <td><span><b>&nbsp; <span id="Varianteflag"></span></b></span></td>
 		</tr>
     </tbody>
 </table>
@@ -1416,7 +1582,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 <input type="button" id="BtnCompute" value="Compute" onClick="clrselfplay(); if (!isRunning && highafstarted==0)  computemove1(); else if (tzuza>499*999 && isRunning && highafstarted==0) {isRunning = false; highafstarted==1; escapeButtonPressed();}"/>
 </div>
  <div class="btn-group">
-<input type="hidden" id="BtnTakeback" value="Take Back" onclick="clrselfplay(); if (!isRunning) btntakeback(strlastpos.value); /> 
+<input type="hidden" id="BtnTakeback" value="Take Back" onclick="clrselfplay(); if (!isRunning) btntakeback(strlastpos.value);" /> 
 <input type="hidden" name="strlastpos" value="" />
 <input type="button" id="Btnbck1" value="&lt;" onclick="clrselfplay(); if (!isRunning && highafstarted==0) bck1();" />        
 <input type="button" id="Btnfwd1" value="&gt;" onclick="clrselfplay(); if (!isRunning && highafstarted==0) fwd1();" />         
@@ -1440,11 +1606,13 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 </div>
 
 </div>
+
 <div nowrap=""><img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="if (!isRunning && highafstarted==0) pos2url()" title="Stellung und Spielstufe in URL speichern" alt="nikohaus" />        
 <span id="Ausgabe" nowrap="">             Muehle JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
-<img id="flag_de" class="flagimg" src=""data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="" onClick="setlangde()" alt="lang=de" />         
-<img id="flag_en" class="flagimg" src=""data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="" onClick="setlangen()" alt="lang=en" />         
-<a id="regeln" href="javascript:Regeln()">Regeln/Rules</a>       </span></div>
+ <img id="flag_de" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangde()" alt="lang=de" />         
+ <img id="flag_en" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangen()" alt="lang=en" />         
+<a id="regeln" href="javascript:Regeln()">Regeln/Rules</a>       </span>
+</div>
 
 </form>
 <!-- #******************************# //-->  
@@ -1614,6 +1782,7 @@ function fwd1() {
   var hash = spfeld2hash(spfeld); if(zugnr%2) hash = -hash; //alert("zugnr"+zugnr+"hash"+hash);  
   globalStellungsspeicher[zugnr] = hash; // Speicher
   if (istWiederholungen(hash, globalStellungsspeicher, zugnr)) melde("Wiederholungen: "+istWiederholungen(hash, globalStellungsspeicher, zugnr));
+  if (ist50zuege(hash, globalStellungsspeicher, zugnr)) melde("Remis nach 50 Zuege Regel");
  document.getElementById("textelem").value = showZugHistory(zughistory,zugnr);
 }
 
@@ -1709,9 +1878,9 @@ function selfplayautonew() {
     // Optional: weitere Variablen zurücksetzen
     zugnr = 0;
     farbe = 1;  // Start immer mit Weiß
-    winforwhite = 0;
-    winforblack = 0;
-    drawgames = 0;
+    //winforwhite = 0;
+    //winforblack = 0;
+    //drawgames = 0;
     selfplayauto();
 }
 
@@ -1731,6 +1900,8 @@ async function selfplayauto() {
             else winforblack++;
         }
         ausgabe("Win for White: " + winforwhite + "  Win for black: " + winforblack + "  Draw game: " + drawgames);
+        console.log("Win for White: " + winforwhite + "  Win for black: " + winforblack + "  Draw game: " + drawgames);
+        console.log("?pos=" + spf2string(spfeld,zugnr) + "&moves=" + encodeZugliste(zughistory, zugnr)+'&takefrommillallowed=' + takefrommillallowed);		
 
         // Nur wenn während der ganzen Wartezeit immer noch Selfplay aktiv ist → neu starten
         for (let i = 0; i < 8; i++) {                // 8 Sekunden in 1000ms-Schritten
@@ -2002,7 +2173,7 @@ const eckfeld= new Array (1,0,1, 2,0,2, 1,0,1, 0,0,0, 0,0,0, 1,0,1, 2,0,2, 1,0,1
 // oder 6 x Pivot 1 24 7 18  4 21 + 4 Quermuehlen  = 6x2 +4
 
 //Pivot Muehlen:
-const pvmatr= new Array (1,24,7,18,4,21);
+const pvmatr= new Array (1,24,7,18,4,21); // 4+21 sind Mittelreihe, daher am Ende
 
 
 const zugmatropt= new Array(
@@ -2143,10 +2314,11 @@ function checkquermuehlen()
     }
 }
 
+debugverbose=0;
 function bewertemuehlen(pfarbe) {
 
-if (stz[1]<4 || stz[2]<4) return 0; 
-if (stz[1]<6 && stz[2]<6) return 0; 
+//if (stz[1]<4 || stz[2]<4) return 0; 
+//if (stz[1]<6 && stz[2]<6) return 0; 
 
     // Pivotmuehlen
     var pmi;
@@ -2156,6 +2328,7 @@ if (stz[1]<6 && stz[2]<6) return 0;
     var zugsum=0;
     var zwwert=0;
 	const blockwert=12; //Strafe fuer blockierte Muehle
+	const blockwertm=6; //Strafe fuer blockierte Muehle Mittelreihe
 	const qmwert=8;    // Bonus fuer Quermuehle
     //console.log("startbewertem");
 	
@@ -2180,10 +2353,20 @@ if (stz[1]<6 && stz[2]<6) return 0;
                        + zggcountsingle(drei);
 
 				if(thispmfeldcol==pfarbe) 
-					{if(zugsum)zwwert+=zugsum; else zwwert-=blockwert;}
+					{
+					 if(pmi<4)
+					  {if(zugsum)zwwert+=zugsum; else zwwert-=blockwert;} 
+					 else
+ 					  {if(zugsum)zwwert+=zugsum; else zwwert-=blockwertm;} 
+					}
 				else
-					{if(zugsum)zwwert-=zugsum; else zwwert+=blockwert;}
-                //console.log("Pivotfeld waag "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum+ " zwwert+ "+zwwert);
+					{
+					 if(pmi>3)
+					  {if(zugsum)zwwert-=zugsum; else zwwert+=blockwert;} 
+					 else
+ 					  {if(zugsum)zwwert-=zugsum; else zwwert+=blockwertm;} 
+					}
+                if(debugverbose) console.log("Pivotfeld waag "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum+ " zwwert+ "+zwwert);
             }
 
             //console.log("Pivotfeldcheck senk "+pmfeld+" farbe "+thispmfeldcol);
@@ -2199,12 +2382,22 @@ if (stz[1]<6 && stz[2]<6) return 0;
                        + zggcountsingle(zwei)
                        + zggcountsingle(drei);
 
-                //console.log("Pivotfeld "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum);
+                if(debugverbose) console.log("Pivotfeld "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum);
 				if(thispmfeldcol==pfarbe) 
-					{if(zugsum)zwwert+=zugsum; else zwwert-=blockwert;}
+					{
+					 if(pmi<4)
+					  {if(zugsum)zwwert+=zugsum; else zwwert-=blockwert;} 
+					 else
+ 					  {if(zugsum)zwwert+=zugsum; else zwwert-=blockwertm;} 
+					}
 				else
-					{if(zugsum)zwwert-=zugsum; else zwwert+=blockwert;}
-                //console.log("Pivotfeld senk "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum+ " zwwert "+zwwert);
+					{
+					 if(pmi>3)
+					  {if(zugsum)zwwert-=zugsum; else zwwert+=blockwert;} 
+					 else
+ 					  {if(zugsum)zwwert-=zugsum; else zwwert+=blockwertm;} 
+					}
+                if(debugverbose) console.log("Pivotfeld senk "+pmfeld+" farbe "+thispmfeldcol+" Zugmöglichkeiten "+zugsum+ " zwwert "+zwwert);
             }
         }
     }
@@ -2212,7 +2405,7 @@ if (stz[1]<6 && stz[2]<6) return 0;
     //var qmfeld1, qmfeld2, qmfeld3;
     //var thisqmfeldcol;
 
-    if (stz[1]>6 || stz[2]>6)  
+    if (stz[1]>5 || stz[2]>5)  
     for (pmi=0; pmi<4; pmi++)
     {   
         if (thisqmfeldcol = spfeld[qmmatr1[pmi]]) 
@@ -3923,6 +4116,7 @@ function zugausfueh1 (af,zf,wnf)
  var hash = spfeld2hash(spfeld); if (zugnr%2) hash=-hash;
  globalStellungsspeicher[zugnr] = hash; // Speichern
  if (istWiederholungen(hash, globalStellungsspeicher, zugnr)>1) istWiederholungEin();
+ if (ist50zuege(hash, globalStellungsspeicher, zugnr)) melde("Remis nach 50 Zuege Regel");
 
  //alert("zugausfA"+zugnr); /** ==> zughist **/
  zughistory[zugnr].af=af;
@@ -4262,6 +4456,7 @@ async function computemoveA() {
     //if (bestzug.wnf>0 || bestzug.af==0) globalStellungsspeicher[zugnr] = 0; // Schlagzug daher keine Stellungswiederhlg. möglich (falsch)
 
     if (istWiederholungen(hash, globalStellungsspeicher, zugnr)>1) istWiederholungEin();
+	if (ist50zuege(hash, globalStellungsspeicher, zugnr)) melde("Remis nach 50 Zuege Regel");
 	
     zughistory[zugnr].af = bestzug.af;
     zughistory[zugnr].zf = bestzug.zf;
@@ -4278,7 +4473,7 @@ async function computemoveA() {
     zughistory[zugnr + 9].zf = 0;
 	
 	
-	for (var k =1; k < globalpv.length; k++) 
+	for (let k =1; k < globalpv.length; k++) 
 	{
 	 zughistory[zugnr +k ].af = globalpv[k].af;
 	 zughistory[zugnr +k ].zf = globalpv[k].zf;
@@ -4309,6 +4504,7 @@ async function computemoveA() {
 
 
 var globalcurrentinvestigated=new zugspeicher();
+var globalcurrentinvestigated1=new zugspeicher();
 var globalmaxrta=0;
 var globalmaxrtad=0;
 if(0) alert("################");
@@ -4331,12 +4527,12 @@ var globalzuglistlength1=0;
 var globalzuglistlength2=0; 
 var rtvdelay=0;
 
-var zufbonus=12;
+var zufbonus=8;
 
 var globalProblem=0; if (globalProblem) zufbonus=0; 
-var globalgering1=2;
-var globalgering2=1;
-var globalgering3=1;
+var globalgering1=3;
+var globalgering2=2;
+var globalgering3=2;
 
 
 
@@ -4345,13 +4541,13 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 {
   if (globalProblem) 
 	{
-	 globalgering1=3;
-	 globalgering2=3;
-	 globalgering3=3;
+	 globalgering1=5;
+	 globalgering2=5;
+	 globalgering3=5;
 	}
 	else
 	{
-	 globalgering1=1;
+	 globalgering1=2;
 	 globalgering2=2;
 	 globalgering3=2;
 	}
@@ -4389,11 +4585,12 @@ async function berbestzug1_async (rtv,alpha,maxzug)
   document.getElementById("mitte").src = sanduhr.src;
 
 // Test
-console.log("Start")
-console.log("*****")
-checkpivotmuehlen();
-checkquermuehlen();
-console.log("bewertemuehlen Wert:"+ bewertemuehlen(farbe));
+//console.log("Start")
+//checkpivotmuehlen();
+//checkquermuehlen();
+//debugverbose=1;
+console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
+//debugverbose=0;
 
 
   // --- Alpha-Beta Fenster an der Wurzel initialisieren ---
@@ -4613,10 +4810,6 @@ const ConstRemisPos=1; // 0 oder 1 kompliziertes Thema,
 
 
 
-
-
-
-
 async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU: beta ergänzt
 
   // ESC/Render-Pause
@@ -4754,19 +4947,29 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
   }
   //Ende Sortierung1
 
+
+
   // Sortierung 2
+
+var berbestzugprev0=new zugspeicher();
+var berbestzugprev1=new zugspeicher();
+var berbestzugprevwert=0;
+var berbestzugprevdepth=0;
+
   if (rtv>3) {
+if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev0);
     var length=zuglist.length;
     var tmptzuza=tzuza;
     var jump=0;
     if (stz[1]>5&&stz[2]>5) jump=0;
-    if (rtv>3) berbestzugprev (zuglist, 0, 1, alpha, beta, zufa);
-    if (rtv>4) berbestzugprev (zuglist, 1-jump, 1, alpha, beta, zufa);
-    if (rtv>5) berbestzugprev (zuglist, 2-jump, 2, alpha, beta, zufa);
-    if (rtv>6) berbestzugprev (zuglist, 3-jump, 2, alpha, beta, zufa);
-    if (rtv>7) berbestzugprev (zuglist, 4-jump, 2, alpha, beta, zufa);
+    if (rtv>3) berbestzugprevwert=berbestzugprev (zuglist, berbestzugprevdepth=0, 1, alpha, beta, zufa);
+    if (rtv>4) berbestzugprevwert=berbestzugprev (zuglist, berbestzugprevdepth=1-jump, 1, alpha, beta, zufa);
+    if (rtv>5) berbestzugprevwert=berbestzugprev (zuglist, berbestzugprevdepth=2-jump, 2, alpha, beta, zufa);
+    if (rtv>6) berbestzugprevwert=berbestzugprev (zuglist, berbestzugprevdepth=3-jump, 2, alpha, beta, zufa);
+    if (rtv>7) berbestzugprevwert=berbestzugprev (zuglist, berbestzugprevdepth=4-jump, 2, alpha, beta, zufa);
     tzuza=tmptzuza;
     if(length!=zuglist.length) alert ("aua");
+if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
   }
       
   // Step 3
@@ -4795,6 +4998,12 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
     nextzug = zuglist[i443];
     zugausfueh(nextzug);
     copyzugspeishort(nextzug,zughistory[zugnr]);
+    if(rta==2)
+	  if(1){copyzugspei(nextzug, globalcurrentinvestigated1);
+	  if(0)console.log(
+	  "globalcurrentinvestigated: af:"+globalcurrentinvestigated.af+" zf:"+globalcurrentinvestigated.zf+" wnf:"+globalcurrentinvestigated.wnf+
+	                          "// af:"+globalcurrentinvestigated1.af+" zf:"+globalcurrentinvestigated1.zf+" wnf:"+globalcurrentinvestigated1.wnf+"globalrtvi"+globalrtvi);
+	  }
 
     var sel=0; 
     var mybonus=0; 
@@ -4854,30 +5063,33 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
      if(1)
      if(globalfast==1)     
      {
-     if (Math.abs(wf-stwertung) <80) { 
-        if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >10+rtv*4) {mybonuswf-=0.1;};
-        if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >17+rtv*4) {mybonuswf-=0.3;};
-        if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >14+rtv*4) {mybonuswf-=0.5;};
-        if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >21+rtv*4) {mybonuswf-=0.5;  restsel-=0};
-        if(mymoves+gegmoves>24)  if (Math.abs(wf-stwertung) >19+rtv*4) {mybonuswf-=0.3;  restsel-=0};
+     if (Math.abs(wf-stwertung) <90) { 
+        if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >12+rtv*4) {mybonuswf-=0.1;};
+        if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >15+rtv*4) {mybonuswf-=0.2;};
+	 }
+     if (Math.abs(wf-stwertung) <90) { 
+        if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
+        if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >22+rtv*5) {mybonuswf-=0.5;  restsel-=0};
+        if(mymoves+gegmoves>24)  if (Math.abs(wf-stwertung) >24+rtv*5) {mybonuswf-=0.4;  restsel-=1};
         }
         else{
         }
         //if (Math.abs(wf) >333) {mybonuswf-=1;  restsel-=1}; // Fehlerhaft
+		if(mybonuswf>1) mybonuswf=1;
      }
 
-  	 if(0)
+  	 if(1)
 	 if(globalfast==1){
 		//if(mymoves+gegmoves>16) if (Math.abs(wf-stwertung) >20) {mybonuswf-=0.3;};
 		if(rtv<7)
 		{
 		  if (stz[1]>3 && stz[2]>3)
 		  if (rta+rtv> globalrtvi+2+globalrestsel)
-		  if (Math.abs(wf-stwertung) <50)
+		  if (Math.abs(wf-stwertung) <60)
 		  {
-			if(mymoves+gegmoves>12)  if (Math.abs(wf-stwertung) >5+rtv*4) {mybonuswf-=0.3;};
+			if(mymoves+gegmoves>12)  if (Math.abs(wf-stwertung) >5+rtv*4) {mybonuswf-=0.2;};
 			if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >7+rtv*4) {mybonuswf-=0.3;};
-			if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >11+rtv*4) {mybonuswf-=0.5;};
+			if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >11+rtv*4) {mybonuswf-=0.3;};
 		   }
 		  }
 		if(rtv<8)
@@ -4888,7 +5100,7 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 		  {
 			if(mymoves+gegmoves>15)  if (Math.abs(wf-stwertung) >14+rtv*4) {mybonuswf-=1.4-1/10*rtv;};
 			if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >16+rtv*4) {mybonuswf-=1.4-1/10*rtv;};
-			if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >18+rtv*4) {mybonuswf-=1.6-1/10*rtv;};
+			if(mymoves+gegmoves>24)  if (Math.abs(wf-stwertung) >18+rtv*4) {mybonuswf-=1.6-1/10*rtv;};
 		   }
 		  //if (rta+rtv> globalrtvi+1) if (Math.abs(wf) >333) {mybonuswf-=1;  restsel-=1}; Fehler
 		}
@@ -4899,6 +5111,30 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 		 if(nextzug.wnfAM < -2) mybonus-=1/2;
 	     if(nextzug.wnfAM < -3) mybonus-=1/2; // nextzug.wnfAM ist nur gültig, wenn wnf!=0 && wnfwert vorher aufgerufen
       }  
+	  if(rtv>6) if(mybonuswf>0.5) mybonuswf=0.5;
+	  if(rtv>5) if(mybonuswf>0.7) mybonuswf=0.7;
+	  if(rtv>4) if(mybonuswf>1) mybonuswf=1;
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	if (wiederholungsflag) {
 	   berbestzugzugliste=[];
@@ -4910,7 +5146,7 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
         if (rtv > 1) if (restsel>0) if (zugnr > 18                    ) if (pmuehdroht(nextzug.zf)) mybonus+=1/4; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/4;;
         if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroht(nextzug.zf)) mybonus+=1/2; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/2;;
         berbestzugzugliste=[];
-		if(globalProblem) mybonus=mybonus;
+		if(globalProblem) mybonus=mybonus/2;
 		aktwertung = berbestzugfast(rtv - 1 + sel+mybonus+mybonuswf, restsel - sel, -beta, -bestwertung, -zufa, mwert);
 		
 	}    
@@ -4940,23 +5176,41 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 		if(nextzug.wnfAM < -2) mybonus-=1/2;
         if (rtv > 1) if (restsel) if (zugnr > 18 ) if (pmuehdroht(nextzug.zf)) mybonus+=1/5;
         if (rtv > 1) if (restsel) if (zugnr > 18 ) if (pMuehleBlocked(nextzug.zf)) mybonus+=1/5;
-		if(globalProblem) mybonus=mybonus;
+		if(globalProblem) mybonus=mybonus/2;
         berbestzugzugliste = await berbestzug_async(rtv - 1 + sel+mybonus+mybonuswf, restsel - sel, -beta, -bestwertung, -zufa);
         aktwertung = berbestzugzugliste[berbestzugzugliste.length - 1].wertung; // Bewertung aus Sicht des Aufrufers
 	  }
     } // Ende lange Else
+
+    if(rta==2)
+	  if(0){copyzugspei(nextzug, globalcurrentinvestigated1);
+	  if(1) console.log(
+	  "globalcurrentinvestigated: af:"+globalcurrentinvestigated.af+" zf:"+globalcurrentinvestigated.zf+" wnf:"+globalcurrentinvestigated.wnf+
+	                          "// nr. "+i443+" // af:"+globalcurrentinvestigated1.af+" zf:"+globalcurrentinvestigated1.zf+" wnf:"+globalcurrentinvestigated1.wnf+ 
+							  " aktwertung:"+aktwertung+" bestwertung:"+bestwertung+"rtvi"+globalrtvi+" beta:"+beta+" alpha:"+alpha)
+
+
+	  if(1) console.log(
+	  "berbestzugprev0: af:"+berbestzugprev0.af+" zf:"+berbestzugprev0.zf+" wnf:"+berbestzugprev0.wnf+
+	  "berbestzugprev1: af:"+berbestzugprev1.af+" zf:"+berbestzugprev1.zf+" wnf:"+berbestzugprev1.wnf+
+	  "berbestzugprevwert: "+berbestzugprevwert+" berbestzugprevdepth "+berbestzugprevdepth+" zuglistlength "+zuglist.length
+	  )
+	  }
+
     if (aktwertung > bestwertung) {
       bestwertung = aktwertung;
       copyzugspei(nextzug, bestzug2);
       pvbestzugliste = berbestzugzugliste.slice(); // PV des Kindes übernehmen
     }
-    
+ 
+
+ 
     globalStellungsspeicher[zugnr] = 0; // Hashwert wieder abräumen
     zugrueck(nextzug);
 
     // Alpha-Cut: sofort Variante zurückgeben
     //var gering=globalgering1; if (Math.abs(alpha)>99 ||Math.abs(beta)>99 || Math.abs(bestwertung)>99 || i<Math.ceil(zuglist.length/2)+2) gering=0; //Geringschätzungsfaktor führt zu Fehler, was ich nicht verstehe
-    var gering=globalgering1; if (Math.abs(alpha)>99 ||Math.abs(beta)>99 || Math.abs(bestwertung)>99 || i443<3) gering=0; //Geringschätzungsfaktor führt zu Fehler, was ich nicht verstehe
+    var gering=globalgering1; if (Math.abs(alpha)>99 ||Math.abs(beta)>99 || Math.abs(bestwertung)>99 || i443<2) gering=0; //Geringschätzungsfaktor führt zu Fehler, was ich nicht verstehe
     if (bestwertung+gering >= beta || !isRunning) {                          // <-- NEU: beta statt alpha (Beta-Cut wie Standard)
       bestzug2.wertung = -bestwertung; // Bestwertung ubernehmen
       pvbestzugliste.push(bestzug2);
@@ -5223,7 +5477,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
     // Beta-Cut: sofort Bewertung zurückgeben (Standard)
     //var gering=0; if (Math.abs(beta)>100) gering=0; //Geringschätzungsfaktor führt zu Fehler
 	//var gering=globalgering2; if (i<Math.ceil(zuglist.length/2)+2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
-	var gering=globalgering2; if (i444<5 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
+	var gering=globalgering2; if (i444<2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
     if (bestwertung+gering >= beta) return -bestwertung;
   }
   // --- Schleife: Ende
@@ -5247,7 +5501,7 @@ if(0) alert("################# berbestzugprev ###############################");
 function berbestzugprev (zuglist, rtv, restsel, xalpha, xbeta, zufa) {
   //tzuza++;
   
-  if (rtv < 1) return -bewerte(zufa, 0); // mwert=0 
+  //if (rtv < 1) return -bewerte(zufa, 0); // mwert=0 
 
   //var zuglist = makezgglist(farbe);
   var nextzug;
@@ -5281,6 +5535,11 @@ function berbestzugprev (zuglist, rtv, restsel, xalpha, xbeta, zufa) {
 
     if (stz[farbe] < 3 && zugnr > 18) {
       zugrueck(nextzug);
+	  if (i445 > 0) {
+      const mytemp = zuglist[0];
+      zuglist[0] = zuglist[i445];
+      zuglist[i445] = mytemp;
+	  }
       return -(CONSTmaxwertung - rta);
     }
     
@@ -5338,7 +5597,14 @@ function berbestzugprev (zuglist, rtv, restsel, xalpha, xbeta, zufa) {
 //zuglist[0] = _ref[0];
 //zuglist[pvbestzugi] = _ref[1];
   
-  zuglist=newZuglist;
+
+//zuglist=newZuglist; // werkt nicht
+
+//newZuglist.reverse();
+zuglist.splice(0, zuglist.length, ...newZuglist);
+if (newZuglist.length!=zuglist.length) alert ("fehler");
+
+
   return -bestwertung;
 }
 
@@ -5476,7 +5742,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
     // Beta-Cut: sofort Bewertung zurückgeben (Standard)
 	//var gering=0; if (i<1 || Math.abs(beta)>100 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
 	//var gering=globalgering3; if (i<Math.ceil(zuglist.length/2)+2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
-	var gering=globalgering3; if (i446<4 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
+	var gering=globalgering3; if (i446<2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
     if (bestwertung+gering >= beta) return -bestwertung;
   }
   // --- Schleife: Ende
@@ -6693,6 +6959,18 @@ var wcount=0;
     return wcount;
 }
 
+function ist50zuege(aktuellerHash, speicher, aktuelleIndex) {
+var backzuege=0;
+// Wir starten die Suche beim unmittelbar vorangegangenen Zug
+    for (var i50 = aktuelleIndex - 1; i50 >= 1; i50--) {
+      backzuege+=1;
+      if (zughistory[i50].wnf>0) break; 
+      if (zughistory[i50].zf==0) break; 
+      if (zughistory[i50].af==0) break; 
+    }
+    return backzuege>=50;
+}
+
 function formatMitPunkten(zahl) {return zahl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");}
 
 
@@ -6790,16 +7068,9 @@ function toggleRemissuche() {
   -- 2026 Feb --- 12.02. minimale Aenderungen: Variante wird nicht mehr mit der Zugliste exportiert, kleine Änderung am Parser
   -- 2026 Feb --- 17.02. Designanpassungen für Android und iphone, Navbar mit Spracherkennung (separat), Schleifenvariable i im Code entfernt, Version 106
   -- 2026 Feb --- 20.02. Konzept der Pivot- und Quermuehlen in die Bewertung eingebracht Version 111
---A112PzohQma.htm--
+--A112PzohQma9grid.htm.htm--
+--A117PzohQma9grid.htm.htm-- 06.04.26
+
 */
 
 </script>    
-
-</div>
-</td>
-</tr>
-</table>
-
-
-
-
