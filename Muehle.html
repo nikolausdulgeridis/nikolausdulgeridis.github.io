@@ -1,11 +1,5 @@
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 
-<table border=0 >
-<tr>
-<td>
-<div style="min-width: 900px; height: 600px; background-color: #E0E4EC; margin: 1px; padding: 12px; border: 1px solid dimgrey;">
-  <!-- Der Wrapper, der das Rausspringen verhindert -->
-
 
 
 
@@ -81,8 +75,9 @@ img#mittte {
   --label-w: 20px;    /* Left/Right – schmaler */
 
   --label-color: #333;
-  --label-bg: rgba(100,200,150,0.20);
+  --label-bg: rgba(150,200,180,0.10);
   --label-font: 12px system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --labeldistanz: -0.95; /* Abstand der Beschriftung*/
 }
 
 /* ===========================================
@@ -166,30 +161,13 @@ table#board .stone {
   color: var(--label-color);
   font: var(--label-font);
   line-height: 1;
-  pointer-events: none;       /* Klicks gehen weiter aufs Board */
+  pointer-events: none;
 }
 
-/* TOP (A–G) – exakt über den 7 Spalten; kleinere Höhe */
-.labels-top {
-  left: 0;
-  top: calc(-1 * var(--label-h));  /* außerhalb oberhalb */
-  width: 100%;
-  height: var(--label-h);
-
-  display: grid;
-  align-items: center;             /* vertikal zentriert */
-  grid-template-columns:
-    var(--cell-size) var(--cell-size) var(--cell-size)
-    var(--cell-center)
-    var(--cell-size) var(--cell-size) var(--cell-size);
-  gap: 0;
-}
-.labels-top .lbl { text-align: center; background: var(--label-bg); border-radius: 3px; }
-
-/* BOTTOM (A–G) – analog unten */
+/* Gemeinsame Layout-Regeln für TOP & BOTTOM */
+.labels-top,
 .labels-bottom {
   left: 0;
-  bottom: calc(-1 * var(--label-h));
   width: 100%;
   height: var(--label-h);
 
@@ -200,29 +178,26 @@ table#board .stone {
     var(--cell-center)
     var(--cell-size) var(--cell-size) var(--cell-size);
 }
-.labels-bottom .lbl { text-align: center; background: var(--label-bg); border-radius: 3px; }
 
-/* LEFT (7..1) – exakt an den 7 Zeilen; kleinere Breite */
-.labels-left {
-  top: 0;
-  left: calc(-1 * var(--label-w)); /* außerhalb links */
-  width: var(--label-w);
-  height: 100%;
-
-  display: grid;
-  justify-items: center;           /* horizontal zentriert */
-  grid-template-rows:
-    var(--cell-size) var(--cell-size) var(--cell-size)
-    var(--cell-center)
-    var(--cell-size) var(--cell-size) var(--cell-size);
-  gap: 0;
+.labels-top {
+  top: calc(var(--labeldistanz) * var(--label-h));
 }
-.labels-left .lbl { display: grid; place-items: center; width: 100%; height: 100%; background: var(--label-bg); border-radius: 3px; }
 
-/* RIGHT (7..1) – analog rechts */
+.labels-bottom {
+  bottom: calc(var(--labeldistanz) * var(--label-h));
+}
+
+.labels-top .lbl,
+.labels-bottom .lbl {
+  text-align: center;
+  background: var(--label-bg);
+  border-radius: 3px;
+}
+
+/* Gemeinsame Layout-Regeln für LEFT & RIGHT */
+.labels-left,
 .labels-right {
   top: 0;
-  right: calc(-1 * var(--label-w));
   width: var(--label-w);
   height: 100%;
 
@@ -233,43 +208,42 @@ table#board .stone {
     var(--cell-center)
     var(--cell-size) var(--cell-size) var(--cell-size);
 }
-.labels-right .lbl { display: grid; place-items: center; width: 100%; height: 100%; background: var(--label-bg); border-radius: 3px; }
 
-/* Ein-/Ausblenden pro Seite (optional) */
+.labels-left {
+  left: calc(var(--labeldistanz) * var(--label-w));
+}
+
+.labels-right {
+  right: calc(var(--labeldistanz) * var(--label-w));
+}
+
+.labels-left .lbl,
+.labels-right .lbl {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--label-bg);
+  border-radius: 3px;
+}
+
+/* Ein-/Ausblenden pro Seite */
 .board-wrap.hide-top    .labels-top    { display: none; }
 .board-wrap.hide-bottom .labels-bottom { display: none; }
 .board-wrap.hide-left   .labels-left   { display: none; }
 .board-wrap.hide-right  .labels-right  { display: none; }
 
-
-
-.board-wrap.hide-labels .labels-top,
-.board-wrap.hide-labels .labels-bottom,
-.board-wrap.hide-labels .labels-left,
-.board-wrap.hide-labels .labels-right {
-  display: none;
-}
-
-.xlabels-top,
-.xlabels-bottom {
-  display: none;
-}
-
-.xlabels-left,
-.xlabels-right {
-  display: none;
-}
-
-
-
-
-
+/* Globales Ausblenden aller Labels */
 .board-wrap.hide-labels .labels-top,
 .board-wrap.hide-labels .labels-bottom,
 .board-wrap.hide-labels .labels-left,
 .board-wrap.hide-labels .labels-right { display: none; }
 
 
+/* Einzelne Labels deaktivieren 
+.labels-left   { display: none !important;}
+.labels-bottom  { display: none !important;}
+*/
 </style>
 
 
@@ -309,6 +283,12 @@ table#board .stone {
 </style>
 
 
+<table border=0 >
+<tr>
+<td>
+
+<div style="min-width: 900px; min-height: 200px; background-color: #E0E4EC; margin: 1px; padding: 12px; border: 1px solid dimgrey;">
+  <!-- Der Wrapper, der das Rausspringen verhindert -->
 
 
 <div id="nervigerlayer">
@@ -387,15 +367,21 @@ function mhelp() {
 
         <!-- Tastenbeschreibungen kompakt -->
         <div style="background: #fff4f4; border: 0px solid #e9ecef; padding: 10px; border-radius: 6px; font-size: 0.9em;">
-            <div style="display: grid; grid-template-columns: 90px 1fr; gap: 4px;">
+            <div style="display: grid; grid-template-columns: 120px 1fr; gap: 4px;">
                 <span style="color: #666;">${language == 'de' ? 'Speichern:' : 'Save:'}</span> 
                 <span>${language == 'de' ? 'Klick auf Haus-Symbol' : 'Click House icon'}</span>
                 
                 <span style="color: #666;">${language == 'de' ? 'Statistik:' : 'Statistics:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>T</strong>' : 'Key <strong>T</strong>'}</span>
+
+                <span style="color: #666;">${language == 'de' ? '2-player Mode:' : '2-player mode:'}</span> 
+                <span>${language == 'de' ? 'Taste <strong>2</strong>' : 'Key <strong>2</strong>'}</span>
                 
                 <span style="color: #666;">${language == 'de' ? 'Classic Notation:' : 'Classic Notation:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>C</strong>' : 'Key <strong>C</strong>'}</span>
+
+                <span style="color: #666;">${language == 'de' ? 'Board Numerierung:' : 'Board numbers:'}</span> 
+                <span>${language == 'de' ? 'Taste <strong>i</strong>' : 'Key <strong>i</strong>'}</span>
 
                 <span style="color: #666;">${language == 'de' ? 'Sprache:' : 'Language:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>L</strong>' : 'Key <strong>L</strong>'}</span>
@@ -411,6 +397,9 @@ function mhelp() {
 
                 <span style="color: #666;">${language == 'de' ? 'Hashwerte:' : 'Hash values:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>H</strong>' : 'Key <strong>H</strong>'}</span>
+
+                <span style="color: #666;">${language == 'de' ? 'Takefrommillallowed:' : 'Hash Takefrommillallowed:'}</span> 
+                <span>${language == 'de' ? 'Taste <strong>M</strong>' : 'Key <strong>M</strong>'}</span>
 
             </div>
           <!-- URL Info -->
@@ -723,7 +712,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
   Für horizontal: class="zoom-strip horizontal"
 -->
 
-<div "id=ZSControl">
+<div id="ZSControl">
 
 
 
@@ -1062,6 +1051,22 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 <script>
 
+
+function toggleNumbers() {
+  const wrap = document.getElementById('wrap');
+  const btn  = document.getElementById('toggleLabelsBtn');
+
+  // Klasse umschalten → liefert neuen Zustand zurück
+  const hidden = wrap.classList.toggle('hide-labels');
+
+  // Button ARIA-Status aktualisieren
+  btn.setAttribute('aria-pressed', hidden);
+
+  // Button-Symbol aktualisieren (bei Bedarf anpassbar)
+  //btn.textContent = hidden ? '⁞⁞' : '⁞⁞';
+}
+
+
 // Globale Variable für den aktuellen Steinesatz
 var currentStoneSet = "";  // Default
 
@@ -1379,7 +1384,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
         <tr>
             <!-- Linke Spalte: deine bestehende Tabelle -->
             <td valign="top">
-            <table cellspacing="4" cellpadding="2" border="1">
+            <table cellspacing="4" cellpadding="2" border="0">
                 <tbody>
                     <tr>
                         <td bgcolor="white">
@@ -1524,7 +1529,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 						
 			</td>
             <!-- Rechte Spalte: Platz für Text -->
-            <td valign="top"> <textarea id="textelem" name="textelem" cols="30" rows="25"></textarea> </td>
+            <td valign="top" style="border: 0px solid black;" > <textarea id="textelem" name="textelem" cols="30" rows="25"></textarea> </td>
             <td valign="top"> 
 <div id="einleitung" style="min-width: 600px; background: #f9f9f9; color: #333; border-left: 4px solid #889966; margin: 3px 0; padding: 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.2; border-radius: 4px; box-shadow: 1px 1px 4px rgba(0,0,0,0.05);">
     
@@ -1543,14 +1548,100 @@ document.querySelectorAll('.zoom-item').forEach(item => {
         <p>I found that quite amusing, so I revamped the interface: Analysis mode, stepping through positions, saving setups, or solving test puzzles. <i>Enjoy!</i></p>
     </div>
     
-</div>			</td>
-            <td valign="bottom"> <div id="zugstatistik" style="min-width: 180px;">Zugstatistik</div>  </td>
+</div>			
+		    </td>
+		    </td>
+            
+			<!-- Aufgaben und Statistik //-->
+			<td id="aufgabstatistik" style="position:relative;  vertical-align:top; border: 0px solid darkslategrey;">
+			
+
+    <div style="padding-bottom:45px;"> 			
+			<table id="aufgaben0" style="min-width: 200px; min-height: 40px; border: 0px solid darkslategrey; ">
+    <tr>
+        <td id="header" style="background-color: #ddd; padding: 5px; font-family: Arial, sans-serif;">
+            <span id="toggleBtn" onclick="toggleAufgaben()" 
+                  style="cursor: pointer; font-weight: bold; padding: 2px 6px; border: 1px solid silver; ">
+                <small>−</small>
+            </span>
+            <strong><small>Aufgaben</small></strong>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+          <table id="aufgaben1" style=" font-family: Arial, sans-serif; font-size: 12px;">
+<tr><td>
+<a href="./Muehle.htm?pos=000200000211021000000000218&level=4&internally=1&takefrommillallowed=0" target="_blank"><b>Gewinne mit Weiß (3 gegen 3)</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=000212122212210012120110+18&level=7&takefrommillallowed=0&moves=17WK" target="_blank"><b>Gewinne die vertrackte Stellung</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=21001022121021211202012118&level=5&internally=1&takefrommillallowed=0" target="_blank"><b>Weiß gewinnt</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=01102000102012121102001215&level=2&internally=1&takefrommillallowed=0" target="_blank"><b>Kann sich Schwarz den Zug a4 erlauben?</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=000020200021100101002112+11&level=3&takefrommillallowed=0&moves=12JBIbC" target="_blank"><b>Eine fantastische Stellung – Gewinne mit Schwarz</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=01002000010102220001110088&level=5&takefrommillallowed=0&moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank"><b>Warum war g1–g4 keine gute Idee?</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=112011020211210020212200+16&level=1&takefrommillallowed=0&moves=1LRFWONUTCIBDMVGK" target="_blank"><b>Auf Anhieb ist gar nicht zu sehen, wer besser steht</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=010020212012111201020000+15&level=9&takefrommillallowed=0&moves=1LHOQSMoPFCUNGOgJIXRW" target="_blank"><b>Gewinne mit Schwarz</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=100211100211020120222010+17&level=8&takefrommillallowed=0&moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target="_blank"><b>Schwarz gewinnt</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=000010200112221221012000+14&level=9&takefrommillallowed=0&moves=1FOLNPRUHKMSQfFV" target="_blank"><b>Kompliziert, Weiß gewinnt</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=100211000010221020222010+14&level=9&takefrommillallowed=0&moves=1LOFUBVGTgGNPRXE" target="_blank"><b>Gewinne mit Weiß auf Meister‑Stufe</b></a>
+</td></tr>
+
+<tr><td>
+<a href="./Muehle.htm?pos=221221220200100100100100+22&level=1&takefrommillallowed=1" target="_blank"><b>Mühle‑Datenbank – Gewinn in 165</b></a>
+</td></tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+</div>
+
+			
+			<div id="zugstatistik" style="position:absolute; bottom:0; left:0; min-width: 180px;">Zugstatistik</div>  
+			
+			
+			</td>
+			<!-- Ende Aufgaben und Statistik Ende //-->
+
+			
+			
         </tr>
     </tbody>
 </table>
-<table cellspacing="1" cellpadding="0" border="0" id="vorrat" style="margin-top: 4px; margin-bottom: 6px;">
+<table cellspacing="1" cellpadding="0" border="0" id="vorrat" style="margin-top: 8px; margin-bottom: 6px;">
     <tbody>
-        <tr height="22" csellspacing="2">
+        <tr cellspacing="2">
             <td><img id="vorratw1" height="11" width="11" src="" alt="" /></td>
             <td><img id="vorratw2" height="11" width="11" src="" alt="" /></td>
             <td><img id="vorratw3" height="11" width="11" src="" alt="" /></td>
@@ -4325,6 +4416,7 @@ async function computemove1() {  // NEU: async machen, um await zu nutzen
 // Hier springt die Eingaberoutine hin, wenn der Spieler einen Zug eingegeben hat
 async function computemove2() {  // NEU: async machen, um await zu nutzen
     if (makezgglist(farbe).length == 0) return;
+    if (global2player) return;
     
     await computemove();  // NEU: Warte, bis Berechnung fertig ist
     
@@ -4340,7 +4432,7 @@ var letzterbestzug = new zugspeicher;
 var computemoveFertigGlobal=0; // nicht mehr benutzt
 async function computemove() {  // NEU: async machen, um Promise zu returnen
     //if (getLevelValue > 2) window.document.images[25 + 9 + ofs].src = sanduhr.src;
-    document.getElementById("mitte").src = sanduhr.src;
+	document.getElementById("mitte").src = sanduhr.src;
     
     // Returne ein Promise, das die gesamte async-Kette umfasst
     return new Promise((resolve) => {
@@ -4388,20 +4480,25 @@ var globalAwaitCounterT = 0;
 window.addEventListener('keydown', e => {
 	if (e.key) closeEinleitung();
 	if (e.key === 'Escape') { clrselfplay(); if (isRunning) {escapePressed();isRunningEin(); isRunning = false;} else isRunningAus(); }
-	if (e.key === 'h') toggleTextarea();
-	if (e.key === 'H') toggleTextarea();
-	if (e.key === 'f') toggleFast();
-	if (e.key === 'F') toggleFast();
-	if (e.key === 'l') toggleLang();
-	if (e.key === 'L') toggleLang();
-	if (e.key === 'p') toggleProblem();
-	if (e.key === 'P') toggleProblem();
-	if (e.key === 't') toggleZugstatistik();
-	if (e.key === 'T') toggleZugstatistik();
+	if (e.key === '2') toggle2player();
 	if (e.key === 'c') toggleClassic();
 	if (e.key === 'C') toggleClassic();
+	if (e.key === 'f') toggleFast();
+	if (e.key === 'F') toggleFast();
+	if (e.key === 'h') toggleTextarea();
+	if (e.key === 'H') toggleTextarea();
+	if (e.key === 'i') toggleNumbers();
+	if (e.key === 'I') toggleNumbers();
+	if (e.key === 'l') toggleLang();
+	if (e.key === 'L') toggleLang();
+	if (e.key === 'm') toggleTakeFromMillAllowed();
+	if (e.key === 'M') toggleTakeFromMillAllowed();
+	if (e.key === 'p') toggleProblem();
+	if (e.key === 'P') toggleProblem();
 	if (e.key === 'r') toggleRemissuche();
 	if (e.key === 'R') toggleRemissuche();
+	if (e.key === 't') toggleZugstatistik();
+	if (e.key === 'T') toggleZugstatistik();
 });
 
 async function computemoveA() {
@@ -6304,7 +6401,7 @@ function farbeZuruecksetzen() {
 
 function ausgabe(text){document.getElementById("Ausgabe").innerHTML=text;}
 function VarianteEin(){farbeTemporaerAendern();document.getElementById("Varianteflag").innerHTML="Variante";}
-function VarianteAus(){farbeZuruecksetzen();document.getElementById("Varianteflag").innerHTML="";}
+function VarianteAus(){if(!global2player) {farbeZuruecksetzen();document.getElementById("Varianteflag").innerHTML="";}}
 function isRunningEin(){document.getElementById("Varianteflag").innerHTML="Escape pending";}
 function isRunningAus(){document.getElementById("Varianteflag").innerHTML="";}
 function istWiederholungEin(){document.getElementById("Varianteflag").innerHTML="Remis durch Wied.";melde("Remis durch Wiederholung");}
@@ -7006,6 +7103,11 @@ function toggleProblem() {
     if(!globalProblem) melde("Problem off");
 }
 
+function toggleTakeFromMillAllowed() {
+	takefrommillallowed=1-takefrommillallowed;
+    if(takefrommillallowed) melde("takefrommillallowed on");
+    if(!takefrommillallowed) melde("takefrommillallowed off");
+}
 
 function toggleFast() {
 	globalfast=1-globalfast;
@@ -7013,6 +7115,14 @@ function toggleFast() {
     if(!globalfast) melde("fast off");
 }
 
+var global2player=0;
+function toggle2player() {
+	global2player=1-global2player;
+    if(global2player) melde("2-player on");
+    if(global2player) {farbeTemporaerAendern();document.getElementById("Varianteflag").innerHTML="2-player";}
+    if(!global2player) melde("2-player off");
+    if(!global2player) {farbeZuruecksetzen();document.getElementById("Varianteflag").innerHTML="";}
+}
 
 toggleTextarea();
 function toggleTextarea() {
@@ -7024,14 +7134,35 @@ function toggleTextarea() {
       }
 }
 
+toggleAufgaben();
+function toggleAufgaben() {
+    var tbl = document.getElementById("aufgaben1");
+    var btn = document.getElementById("toggleBtn");
+
+    if (tbl.style.display === "none") {
+        tbl.style.display = "table";
+        btn.innerHTML = "−";
+		(document.getElementById("zugstatistik")).style.display="none";
+    } else {
+        tbl.style.display = "none";
+        btn.innerHTML = "+";
+		(document.getElementById("zugstatistik")).style.display="block";
+    }
+}
+
+
 toggleZugstatistik();
 toggleZugstatistik();
 function toggleZugstatistik() {
     var element = document.getElementById("zugstatistik");
+    var element2 = document.getElementById("aufgabstatistik");
+      //alert(""+element2.style.display);
       if (element.style.display === "none") {
           element.style.display = "block"; // Oder "inline-block", je nach gewünschtem Layout
+          //element2.style.display = "table"; // Oder "inline-block", je nach gewünschtem Layout
         } else {
       element.style.display = "none";
+//    element2.style.display = "none";
       }
 }
 
@@ -7060,6 +7191,7 @@ function toggleRemissuche() {
 <script>
 
 /* Nikolaus Dulgeridis 2013, NikolausDulgeridis@gmail.com, https://nikolausdulgeridis.de.tl
+ Es gilt die GNU General Public License v3
   -- 2025 Aug --- Level Button eingefügt. Pulldown Button wurde generiert von Grok4
   -- 2025 Nov --- Zughistory, Zugrücknahme und Speicherfunktion hinzugefügt, sowie Async um auf Esc abzubrechen
   -- 2025 Dez --- weitere Änderungen Zugwiederholungserkennung, Zugvorsortierung, A-B Pruning, Statistik
@@ -7069,8 +7201,14 @@ function toggleRemissuche() {
   -- 2026 Feb --- 17.02. Designanpassungen für Android und iphone, Navbar mit Spracherkennung (separat), Schleifenvariable i im Code entfernt, Version 106
   -- 2026 Feb --- 20.02. Konzept der Pivot- und Quermuehlen in die Bewertung eingebracht Version 111
 --A112PzohQma9grid.htm.htm--
---A117PzohQma9grid.htm.htm-- 06.04.26
+--A117PzohQma9grid.htm.htm-- 50 Zuege Regel 06.04.26
+--A121PzohQma9grid.htm.htm-- Aufgaben, 2-player, TakeFrommillAllowed  06.04.26
 
 */
 
 </script>    
+
+</div>
+</td>
+</tr>
+</table>
