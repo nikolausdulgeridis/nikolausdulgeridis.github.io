@@ -1,0 +1,12 @@
+# Name deiner Website
+title: Nikolaus Dulgeridis Website
+
+# Automatische Layout-Zuweisung
+defaults:
+  - scope:
+      path: "" # Gilt für alle Dateien im Projekt
+    values:
+      layout: "default"
+
+# Verhindert, dass Jekyll bestimmte Ordner ignoriert
+include: [_includes, _layouts]
