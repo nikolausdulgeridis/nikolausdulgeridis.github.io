@@ -1,3 +1,6 @@
+---
+---
+
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 
 
@@ -401,6 +404,9 @@ function mhelp() {
                 <span style="color: #666;">${language == 'de' ? 'Takefrommillallowed:' : 'Hash Takefrommillallowed:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>M</strong>' : 'Key <strong>M</strong>'}</span>
 
+                <span style="color: #666;">${language == 'de' ? 'Zufall:' : 'Random:'}</span> 
+                <span>${language == 'de' ? 'Taste <strong>Z</strong>' : 'Key <strong>Z</strong>'}</span>
+
             </div>
           <!-- URL Info -->
 				<p style="font-size: 0.9em; color: #888; margin-top: 10px; font-style: italic;">
@@ -587,12 +593,47 @@ function gibtZugstatistikHtml() {
     // 3. HTML-Ausgabe
     var ausgabetext = ""; // letzteWertung zuverlässiger als globalbestwertung
     ausgabetext += `
-        <div style="background: #f4f9ff; color: #220066; border: 1px solid #ccddee; min-width: 220px; max-width: 240px; margin-top: 0px; padding: 4px; font-family: Arial, Helvetica, sans-serif; border-radius: 8px; box-shadow: silver; font-variant-numeric: tabular-nums;">
-            <b style="font-size: 0.95em; border-bottom: 2px solid #220066; margin-bottom: 6px; display: inline-block;">
-                ${language == "de" ? "Statistik" : "Statistics"}
-            </b>
+<div style="background: #f4f9ff; color: #220066; border: 1px solid #ccddee;
+     min-width: 220px; max-width: 240px; margin-top: 0px; padding: 4px; 
+     font-family: Arial, Helvetica, sans-serif; border-radius: 8px; 
+     box-shadow: silver; font-variant-numeric: tabular-nums;">
+
+    <b style="font-size: 0.85em; border-bottom: 2px solid #220066; 
+       margin-bottom: 6px; display: inline-block;">
+        ${language == "de" ? "Statistik" : "Statistics"}
+    </b>
+
+
+
+        <!-- Kleiner, dunkelgrauer Button -->
+        <!--
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+    <b style="font-size: 0.75em; margin-bottom: 6px; display: inline-block;">
+<span id="toggleBtnAufgMinus"
+      onclick="toggleAufgaben();"
+      style="
+          display: inline-block;
+          padding: 1px 4px;
+          background-color: #555;
+          color: #fff;
+          border: 1px solid #333;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.75em;
+          line-height: 1;
+          user-select: none;
+      ">
+            <strong><small>
+                ${language == "de" ? "+ Aufgaben" : "Tasks"}
+            </small></strong>
+        </span>
+    </b>
+	-->
+				
             
-            <div style="display: grid; grid-template-columns: 3fr 4fr; gap: 2px 8px; line-height: 1.4; margin-bottom: 4px; font-size: 0.90em;">
+            <div style="display: grid; grid-template-columns: 3fr 4fr; gap: 2px 8px; line-height: 1.4; margin-bottom: 4px; font-size: 0.8em;">
                 <span>${language == "de" ? "Zeit" : "Time"}: <b>${zeit}s</b></span>
                 <span>${language == "de" ? "Zug" : "Move"}: <b>${Math.floor(globalstartzugnr/2)}</b> <small>(${Math.floor(globalstartzugnr)} Hz)</small></span>
 
@@ -609,8 +650,8 @@ function gibtZugstatistikHtml() {
             </div>
 
             <div style="border-top: 1px solid #ccddee; padding-top: 10px;">
-                <b style="font-size: 0.9em; display: block; margin-bottom: 5px;">Top Moves:</b>
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.80em; text-align: left;">
+                <b style="font-size: 0.80em; display: block; margin-bottom: 3px;">Top Moves:</b>
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.75em; text-align: left;">
                     <thead>
                         <tr style="color: #6600aa; border-bottom: 1px solid #eee;">
                             <th style="padding: 1px 0; font-weight: normal; width: 25px/;">#</th>
@@ -643,7 +684,7 @@ function gibtZugstatistikHtml() {
                         </tr>
 <tr>
     <!-- Hier wurde padding-right hinzugefügt (z. B. 20px) -->
-    <td style="padding: 6px 10px 1px 0;">Current: </td> 
+    <td style="padding: 5px 9px 1px 0;">Current: </td> 
     <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'af')}</small></td>
     <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'zf')}</small></td>
     <td style="padding: 1px 0;"><small> ${getVal([globalcurrentinvestigated], 0, 'wnf')}</small></td>
@@ -713,7 +754,6 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 -->
 
 <div id="ZSControl">
-
 
 
 <button
@@ -810,15 +850,15 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
   backdrop-filter: none;
 }
 
+
+
 .stoneset-btn {
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  background: transparent;
-  border: none;
-  border-radius: 3px;
-  opacity: 0.75;
+  all: unset;
+  display: block ;
+  width: 20px ;
 }
+
+
 
 .stoneset-btn:hover {
   opacity: 1;
@@ -898,6 +938,16 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 <style type="text/css">
 
+#ZSControl {
+  display: flex;
+  align-items: center;   /* ← verhindert Streckung */
+}
+
+#toggleLabelsBtn {
+  align-self: center;
+  display: inline-flex;
+  max-width: fit-content;
+}
 
 .small-btn {
   font-size: 10px;      /* Schrift kleiner */
@@ -939,6 +989,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 }
 
 /* Buttons */
+
 .zoom-level {
   border: none;
   padding: 0;
@@ -947,6 +998,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
   transition: opacity 0.14s ease;
   opacity: 0.68;
 }
+
 
 .zoom-level:hover {
   opacity: 0.94;
@@ -1046,11 +1098,26 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
   font-weight: bold;
   color: #000;
 }
+
+
+
+.footer-line {
+    display: flex;
+    align-items: center;   /* vertikal sauber */
+    flex-wrap: nowrap;     /* KEIN Umbruch */
+    gap: 6px;              /* Abstand statt &nbsp; */
+}
+
+.footer-line input[type="radio"] {
+    flex: 0 0 auto;
+}
+
 </style>
 
 
 <script>
-
+var globalZufall=1;
+var global2player=0;
 
 function toggleNumbers() {
   const wrap = document.getElementById('wrap');
@@ -1553,39 +1620,53 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 		    </td>
             
 			<!-- Aufgaben und Statistik //-->
-			<td id="aufgabstatistik" style="position:relative;  vertical-align:top; border: 0px solid darkslategrey;">
+			<td id="aufgabstatistik"   style="vertical-align:bottom; border: 0px solid darkslategrey;">
+
+			<div id="zugstatistik" style="">Zugstatistik</div>  
 			
 
-    <div style="padding-bottom:45px;"> 			
-			<table id="aufgaben0" style="min-width: 200px; min-height: 40px; border: 0px solid darkslategrey; ">
-    <tr>
-        <td id="header" style="background-color: #ddd; padding: 5px; font-family: Arial, sans-serif;">
-            <span id="toggleBtn" onclick="toggleAufgaben()" 
-                  style="cursor: pointer; font-weight: bold; padding: 2px 6px; border: 1px solid silver; ">
-                <small>−</small>
-            </span>
-            <strong><small>Aufgaben</small></strong>
-        </td>
-    </tr>
+	<table id="aufgaben0" >
 
-    <tr>
-        <td>
+    <tr><td>
 
           <table id="aufgaben1" style=" font-family: Arial, sans-serif; font-size: 12px;">
+
 <tr><td>
-<a href="./Muehle.htm?pos=000200000211021000000000218&level=4&internally=1&takefrommillallowed=0" target="_blank"><b>Gewinne mit Weiß (3 gegen 3)</b></a>
+
+<!--
+<span id="toggleBtn" onclick="toggleAufgaben()" 
+      style="
+          cursor: pointer; 
+          font-weight: bold; 
+          padding: 0px 3px;          
+          border: 2px solid #442233;  
+          font-size: 0.8em;          
+          line-height: 1;
+          border-radius: 4px;        
+      ">
+    -
+</span>
+<strong>Aufgaben / Tasks</strong>
+//-->
+
+
+</td></tr>
+
+
+<tr><td>
+<a href="./Muehle.htm?pos=000200000211021000000000218&level=3&internally=1&takefrommillallowed=0" target="_blank"><b>Gewinne mit Weiß (3 gegen 3)</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000212122212210012120110+18&level=7&takefrommillallowed=0&moves=17WK" target="_blank"><b>Gewinne die vertrackte Stellung</b></a>
+<a href="./Muehle.htm?pos=000212122212210012120110+18&level=3&takefrommillallowed=0&moves=17WK" target="_blank"><b>Gewinne die vertrackte Stellung</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=21001022121021211202012118&level=5&internally=1&takefrommillallowed=0" target="_blank"><b>Weiß gewinnt</b></a>
+<a href="./Muehle.htm?pos=21001022121021211202012118&level=3&internally=1&takefrommillallowed=0" target="_blank"><b>Weiß gewinnt</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=01102000102012121102001215&level=2&internally=1&takefrommillallowed=0" target="_blank"><b>Kann sich Schwarz den Zug a4 erlauben?</b></a>
+<a href="./Muehle.htm?pos=01102000102012121102001215&level=3&internally=1&takefrommillallowed=0" target="_blank"><b>Kann sich Schwarz den Zug a4 erlauben?</b></a>
 </td></tr>
 
 <tr><td>
@@ -1593,42 +1674,87 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=01002000010102220001110088&level=5&takefrommillallowed=0&moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank"><b>Warum war g1–g4 keine gute Idee?</b></a>
+<a href="./Muehle.htm?pos=01002000010102220001110088&level=3&takefrommillallowed=0&moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank"><b>Warum war g1–g4 keine gute Idee?</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=112011020211210020212200+16&level=1&takefrommillallowed=0&moves=1LRFWONUTCIBDMVGK" target="_blank"><b>Auf Anhieb ist gar nicht zu sehen, wer besser steht</b></a>
+<a href="./Muehle.htm?pos=112011020211210020212200+16&level=3&takefrommillallowed=0&moves=1LRFWONUTCIBDMVGK" target="_blank"><b>Auf Anhieb ist gar nicht zu sehen, wer besser steht</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=010020212012111201020000+15&level=9&takefrommillallowed=0&moves=1LHOQSMoPFCUNGOgJIXRW" target="_blank"><b>Gewinne mit Schwarz</b></a>
+<a href="./Muehle.htm?pos=010020202012111201020000+14&level=3&takefrommillallowed=0&moves=1LHOQSMoPFCUNGOgJI" target="_blank"><b>Gewinne mit Weiss</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=100211100211020120222010+17&level=8&takefrommillallowed=0&moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target="_blank"><b>Schwarz gewinnt</b></a>
+<a href="./Muehle.htm?pos=100211100211020120222010+17&level=3&takefrommillallowed=0&moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target="_blank"><b>Schwarz gewinnt</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000010200112221221012000+14&level=9&takefrommillallowed=0&moves=1FOLNPRUHKMSQfFV" target="_blank"><b>Kompliziert, Weiß gewinnt</b></a>
+<a href="./Muehle.htm?pos=000010200112221221012000+14&level=3&takefrommillallowed=0&moves=1FOLNPRUHKMSQfFV" target=""><b>Kompliziert, Weiß gewinnt</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=100211000010221020222010+14&level=9&takefrommillallowed=0&moves=1LOFUBVGTgGNPRXE" target="_blank"><b>Gewinne mit Weiß auf Meister‑Stufe</b></a>
+<a href="./Muehle.htm?pos=100211000010221020222010+14&level=3&takefrommillallowed=0&moves=1LOFUBVGTgGNPRXE" target="" title="Partie gegen das starke Programm www.bernhard-gaul.de/spiele/muehle/muehle2.php" ><b>Gewinne mit Weiß auf Meister‑Stufe</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=221221220200100100100100+22&level=1&takefrommillallowed=1" target="_blank"><b>Mühle‑Datenbank – Gewinn in 165</b></a>
+<a href="./Muehle.htm?pos=221221220200100100100100+22&level=3&takefrommillallowed=1" target="_blank"><b>Mühle‑Datenbank – Gewinn in 165</b></a>
 </td></tr>
 
-</table>
+<tr><td>
+<a href="./Muehle.htm?pos=000010000000000000020000+2&level=3" target=""><b>10 Steine</b></a>
+</td></tr>
+
+
+
+</table> 
+<!-- Ende Table aufgaben1 -->
+
+
 
 </td>
 </tr>
+
+		<tr>
+        <td id="header" style="background-color: #ddd; padding: 6px; font-family: Arial, sans-serif; font-size: 13px;">
+<!--
+            <span id="toggleBtnU" onclick="toggleAufgaben()" 
+			
+                  style=" font-size: 0.8em; line-height: 1; padding: 0px 1px; border: 1px solid #442233; border-radius: 4px; ">
+                <strong>−</strong>
+            </span>
+            <strong><small>&nbsp;Aufgaben / Tasks</small></strong>
+-->
+        <!-- Kleiner, dunkelgrauer Button -->
+<span id="toggleBtnU"
+      onclick="toggleAufgaben();"
+      style="
+          display: inline-block;
+          padding: 1px 4px;
+          background-color: #555;
+          color: #fff;
+          border: 1px solid #333;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.8em;
+          line-height: 1;
+          user-select: none;
+      ">
+            <strong>
+                + Aufgaben / Tasks
+            </strong>
+        </span>
+
+
+        </td>
+        </tr>
+
 </table>
-</div>
+
+
+<!-- Ende Table aufgaben0 -->
 
 			
-			<div id="zugstatistik" style="position:absolute; bottom:0; left:0; min-width: 180px;">Zugstatistik</div>  
 			
 			
 			</td>
@@ -1698,7 +1824,20 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 
 </div>
 
-<div nowrap=""><img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="if (!isRunning && highafstarted==0) pos2url()" title="Stellung und Spielstufe in URL speichern" alt="nikohaus" />        
+<div class="footer-line">
+
+<!-- Der klickbare Radiobutton -->
+<input 
+    type="radio" 
+    id="takeFromMillAllowedBtn"
+    title="TakeFromMillAllowed"
+    onclick="toggleTakeFromMillAllowed()"
+/>
+
+
+<img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" 
+onClick="if (!isRunning && highafstarted==0) pos2url()" title="Stellung und Spielstufe in URL speichern" alt="nikohaus" />        
+
 <span id="Ausgabe" nowrap="">             Muehle JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
  <img id="flag_de" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangde()" alt="lang=de" />         
  <img id="flag_en" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangen()" alt="lang=en" />         
@@ -1855,6 +1994,12 @@ var globalbestwertung=0;
 /* ?????????????????????????????????????????????????????????????????????????? */
 /* ?????????????????????????????????????????????????????????????????????????? */
 
+function DispTakeFromMillAllowed() {
+    var rb = document.getElementById("takeFromMillAllowedBtn");
+    rb.checked = (takefrommillallowed === 1);
+}
+
+
 function fwd1() {
 //    alert("fwA"+zugnr);
 //showZugHistory(zughistory,zugnr);
@@ -1942,7 +2087,6 @@ function bck1b() {
     document.getElementById("textelem").value = showZugHistory(zughistory,zugnr);
     VarianteAus();
 }
-
 
 
 function clrselfplay()
@@ -4030,7 +4174,7 @@ function nextwnf (nextzug)
 }
 function firstwnf (nextzug)
 {
-  if (takefrommillallowed!=2)
+  if (takefrommillallowed!=2) // takefrommillallowed kann nur 0 oder 1 annehmen, also aequiv if(true) villeicht historisch begr
   for(nextzug.wnf=1; nextzug.wnf<=24; nextzug.wnf+=1)
   {
    if (spfeld[nextzug.wnf] == 3-farbe)
@@ -4499,6 +4643,8 @@ window.addEventListener('keydown', e => {
 	if (e.key === 'R') toggleRemissuche();
 	if (e.key === 't') toggleZugstatistik();
 	if (e.key === 'T') toggleZugstatistik();
+	if (e.key === 'z') toggleZufall();
+	if (e.key === 'Z') toggleZufall();
 });
 
 async function computemoveA() {
@@ -4626,7 +4772,8 @@ var rtvdelay=0;
 
 var zufbonus=8;
 
-var globalProblem=0; if (globalProblem) zufbonus=0; 
+var globalProblem=0; if (globalProblem) zufbonus=4; 
+var globalZufall=1;  
 var globalgering1=3;
 var globalgering2=2;
 var globalgering3=2;
@@ -4672,8 +4819,8 @@ async function berbestzug1_async (rtv,alpha,maxzug)
   //alert ("af:"+nextzug.af+" zf:"+nextzug.zf+" wnf:"+nextzug.wnf+" wertung:"+nextzug.wertung)
 
   mixzuglist(zuglist);
-  var zuffakt=1; if(zugnr<4) zuffakt=1.2; if(zugnr>8) zuffakt=0.8;if(zugnr>12) zuffakt=0.6; 
-  rndzuglist(zuglist,Math.floor(zufbonus));
+  var zuffakt=1; if(zugnr<4) zuffakt=1.2; if(zugnr>8) zuffakt=0.8;if(zugnr>12) zuffakt=0.6;   
+  rndzuglist(zuglist,Math.floor(zufbonus)); // zufalls wert [0..zufbons}-2 geht nach zuglist.wertung und zuglist.wnfAM
   globalvariants0=zuglist.length;
   globalzuglistlength1=zuglist.length;
   globalzuglistlength2=zuglist.length;
@@ -4758,7 +4905,7 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 		} 
 		else 
 		{	
-			aktwertungzugliste = await berbestzug_async(rtvi+sel-rtvdelay, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM);
+			aktwertungzugliste = await berbestzug_async(rtvi+sel-rtvdelay, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
 		};
 
         aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
@@ -4886,7 +5033,7 @@ const ConstRemisPos=1; // 0 oder 1 kompliziertes Thema,
 // - Aus Sicht der der unterlegenen Seite: die überlegene Seite vermeidet Zugw, könnte aber bei erkannter Zugw versuchen zu helfen, um den eigenen Remiswert zu verbessern
 // - Aus Sicht der überl. Seite: Wiederholung i.d.R nicht erzwingbar
 // Könnte man mögl.weise alles lösen. In der Praxis reicht aber die Erkenntnis, ob und in wie vielen Z. die unterl Seite Zgw erreichen kann
-
+//
 
 
 
@@ -6055,6 +6202,7 @@ if (window.location.search != "")
     clearmove();        /*draw board*/
     }
   //drawZoom(globalZoom);
+  DispTakeFromMillAllowed();
 }
 
 function striphref(href)
@@ -6212,11 +6360,14 @@ function clearmove()
 // alert("clearboard");
  clearboard();
  clearmove1();
+ DispTakeFromMillAllowed();
+
 }
 function clearmove1()
 {
 //alert("clearmove1");
  afclicked=zfclicked=wnfclicked=0;
+DispTakeFromMillAllowed();
 
  var text="";
  text+= " Zug "+ (Math.floor(zugnr/2)+1);
@@ -7065,7 +7216,7 @@ var backzuege=0;
       if (zughistory[i50].zf==0) break; 
       if (zughistory[i50].af==0) break; 
     }
-    return backzuege>=50;
+    return backzuege>=50*2; //100 Hz
 }
 
 function formatMitPunkten(zahl) {return zahl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");}
@@ -7107,6 +7258,14 @@ function toggleTakeFromMillAllowed() {
 	takefrommillallowed=1-takefrommillallowed;
     if(takefrommillallowed) melde("takefrommillallowed on");
     if(!takefrommillallowed) melde("takefrommillallowed off");
+	DispTakeFromMillAllowed();
+}
+
+var globalZufall=1;
+function toggleZufall() {
+	globalZufall=1-globalZufall;
+    if(globalZufall) melde("Random on");
+    if(!globalZufall) melde("Random off");
 }
 
 function toggleFast() {
@@ -7137,15 +7296,15 @@ function toggleTextarea() {
 toggleAufgaben();
 function toggleAufgaben() {
     var tbl = document.getElementById("aufgaben1");
-    var btn = document.getElementById("toggleBtn");
+    var btn = document.getElementById("toggleBtnU");
 
     if (tbl.style.display === "none") {
         tbl.style.display = "table";
-        btn.innerHTML = "−";
+        btn.innerHTML = "− "+ (language == "de" ? "Aufgaben" : "Tasks");
 		(document.getElementById("zugstatistik")).style.display="none";
-    } else {
+	} else {
         tbl.style.display = "none";
-        btn.innerHTML = "+";
+        btn.innerHTML = "+ "+ (language == "de" ? " Aufgaben" : "Tasks");
 		(document.getElementById("zugstatistik")).style.display="block";
     }
 }
@@ -7160,8 +7319,10 @@ function toggleZugstatistik() {
       if (element.style.display === "none") {
           element.style.display = "block"; // Oder "inline-block", je nach gewünschtem Layout
           //element2.style.display = "table"; // Oder "inline-block", je nach gewünschtem Layout
+(document.getElementById("toggleBtnU")).style.display="inline";
         } else {
       element.style.display = "none";
+(document.getElementById("toggleBtnU")).style.display="none";
 //    element2.style.display = "none";
       }
 }
@@ -7179,10 +7340,16 @@ function toggleClassic() {
     if(!globalClassicNotation) melde("Notation Compact");
 }
 
+// Remissuche: In der Grundeinstellung bekommt jeder Zug einen zufälligen Bonus (zufbonus). 
+// Das hat den Effekt, dass das Programm im Grundsatz optimistisch gestimmt ist, da sich auch in ausgeglichenen Stellungen fast immer ein Zug mit einer positiven Wertung findet. 
+// Das Programm hat daher die Tendenz Remis zu vermeiden. 
+// Den Gegenteiligen Effekt hat ein negativer Bonus. 
+// Das Programm ist pessimistisch getimmt und hat die Tendenz Remis zu suchen. 
 function toggleRemissuche() {
 	zufbonus=-zufbonus;
-    if(zufbonus<0) melde("Remis preferred on");
-    if(zufbonus>0) melde("Remis preferred off");
+
+    if(zufbonus<0) melde("Remis preferred on (" + zufbonus+ ")");
+    if(zufbonus>=0) melde("Remis preferred off (" + zufbonus+ ")");
 }
 
 
@@ -7203,6 +7370,9 @@ function toggleRemissuche() {
 --A112PzohQma9grid.htm.htm--
 --A117PzohQma9grid.htm.htm-- 50 Zuege Regel 06.04.26
 --A121PzohQma9grid.htm.htm-- Aufgaben, 2-player, TakeFrommillAllowed  06.04.26
+--A123PzohQma9grid.htm.htm--  11.04.26
+--A124PzohQma9grid.htm.htm--  13.04.26
+--A126PzohQma9grid.htm.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
 
 */
 
