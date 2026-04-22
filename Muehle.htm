@@ -248,6 +248,20 @@ table#board .stone {
 
 
 <style type="text/css">
+
+.outer-table td {
+  padding: 3px;
+}
+
+# mboard0 td {
+  padding: 0px;
+}
+
+#board td {
+  padding: 0;
+}
+
+
   #nervigerlayer {
     position: absolute;
     /* Neuer, heller Hintergrund: Sehr helles Blau */
@@ -1443,12 +1457,12 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 
 
 
-<table border="0" cellpadding="2">
+<table class="outer-table">
     <tbody>
         <tr>
             <!-- Linke Spalte: deine bestehende Tabelle -->
             <td valign="top">
-            <table cellspacing="4" cellpadding="2" border="0">
+            <table id="mboard0">
                 <tbody>
                     <tr>
                         <td bgcolor="white">
