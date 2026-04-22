@@ -781,7 +781,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
     btn.textContent = hidden ? '&ii;' : '&ii;' ;
   })(this)">&ii;
 </button>
-
+&nbsp;
 
 <span class="zoom-strip horizontal">
 <font color="DarkSlateGray"><small> Zoom &nbsp;</small></font>
@@ -1736,34 +1736,21 @@ document.querySelectorAll('.zoom-item').forEach(item => {
             <strong><small>&nbsp;Aufgaben / Tasks</small></strong>
 -->
         <!-- Kleiner, dunkelgrauer Button -->
-<span id="toggleBtnU"
+
+<span id="toggleBtnU0">
+	<span id="toggleBtnU"
       onclick="toggleAufgaben();"
-      style="
-          display: inline-block;
-          padding: 1px 4px;
-          background-color: #555;
-          color: #fff;
-          border: 1px solid #333;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 0.8em;
-          line-height: 1;
-          user-select: none;
-      ">
-            <strong>
-                + Aufgaben / Tasks
-            </strong>
-        </span>
+      style=" display: inline-block; padding: 1px 4px; background-color: #555; color: #fff; border: 1px solid #333; 
+	  border-radius: 4px; cursor: pointer; font-size: 0.8em; line-height: 1; user-select: none; ">
+      <strong> + Aufgaben / Tasks </strong>
+	</span>
 
 &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; &nbsp; 
+
 <!-- Der klickbare Radiobutton -->
-<input 
-    type="radio" 
-    id="takeFromMillAllowedBtn"
-    title="TakeFromMillAllowed"
-    onclick="toggleTakeFromMillAllowed()"
-/>
+<input  type="radio" id="takeFromMillAllowedBtn" title="TakeFromMillAllowed" onclick="toggleTakeFromMillAllowed()" />
+</span>
 
 
 
@@ -7340,10 +7327,10 @@ function toggleZugstatistik() {
       if (element.style.display === "none") {
           element.style.display = "block"; // Oder "inline-block", je nach gewünschtem Layout
           //element2.style.display = "table"; // Oder "inline-block", je nach gewünschtem Layout
-(document.getElementById("toggleBtnU")).style.display="inline";
+(document.getElementById("toggleBtnU0")).style.display="inline";
         } else {
       element.style.display = "none";
-(document.getElementById("toggleBtnU")).style.display="none";
+(document.getElementById("toggleBtnU0")).style.display="none";
 //    element2.style.display = "none";
       }
 }
