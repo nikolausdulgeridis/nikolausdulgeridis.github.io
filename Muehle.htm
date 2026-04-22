@@ -1755,6 +1755,17 @@ document.querySelectorAll('.zoom-item').forEach(item => {
             </strong>
         </span>
 
+&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; 
+<!-- Der klickbare Radiobutton -->
+<input 
+    type="radio" 
+    id="takeFromMillAllowedBtn"
+    title="TakeFromMillAllowed"
+    onclick="toggleTakeFromMillAllowed()"
+/>
+
+
 
         </td>
         </tr>
@@ -1814,7 +1825,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 <input type="button" id="Btnbck1" value="&lt;" onclick="clrselfplay(); if (!isRunning && highafstarted==0) bck1();" />        
 <input type="button" id="Btnfwd1" value="&gt;" onclick="clrselfplay(); if (!isRunning && highafstarted==0) fwd1();" />         
 <label for="levelSelect">&nbsp; Level </label>  
-    <select id="levelSelect" title="hier Level eingeben">
+    <select id="levelSelect" title="Spielstufe / Level">
     <option value="0">0</option>
     <option value="1" selected="">1</option>
     <option value="2">2</option>
@@ -1828,25 +1839,25 @@ document.querySelectorAll('.zoom-item').forEach(item => {
     </select> 
 </div>
  <div class="btn-group">
-<input type="button" id="BtnSelfplay" value="Auto" onclick=" closeEinleitung(); if (!isRunning) selfplay(); else clrselfplay(); " />         
-<input type="button" name="BtnMhelp" id="BtnMhelp" value="?" onclick=" closeEinleitung(); mhelp();" title="Hilfe" />         
+<input type="button" id="BtnSelfplay" value="Auto" onclick=" closeEinleitung(); if (!isRunning) selfplay(); else clrselfplay();" title="Autoplayer" />         
+<input type="button" name="BtnMhelp" id="BtnMhelp" value="?" onclick=" closeEinleitung(); mhelp();" title="Hilfe / help" />         
 </div>
 
 </div>
 
 <div class="footer-line">
 
-<!-- Der klickbare Radiobutton -->
+<!-- Der klickbare Radiobutton 
 <input 
     type="radio" 
     id="takeFromMillAllowedBtn"
     title="TakeFromMillAllowed"
     onclick="toggleTakeFromMillAllowed()"
 />
-
+-->
 
 <img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" 
-onClick="if (!isRunning && highafstarted==0) pos2url()" title="Stellung und Spielstufe in URL speichern" alt="nikohaus" />        
+onClick="if (!isRunning && highafstarted==0) pos2url()" title="Sichern / Save game in URL" alt="nikohaus" />        
 
 <span id="Ausgabe" nowrap="">             Muehle JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
  <img id="flag_de" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangde()" alt="lang=de" />         
