@@ -5234,9 +5234,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
   // A RT-Bonus für Stellungen mit wenig Zugmöglichkeiten
   //  if (zuglist.length<9){rtv+=1-0.1*zuglist.length;}  
   if(globalProblem) 
-     {if (zuglist.length < 9) rtv += RT_BONUS_TABLE[zuglist.length];}
+     { if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += RT_BONUS_TABLE[zuglist.length]; else rtv += 1/2* RT_BONUS_TABLE[zuglist.length]} ;}
   else 
-     if (zuglist.length < 9) rtv += RT_BONUS_TABLE[zuglist.length];
+     { if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += RT_BONUS_TABLE[zuglist.length]; else rtv += 1/2* RT_BONUS_TABLE[zuglist.length]} ;}
 
 
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
@@ -5343,9 +5343,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		  if (rta+rtv> globalrtvi+2+globalrestsel)
 		  if (Math.abs(wf-stwertung) <60)
 		  {
-			if(mymoves+gegmoves>12)  if (Math.abs(wf-stwertung) >5+rtv*4) {mybonuswf-=0.2;};
-			if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >7+rtv*4) {mybonuswf-=0.3;};
-			if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >11+rtv*4) {mybonuswf-=0.3;};
+			if(mymoves+gegmoves>12)  if (Math.abs(wf-stwertung) >5+rtv*3) {mybonuswf-=0.2;};
+			if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >7+rtv*3) {mybonuswf-=0.3;};
+			if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >11+rtv*3) {mybonuswf-=0.3;};
 		   }
 		  }
 		if(rtv<8)
@@ -5370,6 +5370,10 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	  if(rtv>6) if(mybonuswf>0.5) mybonuswf=0.5;
 	  if(rtv>5) if(mybonuswf>0.7) mybonuswf=0.7;
 	  if(rtv>4) if(mybonuswf>1) mybonuswf=1;
+
+	  if(rtv>6) if(mybonuswf<-0.5) mybonuswf=-0.5;
+	  if(rtv>5) if(mybonuswf<-0.7) mybonuswf=-0.7;
+	  if(rtv>4) if(mybonuswf<-1) mybonuswf=-1;
 
 	
 	
@@ -5684,9 +5688,9 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length<6){rtv+=1.1-0.2*zuglist.length;}  
   //const FRT_BONUS_TABLE = [0.8, 0.8, 0.6, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0,];
   if(globalProblem) 
-	{ if (zuglist.length < 9) rtv += FRT_BONUS_TABLE[zuglist.length]; }
+	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FRT_BONUS_TABLE[zuglist.length]; else rtv += 1/4* FRT_BONUS_TABLE[zuglist.length]}  }
   else
-	if (zuglist.length < 9) { rtv += FRT_BONUS_TABLE[zuglist.length]; }
+	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FRT_BONUS_TABLE[zuglist.length]; else rtv += 1/4* FRT_BONUS_TABLE[zuglist.length]}  };
 
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
@@ -5941,9 +5945,9 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length<6){rtv+=1.1-0.2*zuglist.length;}  
   const FPRT_BONUS_TABLE = [0.5, 0.5, 0.4, 0.2, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0,];
   if(globalProblem) 
-	{ if (zuglist.length < 9)  rtv += FPRT_BONUS_TABLE[zuglist.length]; }
+	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FPRT_BONUS_TABLE[zuglist.length]; else rtv += 1/2*FPRT_BONUS_TABLE[zuglist.length]} ;}
   else
-	if (zuglist.length < 9) { rtv += FPRT_BONUS_TABLE[zuglist.length]; }
+	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FPRT_BONUS_TABLE[zuglist.length]; else rtv += 1/2*FPRT_BONUS_TABLE[zuglist.length]} ;}
 	
   }
   else if(rtv>1){
@@ -7385,6 +7389,7 @@ function toggleRemissuche() {
 --A123PzohQma9grid.htm.htm--  11.04.26
 --A124PzohQma9grid.htm.htm--  13.04.26
 --A127PzohQma9grid.htm.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
+--A128PzohQma9grid.htm.htm--  25.04.26 
 
 */
 
