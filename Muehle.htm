@@ -1,12 +1,20 @@
+
+<link rel="shortcut icon" href=
+'data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAGAAAABgAAAAEAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8A///////////////////////////////////////////wAAAAAAAAAAAAAAAAAAD/8P////////D////////w//D////////w////////8P/w////////8P////////D/8P///////8zP///////w//D//wAAAADMwAAAAA//8P/w//8P////zM////8P//D/8P//D/////D/////D//w//D//w/////w/////w//8P/w//8P////8P////8P//D/8P//D//wAAAAAP//D//w//D//w//8P////D//w//8P/w//8P//D////w//8P//D/8P/5mf+Zn///8P/8zP/w//AACZlmmZ////AADMwAAP/w//mZ/5mf///w//zM//D/8P//D//w////8P//D//w//D//w//8P////D//w//8P/w//8P//AAAAAA//8P//D/8P//D/////D/////D//w//D//w/////w/////w//8P/w//8P////8P////8P//D/8P//D/////D////8zP/w//D//wAAAAAAAAAADMz/8P/w////////8P////zM//D/8P////////D////////w//D////////w////////8P/w////////8P////////D/8AAAAAAAAAAAAAAAAAAA//////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=='
+/>
+
 ---
 ---
 
 <!--
+
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
 <meta name="keywords" content="Nikolaus Dulgeridis JavaScript Muehle Morris Witze BMI Rechner" meta=""> </meta>
 <meta name="description" content="JavaScript Muehle Witze "></meta>
 <title>JavaScript - Muehlespiel</title>
+
 -->
+ 
 
 <style>
 /* =========================================================
@@ -1630,7 +1638,15 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 		    </td>
             
 			<!-- Aufgaben und Statistik //-->
-			<td id="aufgabstatistik"   style="vertical-align:bottom; border: 0px solid darkslategrey;">
+						
+			<td id="aufgabstatistik"   style="vertical-align:bottom; border: 0px solid grey;">
+
+<div  id="divSloppyMill" style=" border: 0px solid darkslategrey;  border-radius:4px;   border: 1px solid cyan;   background-color: #FaF8F4; padding:4px;    ">
+ <img id="imgSloppyMill" class="cSloppyMill" width="160px" height="33px"
+ src='data:image/png;base64,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'
+ onClick="setlangde()" alt="lang=de" />     
+</div>
+ <br>
 
 			<div id="zugstatistik" style="">Zugstatistik</div>  
 			
@@ -1738,6 +1754,8 @@ document.querySelectorAll('.zoom-item').forEach(item => {
         <!-- Kleiner, dunkelgrauer Button -->
 
 <span id="toggleBtnU0">
+
+
 	<span id="toggleBtnU"
       onclick="toggleAufgaben();"
       style=" display: inline-block; padding: 1px 4px; background-color: #555; color: #fff; border: 1px solid #333; 
@@ -1850,7 +1868,7 @@ TFMA
 <img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" 
 onClick="if (!isRunning && highafstarted==0) pos2url()" title="Sichern / Save game in URL" alt="nikohaus" />        
 
-<span id="Ausgabe" nowrap="">             Muehle JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
+<span id="Ausgabe" nowrap=""> Sloppy Mill JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
  <img id="flag_de" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangde()" alt="lang=de" />         
  <img id="flag_en" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangen()" alt="lang=en" />         
 <a id="regeln" href="javascript:Regeln()">Regeln/Rules</a>       </span>
@@ -6040,6 +6058,8 @@ if(debuginc) document.write("end of move<br>");
  var nikohaus  = new Image();
  var sanduhr  = new Image();
  var muehle16px  = new Image();
+ var SloppyMill = new Image();
+ 
  if(0) var muehlelogo= new Image();
 
  if(0)
@@ -7317,10 +7337,12 @@ function toggleAufgaben() {
     if (tbl.style.display === "none") {
         tbl.style.display = "table";
         btn.innerHTML = "− "+ (language == "de" ? "Aufgaben" : "Tasks");
+		(document.getElementById("divSloppyMill")).style.display="none";
 		(document.getElementById("zugstatistik")).style.display="none";
 	} else {
         tbl.style.display = "none";
         btn.innerHTML = "+ "+ (language == "de" ? " Aufgaben" : "Tasks");
+		(document.getElementById("divSloppyMill")).style.display="block";
 		(document.getElementById("zugstatistik")).style.display="block";
     }
 }
@@ -7334,10 +7356,12 @@ function toggleZugstatistik() {
       //alert(""+element2.style.display);
       if (element.style.display === "none") {
           element.style.display = "block"; // Oder "inline-block", je nach gewünschtem Layout
+  		(document.getElementById("divSloppyMill")).style.display="block";
           //element2.style.display = "table"; // Oder "inline-block", je nach gewünschtem Layout
 (document.getElementById("toggleBtnU0")).style.display="inline";
         } else {
       element.style.display = "none";
+	  		(document.getElementById("divSloppyMill")).style.display="none";
 (document.getElementById("toggleBtnU0")).style.display="none";
 //    element2.style.display = "none";
       }
@@ -7390,6 +7414,8 @@ function toggleRemissuche() {
 --A124PzohQma9grid.htm.htm--  13.04.26
 --A127PzohQma9grid.htm.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
 --A128PzohQma9grid.htm.htm--  25.04.26 
+--A129PzohQma9grid.htm.htm--  25.04.26 
+--A130PzohQma9grid.htm.htm--  30.04.26 neues icon
 
 */
 
