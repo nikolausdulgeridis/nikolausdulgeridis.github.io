@@ -1,17 +1,16 @@
 ---
 ---
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+<title>Sloppy - online Mill/Morris/Muehle game and analysis board </title>
+
+<meta name="keywords" content="Nikolaus Dulgeridis Sloppy JavaScript Muehle Morris Enertainment" ></meta>
+<meta name="description" content="Sloppy - online Mill/Morris/Muehle game and analysis board"></meta>
 
 
 <!--
 <link rel="shortcut icon" href=
 'data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAGAAAABgAAAAEAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8A///////////////////////////////////////////wAAAAAAAAAAAAAAAAAAD/8P////////D////////w//D////////w////////8P/w////////8P////////D/8P///////8zP///////w//D//wAAAADMwAAAAA//8P/w//8P////zM////8P//D/8P//D/////D/////D//w//D//w/////w/////w//8P/w//8P////8P////8P//D/8P//D//wAAAAAP//D//w//D//w//8P////D//w//8P/w//8P//D////w//8P//D/8P/5mf+Zn///8P/8zP/w//AACZlmmZ////AADMwAAP/w//mZ/5mf///w//zM//D/8P//D//w////8P//D//w//D//w//8P////D//w//8P/w//8P//AAAAAA//8P//D/8P//D/////D/////D//w//D//w/////w/////w//8P/w//8P////8P////8P//D/8P//D/////D////8zP/w//D//wAAAAAAAAAADMz/8P/w////////8P////zM//D/8P////////D////////w//D////////w////////8P/w////////8P////////D/8AAAAAAAAAAAAAAAAAAA//////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=='
 />
-
-<meta name="keywords" content="Nikolaus Dulgeridis JavaScript Muehle Morris Witze BMI Rechner" meta=""> </meta>
-<meta name="description" content="JavaScript Muehle Witze "></meta>
-<title>JavaScript - Muehlespiel</title>
-
 -->
  
 
@@ -31,7 +30,22 @@
   /* Steine */
   --stone:         calc(40px * var(--scale));
   
-    
+  /* Labels (schmal/flach, außerhalb des Boards) */
+  --label-h: 22px;    /* Top/Bottom – niedriger */
+  --label-w: 20px;    /* Left/Right – schmaler */
+  --label-color: #333;
+  --label-bg: rgba(150,200,180,0.10);
+  --label-font: 12px system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --labeldistanz: -0.95; /* Abstand der Beschriftung*/
+}
+
+/* ===========================================
+   (Optional) Scale-Buttons – falls benutzt
+   =========================================== */
+.scale-btn-group { display: inline-flex; gap: 2px; margin-right: 6px; vertical-align: middle; }
+.scale-btn { font: inherit; padding: 1px 4px; cursor: pointer; border: 1px solid #888; background: #efefef; border-radius: 3px; line-height: 1.0; }
+.scale-btn.active { background: #dde6ff; border-color: #5570ff; font-weight: bold; }
+
 
 /* =========================
    Original-CSS (belassen)
@@ -68,23 +82,6 @@ img#mittte {
 }
 
 
-/* ===========================================
-   (Optional) Scale-Buttons – falls benutzt
-   =========================================== */
-.scale-btn-group { display: inline-flex; gap: 2px; margin-right: 6px; vertical-align: middle; }
-.scale-btn { font: inherit; padding: 1px 4px; cursor: pointer; border: 1px solid #888; background: #efefef; border-radius: 3px; line-height: 1.0; }
-.scale-btn.active { background: #dde6ff; border-color: #5570ff; font-weight: bold; }
-
-
-  /* Labels (schmal/flach, außerhalb des Boards) */
-  --label-h: 22px;    /* Top/Bottom – niedriger */
-  --label-w: 20px;    /* Left/Right – schmaler */
-
-  --label-color: #333;
-  --label-bg: rgba(150,200,180,0.10);
-  --label-font: 12px system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --labeldistanz: -0.95; /* Abstand der Beschriftung*/
-}
 
 /* ===========================================
    BOARD-WRAPPER + SURFACE-LAYER (PNG)
@@ -121,7 +118,7 @@ table#board {
   min-width:  var(--board-size);
   min-height: var(--board-size);
 
-  /* ✅ Hintergrundbild exakt auf Boardgröße ziehen */
+  /*  Hintergrundbild exakt auf Boardgröße ziehen */
   background-size: var(--board-size) var(--board-size);
   background-repeat: no-repeat; /* optional, je nach Bild */
   background-position: left top; /* optional */
@@ -264,7 +261,7 @@ table#board .stone {
 }
 
 #board td {
-  padding: 0;
+  padding: 0px;
 }
 
 
@@ -301,6 +298,388 @@ table#board .stone {
 }
 
 </style>
+
+<style type="text/css">
+
+.zielkreuz {
+    display: inline-block;
+    font-size: 2.5em;           /* Gewünschte Größe */
+    vertical-align: middle;   /* Grobe Zentrierung */
+    line-height: 1;           /* Verhindert zusätzliche Zeilenhöhe */
+    transform: translateY(-0.05em); /* Feinjustierung nach unten (+) oder oben (-) */
+}
+</style>
+
+<style>
+.stoneset-selector {
+  gap: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+
+
+.stoneset-btn {
+  all: unset;
+  display: block ;
+  width: 20px ;
+}
+
+
+
+.stoneset-btn:hover {
+  opacity: 1;
+  background: rgba(255,255,255,0.5);
+}
+
+.stoneset-btn.active {
+  opacity: 1;
+  outline: 1px solid #DDAAEE;
+  outline-offset: -1px;
+  background: rgba(255,255,255,0.4);
+}
+
+
+.stoneset-selector.horizontal {
+  display: inline-flex !important; /* Erzwingt Flexbox-Layout */
+  flex-direction: row;            /* Nebeneinander */
+  flex-wrap: nowrap;              /* Kein Umbruch auf die nächste Zeile */
+  align-items: center;
+  gap: 4px;                       /* Kleiner Abstand zwischen den Steinen */
+  white-space: nowrap;            /* Verhindert Text-Umbruch falls vorhanden */
+}
+
+
+.stoneset-btn img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+}
+
+
+.stoneset-btn img {
+  display: block;     /* Verhindert Ghost-Abstände unter dem Bild */
+  width: 16px;        /* Bildgröße */
+  height: 16px;
+  pointer-events: none; /* Klick geht durch auf den Button */
+}
+
+.stoneset-btn {
+  all: unset;         /* Entfernt alle Browser-Standard-Styles */
+  display: block !important; 
+  cursor: pointer;
+  flex-shrink: 0;                 /* Verhindert, dass die Buttons schrumpfen */
+  width: 20px !important;         /* Feste Breite für Touch-Bedienung am Handy */
+  height: 20px !important;        /* Etwas größer als 20px, damit man sie mit dem Finger trifft */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    border-radius: 4px;
+  transition: background 0.2s;
+    overflow: hidden;            /* Schneidet mögliche Geister ab */
+}
+
+
+.stoneset-btn {
+  /* … deine bisherigen Regeln … */
+  min-width: 22px !important;
+  min-height: 22px !important;
+  position: relative;
+}
+
+.xstoneset-btn {
+  outline: 1px solid red !important;      /* temporär – roter Rahmen um den echten Button */
+  background: rgba(255,0,0,0.1) !important; /* halbtransparenter roter Hintergrund */
+}
+
+.xstoneset-btn img {
+  outline: 1px solid lime !important;     /* grüner Rahmen ums Bild */
+}
+
+</style>
+
+
+
+<style type="text/css">
+
+#ZSControl {
+  display: flex;
+  align-items: center;   /* ← verhindert Streckung */
+}
+
+#toggleLabelsBtn {
+  align-self: center;
+  display: inline-flex;
+  max-width: fit-content;
+}
+
+.small-btn {
+  font-size: 10px;      /* Schrift kleiner */
+  padding: 2px 6px;     /* weniger Innenabstand */
+  line-height: 1.0;
+  border-radius: 3px;   /* wenn du es rundlicher willst */
+}
+
+
+.zoom-strip *, 
+.stoneset-selector * {
+  vertical-align: middle;
+}
+
+
+.zoom-strip {
+  background: LightGray;
+  border: grey;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(40,40,40,0.08);
+  backdrop-filter: blur(3px);
+  display: inline-flex;           /* wichtig für Flow */
+  align-items: center;
+}
+
+/* Vertikal */
+.zoom-strip.vertical {
+  flex-direction: column;
+  padding: 2px 0;
+  gap: 1px;
+}
+
+/* Horizontal */
+.zoom-strip.horizontal {
+  flex-direction: row;
+  padding: 0 2px;
+  gap: 1px;
+}
+
+/* Buttons */
+
+.zoom-level {
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity 0.14s ease;
+  opacity: 0.68;
+}
+
+
+.zoom-level:hover {
+  opacity: 0.94;
+}
+
+.zoom-level.active {
+  opacity: 1;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* Farben */
+.zoom-level[data-scale="0.75"] { background: Gold; }  /* grün   */
+.zoom-level[data-scale="1.00"] { background: Green; }  /* türkis */
+.zoom-level[data-scale="1.25"] { background: Turquoise; }  /* blau   */
+.zoom-level[data-scale="1.50"] { background: Red; }  /* rot    */
+.zoom-level[data-scale="1.75"] { background: Purple; }  /* lila   */
+
+
+/* Größen */
+.zoom-strip.vertical  .zoom-level { height: 32px; width: 10px;  }
+.zoom-strip.horizontal .zoom-level { width: 24px; height: 10px; }
+
+
+</style>
+
+
+
+<style type="text/css">
+.zoom-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.zoom-btn {
+  min-width: 48px;
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+  line-height: 1;
+  background: #f8f8f8;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.zoom-btn:hover {
+  background: #e8f0ff;
+  border-color: #6699ff;
+}
+
+.zoom-btn .arrow {
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.zoom-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 4px 0;
+  z-index: 100;
+  min-width: 60px;
+}
+
+.zoom-menu.show {
+  display: block;
+}
+
+.zoom-item {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  background: none;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  color: #333;
+}
+
+.zoom-item:hover {
+  background: #f0f6ff;
+}
+
+.zoom-item.active {
+  background: #d0e0ff;
+  font-weight: bold;
+  color: #000;
+}
+
+.footer-line {
+    display: flex;
+    align-items: center;   /* vertikal sauber */
+    flex-wrap: nowrap;     /* KEIN Umbruch */
+    gap: 6px;              /* Abstand statt &nbsp; */
+}
+
+.footer-line input[type="radio"] {
+    flex: 0 0 auto;
+}
+
+</style>
+
+
+<style>
+.button-bar {
+  display: flex;
+  flex-wrap: wrap;       /* Erlaubt Umbruch der Gruppen, falls nötig */
+  gap: 2px;              /* Abstand zwischen den Gruppen/Buttons */
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
+.btn-group {
+  padding: 2px;
+  display: flex;
+  flex-wrap: nowrap;     /* Verhindert Umbruch innerhalb der Gruppe! */
+  gap: 2px;
+  align-items: center;
+}
+
+/* Verhindert, dass Buttons auf dem Handy zu riesig werden */
+input[type="button"], select {
+  padding: 4px 8px;
+  font-size: 12px;       /* Gute Lesbarkeit am Handy */
+  height: 22px;
+  vertical-align: middle;
+}
+
+#levelSelect {
+  /* Browser-Standard (Eckigkeit/Dicke) aufheben */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  /* Größe und Rahmen an die Buttons anpassen */
+  height: 22px !important;      /* Gleiche Höhe wie die Buttons */
+  padding: 0 18px 0 8px !important; /* Rechts Platz für den Pfeil lassen */
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;   /* Macht die Ecken weicher */
+  background-color: #fcfcfc !important;
+  font-size: 12px;
+  cursor: pointer;
+  
+  /* Zentrierung wie bei den Buttons */
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+
+  /* Optional: Ein kleiner Pfeil, da appearance:none den Standard-Pfeil löscht 
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="https://www.w3.org" width="10" height="10" viewBox="0 0 10 10"><path fill="%23666" d="M0 3l5 5 5-5z"/></svg>');
+  */
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+  border-style: solid !important;
+  border: 1px solid #456 !important;
+
+}
+
+/* Der Container (die .level-box), falls du sie verwendest */
+.level-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px; /* Auch der äußere Rahmen (falls vorhanden) sollte rund sein */
+     border-style: solid !important;
+    border: 2px solid #456 !important;
+}
+
+input[type="button"] {
+    /* Zwingt den Browser, den fetten Standard-Rahmen zu vergessen */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  /* CMS-Overrides verhindern */
+  line-height: normal !important; 
+  padding: 0 8px !important;    /* Horizontaler Abstand, vertikal auf 0 */
+  
+  /* Zentrierung erzwingen */
+  display: inline-flex !important;
+  align-items: center !important;    /* Vertikal mittig */
+  justify-content: center !important; /* Horizontal mittig */
+  
+  /* Optik */
+  height: 22px !important;           /* Feste Höhe sorgt für Konsistenz */
+  vertical-align: middle;
+  box-sizing: border-box !important;
+  
+  /* Optional: Falls das CMS den Text nach unten schiebt */
+  text-align: center;
+  border-radius: 4px;
+   border-style: solid !important;
+    border: 1px solid #456 !important;
+}
+
+</style>
+
+
 
 
 <table border=0 >
@@ -768,6 +1147,8 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 <!-- 
   Für vertikal: class="zoom-strip vertical"
   Für horizontal: class="zoom-strip horizontal"
+
+&#x2148; = &ii; 
 -->
 
 <div id="ZSControl">
@@ -775,10 +1156,10 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 <button
   id="toggleLabelsBtn"
-  class="scale-btn"
+
+  class="scale-btn xsmall-btn"
   style="font-size:11px; padding:1px 4px;"
   
-  class="xsmall-btn"
   aria-pressed="false"
   onclick="(function(btn){
     var wrap = document.getElementById('wrap');
@@ -786,7 +1167,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
     btn.setAttribute('aria-pressed', hidden);
     btn.textContent = hidden ? '&ii;' : '&hkswarow;';
     btn.textContent = hidden ? '&ii;' : '&ii;' ;
-  })(this)">&ii;
+  })(this)">&#x2148; 
 </button>
 &nbsp;
 
@@ -841,295 +1222,8 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 <font color="DarkSlateGray"><small> &#x2316;</small></font>
 </span>
 
-
-
-
 </div>
 
-<style type="text/css">
-
-.zielkreuz {
-    display: inline-block;
-    font-size: 2.5em;           /* Gewünschte Größe */
-    vertical-align: middle;   /* Grobe Zentrierung */
-    line-height: 1;           /* Verhindert zusätzliche Zeilenhöhe */
-    transform: translateY(-0.05em); /* Feinjustierung nach unten (+) oder oben (-) */
-}
-</style>
-
-<style>
-.stoneset-selector {
-  gap: 2px;
-  padding: 0;
-  border: none;
-  background: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-
-
-.stoneset-btn {
-  all: unset;
-  display: block ;
-  width: 20px ;
-}
-
-
-
-.stoneset-btn:hover {
-  opacity: 1;
-  background: rgba(255,255,255,0.5);
-}
-
-.stoneset-btn.active {
-  opacity: 1;
-  outline: 1px solid #DDAAEE;
-  outline-offset: -1px;
-  background: rgba(255,255,255,0.4);
-}
-
-
-.stoneset-selector.horizontal {
-  display: inline-flex !important; /* Erzwingt Flexbox-Layout */
-  flex-direction: row;            /* Nebeneinander */
-  flex-wrap: nowrap;              /* Kein Umbruch auf die nächste Zeile */
-  align-items: center;
-  gap: 4px;                       /* Kleiner Abstand zwischen den Steinen */
-  white-space: nowrap;            /* Verhindert Text-Umbruch falls vorhanden */
-}
-
-
-.stoneset-btn img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-}
-
-
-.stoneset-btn img {
-  display: block;     /* Verhindert Ghost-Abstände unter dem Bild */
-  width: 16px;        /* Bildgröße */
-  height: 16px;
-  pointer-events: none; /* Klick geht durch auf den Button */
-}
-
-.stoneset-btn {
-  all: unset;         /* Entfernt alle Browser-Standard-Styles */
-  display: block !important; 
-  cursor: pointer;
-  flex-shrink: 0;                 /* Verhindert, dass die Buttons schrumpfen */
-  width: 20px !important;         /* Feste Breite für Touch-Bedienung am Handy */
-  height: 20px !important;        /* Etwas größer als 20px, damit man sie mit dem Finger trifft */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-    border-radius: 4px;
-  transition: background 0.2s;
-    overflow: hidden;            /* Schneidet mögliche Geister ab */
-}
-
-
-.stoneset-btn {
-  /* … deine bisherigen Regeln … */
-  min-width: 22px !important;
-  min-height: 22px !important;
-  position: relative;
-}
-
-.xstoneset-btn {
-  outline: 1px solid red !important;      /* temporär – roter Rahmen um den echten Button */
-  background: rgba(255,0,0,0.1) !important; /* halbtransparenter roter Hintergrund */
-}
-
-.xstoneset-btn img {
-  outline: 1px solid lime !important;     /* grüner Rahmen ums Bild */
-}
-
-</style>
-
-
-
-<style type="text/css">
-
-#ZSControl {
-  display: flex;
-  align-items: center;   /* ← verhindert Streckung */
-}
-
-#toggleLabelsBtn {
-  align-self: center;
-  display: inline-flex;
-  max-width: fit-content;
-}
-
-.small-btn {
-  font-size: 10px;      /* Schrift kleiner */
-  padding: 2px 6px;     /* weniger Innenabstand */
-  line-height: 1.0;
-  border-radius: 3px;   /* wenn du es rundlicher willst */
-}
-
-
-.zoom-strip *, 
-.stoneset-selector * {
-  vertical-align: middle;
-}
-
-
-.zoom-strip {
-  background: LightGray;
-  border: grey;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(40,40,40,0.08);
-  backdrop-filter: blur(3px);
-  display: inline-flex;           /* wichtig für Flow */
-  align-items: center;
-}
-
-/* Vertikal */
-.zoom-strip.vertical {
-  flex-direction: column;
-  padding: 2px 0;
-  gap: 1px;
-}
-
-/* Horizontal */
-.zoom-strip.horizontal {
-  flex-direction: row;
-  padding: 0 2px;
-  gap: 1px;
-}
-
-/* Buttons */
-
-.zoom-level {
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  transition: opacity 0.14s ease;
-  opacity: 0.68;
-}
-
-
-.zoom-level:hover {
-  opacity: 0.94;
-}
-
-.zoom-level.active {
-  opacity: 1;
-  box-shadow: inset 0 0 0 2px currentColor;
-}
-
-/* Farben */
-.zoom-level[data-scale="0.75"] { background: Gold; }  /* grün   */
-.zoom-level[data-scale="1.00"] { background: Green; }  /* türkis */
-.zoom-level[data-scale="1.25"] { background: Turquoise; }  /* blau   */
-.zoom-level[data-scale="1.50"] { background: Red; }  /* rot    */
-.zoom-level[data-scale="1.75"] { background: Purple; }  /* lila   */
-
-
-/* Größen */
-.zoom-strip.vertical  .zoom-level { height: 32px; width: 10px;  }
-.zoom-strip.horizontal .zoom-level { width: 24px; height: 10px; }
-
-
-</style>
-
-
-
-<style type="text/css">
-.zoom-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.zoom-btn {
-  min-width: 48px;
-  height: 24px;
-  padding: 0 8px;
-  font-size: 11px;
-  line-height: 1;
-  background: #f8f8f8;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.zoom-btn:hover {
-  background: #e8f0ff;
-  border-color: #6699ff;
-}
-
-.zoom-btn .arrow {
-  font-size: 9px;
-  opacity: 0.7;
-}
-
-.zoom-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 4px 0;
-  z-index: 100;
-  min-width: 60px;
-}
-
-.zoom-menu.show {
-  display: block;
-}
-
-.zoom-item {
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  border: none;
-  background: none;
-  text-align: center;
-  font-size: 12px;
-  cursor: pointer;
-  color: #333;
-}
-
-.zoom-item:hover {
-  background: #f0f6ff;
-}
-
-.zoom-item.active {
-  background: #d0e0ff;
-  font-weight: bold;
-  color: #000;
-}
-
-
-
-.footer-line {
-    display: flex;
-    align-items: center;   /* vertikal sauber */
-    flex-wrap: nowrap;     /* KEIN Umbruch */
-    gap: 6px;              /* Abstand statt &nbsp; */
-}
-
-.footer-line input[type="radio"] {
-    flex: 0 0 auto;
-}
-
-</style>
 
 
 <script>
@@ -1634,18 +1728,33 @@ document.querySelectorAll('.zoom-item').forEach(item => {
     
 </div>			
 		    </td>
-		    </td>
             
 			<!-- Aufgaben und Statistik //-->
 						
 			<td id="aufgabstatistik"   style="vertical-align:bottom; border: 0px solid grey;">
+			
+  <!-- Oben: SloppyMill -->
+  <table style="width:100%; height:100%; border-collapse:collapse;">
 
-<div  id="divSloppyMill" style=" border: 0px solid darkslategrey;  border-radius:4px;   border: 1px solid cyan;   background-color: #FaF8F4; padding:4px;    ">
- <img id="imgSloppyMill" class="cSloppyMill" width="160px" height="33px"
- src='data:image/png;base64,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'
- onClick="setlangde()" alt="lang=de" />     
+
+<tr>
+<td style="vertical-align:top; padding:0;">
+<div  id="divSloppyMill">
+  <!--
+    <img id="imgSloppyMill" class="cSloppyMill" width="120" height="24" style=" border: 1px solid silver;  border-radius:4px;  background-color: #FaF8F4; padding:2px; margin-bottom:6px;"
+    src='data:image/png;base64,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'
+    onclick="toggleAufgaben();"
+	alt="" />     
+  -->
 </div>
- <br>
+</td>
+</tr>
+
+
+
+  <!-- Mitte: Zugstatistik -->
+    <tr>
+      <td style="vertical-align:bottom; padding:0;">
 
 			<div id="zugstatistik" style="">Zugstatistik</div>  
 			
@@ -1657,6 +1766,11 @@ document.querySelectorAll('.zoom-item').forEach(item => {
           <table id="aufgaben1" style=" font-family: Arial, sans-serif; font-size: 12px;">
 
 <tr><td>
+    <img id="imgSloppyMill" class="cSloppyMill" width="120" height="24" style=" border: 1px solid silver;  border-radius:4px;  background-color: #FaF8F4; padding:2px; margin-bottom:6px;"
+    src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVQAAABvCAMAAACEhshdAAADAFBMVEUAAACzcOHs2/fcvPG+heXz6frhx/Oxa+C15h23d+LJmOnQpuz9/P7Rqe3FkujKmur58/z06/vv4PnXtO+/hubaufD59f327vv////mz/XVr+7VsO7p1vbo0/bEj+iybOC6fOTjyvTEjueybeDdv/IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABb1oloAAABAHRSTlMA////////////////////////////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUTsxowAAAAlwSFlzAAAOxAAADsQBlSsOGwAAD7ZJREFUeJztXOlim7oSZpUDCGxnddKkaXvu+z/jRUizacHGThq3Zf6EsIiZT7NLJstWWmmllVZaaaWVVlpppZVWWmmllf5+2t/uvpqFv43KH5vN5vsXw7q7fStfytuvZeI8eiv/55+6NZCOdP+FAu16x8TIxlvshrey3P9upk6k0nD9Q4L39g7ivBx5OibY7ufLz4tVvEREJ9oGL9neGPp+jbDu7y3TDUf1Z5MWhtNuO90jBbu1I/YXwVo2G4+2/g03lu6vD9X9jwjTt01SFkGoTFyw/qTpmKefUkstlfyO/gbpmC39dtrdI8/3qFkcUymKpJ7uQsHYgO9RP3gC3d5vYkQMjt6WML3ZXlmOsvse4XnHZWrSgWrLbdM9vOfPnqlCbK4EMVa2DNOb+ysDNYbLjp+csWFxmxNMYLrpz2HpNnCmCOozvppjevP9nNd8HgmdULGTSUWV0G+sYDtpt+eAKgNUsy3fdgpOAYelwPTKzL+M6Jo8uUkyXOaR+yTQc+44QXKq7h2K36WmqkaCuvw1n0jPQimcAG9SU1KKqjwjnQTznOGMO07QnmOKZce+EuPtAVP3d/lrPpH2AhfnmEAAR6lQcwu3NUxeBNr9XZxAcj1tSP/Adu4th+BQe3dwv1jyzyMJX1NMJz2nmIqrKH2/JXkhwjSlG3mxS2WYbmlCMHJZmMGhbtX79Vm/tFUHwIs4mXSK8OwoGN2IQJdMe8/jqFF0FiffjqdyC2V16xS1uqKCSmLqAPBqw1SLCux8FMwd7BnQWQUHy4jcNJ8OMqje/usc6fNtc3WK6gUay5mXIlJeKAnlLOCB8fECgAYXmHo6RbdHMK2m/8GhlnDUXI+iFjIeVZNK7ltxUqjaTr2UhTsEOy/B4kfBMEIXWXOeoqJDde59IkoHrEdQ4FDRtV6RokYTypmM6HmyNdt3Uoiaosfh2Rc4WqqoZDoMpoJMp7f/ox91bqC6msR/78FnLctvtrF0yrUvJh0CMx0Fg6NdBgFri+AsDf04zaThuxcqMLacj1zB0btKjffbyc/cJ84K7yRzVti6LE1/yF42grkbVbZzxl8VGbmBRYSFCAbzHZ9kO0Vg/D0WVRd0Fz+YaulQN6056TtUZoVUFpYZ00R0Awc0foWJ+lJXh7aD9T2fY4spRP5qnERmOldBAXyTHH6/jZzVrgVMRz+JOrlnOlmgl8Wjha4Og7z1RIX0+c6VQA9VsaNrIdkx2WwGc1J5JzcUZ0hRq4zpJB3t3CyNke1M46eS2Wi4l5qA1hdo8s/uqP0gRC6nQraXrKL6DnXTkqq9AKajYkR0MmMmD0eLu9PKMdXswyTEqeN+cOYyui93VH8UJpeS1zGxBhd4hHematgR3uJ9ozgVHoFitQh0uzjPgdmogvmtADmoT8srNP5grcIYF3oEEIgbFsjQZgdKTMHpqYwlpucaP69xZaM2x4BXY5SCtP+sdYVPIT+bmgISGN/mF2DLYXG+rKe0AUtRE0KeMR1gQC8lDipjriUDLzFFhQLgaoy/9vqgk6LiyRYPxEMG1dbADPIqTPtHwcAjcKAXEwOVwhTvVRUYm07Jpuqyj8/sXvUfvqcFMvdNg/1kgmXTQAUTMFxMThJdJrdz0PIyywnoxQQTMtR4XAlYoKZTGaXMSZrMcYiAN6lP9cHJLdp5C6D2zN7KX3QyRlhBdaTlGXqE8x1qRjxMAb1oq6qXU4OKCg61m5NyEi4PGXFG8LE9GLTzoSUhMNq2iksWEiZRdwx7CCvlwIBeTpjnJR539UfTQcZMLBaq7yV+VWqoHiztIwmNH2vA9lADvlUBuCRe6m7MYRQjGIYuGOXMkFzLisonqD+a3Mc00r+hqsQf5TIe44TGX8J78+IAardRcDliN5z9hvtONFuYj6czeYOB8qiqYqGMntUSdTHoOTCowA/hzUezk7o4WYwn1AbSixqNv3sCZWu59dcF8ObVB5Ngfmvm/DQH+YgN4S/0Y9OFpbQD4ICWZzwzxw/nbbzQlmlOzagnBzPQyVyRyjJ4n+EkY2TX52Br0XahX1FeEFch+G3uwmueojql1H3s3UpW4YSOV6nxfG1MwYYKYC6XqAfp5AHDVHGHr9A4w0z1bSIz2bSnqJNgnqIubfZL9gCMcGaUxNQF/lpylDuQYlW4Ie1X4iwcq+kha6Gg/SdVMDUFfBbvCeiYokJyWAcKYAWTippfVovjYK2nJHUbw9QHyb3db8Ghs1V+H2mDWRugIDpLJ0UzMvkDJaZk/Ki9PFlpENQnKUKrJ2mlVlyY/tFo3kDQSYGSyt7tK54FNWjBjfNveR2CC5W2QyEcd/y2UzSkriBoa9LZlkYoeEPTEjanW3+enWBSUS9OqbGlK9OPxzaCKblgIOsjg9OgJaGigp+hK2WmO+/iLGkMfSqrsURFN6CRGzYYxNxRRmlrVk9pnI/BlCnf8MhOC0Ud3EmK+4MDZXKREeisU/X73iQqazXUzHnMVWxABevpBW6Hl1U0WOE6F6Y9JdYFBmc2QlE/IqFG2+XJqm4jekqRvK0dG5NCMhvPsXqsJa94YZoGlun2OsM5OSU+oKYZy/K90ehlceZZosEqQqGoEEeER/2YchoLEebYuaICpo8I3ngGuzxCXXq0TXOBudq2Llj18tjile7AModTFJWivA4SdmPNkSqxzNH4hft3ts8QuAhTXRQs2CNrHTqALsSUjL8lL8pbmEY3NCucmVLcaYzTxsmQv2gfmUM+JUvFmGZu9gNkXmg077DRfjOCqJn7R0z53JyLqbYJYiRBx1hVUDGF2oMSjJaNiXbNbHxShIaOCbo7xnipGRYjMszHmb1hx3DF28dxhIbZuaOZpBm6u6EcldUiZBZqkf+Js1WFr8UXPUo+bm6w0hLcos4yc5tUA0YabU+jtzDsv2KLQ9OFcV5Z3B2r9yrV2wGqOfPayzoqjhpiVrM9KWwaqIQkfpozMa17nBZKOQiYQvJhZk61w51Rb1amNHh8IOvtMpaa8DBrDB4ZH7RGwca3McvLlf1n1rFSsp8FGbthHnFGo8OQaxJkEnQSrLqbkhdsgIzPlO2wHFkW/JiuoyNyG32YZ5+OGbejctI+y1okOOR28/EBYRDUuT2Qs1GiOGhdkJvruwpF9UHtOGpY9oMnm6RFOcE7Gb/KmqpWyoV+VeyR43EB3b+xf6hQp+nMrTsCVIxjwhFY3m6lJIQ14vvKx2/qx5ae5qjkhXvFnKbKbUqyWSNTZgBGQ8g18IG9WMEc2zVrWj447hcRZ0P0ULFDW2Q0uYOGyFnVAN4dU3aeaZvBsIFldFCsZmLTuDvQ2pLUtA7+m7G+WnYqRfDPRW2HfRss+nmLwRQzFQyEy30HGHAZqHtmbTJ/QanNuyFMjUB11hGgxI1hHGT5xtqoT5modVBRZa5f1ZpSIlFvNbACUj3GOJ/okU0aZ5qQqIUzyriimv/Am5coRIfZt/EIA15eQKSo1at3BUCdVhUxBXHbp/JXF7xzHo2YR81F73y0eDyejBmDWYnxrlGy3u46gVeUaG60YNoxw2HGRQruUdn+Hle8GE5Je0s+1MmE6TvUvEicG1xDPUDa3ILrNIqKblSRok4OC91CR00PsfrDFbWT7XdcbRsibAORR3Wg0hAu2LOVVfcIC/202I+xtiVOS5yjhXGqlywQUSai6CdTJdhOwzbJUAYy1gCo3wVrHhm/TKl+xpsLCo+bO7kiALfMaYnnUTNWCjr9lvZh5IJiagIK8UMdoaZVU6CMaf8TpUj3NpPc5OMV2OdXdMgRyDPqINzK+xlGUamDpbID2/k26gdc6cgRRPpaDJw4YX6LqqS8x4LYr8RmJdwjwYts9GWwbL10cSqIjZY0tUoqtifNBSnT+KMIifB/IxUcJ/xAmLIqKy+FH6/DZReP5tIpmaNygXDRIpAP1KLjA1QQaY2rARlagODbQkwzL3oG7Nry+0YSX9ZR6AkNQ6CondayK8IUlcDmrYEEzeYyfKkAqeg6hRhrXBJAwaiICdsvjfD3TK5lhObCJltrtuRsznsLfqISIYY4QsNAIzT1genUwEKJisi1QCAsvtKrA4FLhcrQxmVPiDy2aHHGyjQzRRdAx6nO+XsOwbcShItHMmeDDvHGNt/Cuw09ROTyMJ1NZaiPmr7FS6h0x2Xw2bInvcXhc1b7+RDNMFR55D0SVCuCD0aXxU25UTooyRmmMl0f5ADD7P6UsFMSARWGcrd4G+ofAhECUM/qUs2bn/XRwvzb6HMyoyeavMohoo7gxHnC38n7jnT9kYPWT7GJ/BW/Ioc02wrGX9c+ymcYAIspapmOlGSFYeopXyukZOfr8N6JyIXTuumrWL7Oj62k0EafE0C1r9NgcyAYm1FMGDjSDwvBDF4cELnoDlGNNcchRgcD5Q8hm+4BSqcdkk2pFcf+aMedEv80pmjKud2zg7WLn3EJs/ALiHNIl3EP0LE6wnX+Bu69kCHX3Kp9jwpzr31F9XadqarqlJbqPB+ipqcwrT8FVAsPgEoOo41wBJx0F/2YIbYY70mlqrzpvIDwMImFZooJdFk1YzqtcE5w76caA1HTqiiv8rcwx1VELPclie1SsZJO9RTPkmKCZQ/Vpvp28e9DCrEZJ6/K06pd1T0ECzABINhWmXH6clpP2kCBle6MomJ4R6ZMnnrhXrMlVHRDZfDsHs6bIlxwDgZ2F9K/C3yS3viUiIvd7/lfG/KtBe7B4vVqfqJ0lJ6OKmpK/7T3fYP8FKGpVJpTVHT8V/TZjCUEET5YT8Zd6gmsgnzrFOM/Oqoc/ezM6IsptY8f6544Vjr45WP+Gr3RIwD1uAqWzO//YaQC5+Wodr3TeC2pu3cPU7nTMEl2vSCfS6f+fALH6Rua/uYuRHt4wY7hiKonqO7yvK3/akyTER485n8xrGJ9lvk9Pv8UpSK8TsavTCSnFSZVf2pM+XjiWzoE6VT8yoSeDsVJ9dG/RVC4hIoK8SvsjD79Qky7cH1upSe+gYLTTIVKewLM9ptVUQOCkmhJ4o9lFP9WwaqoRL8SkGhoXIX5VM0xTe8++HcJPt4SOE6+y0ISLWCbiVgVNaRkIZrOp2q+EBrbE/GvUzKfytIfySjfmbNFrb2e71t9OfHfSQnCbw4HCoihfzJ+vsVlJUscIEHp/hRuGOa7Wq7ny5ZfT0l9hLb1f5Gv/YSbhNcoxSlVTbEvjgcEbjh/oDbVavyMkp/BAuuPtEgi+4NW42dUJ/WRPpwZ0FPQ8/uNK5x/AMF6ZQAKbbWOUPxzFis5gk8nBG0oF+EjYSpLbAxdCcgpZMRxWlATW6HlSv+KqUdT9I/0S200Su0d5R/Y+eivU/4N9NAEH1uypKo5vB5wh9WncfYvUtFVbblq6UorrbTSSh79H2RBP1HNvMdUAAAAAElFTkSuQmCC'
+    onclick="toggleAufgaben();"
+    alt="" />     
+
 
 <!--
 <span id="toggleBtn" onclick="toggleAufgaben()" 
@@ -1779,10 +1893,12 @@ TFMA
         </tr>
 
 </table>
-
-
 <!-- Ende Table aufgaben0 -->
 
+
+    </td>
+   </tr>
+ </table> <!-- Ende Sloppy table -->
 			
 			
 			
@@ -1867,7 +1983,7 @@ TFMA
 <img id="nikoflag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" 
 onClick="if (!isRunning && highafstarted==0) pos2url()" title="Sichern / Save game in URL" alt="nikohaus" />        
 
-<span id="Ausgabe" nowrap=""> Sloppy Mill JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
+<span id="Ausgabe" style="white-space: nowrap;"> Sloppy Mill JS 1.4 Nikolaus Dulgeridis 2013/2025  &nbsp;          
  <img id="flag_de" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangde()" alt="lang=de" />         
  <img id="flag_en" class="flagimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" onClick="setlangen()" alt="lang=en" />         
 <a id="regeln" href="javascript:Regeln()">Regeln/Rules</a>       </span>
@@ -1878,102 +1994,6 @@ onClick="if (!isRunning && highafstarted==0) pos2url()" title="Sichern / Save ga
 <!-- # NikolausDulgeridis@gmail.com # //-->  
 <!-- #******************************# //-->   
 
-
-<style>
-.button-bar {
-  display: flex;
-  flex-wrap: wrap;       /* Erlaubt Umbruch der Gruppen, falls nötig */
-  gap: 2px;              /* Abstand zwischen den Gruppen/Buttons */
-  align-items: center;
-  justify-content: flex-start;
-  padding: 8px 0;
-}
-
-.btn-group {
-  padding: 2px;
-  display: flex;
-  flex-wrap: nowrap;     /* Verhindert Umbruch innerhalb der Gruppe! */
-  gap: 2px;
-  align-items: center;
-}
-
-/* Verhindert, dass Buttons auf dem Handy zu riesig werden */
-input[type="button"], select {
-  padding: 4px 8px;
-  font-size: 12px;       /* Gute Lesbarkeit am Handy */
-  height: 22px;
-  vertical-align: middle;
-}
-
-#levelSelect {
-  /* Browser-Standard (Eckigkeit/Dicke) aufheben */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  
-  /* Größe und Rahmen an die Buttons anpassen */
-  height: 22px !important;      /* Gleiche Höhe wie die Buttons */
-  padding: 0 18px 0 8px !important; /* Rechts Platz für den Pfeil lassen */
-  border: 1px solid #ccc !important;
-  border-radius: 4px !important;   /* Macht die Ecken weicher */
-  background-color: #fcfcfc !important;
-  font-size: 12px;
-  cursor: pointer;
-  
-  /* Zentrierung wie bei den Buttons */
-  display: inline-flex;
-  align-items: center;
-  vertical-align: middle;
-
-  /* Optional: Ein kleiner Pfeil, da appearance:none den Standard-Pfeil löscht 
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="https://www.w3.org" width="10" height="10" viewBox="0 0 10 10"><path fill="%23666" d="M0 3l5 5 5-5z"/></svg>');
-  */
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 10px;
-  border-style: solid !important;
-  border: 1px solid #456 !important;
-
-}
-
-/* Der Container (die .level-box), falls du sie verwendest */
-.level-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  border-radius: 4px; /* Auch der äußere Rahmen (falls vorhanden) sollte rund sein */
-     border-style: solid !important;
-    border: 2px solid #456 !important;
-}
-
-input[type="button"] {
-    /* Zwingt den Browser, den fetten Standard-Rahmen zu vergessen */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  /* CMS-Overrides verhindern */
-  line-height: normal !important; 
-  padding: 0 8px !important;    /* Horizontaler Abstand, vertikal auf 0 */
-  
-  /* Zentrierung erzwingen */
-  display: inline-flex !important;
-  align-items: center !important;    /* Vertikal mittig */
-  justify-content: center !important; /* Horizontal mittig */
-  
-  /* Optik */
-  height: 22px !important;           /* Feste Höhe sorgt für Konsistenz */
-  vertical-align: middle;
-  box-sizing: border-box !important;
-  
-  /* Optional: Falls das CMS den Text nach unten schiebt */
-  text-align: center;
-  border-radius: 4px;
-   border-style: solid !important;
-    border: 1px solid #456 !important;
-}
-
-</style>
 
 
 <script language="JavaScript">
@@ -7414,7 +7434,7 @@ function toggleRemissuche() {
 --A127PzohQma9grid.htm.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
 --A128PzohQma9grid.htm.htm--  25.04.26 
 --A129PzohQma9grid.htm.htm--  25.04.26 
---A130PzohQma9grid.htm.htm--  30.04.26 neues icon
+--A131PzohQma9grid.htm.htm--  30.04.26 neues icon
 
 */
 
