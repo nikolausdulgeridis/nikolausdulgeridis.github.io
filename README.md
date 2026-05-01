@@ -1,7 +1,6 @@
 ## Hi there 👋
 
-to make it short: 
-Homepage Nikolaus Dulgeridis, Programming, speciality: Muehle/Mills online
+Homepage Nikolaus Dulgeridis, Programming, Tools, speciality on this site: Sloppy Mill online game
 
 <!--
 **nikolausdulgeridis/nikolausdulgeridis** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

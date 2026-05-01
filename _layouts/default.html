@@ -4,21 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>{{ page.title | default: "Online Mill game and analysis board" }}</title>
-  <meta name="description" content="Computerthemen, JavaScript-Mühlespiel">
-  <meta name="keywords" content="Nikolaus Dulgeridis, Computerthemen, JavaScript, Mühle, Morris">
-  <meta name="description" content="Muehle, Mills, online game and analysis.  " />
+  <meta name="description" content="Computerthemen, JavaScript, Sloppy Mill, Muehlespiel">
+  <meta name="keywords" content="Nikolaus Dulgeridis, Computerthemen, JavaScript, Muehle, Morris, Sloppy Mill">
+  <meta name="description" content="Muehle, Morris, Sloppy Mill, online game and analysis board" />
   <meta name="keywords" content="Computing, Entertainmenment, Linux, Javascript" />
   <meta name="author" content="Nikolaus Dulgeridis" />
   <meta name="robots" content="index,follow" />
 
-<!--
-  <link rel="shortcut icon" type="image/x-icon"
-        href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<link rel="icon" type="image/x-icon"
+      href="{{ page.favicon | default: '/assets/favicon-default.ico' }}">
 
-  <link rel="icon" type="image/x-icon"
-        href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<!-- 
+  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAEAgQABP78AIT+/AD8AgQAxMLEAAQC/AD8/vwAAAAAAAAAgAAAAO0AAAASAAAAAACRAZkAsQBpADcADwB+AFsAd3d3d3d3d3d3d3d3d3d3d3d3dwAAAAAAAAAAAAd3d3d3d3cEREREREREREAwd3d3d3d3AEREREREREQDMHd3d3d3dwYERERERERAMzB3d3d3d3cGYEREREREAzMwd3d3d3d3BmYEREREQDMzMHd3d3d3dwZmYARERAMzMzB3d3d3d3cGZmZgREAzMzMwd3d3d3d3BmZmZgQDMzMzMHd3d3d3dwZmZmZgMzMzMzB3d3d3d3cGZmZmYAMzMzMwd3d3d3d3BmZmZgEQMzMzMHd3d3d3dwZmZmAREQMzMzB3d3d3d3cGZmYBEREQMzMwd3d3d3d3BmZgEREREQMzMHd3d3d3dwZmAREREREQMzB3d3d3d3cGYBEREREREQMwd3d3d3d3BgEREREREREQMHd3d3d3dwAREREQAAAAAAB3d3d3d3dwAAAAAFVVVVVQd3d3d3d3cFVVVVVVVVVVB3d3d3d3d3cFVVVVVVVVVQd3d3d3d3d3cAVVVVVVVVB3d3d3d3d3d3dwVVVVVVVQd3d3d3d3d3d3dwVVVVVVB3d3d3d3d3d3d3dwVVVVUHd3d3d3d3d3d3d3dwVVVQd3d3d3d3d3d3d3d3dwBVUHd3d3d3d3d3d3d3d3d3BQd3d3d3d3d3d3d3d3d3d3B3d3d3d3d3d3d3d3d3d3d3d3d3d3d3f//////AAAf/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/4AAD/+AAB//wAAf/+AAP//4AD///AB///4A////Af///4H////j////9///////w==">
 -->
-  <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAGAAAABgAAAAEAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIiIiIiIiIDAAAAAAAAAAIiIiIiIiIgMwAAAAAAAAAYIiIiIiIiAzMAAAAAAAAAGYIiIiIiIDMzAAAAAAAAABmYIiIiIgMzMwAAAAAAAAAZmYAiIiAzMzMAAAAAAAAAGZmZgiIDMzMzAAAAAAAAABmZmZggMzMzMwAAAAAAAAAZmZmZgzMzMzMAAAAAAAAAGZmZmYAzMzMzAAAAAAAAABmZmZguwzMzMwAAAAAAAAAZmZmC7uwzMzMAAAAAAAAAGZmYLu7uwzMzAAAAAAAAABmZgu7u7uwzMwAAAAAAAAAZmC7u7u7uwzMAAAAAAAAAGYLu7u7u7uwzAAAAAAAAABgu7u7u7u7uwwAAAAAAAAAC7u7uwAAAAAAAAAAAAAAAAAAAAAJmZmZmQAAAAAAAAAJmZmZmZmZmZAAAAAAAAAAAJmZmZmZmZmQAAAAAAAAAAAAmZmZmZmZAAAAAAAAAAAAAAmZmZmZmQAAAAAAAAAAAAAAmZmZmZAAAAAAAAAAAAAAAAmZmZkAAAAAAAAAAAAAAAAAmZmQAAAAAAAAAAAAAAAAAACZkAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////AAAf/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/4AAD/+AAB//wAAf/+AAP//4AD///AB///4A////Af///4H////j////9///////w==">
 
 <link rel="alternate" hreflang="de" href="/de/">
 <link rel="alternate" hreflang="en" href="/en/">
@@ -41,9 +39,13 @@
 
 <style>
 .reverse-email {
+  font-size: 14px;       /* Schriftgröße anpassen */
+  color: silver;         /* Schriftfarbe Silber */
+  opacity: 0.7;          /* Transparenz (0.0 ist unsichtbar, 1.0 voll sichtbar) */
   unicode-bidi: bidi-override;
   direction: rtl;
 }
+
 </style>
 
 
