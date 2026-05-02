@@ -4747,10 +4747,10 @@ async function computemoveA() {
 	if (1) document.getElementById("mitte").src = leer.src;
     letzterbestzug = bestzug;
 
-    if (selfplaymode == 0 && bestzug.wertung < -500) melde("Ich verliere "); 
+    if (selfplaymode == 0 && bestzug.wertung < -500) melde(language == "de" ? " Ich verliere gleich " : " I will lose soon ");
 
     if (bestzug.wertung > 998 && language == "de") melde(" Ich gewinne ");
-    if (bestzug.wertung > 998 && language == "en") melde(" I win ");
+    if (bestzug.wertung > 998 && language != "de") melde(" I win ");
 
     if (selfplaymode == 0 && bestzug.wertung > 700) {
         melde(language == "de" ? " Ich gewinne gleich " : " I will win soon ");
