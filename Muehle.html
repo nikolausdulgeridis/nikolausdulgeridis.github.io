@@ -1,5 +1,5 @@
 ---
-title: Sloppy Mill - Morris game and analyse board
+title: Sloppy Mill game and analyse board
 favicon: "data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 ---
 
@@ -1847,6 +1847,11 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 <a href="./Muehle.htm?pos=000010200112221221012000+14&level=3&takefrommillallowed=0&moves=1FOLNPRUHKMSQfFV" target=""><b>Kompliziert, Weiß gewinnt</b></a>
 </td></tr>
 
+
+<tr><td>
+<a href="./Muehle.htm?pos=020122010012020110211020+14&level=9&moves=1LFUTQGEOVCIMRX" target=""><b>Lehrreich. W gewinnt.</b></a>
+</td></tr>
+
 <tr><td>
 <a href="./Muehle.htm?pos=111120010200212020021010+15&level=9&takefrommillallowed=0&moves=1DNCKIFBfFEPORVUXJ" target=""><b>S gewinnt. Wie?</b></a>
 </td></tr>
@@ -2630,9 +2635,9 @@ function bewertemuehlen(pfarbe) {
     var eins, zwei, drei;
     var zugsum=0;
     var zwwert=0;
-	const blockwert=12; //Strafe fuer blockierte Muehle
-	const blockwertm=6; //Strafe fuer blockierte Muehle Mittelreihe
-	const qmwert=8;    // Bonus fuer Quermuehle
+	const blockwert=14; //Strafe fuer blockierte Muehle
+	const blockwertm=7; //Strafe fuer blockierte Muehle Mittelreihe
+	const qmwert=9;    // Bonus fuer Quermuehle
     //console.log("startbewertem");
 	
 
