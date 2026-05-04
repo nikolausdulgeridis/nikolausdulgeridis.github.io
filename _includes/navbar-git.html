@@ -148,7 +148,7 @@
 
 <script>
 var globalLanguageFlag = "de";  // default
-
+var language="en";
 // Übersetzungen
 const navText = {
   de: {
@@ -177,6 +177,7 @@ function detectLanguage() {
 
   if (stored) {
     globalLanguageFlag = stored;
+	language = globalLanguageFlag;
     return;
   }
 
@@ -187,6 +188,7 @@ function detectLanguage() {
   } else {
     globalLanguageFlag = "de";
   }
+	language = globalLanguageFlag;
 }
 
 // Texte in Navbar setzen
@@ -205,12 +207,14 @@ function applyLanguage() {
 // Bei Klick auf Flaggen → Sprache setzen
 function setmylangde() {
   globalLanguageFlag = "de";
+  language = globalLanguageFlag;
   localStorage.setItem("language", "de");
   applyLanguage();
 }
 
 function setmylangen() {
   globalLanguageFlag = "en";
+  language = globalLanguageFlag;
   localStorage.setItem("language", "en");
   applyLanguage();
 }
