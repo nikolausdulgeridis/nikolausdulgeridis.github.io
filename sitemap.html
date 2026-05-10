@@ -1,21 +1,117 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <title>Sitemap</title>
+
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  ul { list-style-type: none; }
-  li { margin: 4px 0; }
-  a { text-decoration: none; color: #0366d6; }
-  a:hover { text-decoration: underline; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f6f8fa;
+    margin: 0;
+    padding: 20px;
+    color: #24292f;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 4px 0;
+    cursor: default;
+  }
+
+  li span {
+    cursor: pointer;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  li span:hover {
+    background: #eaeef2;
+  }
+
+  a {
+    text-decoration: none;
+    color: #0969da;
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  a:hover {
+    background: #dbedff;
+  }
+
+  .folder::before {
+    content: "📁 ";
+  }
+
+  .file::before {
+    content: "📄 ";
+  }
+
+  .collapsed > ul {
+    display: none;
+  }
+
+  .toggle::before {
+    content: "▶ ";
+    font-size: 10px;
+    margin-right: 4px;
+  }
+
+  .open > .toggle::before {
+    content: "▼ ";
+  }
+
+  /* Dark Mode */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+
+    .container {
+      background: #161b22;
+    }
+
+    a {
+      color: #58a6ff;
+    }
+
+    li span:hover {
+      background: #30363d;
+    }
+
+    a:hover {
+      background: #1f6feb33;
+    }
+  }
 </style>
 </head>
+
 <body>
 
-<h1>Sitemap</h1>
+<div class="container">
+<h1>📌 Sitemap</h1>
 <ul id="tree"></ul>
+</div>
 
 <script>
 const excluded = ["_includes", "_layouts", ".github"];
@@ -25,14 +121,14 @@ fetch("/sitemap.xml")
   .then(str => new DOMParser().parseFromString(str, "text/xml"))
   .then(xml => {
     const urls = Array.from(xml.getElementsByTagName("loc")).map(n => n.textContent);
-
     const tree = {};
 
     function insertPath(url) {
       const path = new URL(url).pathname.replace(/^\/|\/$/g, "");
+      if (!path) return;
+
       const parts = path.split("/");
 
-      // Filter unerwünschte Pfade
       if (parts.some(p => excluded.some(ex => p.startsWith(ex)))) return;
 
       let current = tree;
@@ -49,17 +145,29 @@ fetch("/sitemap.xml")
     function buildTree(obj, parent, basePath = "") {
       for (const key in obj) {
         const li = document.createElement("li");
-        const fullPath = basePath + "/" + key;
 
         if (obj[key] === null) {
           const a = document.createElement("a");
-          a.href = fullPath;
+          a.href = basePath + "/" + key;
           a.textContent = key;
+          a.className = "file";
           li.appendChild(a);
         } else {
-          li.textContent = key;
+          const span = document.createElement("span");
+          span.textContent = key;
+          span.className = "folder toggle";
+
+          li.classList.add("collapsed");
+
+          span.onclick = () => {
+            li.classList.toggle("collapsed");
+            li.classList.toggle("open");
+          };
+
+          li.appendChild(span);
+
           const ul = document.createElement("ul");
-          buildTree(obj[key], ul, fullPath);
+          buildTree(obj[key], ul, basePath + "/" + key);
           li.appendChild(ul);
         }
 
