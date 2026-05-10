@@ -1242,6 +1242,7 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 
 
 <script>
+var language="en";
 var globalZufall=1;
 var global2player=0;
 
@@ -1849,11 +1850,11 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 
 
 <tr><td>
-<a href="./Muehle.htm?pos=020122010012020110211020+14&level=9&moves=1LFUTQGEOVCIMRX" target=""><b>Instruktiv. W gewinnt.</b></a>
+<a href="./Muehle.htm?pos=020122010012020110211020+14&level=3&moves=1LFUTQGEOVCIMRX" target=""><b>Instruktiv. W gewinnt.</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=111120010200212020021010+15&level=9&takefrommillallowed=0&moves=1DNCKIFBfFEPORVUXJ" target=""><b>S gewinnt. Wie?</b></a>
+<a href="./Muehle.htm?pos=111120010200212020021010+15&level=3&takefrommillallowed=0&moves=1DNCKIFBfFEPORVUXJ" target=""><b>S gewinnt. Wie?</b></a>
 </td></tr>
 
 <tr><td>
@@ -2033,9 +2034,9 @@ var imgpath="";
 if(1) imgpath = "https://img.webme.com/pic/n/nikolausdulgeridis/";
 if (("bla"+window.location.href).indexOf("file")>1) imgpath = "./";
 
-var language="en";
-if (window.location.href.indexOf(".com")>1) language="en";
-if (window.location.href.indexOf(".de")>1)  language="de";
+var language;
+//if (window.location.href.indexOf(".com")>1) language="en";
+//if (window.location.href.indexOf(".de")>1)  language="de";
 /* *** End of Options *** */
 
 var selfplaymode=0;
@@ -2408,6 +2409,204 @@ var CONSTminwertung = -1000;
  wertung Bewertung
 END TYPE
 */
+
+/*
+enum TTFlag {
+    EXACT = 0,
+    LOWERBOUND = 1,
+    UPPERBOUND = 2
+};
+
+48 Bit Stellung
+1 Bit Farbe zugnr%2==1 --> S
+3 Bit zugnrh= zugnr>>1 
+
+zugnr 0..17= 01 23 45 67 89 1011 1213 1415 1617 zugnrh=zugnr-2 0..15 zugnrh= zugnr>>1 0..7
+zugnr=>18 => 0 
+
+Hash Eintrag Muehle Spiel
+32-Bit Index 
+8 Bit Pruefcode 
+24 Bit Bestzug: 8 Bit AF, 8 Bit ZF, 8 Bit XF 
+8 Bit search depth
+16 Bit Wertung 
+8 Bit flags
+8 Bit Counter
+--
+104
+
+var temp = TTFlLA.EXACT;
+temp = TTFlag.LOWERBOUND
+bucket.TTflag = TTFlag.UPPERBOUND;
+
+*/
+
+
+
+function mix32(x) {
+    x ^= x >>> 16;
+    x = Math.imul(x, 0x85ebca6b);
+    x ^= x >>> 13;
+    x = Math.imul(x, 0xc2b2ae35);
+    x ^= x >>> 16;
+    return x >>> 0; // unsigned
+}
+
+function splitmix32(x) {
+    x = (x + 0x9e3779b9) >>> 0;
+    x ^= x >>> 16;
+    x = Math.imul(x, 0x21f0aaad);
+    x ^= x >>> 15;
+    x = Math.imul(x, 0x735a2d97);
+    x ^= x >>> 15;
+    return x >>> 0;
+}
+
+function checksum32to8_xor(x) {
+    return (x ^ (x >>> 8) ^ (x >>> 16) ^ (x >>> 24)) & 0xFF;
+}
+function checksum32to8_add(x) {
+    return ((x       & 0xFF) +
+            ((x>>8)  & 0xFF) +
+            ((x>>16) & 0xFF) +
+            ((x>>24) & 0xFF)) & 0xFF;
+}
+function checksum32to8_mix(x) {
+    x ^= x >>> 16;
+    x ^= x >>> 8;
+    return x & 0xFF;
+}
+function checksum32to8_mul(x) {
+    x ^= x >>> 16;
+    x = Math.imul(x, 0x45d9f3b);
+    return (x ^ (x >>> 8)) & 0xFF;
+}
+
+
+const TTFlag = Object.freeze({
+    EXACT: 1,
+    LOWERBOUND: 2,
+    UPPERBOUND: 3
+});
+
+function TThashBucket() {
+    this.Hash32key  = 0; // 32 Bit
+//    this.checksum8  = 0; // 8 Bit 
+    this.checksum48  = 0; // 64 Bit 
+    this.af  = 0; // 0..24
+    this.zf  = 0; // 0..24
+    this.wnf = 0; // 0..24
+    this.wertung = 0; //-10000 ... +1000  
+    this.searchdepth = 0; // 0..31
+    this.TTflag = TTFlag.EXACT; // 1..3 
+    this.height = 0; // 0..24	
+}
+
+function TThashBucketCompressed() {
+    this.Hash32key  = 0; // 32 Bit
+    this.checksum8  = 0; // 8 Bit
+    this.afzfwnf  = 0; // af= 0..31 zf= 0..31 wnf= 0..31 // 15 oder 16 Bit
+    this.wertungTTflg = 0; 
+    this.TTflag = TTFlag.EXACT; // Default-Wert
+}
+
+
+
+const TT_SIZE = 800000;
+//const TTable = [];
+
+
+//ersetzen
+//for (let i = 0; i < TT_SIZE; i++) {
+//    TTable[i] = new TThashBucket();
+//}
+//durch
+
+//Die TT Table wird daher als Int Arrays angelegt 
+const TThash32keys = new Uint32Array(TT_SIZE);
+//const TTchecksum8 = new Uint8Array(TT_SIZE); // 
+//const TTchecksum48 = new BigUint64Array(TT_SIZE);
+//const TTchecksum48 = new Array(TT_SIZE);
+const TTchecksum48 = new Float64Array(TT_SIZE);
+const TTaf                = new Uint8Array(TT_SIZE);
+const TTzf                = new Uint8Array(TT_SIZE);
+const TTwnf             = new Uint8Array(TT_SIZE);
+const TTwertung      = new Float64Array(TT_SIZE);
+const depth             = new Uint8Array(TT_SIZE);
+const height            = new Uint8Array(TT_SIZE);
+const flags               = new Uint8Array(TT_SIZE);
+
+
+function ttIndex(hash32) {
+    return (hash32 >>> 0) % TT_SIZE;
+}
+
+
+function writeTohash32(hb) {
+    const idx = ttIndex(hb.Hash32key);
+
+    // Replacement-Strategie: Depth bevorzugen
+    if (TThash32keys[idx] !== 0) {
+        //if (depth[idx] > hb.searchdepth) return;
+        if (depth[idx] > hb.searchdepth && height[idx]+2 > hb.height) return;
+    }
+
+    TThash32keys[idx] = hb.Hash32key >>> 0;
+
+    //TTchecksum8[idx] = hb.checksum8 & 0xFF;
+	TTchecksum48[idx] = hb.checksum48;
+	//TTchecksum48[idx] = hb.checksum48 % 0x10000000000000; // 2^52
+
+    TTaf[idx] = hb.af & 0xFF;
+    TTzf[idx] = hb.zf & 0xFF;
+    TTwnf[idx] = hb.wnf & 0xFF;
+
+    // Bewertung 
+    let w = hb.wertung;
+    //w = Math.floor(w*10);
+
+    TTwertung[idx] = w;
+
+    depth[idx] = hb.searchdepth & 0xFF;
+    height[idx] = hb.height & 0xFF;
+    flags[idx] = hb.TTflag & 0xFF;
+}
+
+function readFromhash32(hash32) {
+    const idx = ttIndex(hash32);
+if( hash32==0   ) alert (fehler);
+
+    if (TThash32keys[idx] !== (hash32 >>> 0)) return null;
+
+    let entry = new TThashBucket();
+
+    entry.Hash32key = TThash32keys[idx];
+    //entry.checksum8 = TTchecksum8[idx];
+    entry.checksum48 = TTchecksum48[idx];
+
+    // optionaler zusätzlicher Check (empfohlen)
+    // falls du checksum nutzt:
+    // if (TTchecksum8[idx] !== (spfeld2hash(spfeld) & 0xFF)) return null;
+if( entry.checksum48 != spfeld2hash(spfeld)   ) {console.log("collision1 "+" "+ --globalcollisioncounter +" "+entry.checksum48+" "+spfeld2hash(spfeld));return null;}
+
+
+    entry.af = TTaf[idx];
+    entry.zf = TTzf[idx];
+    entry.wnf = TTwnf[idx];
+
+    entry.wertung = TTwertung[idx];
+    entry.searchdepth = depth[idx];
+    entry.height = height[idx];
+    entry.TTflag = flags[idx];
+
+    return entry;
+}
+
+
+
+
+
+
 
 function zugspeicher()
 {
@@ -2908,7 +3107,7 @@ zugnr=0;
 farbe=1;
 stz[1]=0;
 stz[2]=0;
-stwert=9;
+stwert=8;
 //rta=0;
 var level=2;
 
@@ -4731,11 +4930,11 @@ async function computemoveA() {
     tzuza = 0;
     globalAwaitCounter = 0;
     globalAwaitCounterT = Date.now();
-    stwert = 12;
-    if (zugnr < 18) stwert = 10;
-    if (zugnr < 14) stwert = 8;
+    stwert = Math.floor(Math.random() * 5)+6;
+    if (zugnr < 18) stwert = 8;
+    if (zugnr < 14) stwert = 7;
     if (zugnr < 6) stwert = 4;
-    stwert2 = Math.floor(Math.random() * 9)+3;
+    stwert2 = Math.floor(Math.random() * 5)+4;
     var savepos = spf2string(spfeld, zugnr);
     string2spf(savepos);
 
@@ -4977,12 +5176,17 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 		  console.log("hole rtvi:"+(rtvi-1)+" rtvdelay:"+rtvdelay);
 		} 
 		else 
+
+		var searchdepth=0;
+
 		{	
-			aktwertungzugliste = await berbestzug_async(rtvi+sel-rtvdelay, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
+			searchdepth=rtvi+sel-rtvdelay;
+			aktwertungzugliste = await berbestzug_async(searchdepth, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
 		};
 
         aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
         aktwertung = aktwertungzug.wertung;
+				
 		if(zli==0){ 
 			rtvdelaymove[rtvi]=new zugspeicher();
 			rtvdelaymovezugliste[rtvi]=[];
@@ -4990,7 +5194,7 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>30) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
 		  rtvdelay+=1; // Bestzug gekippt, setze mit reduzierter Suchtiefe fort
 		  copyzugspei(nextzug,rtvdelaymove[rtvi]); 
-          rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
+         rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
 		  rtvdelaydepth=rtvi;
 		  console.log ("rtvi:"+rtvi+" rtvdelay:"+rtvdelay);
 		}
@@ -5029,6 +5233,29 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
       if(globalfast) if(bestwertung>333) if(rtvi>2) break;
       if(tzuza>maxmaxzug || !isRunning) {bestzug.wnfAM=rtvi; return bestzug;}
     }
+	
+	// Zuege der Ieration fertig
+	if(isRunning && rtvi>2) 
+	{
+       // Hashkey ermitteln
+		var hashbucket= new TThashBucket();
+		hashbucket.Hash32key  = spfeld2hash32(spfeld,zugnr); // 32 Bit
+		// Hasheintrag schreiben sofern Zugberechnung nicht abgebrochen und mindestens 4 Hz
+		if(isRunning && rtvi>2) 
+		{
+			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld)); // 8 Bit 
+			hashbucket.checksum48  = spfeld2hash(spfeld); // 48 Bit 
+			hashbucket.af  = bestzug.af; // 0..24
+			hashbucket.zf  = bestzug.zf; // 0..24
+			hashbucket.wnf = bestzug.wnf; // 0..24
+			hashbucket.wertung = aktwertung; //-10000 ... +1000  
+			hashbucket.searchdepth = searchdepth; // 0..31
+			hashbucket.TTflag = TTFlag.LOWERBOUND; // 1..3 
+			hashbucket.height = searchdepth+zugnr; // 0..24	
+            writeTohash32(hashbucket);
+		}		
+	}
+
     globalbestwertung=bestwertung;
     gibZugStatistik();
 
@@ -5123,12 +5350,8 @@ const ConstRemisPos=1; // 0 oder 1 kompliziertes Thema,
 
 
 
-
-
-
-
 async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU: beta ergänzt
-
+  let alphaOrig = alpha;
   // ESC/Render-Pause
   globalAwaitCounter++;
   tzuza++;
@@ -5160,6 +5383,41 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
     return [bewerteleaf];
   }
 
+if(1) {
+
+	// --- Transposition Table Lookup ---
+	let hash32 = spfeld2hash32(spfeld, zugnr);
+	let entry = readFromhash32(hash32);
+    var pvkillerzug = new zugspeicher();
+
+	if (entry && entry.searchdepth >= rtv) {
+		if (entry.TTflag === TTFlag.EXACT) {
+			let z = new zugspeicher();
+			z.af=entry.af;
+			z.zf=entry.zf;
+			z.wnf=entry.wnf;
+			z.wertung = -entry.wertung;
+			return [z];
+		}
+		if (entry.TTflag === TTFlag.LOWERBOUND) {
+			alpha = Math.max(alpha, entry.wertung);
+		}
+		else if (entry.TTflag === TTFlag.UPPERBOUND) {
+			beta = Math.min(beta, entry.wertung);
+		}
+		if (alpha >= beta) {
+			let z = new zugspeicher();
+			z.af=entry.af;
+			z.zf=entry.zf;
+			z.wnf=entry.wnf;
+			z.wertung = -entry.wertung;
+			return [z];
+		}
+		pvkillerzug.af=entry.af;
+		pvkillerzug.zf=entry.zf;
+		pvkillerzug.wnf=entry.wnf;
+	}
+}
 
   var zuglist = makezgglist(farbe);
   var nextzug;
@@ -5175,12 +5433,12 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
   //Vorsortierung
   if(1) 
   {
-    var pvkillerzug = new zugspeicher();
-    //if (rta < 2 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
-    if (rta < 2 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
-    if (globaltestVariante==0 && rta < 4 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
-    //if (rta==1 && globalpv.length==2) alert("rta:"+rta+" pvkillerzug "+ pvkillerzug.af+ " " +pvkillerzug.zf+ " " +pvkillerzug.wnf);
-    //if (rta==1 && globalpv.length==2 && pvkillerzug.zf==0) dispzugliste(globalpv);
+   // var pvkillerzug = new zugspeicher();
+   // //if (rta < 2 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
+   // if (rta < 2 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
+   // if (globaltestVariante==0 && rta < 4 && globalpv.length>rta) pvkillerzug = globalpv[rta]; // Killerzug aus bisher ermittelter Principal Variation holen
+   // //if (rta==1 && globalpv.length==2) alert("rta:"+rta+" pvkillerzug "+ pvkillerzug.af+ " " +pvkillerzug.zf+ " " +pvkillerzug.wnf);
+   // //if (rta==1 && globalpv.length==2 && pvkillerzug.zf==0) dispzugliste(globalpv);
     
     var liste1 = []; // pv killerzug
     var liste2 = []; // muehleKillerzug
@@ -5266,14 +5524,14 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 
 
 
-  // Sortierung 2
+  // Sortierung 2 (nur wenn pvkillerzug in liste1)
 
 var berbestzugprev0=new zugspeicher();
 var berbestzugprev1=new zugspeicher();
 var berbestzugprevwert=0;
 var berbestzugprevdepth=0;
 
-  if (rtv>3) {
+  if (rtv>3 && liste1.length==0) {
 if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev0);
     var length=zuglist.length;
     var tmptzuza=tzuza;
@@ -5437,26 +5695,6 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	  if(rtv>4) if(mybonuswf<-1) mybonuswf=-1;
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	if (wiederholungsflag) {
 	   berbestzugzugliste=[];
 	   aktwertung=0.01*rta*(rta%2==ConstRemisPos? -1:1);
@@ -5533,6 +5771,23 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     //var gering=globalgering1; if (Math.abs(alpha)>99 ||Math.abs(beta)>99 || Math.abs(bestwertung)>99 || i<Math.ceil(zuglist.length/2)+2) gering=0; //Geringschätzungsfaktor führt zu Fehler, was ich nicht verstehe
     var gering=globalgering1; if (Math.abs(alpha)>99 ||Math.abs(beta)>99 || Math.abs(bestwertung)>99 || i443<2) gering=0; //Geringschätzungsfaktor führt zu Fehler, was ich nicht verstehe
     if (bestwertung+gering >= beta || !isRunning) {                          // <-- NEU: beta statt alpha (Beta-Cut wie Standard)
+
+		if (isRunning)
+		{
+		// LOWERBOUND speichern
+		let hb = new TThashBucket();
+		//hb.checksum8  = checksum32to8_mix(spfeld2hash(spfeld));
+		hb.checksum48 = spfeld2hash(spfeld);
+		hb.searchdepth = rtv;
+		hb.wertung = bestwertung;
+		hb.af = bestzug2.af;
+		hb.zf = bestzug2.zf;
+		hb.wnf = bestzug2.wnf;
+		hb.TTflag = TTFlag.LOWERBOUND;
+		hb.height = rta + rtv;
+		writeTohash32(hb);
+		}
+
       bestzug2.wertung = -bestwertung; // Bestwertung ubernehmen
       pvbestzugliste.push(bestzug2);
       return pvbestzugliste;
@@ -5541,18 +5796,38 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
   }
   // --- Schleife 1: Ende
 
+		if (isRunning)
+		{
+			// --- Transposition Table Store ---
+			let hashbucket = new TThashBucket();
+			hashbucket.Hash32key  = spfeld2hash32(spfeld, zugnr);
+			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld));
+			hashbucket.checksum48  = spfeld2hash(spfeld); // 48 Bit 
+			hashbucket.searchdepth = rtv;
+			hashbucket.wertung = bestwertung; // Wert aus Sicht dieses Knotens
+			hashbucket.height = rta + rtv;
+
+			// BESTER ZUG dieses Knotens
+			hashbucket.af  = bestzug2.af;
+			hashbucket.zf  = bestzug2.zf;
+			hashbucket.wnf = bestzug2.wnf;
+
+			// FLAG bestimmen
+			if (bestwertung <= alphaOrig)
+				hashbucket.TTflag = TTFlag.UPPERBOUND;
+			else if (bestwertung >= beta)
+				hashbucket.TTflag = TTFlag.LOWERBOUND;
+			else
+				hashbucket.TTflag = TTFlag.EXACT;
+
+			writeTohash32(hashbucket);
+		}
+
   // --- Reguläre Rückgabe ohne Cutoff ---
   bestzug2.wertung = -bestwertung; // Bestwertung ubernehmen
   pvbestzugliste.push(bestzug2);
   return pvbestzugliste;
  }
-
-
-
-
-
-
-
 
 
 
@@ -6482,7 +6757,7 @@ if (language=="de")
  if (tzuza) text+= " Zeit "+TimeUsed+"s";
 }
 
-if (language=="en")
+if (language!="de")
 {
  var text="";
  text+= " Move No. "+ (Math.floor(zugnr/2)+1);
@@ -7117,6 +7392,90 @@ if(0) alert("###################################################################
 if(0) alert("################################################################################################");
 
 
+function mix32(x) {
+    x ^= x >>> 16;
+    x = Math.imul(x, 0x85ebca6b);
+    x ^= x >>> 13;
+    x = Math.imul(x, 0xc2b2ae35);
+    x ^= x >>> 16;
+    return x >>> 0; // unsigned
+}
+
+
+function toBin32(n) {
+    return (n >>> 0).toString(2).padStart(32, "0");
+}
+
+
+function toBin32Grouped(n) {
+    return (n >>> 0)
+        .toString(2)
+        .padStart(32, "0")
+        .replace(/(.{8})/g, "$1 ");
+}
+
+var testpos="222111100000000000000000+9";
+var testpos="222111111222111222111222+7";
+var testpos="222000111222111222000222+13";
+//string2spf(testpos);
+console.log(testpos);
+spfeld2hash32(spfeld,zugnr);
+var globalcollisioncounter=0;
+function spfeld2hash32(spfeld,zugnr) {
+    let low32 = 0;
+    let high32 = 0;
+	var bitPosition=0;
+	var highBitPos=0;
+	var zugnrh=0;
+	var result32=0;
+    
+	//Bit 0..47 fuer Position
+    for (let i = 1; i <= 24; i++) {
+        const value = spfeld[i];
+        const bitPosition = (i - 1) * 2;
+
+        if (bitPosition < 32) {
+            // Schreibvorgang in den unteren 32-Bit-Block
+            low32 |= (value << bitPosition);
+        } else {
+            // Schreibvorgang in den oberen 16-Bit-Block (relativ zu 32 Bit)
+            highBitPos = bitPosition - 32;
+            high32 |= (value << highBitPos);
+        }
+    }
+	
+	//Bit 48 49 50 fuer Zugnr
+    if(zugnr<18&&zugnr>3)
+    {
+  	 highBitPos=24*2-32;
+	 zugnrh=zugnr-2; // 4..17 wird zu 2..15
+     zugnrh=zugnrh>>1; // 2..15 wird zu 1..7 (3 Bit)
+	 high32 |= (zugnrh << highBitPos); //3 Bit fuer Zugnr
+	} 
+	// Bit 51 Farbe
+	if (zugnr%2)
+	 {
+	  highBitPos=24*2+3-32; 
+ 	  high32 |= (1 << highBitPos); //3 Bit fuer Zugnr	  
+	 }	
+//console.log(toBin32Grouped(high32));
+//console.log(toBin32Grouped(low32));
+	
+    // Kombiniert die zwei Teile in 32 Bit
+high32=mix32(high32);
+high32=splitmix32(high32);
+low32=mix32(low32);
+
+	result32=high32^low32;
+	result32=splitmix32(result32);
+//console.log(toBin32Grouped(result32));
+//console.log(toBin32Grouped(result32));
+    return result32;
+}
+
+
+
+
 //Hash mit Number Datentyp
 
 // Hilfsfunktion: Konvertiert ein internes { low: Number, high: Number } Paar zu einem einzigen Number (Double)
@@ -7459,6 +7818,7 @@ function toggleRemissuche() {
 --A128PzohQma9grid.htm.htm--  25.04.26 
 --A129PzohQma9grid.htm.htm--  25.04.26 
 --A131PzohQma9grid.htm.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
+--A135PzohQma9grid.htm.htm--  TTables, Stwert verringert (12 zu 7 bis 11)
 
 */
 
