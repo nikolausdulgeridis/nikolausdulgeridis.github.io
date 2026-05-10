@@ -94,6 +94,11 @@
 <script>
 const excluded = ["_includes", "_layouts", ".github"];
 
+
+let inIframe = false;
+try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
+
+
 fetch("/sitemap.xml")
   .then(res => res.text())
   .then(str => new DOMParser().parseFromString(str, "text/xml"))
@@ -143,10 +148,15 @@ fetch("/sitemap.xml")
       const name = document.createElement("span");
       name.className = "name";
       name.textContent = key;
+      if (inIframe) { name.textContent += " ↗"; }
+
 
       if (value === null) {
+
         const link = document.createElement("a");
         link.href = basePath + "/" + key;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
         link.appendChild(name);
         row.appendChild(link);
         container.appendChild(row);
