@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Sitemap</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  ul { list-style-type: none; }
+  li { margin: 4px 0; }
+  a { text-decoration: none; color: #0366d6; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Sitemap</h1>
+<ul id="tree"></ul>
+
+<script>
+const excluded = ["_includes", "_layouts", ".github"];
+
+fetch("/sitemap.xml")
+  .then(res => res.text())
+  .then(str => new DOMParser().parseFromString(str, "text/xml"))
+  .then(xml => {
+    const urls = Array.from(xml.getElementsByTagName("loc")).map(n => n.textContent);
+
+    const tree = {};
+
+    function insertPath(url) {
+      const path = new URL(url).pathname.replace(/^\/|\/$/g, "");
+      const parts = path.split("/");
+
+      // Filter unerwünschte Pfade
+      if (parts.some(p => excluded.some(ex => p.startsWith(ex)))) return;
+
+      let current = tree;
+      parts.forEach((part, i) => {
+        if (!current[part]) {
+          current[part] = (i === parts.length - 1) ? null : {};
+        }
+        current = current[part];
+      });
+    }
+
+    urls.forEach(insertPath);
+
+    function buildTree(obj, parent, basePath = "") {
+      for (const key in obj) {
+        const li = document.createElement("li");
+        const fullPath = basePath + "/" + key;
+
+        if (obj[key] === null) {
+          const a = document.createElement("a");
+          a.href = fullPath;
+          a.textContent = key;
+          li.appendChild(a);
+        } else {
+          li.textContent = key;
+          const ul = document.createElement("ul");
+          buildTree(obj[key], ul, fullPath);
+          li.appendChild(ul);
+        }
+
+        parent.appendChild(li);
+      }
+    }
+
+    buildTree(tree, document.getElementById("tree"));
+  });
+</script>
+
+</body>
+</html>
