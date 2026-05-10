@@ -15,3 +15,6 @@ defaults:
 # Verhindert, dass Jekyll bestimmte Ordner ignoriert
 include: [_includes, _layouts]
 
+
+plugins:
+  - jekyll-sitemap

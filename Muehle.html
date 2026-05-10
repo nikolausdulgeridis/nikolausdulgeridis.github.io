@@ -2512,7 +2512,7 @@ function TThashBucketCompressed() {
 
 
 
-const TT_SIZE = 800000;
+const TT_SIZE = 800000; // ca.2 MB Hash
 //const TTable = [];
 
 
@@ -5390,6 +5390,11 @@ if(1) {
 	let entry = readFromhash32(hash32);
     var pvkillerzug = new zugspeicher();
 
+	if (entry) {
+		pvkillerzug.af=entry.af;
+		pvkillerzug.zf=entry.zf;
+		pvkillerzug.wnf=entry.wnf;
+	}
 	if (entry && entry.searchdepth >= rtv) {
 		if (entry.TTflag === TTFlag.EXACT) {
 			let z = new zugspeicher();
@@ -5413,9 +5418,6 @@ if(1) {
 			z.wertung = -entry.wertung;
 			return [z];
 		}
-		pvkillerzug.af=entry.af;
-		pvkillerzug.zf=entry.zf;
-		pvkillerzug.wnf=entry.wnf;
 	}
 }
 
