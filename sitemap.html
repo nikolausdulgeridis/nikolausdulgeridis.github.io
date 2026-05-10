@@ -99,3 +99,98 @@
 <div class="explorer" id="tree"></div>
 
 <script>
+const excluded = ["_includes", "_layouts", ".github"];
+
+fetch("/sitemap.xml")
+  .then(res => res.text())
+  .then(str => new DOMParser().parseFromString(str, "text/xml"))
+  .then(xml => {
+    const urls = Array.from(xml.getElementsByTagName("loc")).map(n => n.textContent);
+    const tree = {};
+
+    function insertPath(url) {
+      const path = new URL(url).pathname.replace(/^\/|\/$/g, "");
+      if (!path) return;
+
+      const parts = path.split("/");
+
+      if (parts.some(p => excluded.some(ex => p.startsWith(ex)))) return;
+
+      let current = tree;
+      parts.forEach((part, i) => {
+        if (!current[part]) {
+          current[part] = (i === parts.length - 1) ? null : {};
+        }
+        current = current[part];
+      });
+    }
+
+    urls.forEach(insertPath);
+
+    function createNode(key, value, container, depth = 0, basePath = "") {
+      const row = document.createElement("div");
+      row.className = "row";
+
+      for (let i = 0; i < depth; i++) {
+        const indent = document.createElement("span");
+        indent.className = "indent";
+        row.appendChild(indent);
+      }
+
+      const arrow = document.createElement("span");
+      arrow.className = "arrow";
+      row.appendChild(arrow);
+
+      const icon = document.createElement("span");
+      icon.className = "icon " + (value === null ? "file" : "folder");
+      row.appendChild(icon);
+
+      const name = document.createElement("span");
+      name.className = "name";
+      name.textContent = key;
+
+      if (value === null) {
+        const link = document.createElement("a");
+        link.href = basePath + "/" + key;
+        link.appendChild(name);
+        row.appendChild(link);
+      } else {
+        row.appendChild(name);
+      }
+
+      container.appendChild(row);
+
+      if (value !== null) {
+        const childrenContainer = document.createElement("div");
+        childrenContainer.className = "children";
+        container.appendChild(childrenContainer);
+
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("collapsed");
+
+        arrow.textContent = "▶";
+
+        row.onclick = () => {
+          wrapper.classList.toggle("collapsed");
+          arrow.textContent = wrapper.classList.contains("collapsed") ? "▶" : "▼";
+        };
+
+        wrapper.appendChild(childrenContainer);
+        container.appendChild(wrapper);
+
+        for (const child in value) {
+          createNode(child, value[child], childrenContainer, depth + 1, basePath + "/" + key);
+        }
+      }
+    }
+
+    const root = document.getElementById("tree");
+
+    for (const key in tree) {
+      createNode(key, tree[key], root, 0, "");
+    }
+  });
+</script>
+
+</body>
+</html>
