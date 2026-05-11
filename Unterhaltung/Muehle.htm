@@ -1,5 +1,5 @@
 ---
-title: Sloppy Mill game and analyse board
+title: Sloppy Mill game and analyse board, 9 and 10 men morris, free
 favicon: "data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 ---
 
@@ -730,6 +730,13 @@ input[type="button"] {
 
 <script>
 
+
+//1000er Punkte
+function formatNumber(n) {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
 function positioniereHilfe() {
     const tabelle = document.getElementById('board');
     const hilfe = document.getElementById('nervigerlayer');
@@ -755,7 +762,7 @@ function closelayer() {
     document.getElementById("nervigerlayer").style.display = 'none'; 
 }
 
-window.setTimeout(closeEinleitung, 12000); 
+window.setTimeout(closeEinleitung, 8000); 
 function closeEinleitung() {
     document.getElementById("einleitung").style.display = 'none'; 
 }
@@ -1245,6 +1252,13 @@ const classicToField = Object.fromEntries(Object.entries(fieldToClassic).map(([k
 var language="en";
 var globalZufall=1;
 var global2player=0;
+var globalProblem=0;
+var global10stone=0;
+
+var globalcollisioncounter=0;
+var ttCollision=0;
+var ttHits=0;
+var ttMiss=0;
 
 function toggleNumbers() {
   const wrap = document.getElementById('wrap');
@@ -1341,7 +1355,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Zoom laden
   const savedZoom = localStorage.getItem('lastZoom') || "1.00";
   applyZoom(savedZoom);   // oder applyZoom(savedZoom) – wie du sie nennst
-  
+  TTclear();
 });
 
 </script>
@@ -1727,19 +1741,19 @@ document.querySelectorAll('.zoom-item').forEach(item => {
             <td valign="top"> 
 <div id="einleitung" style="min-width: 600px; background: #f9f9f9; color: #333; border-left: 4px solid #889966; margin: 3px 0; padding: 8px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.2; border-radius: 4px; box-shadow: 1px 1px 4px rgba(0,0,0,0.05);">
     
+    <div id="text-en" style="${language == 'en' ? 'display:block' : 'display:none'}">
+        <h3 style="margin-top: 0; color: #220066;">Mills Program Introduction</h3>
+        <p>Years ago, I wrote a small Mills (Nine Men's Morris) program in JavaScript – just for fun. An interpreter using objects instead of native data types, what could one expect?</p>
+        <p>Think again. JavaScript evolved significantly, due to commercial interests. Today, the program is blazingly fast, reaching <b>1 million moves per second</b>. Without lifting a finger, I suddenly had one of the strongest Mills programs around.</p>
+        <p>I found that quite amusing, so I revamped the interface: Analysis mode, stepping through positions, saving setups, or solving test puzzles. <i>Enjoy!</i></p>
+    </div>
+
     <div id="text-de" style="${language == 'de' ? 'display:block' : 'display:none'}">
         <h3 style="margin-top: 0; color: #220066;">Einleitung</h3>
         <p>Vor Jahren schrieb ich ein kleines Mühleprogramm in JavaScript – zum Spaß. Ein Interpreter mit Objekten statt natürlicher Datentypen, welchen Anspruch kann man da haben?</p>
         <p>Weit gefehlt. JavaScript wurde wegen kommerzieller Interessen massiv weiterentwickelt. Heute ist das Programm mit <b>1 Million Zügen pro Sekunde</b> brutal schnell. 
 		   Ohne einen Finger gerührt zu haben, hatte ich plötzlich eines der stärksten Mühleprogramme weit und breit.</p>
         <p>Das fand ich witzig, deshalb habe ich die Oberfläche überarbeitet: Analysemodus, Stellungen vor- und zurückspielen, speichern oder an Teststellungen herumknobeln. <i>Viel Vergnügen!</i></p>
-    </div>
-
-    <div id="text-en" style="${language == 'en' ? 'display:block' : 'display:none'}">
-        <h3 style="margin-top: 0; color: #220066;">Mills Program Introduction</h3>
-        <p>Years ago, I wrote a small Mills (Nine Men's Morris) program in JavaScript – just for fun. An interpreter using objects instead of native data types, what could one expect?</p>
-        <p>Think again. JavaScript evolved significantly, due to commercial interests. Today, the program is blazingly fast, reaching <b>1 million moves per second</b>. Without lifting a finger, I suddenly had one of the strongest Mills programs around.</p>
-        <p>I found that quite amusing, so I revamped the interface: Analysis mode, stepping through positions, saving setups, or solving test puzzles. <i>Enjoy!</i></p>
     </div>
     
 </div>			
@@ -1809,43 +1823,43 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 
 
 <tr><td>
-<a href="./Muehle.htm?pos=000200000211021000000000218&level=3&internally=1&takefrommillallowed=0" target=""><b>Gewinne mit Weiß (3 gegen 3)</b></a>
+<a href="./Muehle.htm?pos=000200000211021000000000218&level=3" target=""><b>Gewinne mit Weiß (3 gegen 3)</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000212122212210012120110+18&level=3&takefrommillallowed=0&moves=17WK" target=""><b>Gewinne die vertrackte Stellung</b></a>
+<a href="./Muehle.htm?pos=000212122212210012120110+18&level=3&moves=17WK" target=""><b>Gewinne die vertrackte Stellung</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=21001022121021211202012118&level=3&internally=1&takefrommillallowed=0" target=""><b>Weiß gewinnt</b></a>
+<a href="./Muehle.htm?pos=21001022121021211202012118&level=3" target=""><b>Weiß gewinnt</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=01102000102012121102001215&level=3&internally=1&takefrommillallowed=0" target=""><b>Ist der Zug a4 gut?</b></a>
+<a href="./Muehle.htm?pos=01102000102012121102001215&level=3" target=""><b>Ist der Zug a4 gut?</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000020200021100101002112+11&level=3&takefrommillallowed=0&moves=12JBIbC" target=""><b>Eine fantastische Stellung – Gewinne mit Schwarz</b></a>
+<a href="./Muehle.htm?pos=000020200021100101002112+11&level=3&moves=12JBIbC" target=""><b>Eine fantastische Stellung – Gewinne mit Schwarz</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=01002000010102220001110088&level=3&takefrommillallowed=0&moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank"><b>Warum war g1–g4 keine gute Idee?</b></a>
+<a href="./Muehle.htm?pos=01002000010102220001110088&level=3&moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank"><b>Warum war g1–g4 keine gute Idee?</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=112011020211210020212200+16&level=3&takefrommillallowed=0&moves=1LRFWONUTCIBDMVGK" target=""><b>Auf Anhieb ist gar nicht zu sehen, wer besser steht</b></a>
+<a href="./Muehle.htm?pos=112011020211210020212200+16&level=3&moves=1LRFWONUTCIBDMVGK" target=""><b>Auf Anhieb ist gar nicht zu sehen, wer besser steht</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=010020202012111201020000+14&level=3&takefrommillallowed=0&moves=1LHOQSMoPFCUNGOgJI" target=""><b>Gewinne mit Weiss</b></a>
+<a href="./Muehle.htm?pos=010020202012111201020000+14&level=3&moves=1LHOQSMoPFCUNGOgJI" target=""><b>Gewinne mit Weiss</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=100211100211020120222010+17&level=3&takefrommillallowed=0&moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target=""><b>Schwarz gewinnt</b></a>
+<a href="./Muehle.htm?pos=100211100211020120222010+17&level=3&moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target=""><b>Schwarz gewinnt</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000010200112221221012000+14&level=3&takefrommillallowed=0&moves=1FOLNPRUHKMSQfFV" target=""><b>Kompliziert, Weiß gewinnt</b></a>
+<a href="./Muehle.htm?pos=000010200112221221012000+14&level=3&moves=1FOLNPRUHKMSQfFV" target=""><b>Kompliziert, Weiß gewinnt</b></a>
 </td></tr>
 
 
@@ -1854,19 +1868,19 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=111120010200212020021010+15&level=3&takefrommillallowed=0&moves=1DNCKIFBfFEPORVUXJ" target=""><b>S gewinnt. Wie?</b></a>
+<a href="./Muehle.htm?pos=111120010200212020021010+15&level=3&moves=1DNCKIFBfFEPORVUXJ" target=""><b>S gewinnt. Wie?</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=100211000010221020222010+14&level=3&takefrommillallowed=0&moves=1LOFUBVGTgGNPRXE" target="" title="Partie gegen das starke Programm www.bernhard-gaul.de/spiele/muehle/muehle2.php" ><b>Gewinne mit Weiß auf Meister‑Stufe</b></a>
+<a href="./Muehle.htm?pos=100211000010221020222010+14&level=3&moves=1LOFUBVGTgGNPRXE" target="" title="Partie gegen das starke Programm www.bernhard-gaul.de/spiele/muehle/muehle2.php" ><b>Gewinne mit Weiß auf Meister‑Stufe</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=221221220200100100100100+22&level=3&takefrommillallowed=1" target=""><b>Mühle‑Datenbank – Gewinn in 165</b></a>
+<a href="./Muehle.htm?pos=221221220200100100100100+22&level=3" target=""><b>Mühle‑Datenbank – Gewinn in 165</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.htm?pos=000010000000000000020000+0&level=3" target=""><b>10 Steine</b></a>
+<a href="./Muehle.htm?pos=122210121112211120000221+34&level=3&takefrommillallowed=0&moves=1FURWYNPDEGTdDICBMVQzLKMLIJQMFICFVOFCIHGFRQFIEFLETLUROVNOJNRUQRIJHIMQLMELNSOGVOJNIJLEKLWKJIUVRUQRIJKWMQWKJIKWBKCBQmnRQIJQRMQBCSnrCBJIBCIHCBNSBCSncDCHmc" target=""><b>10 men morris game</b></a>
 </td></tr>
 
 
@@ -1901,15 +1915,21 @@ document.querySelectorAll('.zoom-item').forEach(item => {
       <strong> + Aufgaben / Tasks </strong>
 	</span>
 
-&nbsp; &nbsp; &nbsp; &nbsp; 
-&nbsp; &nbsp; &nbsp; &nbsp; 
-&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; 
+&nbsp; &nbsp; 
+
 
 <!-- Der klickbare Radiobutton -->
 <small>
+10 men
+</small>
+<input  type="radio" id="10stoneBtn" title="play 10 men morris" onclick="toggle10stone()" />
+</span>
+<small>
+&nbsp; 
 TFMA
 </small>
-<input  type="radio" id="takeFromMillAllowedBtn" title="TakeFromMillAllowed" onclick="toggleTakeFromMillAllowed()" />
+<input  type="radio" id="takeFromMillAllowedBtn" title="TakeFromMillAllowed flag" onclick="toggleTakeFromMillAllowed()" />
 </span>
 
 
@@ -2072,7 +2092,10 @@ function DispTakeFromMillAllowed() {
     var rb = document.getElementById("takeFromMillAllowedBtn");
     rb.checked = (takefrommillallowed === 1);
 }
-
+function Disp10stone() {
+    var rb = document.getElementById("10stoneBtn");
+    rb.checked = (global10stone === 1);
+}
 
 function fwd1() {
 //    alert("fwA"+zugnr);
@@ -2184,6 +2207,7 @@ function selfplay() {
 
 function selfplayautonew() {
     string2spf("0000000000000000000000000");
+	TTclear();
     // Optional: weitere Variablen zurücksetzen
     zugnr = 0;
     farbe = 1;  // Start immer mit Weiß
@@ -2363,6 +2387,7 @@ function btntakeback(strlastpos)
 
 function btnnewgame(strlastpos)
 {
+  TTclear();
  if (internally)
    {string2spf("0000000000000000000000000"); clearmove();}
  else
@@ -2442,7 +2467,6 @@ bucket.TTflag = TTFlag.UPPERBOUND;
 */
 
 
-
 function mix32(x) {
     x ^= x >>> 16;
     x = Math.imul(x, 0x85ebca6b);
@@ -2450,6 +2474,40 @@ function mix32(x) {
     x = Math.imul(x, 0xc2b2ae35);
     x ^= x >>> 16;
     return x >>> 0; // unsigned
+}
+
+function mix32a(a) {
+    a = (a ^ (a >>> 16)) >>> 0;
+    a = Math.imul(a, 0x21f0aaad);
+    a = (a ^ (a >>> 15)) >>> 0;
+    a = Math.imul(a, 0x735a2d97);
+    a = (a ^ (a >>> 15)) >>> 0;
+    return a >>> 0;
+}
+
+function wangMix(a) {
+    a = (a ^ 61) ^ (a >>> 16);
+    a = a + (a << 3) >>> 0;
+    a = a ^ (a >>> 4);
+    a = Math.imul(a, 0x27d4eb2d);
+    a = a ^ (a >>> 15);
+    return a >>> 0;
+}
+
+function mix32MurmurHash3(a) {
+a = (a ^ (a >>> 16)) >>> 0;
+a = Math.imul(a, 0x85ebca6b); // Konstante 1
+a = (a ^ (a >>> 13)) >>> 0;
+a = Math.imul(a, 0xc2b2ae35); // Konstante 2
+a = (a ^ (a >>> 16)) >>> 0;}
+
+function mix32fnv1a(a) {
+    let h = 0x811c9dc5;
+    h = Math.imul(h ^ (a & 0xff), 0x01000193);
+    h = Math.imul(h ^ ((a >>> 8) & 0xff), 0x01000193);
+    h = Math.imul(h ^ ((a >>> 16) & 0xff), 0x01000193);
+    h = Math.imul(h ^ ((a >>> 24) & 0xff), 0x01000193);
+    return h >>> 0;
 }
 
 function splitmix32(x) {
@@ -2482,7 +2540,6 @@ function checksum32to8_mul(x) {
     return (x ^ (x >>> 8)) & 0xFF;
 }
 
-
 const TTFlag = Object.freeze({
     EXACT: 1,
     LOWERBOUND: 2,
@@ -2502,17 +2559,10 @@ function TThashBucket() {
     this.height = 0; // 0..24	
 }
 
-function TThashBucketCompressed() {
-    this.Hash32key  = 0; // 32 Bit
-    this.checksum8  = 0; // 8 Bit
-    this.afzfwnf  = 0; // af= 0..31 zf= 0..31 wnf= 0..31 // 15 oder 16 Bit
-    this.wertungTTflg = 0; 
-    this.TTflag = TTFlag.EXACT; // Default-Wert
-}
 
+//const TT_SIZE = 800000; // ca.2 MB Hash
+const TT_SIZE = 1 << 20; // 1048576
 
-
-const TT_SIZE = 800000; // ca.2 MB Hash
 //const TTable = [];
 
 
@@ -2523,23 +2573,43 @@ const TT_SIZE = 800000; // ca.2 MB Hash
 //durch
 
 //Die TT Table wird daher als Int Arrays angelegt 
-const TThash32keys = new Uint32Array(TT_SIZE);
-//const TTchecksum8 = new Uint8Array(TT_SIZE); // 
-//const TTchecksum48 = new BigUint64Array(TT_SIZE);
-//const TTchecksum48 = new Array(TT_SIZE);
-const TTchecksum48 = new Float64Array(TT_SIZE);
-const TTaf                = new Uint8Array(TT_SIZE);
-const TTzf                = new Uint8Array(TT_SIZE);
-const TTwnf             = new Uint8Array(TT_SIZE);
+const TThash32keys   = new Uint32Array(TT_SIZE);
+const TTchecksum48   = new Float64Array(TT_SIZE);
+
+//const TTaf         = new Uint8Array(TT_SIZE);
+//const TTzf         = new Uint8Array(TT_SIZE);
+//const TTwnf        = new Uint8Array(TT_SIZE);
+//const flags        = new Uint8Array(TT_SIZE);
+const TTafzfwnfflags = new Uint32Array(TT_SIZE);
+
 const TTwertung      = new Float64Array(TT_SIZE);
-const depth             = new Uint8Array(TT_SIZE);
-const height            = new Uint8Array(TT_SIZE);
-const flags               = new Uint8Array(TT_SIZE);
+const depth          = new Uint8Array(TT_SIZE);
+const height         = new Uint8Array(TT_SIZE);
+
+function TTclear(){
+	for (let i = 0; i < TThash32keys.length; i++) {
+	TThash32keys[i] = 0;
+	TTchecksum48[i] = 0;
+	TTafzfwnfflags[i] = 0;
+	TTwertung[i] = 0;
+	depth[i] = 0;
+	height[i] = 0;
+	}
+}
+
+
 
 
 function ttIndex(hash32) {
+    hash32 ^= hash32 >>> 16;
+    return hash32 & (TT_SIZE - 1);
+}
+
+
+function ttIndex_alt(hash32) {
     return (hash32 >>> 0) % TT_SIZE;
 }
+
 
 
 function writeTohash32(hb) {
@@ -2557,9 +2627,16 @@ function writeTohash32(hb) {
 	TTchecksum48[idx] = hb.checksum48;
 	//TTchecksum48[idx] = hb.checksum48 % 0x10000000000000; // 2^52
 
-    TTaf[idx] = hb.af & 0xFF;
-    TTzf[idx] = hb.zf & 0xFF;
-    TTwnf[idx] = hb.wnf & 0xFF;
+    //TTaf[idx] = hb.af & 0xFF;
+    //TTzf[idx] = hb.zf & 0xFF;
+    //TTwnf[idx] = hb.wnf & 0xFF;
+    //flags[idx] = hb.TTflag & 0xFF;
+	// gepackt in 32 Bit Array 
+    TTafzfwnfflags[idx] =
+    (hb.af & 0xFF) |
+    ((hb.zf & 0xFF) << 8) |
+    ((hb.wnf & 0xFF) << 16) |
+    ((hb.TTflag & 0xFF) << 24);
 
     // Bewertung 
     let w = hb.wertung;
@@ -2569,14 +2646,18 @@ function writeTohash32(hb) {
 
     depth[idx] = hb.searchdepth & 0xFF;
     height[idx] = hb.height & 0xFF;
-    flags[idx] = hb.TTflag & 0xFF;
 }
 
 function readFromhash32(hash32) {
     const idx = ttIndex(hash32);
-if( hash32==0   ) alert (fehler);
+	//if( hash32==0   ) alert (fehler);
 
-    if (TThash32keys[idx] !== (hash32 >>> 0)) return null;
+
+	if (TThash32keys[idx] === 0) {
+		ttMiss++;
+		return null;
+	}
+    if (TThash32keys[idx] !== (hash32 >>> 0)) { ttCollision++; return null; }
 
     let entry = new TThashBucket();
 
@@ -2584,27 +2665,38 @@ if( hash32==0   ) alert (fehler);
     //entry.checksum8 = TTchecksum8[idx];
     entry.checksum48 = TTchecksum48[idx];
 
-    // optionaler zusätzlicher Check (empfohlen)
-    // falls du checksum nutzt:
-    // if (TTchecksum8[idx] !== (spfeld2hash(spfeld) & 0xFF)) return null;
-if( entry.checksum48 != spfeld2hash(spfeld)   ) {console.log("collision1 "+" "+ --globalcollisioncounter +" "+entry.checksum48+" "+spfeld2hash(spfeld));return null;}
+    // checksum 
+	if( ((entry.checksum48 & 0xffffFFFF)>>>0) != ((spfeld2hash(spfeld) & 0xffffFFFF)>>>0) ) 
+		{console.log("collision "+" "+ ++globalcollisioncounter +" "+(entry.checksum48 ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16));return null;}
 
+	ttHits++;
 
-    entry.af = TTaf[idx];
-    entry.zf = TTzf[idx];
-    entry.wnf = TTwnf[idx];
+    //entry.af = TTaf[idx];
+    //entry.zf = TTzf[idx];
+    //entry.wnf = TTwnf[idx];
+    //entry.TTflag = flags[idx];
+	//wird ersetzt durch 	
+	const packed = TTafzfwnfflags[idx];
+	entry.af     =  packed         & 0xFF;
+	entry.zf     = (packed >>> 8)  & 0xFF;
+	entry.wnf    = (packed >>> 16) & 0xFF;
+	entry.TTflag = (packed >>> 24) & 0xFF;
 
     entry.wertung = TTwertung[idx];
     entry.searchdepth = depth[idx];
     entry.height = height[idx];
-    entry.TTflag = flags[idx];
 
     return entry;
 }
 
 
-
-
+function TThashBucketCompressed() {
+    this.Hash32key  = 0; // 32 Bit
+    this.checksum8  = 0; // 8 Bit
+    this.afzfwnf  = 0; // af= 0..31 zf= 0..31 wnf= 0..31 // 15 oder 16 Bit
+    this.wertungTTflg = 0; 
+    this.TTflag = TTFlag.EXACT; // Default-Wert
+}
 
 
 
@@ -4832,6 +4924,15 @@ async function computemove1() {  // NEU: async machen, um await zu nutzen
 // Hier springt die Eingaberoutine hin, wenn der Spieler einen Zug eingegeben hat
 async function computemove2() {  // NEU: async machen, um await zu nutzen
     if (makezgglist(farbe).length == 0) return;
+
+	if (global10stone) {
+		if (zugnr == 2) 
+			{if (stz[1] + stz[2] == 2) zugnr -= 2;} 
+		else if (zugnr == 3) 
+			{if (stz[1] + stz[2] == 3) 	zugnr -= 2;}
+	}
+
+
     if (global2player) return;
     
     await computemove();  // NEU: Warte, bis Berechnung fertig ist
@@ -4920,6 +5021,19 @@ window.addEventListener('keydown', e => {
 });
 
 async function computemoveA() {
+
+	if (global10stone) {
+		if (zugnr == 2) 
+			{if (stz[1] + stz[2] == 2) zugnr -= 2;} 
+		else if (zugnr == 3) 
+			{if (stz[1] + stz[2] == 3) 	zugnr -= 2;}
+	}
+	
+	ttHits=0;
+	ttMiss=0;
+	ttCollision=0;
+	globalcollisioncounter=0;
+
     level = getLevelValue();
     if (makezgglist(farbe).length == 0) { clearmove(); melde (language == 'de' ? 'Kein Zug mehr' : 'no moves left'); return; alert("-The last time: You win-"); }
 
@@ -4930,11 +5044,11 @@ async function computemoveA() {
     tzuza = 0;
     globalAwaitCounter = 0;
     globalAwaitCounterT = Date.now();
-    stwert = Math.floor(Math.random() * 5)+6;
+    stwert = Math.floor(Math.random() * 3)+8; // ehemals 12, achtung kann TTable durcheinanderbringen
     if (zugnr < 18) stwert = 8;
     if (zugnr < 14) stwert = 7;
     if (zugnr < 6) stwert = 4;
-    stwert2 = Math.floor(Math.random() * 5)+4;
+    stwert2 = Math.floor(Math.random() * 4)+4;
     var savepos = spf2string(spfeld, zugnr);
     string2spf(savepos);
 
@@ -4986,8 +5100,7 @@ async function computemoveA() {
     zughistory[zugnr + 7].zf = 0;
     zughistory[zugnr + 8].zf = 0;
     zughistory[zugnr + 9].zf = 0;
-	
-	
+		
 	for (let k =1; k < globalpv.length; k++) 
 	{
 	 zughistory[zugnr +k ].af = globalpv[k].af;
@@ -5015,6 +5128,27 @@ async function computemoveA() {
     Statistik += "Bewertung " + bestzug.wertung;
     Statistik += "Position " + savepos;
     // computemoveFertigGlobal=1;  // Optional: Entfernen, da wir jetzt mit Promise warten
+	
+	//TT Statistik
+	console.log({
+	hits: ttHits,
+	miss: ttMiss,Collision: ttCollision,
+	realCollision: globalcollisioncounter
+	});
+	console.log( "Hitrate: " +1+ttHits/(ttHits + ttMiss +ttCollision+1));
+	let usedSlots = 0;
+	for (let i = 0; i < TThash32keys.length; i++) {
+	if (TThash32keys[i] !== 0) usedSlots++;
+	}
+
+console.log(
+  `used Slots: ${usedSlots.toLocaleString('de-DE')} ` +
+  `free Slots: ${(TThash32keys.length - usedSlots).toLocaleString('de-DE')} ` +
+  `Slots gesamt: ${TThash32keys.length.toLocaleString('de-DE')}`
+);
+
+	//console.log("used Slots: " + usedSlots +" free Slots: "+ (TThash32keys.length-usedSlots) + " Slots gesamt: "+ TThash32keys.length);
+	console.log("Load factor:", usedSlots / TThash32keys.length);
 }
 
 
@@ -5239,12 +5373,13 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 	{
        // Hashkey ermitteln
 		var hashbucket= new TThashBucket();
-		hashbucket.Hash32key  = spfeld2hash32(spfeld,zugnr); // 32 Bit
+		const [h32, h52] = spfeld2hash32(spfeld, zugnr);
+		hashbucket.Hash32key  = h32; // 32 Bit
 		// Hasheintrag schreiben sofern Zugberechnung nicht abgebrochen und mindestens 4 Hz
 		if(isRunning && rtvi>2) 
 		{
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld)); // 8 Bit 
-			hashbucket.checksum48  = spfeld2hash(spfeld); // 48 Bit 
+			hashbucket.checksum48  = h52; // 48 Bit 
 			hashbucket.af  = bestzug.af; // 0..24
 			hashbucket.zf  = bestzug.zf; // 0..24
 			hashbucket.wnf = bestzug.wnf; // 0..24
@@ -5383,10 +5518,10 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
     return [bewerteleaf];
   }
 
-if(1) {
 
-	// --- Transposition Table Lookup ---
-	let hash32 = spfeld2hash32(spfeld, zugnr);
+	// --- Transposition Table Lookup ---	
+	const [h32, h52] = spfeld2hash32(spfeld, zugnr);
+	let hash32 = h32;
 	let entry = readFromhash32(hash32);
     var pvkillerzug = new zugspeicher();
 
@@ -5419,7 +5554,6 @@ if(1) {
 			return [z];
 		}
 	}
-}
 
   var zuglist = makezgglist(farbe);
   var nextzug;
@@ -5802,9 +5936,10 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		{
 			// --- Transposition Table Store ---
 			let hashbucket = new TThashBucket();
-			hashbucket.Hash32key  = spfeld2hash32(spfeld, zugnr);
+			const [h32, h52] = spfeld2hash32(spfeld, zugnr);
+			hashbucket.Hash32key  = h32;
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld));
-			hashbucket.checksum48  = spfeld2hash(spfeld); // 48 Bit 
+			hashbucket.checksum48  = h52; // 48 Bit 
 			hashbucket.searchdepth = rtv;
 			hashbucket.wertung = bestwertung; // Wert aus Sicht dieses Knotens
 			hashbucket.height = rta + rtv;
@@ -6539,6 +6674,7 @@ if (window.location.search != "")
     if (("?"+params[ipar]).indexOf("moves=")==1) newmoves=params[ipar].substr(6);
     if (("?"+params[ipar]).indexOf("classicmoves=")==1) classicmoves=params[ipar].substr(13);
    }
+  TTclear();
   if(newpos.length>24)
     {
     string2spf(newpos); /*load board*/
@@ -6558,7 +6694,10 @@ if (window.location.search != "")
     clearmove();        /*draw board*/
     }
   //drawZoom(globalZoom);
+  
+  Disp10stone();
   DispTakeFromMillAllowed();
+  TTclear();
 }
 
 function striphref(href)
@@ -7394,14 +7533,6 @@ if(0) alert("###################################################################
 if(0) alert("################################################################################################");
 
 
-function mix32(x) {
-    x ^= x >>> 16;
-    x = Math.imul(x, 0x85ebca6b);
-    x ^= x >>> 13;
-    x = Math.imul(x, 0xc2b2ae35);
-    x ^= x >>> 16;
-    return x >>> 0; // unsigned
-}
 
 
 function toBin32(n) {
@@ -7420,32 +7551,35 @@ var testpos="222111100000000000000000+9";
 var testpos="222111111222111222111222+7";
 var testpos="222000111222111222000222+13";
 //string2spf(testpos);
-console.log(testpos);
-spfeld2hash32(spfeld,zugnr);
-var globalcollisioncounter=0;
-function spfeld2hash32(spfeld,zugnr) {
+//console.log(testpos);
+//spfeld2hash32(spfeld,zugnr);
+
+function spfeld2hash32_old(spfeld,zugnr) {
     let low32 = 0;
     let high32 = 0;
 	var bitPosition=0;
 	var highBitPos=0;
 	var zugnrh=0;
 	var result32=0;
-    
+ hash52=0;
+   
 	//Bit 0..47 fuer Position
     for (let i = 1; i <= 24; i++) {
         const value = spfeld[i];
         const bitPosition = (i - 1) * 2;
 
-        if (bitPosition < 32) {
-            // Schreibvorgang in den unteren 32-Bit-Block
-            low32 |= (value << bitPosition);
-        } else {
-            // Schreibvorgang in den oberen 16-Bit-Block (relativ zu 32 Bit)
-            highBitPos = bitPosition - 32;
-            high32 |= (value << highBitPos);
-        }
+		if (bitPosition < 32) {
+			// Schreibvorgang und sofortige Umwandlung in Unsigned 32-Bit
+			low32 = (low32 | (value << bitPosition)) >>> 0;
+		} else {
+			const highBitPos = bitPosition - 32;
+			high32 = (high32 | (value << highBitPos)) >>> 0;
+		}
     }
 	
+    //hash52 = high32 * 2**32 + (low32 >>> 0);
+	//if (hash52 != spfeld2hash(spfeld)) {console.log(spfeld2hash(spfeld).toString(4) + "  " + hash52.toString(4)  );}
+		
 	//Bit 48 49 50 fuer Zugnr
     if(zugnr<18&&zugnr>3)
     {
@@ -7460,22 +7594,82 @@ function spfeld2hash32(spfeld,zugnr) {
 	  highBitPos=24*2+3-32; 
  	  high32 |= (1 << highBitPos); //3 Bit fuer Zugnr	  
 	 }	
-//console.log(toBin32Grouped(high32));
-//console.log(toBin32Grouped(low32));
+	//console.log(toBin32Grouped(high32));
+	//console.log(toBin32Grouped(low32));
 	
     // Kombiniert die zwei Teile in 32 Bit
-high32=mix32(high32);
-high32=splitmix32(high32);
-low32=mix32(low32);
+	high32=wangMix(high32);
+	high32=mix32(high32);
+	//high32=splitmix32(high32);
+	low32=splitmix32(low32);
 
 	result32=high32^low32;
-	result32=splitmix32(result32);
-//console.log(toBin32Grouped(result32));
-//console.log(toBin32Grouped(result32));
+	result32=wangMix(result32);
+	result32=mix32a(result32);
+
+	//console.log(toBin32Grouped(result32));
+	//console.log(toBin32Grouped(result32));
+
+ //hash52 = high32 * 2**32 + (low32 >>> 0);
+
     return result32;
 }
 
+function spfeld2hash32(spfeld, zugnr) {
+    let low32 = 0;
+    let high32 = 0;
 
+    // Bit 0..47 für Position
+    for (let i = 1; i <= 24; i++) {
+        const value = spfeld[i];
+        const bitPos = (i - 1) * 2;
+
+        if (bitPos < 32) {
+            low32 |= (value << bitPos);
+        } else {
+            const highBitPos = bitPos - 32;
+            high32 |= (value << highBitPos);
+        }
+    }
+
+    // Bit 48..50 für Zugnr
+    if (zugnr < 18 && zugnr > 3) {
+        let zugnrh = zugnr - 2;   // 4..17 → 2..15
+        zugnrh = zugnrh >>> 1;    // → 1..7 (3 Bit)
+
+        const pos = 48 - 32;      // = 16
+        high32 |= (zugnrh << pos);
+    }
+
+    // Bit 51 Farbe
+    if (zugnr % 2) {
+        const pos = 51 - 32;      // = 19
+        high32 |= (1 << pos);
+    }
+
+    // 52‑Bit Wert bauen (Number, exakt)
+    //const hash52 = high32 * 2**32 + (low32 >>> 0);
+	const hash52 = high32 * 4294967296 + (low32 >>> 0);
+
+    // Mischungen für 32 Bit
+    let h = wangMix(high32);
+        h = mix32(h);
+    let l = splitmix32(low32);
+
+    let hash32 = h ^ l;
+    hash32 = mix32a(hash32);
+
+    return [hash32 >>> 0, hash52];
+}
+
+//Verwendung
+//const [h32, h52] = spfeld2hash32(spfeld, zugnr);
+//TThash32keys[idx] = h32;
+//TTchecksum48[idx] = h52;
+//oder
+//const result = spfeld2hash32(spfeld, zugnr);
+//const h32 = result[0];
+//const h52 = result[1];
 
 
 //Hash mit Number Datentyp
@@ -7486,7 +7680,7 @@ function partsToNumber(low32, high16) {
     // Wir können die 48 Bit sicher zurückführen, indem wir High-Part shiften
     // Achtung: Bitoperatoren arbeiten nur auf 32-Bit-Ints. 
     // Hier nutzen wir direkt die Fliesskomma-Mathematik für die Zusammensetzung.
-    return low32 + (high16 * Math.pow(2, 32));
+    return (low32>>> 0) + (high16 * Math.pow(2, 32));
 }
 
 // Hilfsfunktion: Teilt ein 48-Bit-Number in seine 2 Teile für Bitoperationen
@@ -7505,7 +7699,6 @@ function numberToParts(hashNumber) {
     };
 }
 
-
 /**
  * Erstellt einen 48-Bit-Hashwert (als Number) aus einem Spielfeld-Array.
  * Jedes Feld (Index 1-24) verwendet 2 Bits.
@@ -7521,18 +7714,18 @@ function spfeld2hash(spfeld) {
         const value = spfeld[i];
         const bitPosition = (i - 1) * 2;
 
-        if (bitPosition < 32) {
-            // Schreibvorgang in den unteren 32-Bit-Block
-            low32 |= (value << bitPosition);
-        } else {
-            // Schreibvorgang in den oberen 16-Bit-Block (relativ zu 32 Bit)
-            const highBitPos = bitPosition - 32;
-            high16 |= (value << highBitPos);
-        }
+		if (bitPosition < 32) {
+			// Schreibvorgang und sofortige Umwandlung in Unsigned 32-Bit
+			low32 = (low32 | (value << bitPosition)) >>> 0;
+		} else {
+			const highBitPos = bitPosition - 32;
+			high16 = (high16 | (value << highBitPos)) >>> 0;
+		}
     }
     
     // Kombiniert die zwei Teile zurück in ein einzelnes JS Number
-    return partsToNumber(low32, high16);
+    //return partsToNumber(low32, high16);
+    return low32 + high16 * 4294967296; // low32  >>> 0 ist bereits vorher erfolgt, daher uint
 }
 
 /**
@@ -7687,11 +7880,17 @@ function toggleLang() {
 	{melde("Language en"); setlangen();}
 }
 
-var globalProblem=0;
 function toggleProblem() {
 	globalProblem=1-globalProblem;
     if(globalProblem) melde("Problem on");
     if(!globalProblem) melde("Problem off");
+}
+
+function toggle10stone() {
+	global10stone=1-global10stone;
+    if(global10stone) melde("10 stone on");
+    if(!global10stone) melde("10 stone off");
+	Disp10stone();
 }
 
 function toggleTakeFromMillAllowed() {
@@ -7820,7 +8019,8 @@ function toggleRemissuche() {
 --A128PzohQma9grid.htm.htm--  25.04.26 
 --A129PzohQma9grid.htm.htm--  25.04.26 
 --A131PzohQma9grid.htm.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
---A135PzohQma9grid.htm.htm--  TTables, Stwert verringert (12 zu 7 bis 11)
+--A135PzohQma9grid.htm.htm--  11.05.26 TTables, Stwert verringert (12 zu 7 bis 10)
+--A137PzohQma9grid.htm.htm--  10-steiner
 
 */
 
