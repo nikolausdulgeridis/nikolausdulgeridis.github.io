@@ -2476,6 +2476,27 @@ function mix32(x) {
     return x >>> 0; // unsigned
 }
 
+function mix32MurmurHash3(a) {
+a = (a ^ (a >>> 16)) >>> 0;
+a = Math.imul(a, 0x85ebca6b); // Konstante 1
+a = (a ^ (a >>> 13)) >>> 0;
+a = Math.imul(a, 0xc2b2ae35); // Konstante 2
+a = (a ^ (a >>> 16)) >>> 0;
+return a}
+
+
+function splitmix32(x) {
+    x = (x + 0x9e3779b9) >>> 0;
+    x ^= x >>> 16;
+    x = Math.imul(x, 0x21f0aaad);
+    x ^= x >>> 15;
+    x = Math.imul(x, 0x735a2d97);
+    x ^= x >>> 15;
+    return x >>> 0;
+}
+
+
+
 function mix32a(a) {
     a = (a ^ (a >>> 16)) >>> 0;
     a = Math.imul(a, 0x21f0aaad);
@@ -2494,12 +2515,6 @@ function wangMix(a) {
     return a >>> 0;
 }
 
-function mix32MurmurHash3(a) {
-a = (a ^ (a >>> 16)) >>> 0;
-a = Math.imul(a, 0x85ebca6b); // Konstante 1
-a = (a ^ (a >>> 13)) >>> 0;
-a = Math.imul(a, 0xc2b2ae35); // Konstante 2
-a = (a ^ (a >>> 16)) >>> 0;}
 
 function mix32fnv1a(a) {
     let h = 0x811c9dc5;
@@ -2510,15 +2525,6 @@ function mix32fnv1a(a) {
     return h >>> 0;
 }
 
-function splitmix32(x) {
-    x = (x + 0x9e3779b9) >>> 0;
-    x ^= x >>> 16;
-    x = Math.imul(x, 0x21f0aaad);
-    x ^= x >>> 15;
-    x = Math.imul(x, 0x735a2d97);
-    x ^= x >>> 15;
-    return x >>> 0;
-}
 
 function checksum32to8_xor(x) {
     return (x ^ (x >>> 8) ^ (x >>> 16) ^ (x >>> 24)) & 0xFF;
@@ -2561,7 +2567,7 @@ function TThashBucket() {
 
 
 //const TT_SIZE = 800000; // ca.2 MB Hash
-const TT_SIZE = 1 << 20; // 1048576
+const TT_SIZE = 1024*1024>>>2; // 
 
 //const TTable = [];
 
@@ -2618,7 +2624,7 @@ function writeTohash32(hb) {
     // Replacement-Strategie: Depth bevorzugen
     if (TThash32keys[idx] !== 0) {
         //if (depth[idx] > hb.searchdepth) return;
-        if (depth[idx] > hb.searchdepth && height[idx]+2 > hb.height) return;
+        if (depth[idx] > hb.searchdepth && height[idx]+4 > hb.height && Math.abs(height[idx]-hb.height)<12) return;
     }
 
     TThash32keys[idx] = hb.Hash32key >>> 0;
@@ -2916,8 +2922,8 @@ function checkquermuehlen()
 debugverbose=0;
 function bewertemuehlen(pfarbe) {
 
-//if (stz[1]<4 || stz[2]<4) return 0; 
-//if (stz[1]<6 && stz[2]<6) return 0; 
+if (stz[1]<4 || stz[2]<4) return 0; 
+if (stz[1]<6 && stz[2]<6) return 0; 
 
     // Pivotmuehlen
     var pmi;
@@ -2926,9 +2932,10 @@ function bewertemuehlen(pfarbe) {
     var eins, zwei, drei;
     var zugsum=0;
     var zwwert=0;
-	const blockwert=14; //Strafe fuer blockierte Muehle
-	const blockwertm=7; //Strafe fuer blockierte Muehle Mittelreihe
-	const qmwert=9;    // Bonus fuer Quermuehle
+	var blockwert=12; //Strafe fuer blockierte Muehle
+	var blockwertm=5; //Strafe fuer blockierte Muehle Mittelreihe
+	var qmwert=9;    // Bonus fuer Quermuehle
+	if(zugnr>28) qmwert=2; else if(zugnr>22) qmwert=4;
     //console.log("startbewertem");
 	
 
@@ -5130,12 +5137,13 @@ async function computemoveA() {
     // computemoveFertigGlobal=1;  // Optional: Entfernen, da wir jetzt mit Promise warten
 	
 	//TT Statistik
-	console.log({
-	hits: ttHits,
-	miss: ttMiss,Collision: ttCollision,
-	realCollision: globalcollisioncounter
-	});
-	console.log( "Hitrate: " +1+ttHits/(ttHits + ttMiss +ttCollision+1));
+	console.log(
+	"hits: " + ttHits.toLocaleString('de-DE') + " " +
+	"miss: " + ttMiss.toLocaleString('de-DE') + " " +
+	"Collision: " + ttCollision.toLocaleString('de-DE')+ " " +
+	"realCollision: " + globalcollisioncounter.toLocaleString('de-DE')
+	);
+	console.log( "Hitrate: " + ttHits/(ttHits + ttMiss +ttCollision+1)  );
 	let usedSlots = 0;
 	for (let i = 0; i < TThash32keys.length; i++) {
 	if (TThash32keys[i] !== 0) usedSlots++;
@@ -7600,12 +7608,14 @@ function spfeld2hash32_old(spfeld,zugnr) {
     // Kombiniert die zwei Teile in 32 Bit
 	high32=wangMix(high32);
 	high32=mix32(high32);
+	high32=mix32a(high32);
+	high32=mix32MurmurHash3(high32);
 	//high32=splitmix32(high32);
 	low32=splitmix32(low32);
 
 	result32=high32^low32;
 	result32=wangMix(result32);
-	result32=mix32a(result32);
+	result32=mix32(result32);
 
 	//console.log(toBin32Grouped(result32));
 	//console.log(toBin32Grouped(result32));
@@ -7613,6 +7623,14 @@ function spfeld2hash32_old(spfeld,zugnr) {
  //hash52 = high32 * 2**32 + (low32 >>> 0);
 
     return result32;
+}
+
+function mix32x2(a, b) {
+    // Die Addition und Bit-Operationen werden in JS als 32-Bit Int ausgeführt
+    a ^= (b + 0x9e3779b9 + (a << 6) + (a >> 2));
+    
+    // >>> 0 erzwingt die Interpretation als vorzeichenlose 32-Bit Ganzzahl
+    return a >>> 0;
 }
 
 function spfeld2hash32(spfeld, zugnr) {
@@ -7648,16 +7666,20 @@ function spfeld2hash32(spfeld, zugnr) {
     }
 
     // 52‑Bit Wert bauen (Number, exakt)
-    //const hash52 = high32 * 2**32 + (low32 >>> 0);
-	const hash52 = high32 * 4294967296 + (low32 >>> 0);
+    const hash52 = high32 * 2**32 + (low32 >>> 0);
 
     // Mischungen für 32 Bit
     let h = wangMix(high32);
+        //h = mix32MurmurHash3(h);
+        //h = mix32a(h);
         h = mix32(h);
-    let l = splitmix32(low32);
+    let l = mix32fnv1a(low32);
 
-    let hash32 = h ^ l;
-    hash32 = mix32a(hash32);
+    //let hash32 = h ^ l;
+    let hash32 = mix32x2(l,h);
+    hash32 = mix32(hash32);
+    //hash32 = mix32a(hash32);
+    //hash32 = mix32fnv1a(hash32);
 
     return [hash32 >>> 0, hash52];
 }
@@ -8020,7 +8042,7 @@ function toggleRemissuche() {
 --A129PzohQma9grid.htm.htm--  25.04.26 
 --A131PzohQma9grid.htm.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
 --A135PzohQma9grid.htm.htm--  11.05.26 TTables, Stwert verringert (12 zu 7 bis 10)
---A137PzohQma9grid.htm.htm--  10-steiner
+--A137PzohQma9grid.htm.htm--  10 stone Morris
 
 */
 
