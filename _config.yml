@@ -26,6 +26,6 @@ defaults:
 plugins:
   - jekyll-sitemap
 
-exclude:
+include:
   - _includes
   - _layouts
