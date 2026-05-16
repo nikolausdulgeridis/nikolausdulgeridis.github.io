@@ -1,6 +1,9 @@
 # Name 
 title: Nikolaus Dulgeridis Website
 
+url: "https://nikolausdulgeridis.github.io"
+baseurl: ""
+
 
 # Default-Favicon (Base64)
 default_favicon: "data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAEAgQABP78AIT+/AD8AgQAxMLEAAQC/AD8/vwAAAAAAAAAgAAAAO0AAAASAAAAAACRAZkAsQBpADcADwB+AFsAd3d3d3d3d3d3d3d3d3d3d3d3dwAAAAAAAAAAAAd3d3d3d3cEREREREREREAwd3d3d3d3AEREREREREQDMHd3d3d3dwYERERERERAMzB3d3d3d3cGYEREREREAzMwd3d3d3d3BmYEREREQDMzMHd3d3d3dwZmYARERAMzMzB3d3d3d3cGZmZgREAzMzMwd3d3d3d3BmZmZgQDMzMzMHd3d3d3dwZmZmZgMzMzMzB3d3d3d3cGZmZmYAMzMzMwd3d3d3d3BmZmZgEQMzMzMHd3d3d3dwZmZmAREQMzMzB3d3d3d3cGZmYBEREQMzMwd3d3d3d3BmZgEREREQMzMHd3d3d3dwZmAREREREQMzB3d3d3d3cGYBEREREREQMwd3d3d3d3BgEREREREREQMHd3d3d3dwAREREQAAAAAAB3d3d3d3dwAAAAAFVVVVVQd3d3d3d3cFVVVVVVVVVVB3d3d3d3d3cFVVVVVVVVVQd3d3d3d3d3cAVVVVVVVVB3d3d3d3d3d3dwVVVVVVVQd3d3d3d3d3d3dwVVVVVVB3d3d3d3d3d3d3dwVVVVUHd3d3d3d3d3d3d3dwVVVQd3d3d3d3d3d3d3d3dwBVUHd3d3d3d3d3d3d3d3d3BQd3d3d3d3d3d3d3d3d3d3B3d3d3d3d3d3d3d3d3d3d3d3d3d3d3f//////AAAf/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/wAAD/8AAA//AAAP/4AAD/+AAB//wAAf/+AAP//4AD///AB///4A////Af///4H////j////9///////w=="
@@ -12,13 +15,15 @@ defaults:
     values:
       layout: "default"
 
-# Verhindert, dass Jekyll bestimmte Ordner ignoriert
-include: [_includes, _layouts]
-
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
 
 plugins:
   - jekyll-sitemap
-
 
 exclude:
   - _includes
