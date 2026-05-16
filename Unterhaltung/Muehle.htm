@@ -2602,10 +2602,11 @@ function initTT(Csize) {
   TThash32keys   = new Uint32Array(TT_SIZE2);
   TTchecksum48   = new Float64Array(TT_SIZE2);
   TTafzfwnfflags = new Uint32Array(TT_SIZE2);
-  TTwertung      = new Float64Array(TT_SIZE2);
+  //TTwertung      = new Float64Array(TT_SIZE2);
+  TTwertung      = new Int16Array(TT_SIZE2)
   depth          = new Uint8Array(TT_SIZE2);
   height         = new Uint8Array(TT_SIZE2);
-  TTgen          = new Uint8Array(TT_SIZE);
+  TTgen          = new Uint8Array(TT_SIZE2);
 
   currentGen = 0;
   CacheSizeString=CacheSize2String();
@@ -2617,7 +2618,7 @@ console.log(CacheSize2String());
 
 function CacheSize2String ()
 {
-var csizeMB= (Math.floor(TT_SIZE*27/100000)/10)+"MB";
+var csizeMB= (Math.floor(TT_SIZE*21/100000)/10)+"MB";
 var slotsK= Math.floor(TT_SIZE/1000)+"k Slots";
 return "Cache: "+csizeMB+" ("+slotsK+")";
 }
@@ -2775,6 +2776,7 @@ function writeEntryAt(idx, hb) {
 
 function writeTohash32(hb) {
   if(hb.zf==0) {console.log("Fehler bei write 2"); return}
+  if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
 
   const key = hb.Hash32key >>> 0;
 
@@ -8431,6 +8433,7 @@ function toggleRemissuche() {
 --A138PzohQma9grid.htm.htm--  2 Slots für Hashtable
 --A139PzohQma9grid.htm.htm--  Hashgroesse waehlbar
 --A142PzohQma9grid.htm.htm--  PV wird aus Hash ergaenzt 16.05.26
+--A143PzohQma9grid.htm.htm--  if(hb.wertung %1 !== 0) {return}; // Zugwiederholung nicht in TT speichern und Float64Array wird zu TTwertung = new Int16Array(TT_SIZE2)
 
 */
 
