@@ -5394,7 +5394,7 @@ async function computemoveA() {
 	 //console.log("addausPv " +globalpv[k].af+" "+globalpv[k].zf+" "+globalpv[k].wnf);
 	 //if(globalpv[k].zf)zugausfueh(globalpv[k]);	
 	}
-	for(;;) // Folgezuege aus Cache holen, und an globalpv anhaengen
+	for(let ipx=0;ipx<64;ipx++) // Folgezuege aus Cache holen, und an globalpv anhaengen
 	{
 	  let tmppos1="";
 	  //console.log("hole Entry "+zugnr+" "+farbe+" "+stz[1]+" "+stz[2]);
