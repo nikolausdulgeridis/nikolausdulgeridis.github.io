@@ -1,4 +1,5 @@
 ---
+---
 title: Sloppy Mill game and analyse board, 9 and 10 men morris, free
 favicon: "data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 ---
@@ -799,7 +800,7 @@ function mhelp() {
                 <span>${language == 'de' ? 'Taste <strong>2</strong>' : 'Key <strong>2</strong>'}</span>
                 
                 <span style="color: #666;">${language == 'de' ? 'Classic Notation:' : 'Classic Notation:'}</span> 
-                <span>${language == 'de' ? 'Taste <strong>C</strong>' : 'Key <strong>C</strong>'}</span>
+                <span>${language == 'de' ? 'Taste <strong>N</strong>' : 'Key <strong>N</strong>'}</span>
 
                 <span style="color: #666;">${language == 'de' ? 'Board Numerierung:' : 'Board numbers:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>i</strong>' : 'Key <strong>i</strong>'}</span>
@@ -824,6 +825,10 @@ function mhelp() {
 
                 <span style="color: #666;">${language == 'de' ? 'Zufall:' : 'Random:'}</span> 
                 <span>${language == 'de' ? 'Taste <strong>Z</strong>' : 'Key <strong>Z</strong>'}</span>
+
+                <span style="color: #666;">${language == 'de' ? 'Cache Size:' : 'Cache Size:'}</span> 
+                <span>${language == 'de' ? 'Taste <strong>C</strong>' : 'Key <strong>C</strong>'}</span>
+
 
             </div>
           <!-- URL Info -->
@@ -1021,8 +1026,6 @@ function gibtZugstatistikHtml() {
         ${language == "de" ? "Statistik" : "Statistics"}
     </b>
 
-
-
         <!-- Kleiner, dunkelgrauer Button -->
         <!--
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
@@ -1066,9 +1069,14 @@ function gibtZugstatistikHtml() {
 
                 <span>${language == "de" ? "Varianten" : "Variants"}: <b>${variantenText} <small>(${vpsText}/s)</small></b></span>
             </div>
-
+			<span>
             <div style="border-top: 1px solid #ccddee; padding-top: 10px;">
-                <b style="font-size: 0.75em; display: block; margin-bottom: 1px;">Top Moves:</b>
+                <span style="font-size: 0.75em; display: block; margin-bottom: 4px;">Top Moves:
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+				<span style= "font-size: 0.7em" >${CacheSizeString}</span>
+				</span>
+			</span>
+
                 <table style="width: 100%; border-collapse: collapse; font-size: 0.70em; text-align: left;">
                     <thead>
                         <tr style="color: #6600aa; border-bottom: 1px solid #eee;">
@@ -1255,10 +1263,12 @@ var global2player=0;
 var globalProblem=0;
 var global10stone=0;
 
-var globalcollisioncounter=0;
+var ttRealCollision=0;
 var ttCollision=0;
 var ttHits=0;
 var ttMiss=0;
+var currentGen=0;
+
 
 function toggleNumbers() {
   const wrap = document.getElementById('wrap');
@@ -1920,7 +1930,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 
 
 <!-- Der klickbare Radiobutton -->
-<small>
+<small style=" color: maroon;">
 10 men
 </small>
 <input  type="radio" id="10stoneBtn" title="play 10 men morris" onclick="toggle10stone()" />
@@ -2554,7 +2564,6 @@ const TTFlag = Object.freeze({
 
 function TThashBucket() {
     this.Hash32key  = 0; // 32 Bit
-//    this.checksum8  = 0; // 8 Bit 
     this.checksum48  = 0; // 64 Bit 
     this.af  = 0; // 0..24
     this.zf  = 0; // 0..24
@@ -2563,62 +2572,259 @@ function TThashBucket() {
     this.searchdepth = 0; // 0..31
     this.TTflag = TTFlag.EXACT; // 1..3 
     this.height = 0; // 0..24	
+    this.ttgen = 0; // 0..24	
+}
+
+//const TT_SIZE = 800000; // ca.2 MB Hash
+const PROBES = 2;
+//const TT_SIZE  = 1024*1024 >>> 2;     // 262144 (Pow2)
+//const TT_SIZE2 = TT_SIZE + (PROBES-1); // 
+
+
+let TT_SIZE = 0;
+let TT_SIZE2 = 0;
+
+let TThash32keys;
+let TTchecksum48;
+let TTafzfwnfflags;
+let TTwertung;
+let depth;
+let height;
+let TTgen;
+var CacheSizeString="";
+
+var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2=1,7MB
+initTT(globalCsize);
+
+function initTT(Csize) {
+  TT_SIZE  = 1024*1024*4>>>(Csize*2);
+  TT_SIZE2 = TT_SIZE + (PROBES - 1);
+
+  TThash32keys   = new Uint32Array(TT_SIZE2);
+  TTchecksum48   = new Float64Array(TT_SIZE2);
+  TTafzfwnfflags = new Uint32Array(TT_SIZE2);
+  TTwertung      = new Float64Array(TT_SIZE2);
+  depth          = new Uint8Array(TT_SIZE2);
+  height         = new Uint8Array(TT_SIZE2);
+  TTgen          = new Uint8Array(TT_SIZE);
+
+  currentGen = 0;
+  CacheSizeString=CacheSize2String();
 }
 
 
-//const TT_SIZE = 800000; // ca.2 MB Hash
-const TT_SIZE = 1024*1024>>>2; // 
+//console.log("Cache: "+(TT_SIZE).toLocaleString('de-DE')+" Slots Cachesize: "+(TT_SIZE*27).toLocaleString('de-DE')+" Bytes");
+console.log(CacheSize2String());
+
+function CacheSize2String ()
+{
+var csizeMB= (Math.floor(TT_SIZE*27/100000)/10)+"MB";
+var slotsK= Math.floor(TT_SIZE/1000)+"k Slots";
+return "Cache: "+csizeMB+" ("+slotsK+")";
+}
+
 
 //const TTable = [];
-
 
 //ersetzen
 //for (let i = 0; i < TT_SIZE; i++) {
 //    TTable[i] = new TThashBucket();
 //}
 //durch
-
+/*
 //Die TT Table wird daher als Int Arrays angelegt 
-const TThash32keys   = new Uint32Array(TT_SIZE);
-const TTchecksum48   = new Float64Array(TT_SIZE);
+const TThash32keys   = new Uint32Array(TT_SIZE2);
+const TTchecksum48   = new Float64Array(TT_SIZE2);
 
-//const TTaf         = new Uint8Array(TT_SIZE);
-//const TTzf         = new Uint8Array(TT_SIZE);
-//const TTwnf        = new Uint8Array(TT_SIZE);
-//const flags        = new Uint8Array(TT_SIZE);
-const TTafzfwnfflags = new Uint32Array(TT_SIZE);
+//const TTaf         = new Uint8Array(TT_SIZE2);
+//const TTzf         = new Uint8Array(TT_SIZE2);
+//const TTwnf        = new Uint8Array(TT_SIZE2);
+//const flags        = new Uint8Array(TT_SIZE2);
+const TTafzfwnfflags = new Uint32Array(TT_SIZE2);
 
-const TTwertung      = new Float64Array(TT_SIZE);
-const depth          = new Uint8Array(TT_SIZE);
-const height         = new Uint8Array(TT_SIZE);
+const TTwertung      = new Float64Array(TT_SIZE2);
+const depth          = new Uint8Array(TT_SIZE2);
+const height         = new Uint8Array(TT_SIZE2);
+const TTgen 		 = new Uint8Array(TT_SIZE2); // 0..31 reicht (mod 32)
+*/
 
-function TTclear(){
-	for (let i = 0; i < TThash32keys.length; i++) {
-	TThash32keys[i] = 0;
-	TTchecksum48[i] = 0;
-	TTafzfwnfflags[i] = 0;
-	TTwertung[i] = 0;
-	depth[i] = 0;
-	height[i] = 0;
-	}
+function newSearchGeneration(){
+  currentGen = (currentGen + 1) & 31;
+}
+
+
+function TTclear() {
+	for (let i = 0; i < TThash32keys.length; i++) { TThash32keys[i] = 0;}	
+	TThash32keys.fill(0);
+	TTchecksum48.fill(0);
+	TTafzfwnfflags.fill(0);
+	TTwertung.fill(0);
+	depth.fill(0);
+	height.fill(0);
+	TTgen.fill(0);
 }
 
 
 
+
+function ttIndex_alt(hash32) { return (hash32 >>> 0) % TT_SIZE; }
 
 function ttIndex(hash32) {
     hash32 ^= hash32 >>> 16;
     return hash32 & (TT_SIZE - 1);
 }
 
+function ttIndex0(hash32) {hash32 ^= hash32 >>> 16; return hash32 & (TT_SIZE - 1); }
 
-function ttIndex_alt(hash32) {
-    return (hash32 >>> 0) % TT_SIZE;
+function ttIndex1(hash32) {
+    hash32 ^= hash32 >>> 15;
+    hash32 *= 0x85ebca6b;
+    hash32 ^= hash32 >>> 13;
+    return (hash32 >>> 0) & (TT_SIZE - 1);
 }
 
 
+// ********************** write to hash 
+// ********************** write to hash 
+// ********************** write to hash 
+// ********************** write to hash 
+
+function getFlag(idx) {
+  return (TTafzfwnfflags[idx] >>> 24) & 0xFF;
+}
+
+function ageOf(idx) {
+  return (currentGen - TTgen[idx]) & 63; // 0..63
+}
+
+// "Wert" eines bestehenden Eintrags: höher = wertvoller (schwerer zu ersetzen)
+function entryValue(idx) {
+  const flag = getFlag(idx);
+  const isExact = (flag === TTFlag.EXACT);
+
+  const typeBonus = isExact ? 100000 : 20000;  // EXACT dominiert klar
+  const d = depth[idx];                         // tief ist gut
+  const a = ageOf(idx);                         // alt ist ersetzbarer
+
+  // Du kannst die Gewichte später feinjustieren:
+  return typeBonus + d * 128 - a * 512;
+}
+
+// Deine alte Schutzregel (nur leicht gekapselt)
+function protectedByDepthHeight(idx, hb) {
+  return (
+    depth[idx] > hb.searchdepth &&
+    (height[idx]) > hb.height &&
+    Math.abs(height[idx] - hb.height) < 14
+  );
+}
+
+// Zusätzlicher EXACT-Schutz: exact nicht von bounds verdrängen (außer sehr alt oder deutlich tiefer)
+function protectedExact(idx, hb) {
+  const oldFlag = getFlag(idx);
+  if (oldFlag !== TTFlag.EXACT) return false;
+
+  if (hb.TTflag === TTFlag.EXACT) {
+    // new exact darf old exact ersetzen, wenn tiefer (oder wenn old sehr alt)
+    return !(hb.searchdepth > depth[idx] || ageOf(idx) >= 22);
+  } else {
+    // new bound darf old exact i.d.R. nicht ersetzen (außer old sehr alt)
+    return !(ageOf(idx) >= 30);
+  }
+}
+
+// Darf Slot idx durch hb ersetzt werden (bei ungleichem Key)?
+function canReplaceDifferentKey(idx, hb) {
+  if (TThash32keys[idx] === 0) return true;          // frei
+  if (protectedByDepthHeight(idx, hb)) return false; // deine Regel
+  if (protectedExact(idx, hb)) return false;         // exact schützen
+  return true;
+}
+
+// Bei gleichem Key: wann aktualisieren?
+function shouldOverwriteSameKey(idx, hb) {
+  const oldFlag = getFlag(idx);
+
+  // neue Info ist besser?
+  if (hb.searchdepth > depth[idx]) return true;
+  if (hb.TTflag === TTFlag.EXACT && oldFlag !== TTFlag.EXACT) return true;
+
+  // sonst: wenn du willst, kannst du zumindest generation aktualisieren (machen wir beim Schreiben ohnehin)
+  return false;
+}
+
+// Schreiboperation in Arrays
+function writeEntryAt(idx, hb) {
+  if(hb.zf==0) {console.log("Fehler bei write 1"); return}
+
+  TThash32keys[idx] = hb.Hash32key >>> 0;
+  TTchecksum48[idx] = hb.checksum48;
+
+  TTafzfwnfflags[idx] =
+    (hb.af & 0xFF) |
+    ((hb.zf & 0xFF) << 8) |
+    ((hb.wnf & 0xFF) << 16) |
+    ((hb.TTflag & 0xFF) << 24);
+
+  TTwertung[idx] = hb.wertung;
+
+  depth[idx]  = hb.searchdepth & 0xFF;
+  height[idx] = hb.height & 0xFF;
+
+  TTgen[idx]  = currentGen; // Aging setzen
+}
 
 function writeTohash32(hb) {
+  if(hb.zf==0) {console.log("Fehler bei write 2"); return}
+
+  const key = hb.Hash32key >>> 0;
+
+  const idx0 = ttIndex0(key); // Hauptslot
+  const idx1 = idx0+1; //ttIndex1(key); // Nebenslot
+
+  // 1) Falls Key bereits vorhanden: update dort (Hauptslot zuerst)
+  if (TThash32keys[idx0] === key) {
+    if (shouldOverwriteSameKey(idx0, hb)) writeEntryAt(idx0, hb);
+    else TTgen[idx0] = currentGen; // optional: refresh generation auch ohne overwrite
+    return;
+  }
+  if (TThash32keys[idx1] === key) {
+    if (shouldOverwriteSameKey(idx1, hb)) writeEntryAt(idx1, hb);
+    else TTgen[idx1] = currentGen;
+    return;
+  }
+
+  // 2) Freien Slot bevorzugen (Hauptslot zuerst)
+  if (TThash32keys[idx0] === 0) { writeEntryAt(idx0, hb); return; }
+  if (TThash32keys[idx1] === 0) { writeEntryAt(idx1, hb); return; }
+
+  // 3) Beide belegt (unterschiedliche Keys): Replacement-Entscheidung
+  const r0 = canReplaceDifferentKey(idx0, hb);
+  const r1 = canReplaceDifferentKey(idx1, hb);
+
+  if (!r0 && !r1) {
+    // beide Einträge sind "besser" / geschützt → nichts schreiben
+    return;
+  }
+
+  // Wenn nur einer ersetzbar ist, nimm den ersetzbaren:
+  if (r0 && !r1) { writeEntryAt(idx0, hb); return; }
+  if (!r0 && r1) { writeEntryAt(idx1, hb); return; }
+
+  // 4) Beide ersetzbar: ersetze den weniger wertvollen
+  const v0 = entryValue(idx0);
+  const v1 = entryValue(idx1);
+
+  // Hauptslot leicht bevorzugen: bei Gleichstand ersetze lieber idx1
+  if (v0 < v1) writeEntryAt(idx0, hb);
+  else if (v1 < v0) writeEntryAt(idx1, hb);
+  else writeEntryAt(idx1, hb);
+}
+
+
+// ********************** write to hash 
+
+function writeTohash32_oldversion(hb) {
     const idx = ttIndex(hb.Hash32key);
 
     // Replacement-Strategie: Depth bevorzugen
@@ -2654,15 +2860,76 @@ function writeTohash32(hb) {
     height[idx] = hb.height & 0xFF;
 }
 
-function readFromhash32(hash32) {
+// ********************** write to hash 
+// ********************** write to hash 
+// ********************** write to hash 
+
+function readFromhash32(hash32, checksum52) {
+ 
+  // ---------- Probe 0 (Hauptslot) ----------
+  const idx0 = ttIndex0(hash32);
+
+  if (TThash32keys[idx0] == 0) { ttMiss++;	return null; }
+
+  if (TThash32keys[idx0] == hash32) 
+	{
+		if ( ((TTchecksum48[idx0] & 0xFFFFFFFF) >>> 0) != ((checksum52 & 0xFFFFFFFF) >>> 0) ) 
+			{ttRealCollision++; if(0)console.log("collision1 "+" "+ ttRealCollision +" "+(TTchecksum48[idx0] ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16))}
+		else 
+		{
+			ttHits++;
+			TTgen[idx0] = currentGen;   // Aging refresh 
+			return decodeEntry(idx0);
+		} 
+	}
+  ttCollision++;    
+
+  // ---------- Probe 1 (Nebenslot) ----------
+  const idx1 = idx0+1; //ttIndex1(hash32);
+
+  if (TThash32keys[idx1] == hash32) 
+	{
+		if ( ((TTchecksum48[idx1] & 0xFFFFFFFF) >>> 0) != ((checksum52 & 0xFFFFFFFF) >>> 0) ) 
+			{ttRealCollision++; if(0)console.log("collision1 "+" "+ ttRealCollision +" "+(TTchecksum48[idx1] ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16))}
+		else 
+		{
+			ttHits++;
+			TTgen[idx1] = currentGen;   // Aging refresh 
+			return decodeEntry(idx1);
+		} 
+	}
+   ttCollision++;
+   ttCollision2++;
+   return null;
+}
+
+
+function decodeEntry(idx) {
+  let entry = new TThashBucket();
+
+  entry.Hash32key = TThash32keys[idx];
+  entry.checksum48 = TTchecksum48[idx];
+
+  const packed = TTafzfwnfflags[idx];
+  entry.af     =  packed         & 0xFF;
+  entry.zf     = (packed >>> 8)  & 0xFF;
+  entry.wnf    = (packed >>> 16) & 0xFF;
+  entry.TTflag = (packed >>> 24) & 0xFF;
+
+  entry.wertung     = TTwertung[idx];
+  entry.searchdepth = depth[idx];
+  entry.height      = height[idx];
+  entry.ttgen      = TTgen[idx];
+
+  return entry;
+}
+
+
+function readFromhash32_alt_und_weg(hash32) {
     const idx = ttIndex(hash32);
 	//if( hash32==0   ) alert (fehler);
 
 
-	if (TThash32keys[idx] === 0) {
-		ttMiss++;
-		return null;
-	}
     if (TThash32keys[idx] !== (hash32 >>> 0)) { ttCollision++; return null; }
 
     let entry = new TThashBucket();
@@ -2673,7 +2940,7 @@ function readFromhash32(hash32) {
 
     // checksum 
 	if( ((entry.checksum48 & 0xffffFFFF)>>>0) != ((spfeld2hash(spfeld) & 0xffffFFFF)>>>0) ) 
-		{console.log("collision "+" "+ ++globalcollisioncounter +" "+(entry.checksum48 ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16));return null;}
+		{console.log("collision "+" "+ ++ttRealCollision +" "+(entry.checksum48 ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16));return null;}
 
 	ttHits++;
 
@@ -2691,6 +2958,7 @@ function readFromhash32(hash32) {
     entry.wertung = TTwertung[idx];
     entry.searchdepth = depth[idx];
     entry.height = height[idx];
+    entry.ttgen = TTgen[idx];
 
     return entry;
 }
@@ -4760,6 +5028,13 @@ function zugausfueh (nextzug)
 }
 
 if(0) alert("################");
+function zugausfueh2 (nextzug,zugnr)
+{
+ if(zugnr<18) nextzug.za=1; else nextzug.za=2; 
+ zugausfueh(nextzug);
+}
+
+if(0) alert("################");
 function zugrueck (nextzug)
 {
  if (spfeld[nextzug.zf] == 0) {alert("kein zf");return};
@@ -5005,8 +5280,10 @@ window.addEventListener('keydown', e => {
 	if (e.key) closeEinleitung();
 	if (e.key === 'Escape') { clrselfplay(); if (isRunning) {escapePressed();isRunningEin(); isRunning = false;} else isRunningAus(); }
 	if (e.key === '2') toggle2player();
-	if (e.key === 'c') toggleClassic();
-	if (e.key === 'C') toggleClassic();
+	if (e.key === 'c') toggleCache();
+	if (e.key === 'C') toggleCache();
+	if (e.key === 'n') toggleClassic();
+	if (e.key === 'N') toggleClassic();
 	if (e.key === 'f') toggleFast();
 	if (e.key === 'F') toggleFast();
 	if (e.key === 'h') toggleTextarea();
@@ -5039,7 +5316,8 @@ async function computemoveA() {
 	ttHits=0;
 	ttMiss=0;
 	ttCollision=0;
-	globalcollisioncounter=0;
+	ttCollision2=0;
+	ttRealCollision=0;	
 
     level = getLevelValue();
     if (makezgglist(farbe).length == 0) { clearmove(); melde (language == 'de' ? 'Kein Zug mehr' : 'no moves left'); return; alert("-The last time: You win-"); }
@@ -5094,7 +5372,8 @@ async function computemoveA() {
     if (istWiederholungen(hash, globalStellungsspeicher, zugnr)>1) istWiederholungEin();
 	if (ist50zuege(hash, globalStellungsspeicher, zugnr)) melde("Remis nach 50 Zuege Regel");
 	
-    zughistory[zugnr].af = bestzug.af;
+    //Spielzug eintragen + dahinter etwas Platz schaffen
+	zughistory[zugnr].af = bestzug.af;
     zughistory[zugnr].zf = bestzug.zf;
     zughistory[zugnr].wnf = bestzug.wnf;
     zughistory[zugnr + 1].af = 0;
@@ -5108,6 +5387,49 @@ async function computemoveA() {
     zughistory[zugnr + 8].zf = 0;
     zughistory[zugnr + 9].zf = 0;
 		
+	// globalpv aus hash ergaenzen
+	var savepos = spf2string(spfeld, zugnr); // Speichert Stellung
+	for (let k =1; k < globalpv.length; k++) // Alle Zuege der PV ausführen
+	{
+	 if(validmove(globalpv[k].af,globalpv[k].zf,globalpv[k].wnf))zugausfueh2(globalpv[k],zugnr);	else console.log("invalidPv " +globalpv[k].af+" "+globalpv[k].zf+" "+globalpv[k].wnf);
+	 //console.log("addausPv " +globalpv[k].af+" "+globalpv[k].zf+" "+globalpv[k].wnf);
+	 //if(globalpv[k].zf)zugausfueh(globalpv[k]);	
+	}
+	for(;;) // Folgezuege aus Cache holen, und an globalpv anhaengen
+	{
+	  let tmppos1="";
+	  //console.log("hole Entry "+zugnr+" "+farbe+" "+stz[1]+" "+stz[2]);
+	  let tmpzug=new zugspeicher;
+	  const [rh32, rh52] = spfeld2hash32(spfeld, zugnr);
+      const entry = readFromhash32(rh32, rh52);
+	  if(entry)
+	    {
+		 tmpzug=new zugspeicher;
+		 tmpzug.af=entry.af;
+		 tmpzug.zf=entry.zf;
+		 tmpzug.wnf=entry.wnf;
+		 tmpzug.wertung=entry.wertung;
+		 if(validmove(tmpzug.af,tmpzug.zf,tmpzug.wnf)) 
+		   {
+  		   //tmppos = spf2string(spfeld, zugnr);		   console.log(tmppos);
+		   globalpv.push(tmpzug);
+  		   //console.log("addaushash " +tmpzug.af+" "+tmpzug.zf+" "+tmpzug.wnf+" "+globalpv.length +" "+zugnr+" "+farbe+" "+stz[1]+" "+stz[2]);
+		   zugausfueh2(tmpzug,zugnr); 
+  		   //tmppos = spf2string(spfeld, zugnr); console.log(tmppos); string2spf(tmppos);
+		   //console.log("addaushash " +tmpzug.af+" "+tmpzug.zf+" "+tmpzug.wnf+" "+globalpv.length +" "+zugnr+" "+farbe+" "+stz[1]+" "+stz[2]);
+		   }
+		   else 
+		   {
+		    console.log("invalidHash " +tmpzug.af+" "+tmpzug.zf+" "+tmpzug.wnf);
+			break;
+		   }
+	    }
+	  else
+	    {break; console.log("cachemiss"); }
+    }
+	string2spf(savepos); // stellt Stellung wieder her
+	
+	//Principal Varition eintragen	
 	for (let k =1; k < globalpv.length; k++) 
 	{
 	 zughistory[zugnr +k ].af = globalpv[k].af;
@@ -5140,8 +5462,9 @@ async function computemoveA() {
 	console.log(
 	"hits: " + ttHits.toLocaleString('de-DE') + " " +
 	"miss: " + ttMiss.toLocaleString('de-DE') + " " +
-	"Collision: " + ttCollision.toLocaleString('de-DE')+ " " +
-	"realCollision: " + globalcollisioncounter.toLocaleString('de-DE')
+	"Collision1: " + ttCollision.toLocaleString('de-DE')+ " " +
+	"Collision2: " + ttCollision2.toLocaleString('de-DE')+ " " +
+	"realCollision: " + ttRealCollision.toLocaleString('de-DE')
 	);
 	console.log( "Hitrate: " + ttHits/(ttHits + ttMiss +ttCollision+1)  );
 	let usedSlots = 0;
@@ -5199,9 +5522,9 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 {
   if (globalProblem) 
 	{
-	 globalgering1=5;
-	 globalgering2=5;
-	 globalgering3=5;
+	 globalgering1=3;
+	 globalgering2=3;
+	 globalgering3=3;
 	}
 	else
 	{
@@ -5235,6 +5558,7 @@ async function berbestzug1_async (rtv,alpha,maxzug)
   mixzuglist(zuglist);
   var zuffakt=1; if(zugnr<4) zuffakt=1.2; if(zugnr>8) zuffakt=0.8;if(zugnr>12) zuffakt=0.6;   
   rndzuglist(zuglist,Math.floor(zufbonus)); // zufalls wert [0..zufbons}-2 geht nach zuglist.wertung und zuglist.wnfAM
+  sortzuglist(zuglist);
   globalvariants0=zuglist.length;
   globalzuglistlength1=zuglist.length;
   globalzuglistlength2=zuglist.length;
@@ -5254,13 +5578,83 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
   // --- Alpha-Beta Fenster an der Wurzel initialisieren ---
   alpha = CONSTminwertung;         // NEU: Alpha mit Minimum initialisieren (Fenster-Start)
   var beta = CONSTmaxwertung;      // NEU: Beta mit Maximum initialisieren
-  for(rtvi=0;rtvi<rtv;rtvi++) /*iterative Suche*/
-  {
+
+
+
+// --- vor der for(rtvi...) Schleife ---
+let startRtvi = 0;
+let rootDepth = -1;
+let rootIsExact = false;
+let rootExactValue = 0;
+let rootHashMove = new zugspeicher;
+let hashFlag=false;
+
+  const [rh32, rh52] = spfeld2hash32(spfeld, zugnr);
+  const rootEntry = readFromhash32(rh32, rh52);
+
+  if (1 && rootEntry && rootEntry.searchdepth>3) {
+	let tmp=null;
+    rootDepth = rootEntry.searchdepth;
+    rootIsExact = (rootEntry.TTflag === TTFlag.EXACT);
+
+
+	// Zugliste so umsortieren, dass Hash-Move vorne steht
+	for (let i = 0; i < zuglist.length; i++) { 	
+		if (zuglist[i].af  == rootEntry.af && zuglist[i].zf  == rootEntry.zf && zuglist[i].wnf == rootEntry.wnf) 
+		{
+			hashFlag=true;
+			if(i>0) tmp = zuglist[i];
+			if(i>0) zuglist[i] = zuglist[0];
+			if(i>0) zuglist[0] = tmp;
+			zuglist[0].wertung = rootEntry.wertung;
+			copyzugspei(zuglist[0],bestzug);
+			copyzugspei(zuglist[0],rootHashMove);
+			//bestzug.af = rootEntry.af;
+			//bestzug.zf = rootEntry.zf;
+			//bestzug.wnf = rootEntry.wnf;
+			bestzug.wertung = rootEntry.wertung;
+			console.log("rootEntry1 " +bestzug.af+" "+bestzug.zf+" "+bestzug.wnf+rootIsExact)
+			//letzteWertung = bestzug.wertung;
+			//bestwertung = aktwertung = globalbestwertung = letzteWertung;
+			if (rootIsExact) startRtvi = rootDepth; else  startRtvi = rootDepth-1;
+			//break;
+			//startRtvi = rootDepth-1;
+		}
+  }
+}
+
+  /*iterative Suche*/
+for (rtvi = startRtvi; rtvi < rtv; rtvi++) {
+
    //alert("rtvi "+rtvi); 
    globalrtvi= rtvi;
    globalrtacut=rtvi+globalrestsel+5;
+
+   if(hashFlag) 
+      hashFlag=false;
+   else
+      sortzuglist(zuglist);
+
     bestwertung= CONSTminwertung+rta; // rta= Rechentiefe aktuell (global)
-    sortzuglist(zuglist);
+	
+	newSearchGeneration();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //nextzug=zuglist[0];
     //alert ("af:"+nextzug.af+" zf:"+nextzug.zf+" wnf:"+nextzug.wnf+" wertung:"+nextzug.wertung)
@@ -5287,6 +5681,7 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
       // --- > Ende Hash Suche nach Stellungswiederholung < ---
 	  //alert("hash"+hash);		  
 				  
+	  var searchdepth=rtvi-rtvdelay;
       if(zugnr>18 && stz[farbe]<3){
         aktwertung = CONSTmaxwertung - rta;
 		aktwertungzugliste=[];
@@ -5316,18 +5711,30 @@ console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 			aktwertungzugliste = rtvdelaymovezugliste[rtvi-1];
 			//rtvdelaymove[rtvi-1].zf=0;
 		  console.log("hole rtvi:"+(rtvi-1)+" rtvdelay:"+rtvdelay);
+		  searchdepth=rtvi-rtvdelay;
 		} 
 		else 
 
-		var searchdepth=0;
-
 		{	
 			searchdepth=rtvi+sel-rtvdelay;
-			aktwertungzugliste = await berbestzug_async(searchdepth, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
+			
+			if (rootIsExact && rtvi == startRtvi && zli == 0 &&
+				nextzug.af  == rootHashMove.af &&
+				nextzug.zf  == rootHashMove.zf &&
+				nextzug.wnf == rootHashMove.wnf) 
+  			  {aktwertungzugliste=[]; 
+			   aktwertung = rootHashMove.wertung;
+               console.log("rootEntry2 " +rootHashMove.af+" "+rootHashMove.zf+" "+rootHashMove.wnf+" "+rootHashMove.wertung) }
+			else			
+
+			
+			aktwertungzugliste = await berbestzug_async(searchdepth+0, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
 		};
 
-        aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
-        aktwertung = aktwertungzug.wertung;
+		if (aktwertungzugliste.length){
+			aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
+			aktwertung = aktwertungzug.wertung;
+		}	
 				
 		if(zli==0){ 
 			rtvdelaymove[rtvi]=new zugspeicher();
@@ -5481,28 +5888,17 @@ const ConstRemisPos=1; // 0 oder 1 kompliziertes Thema,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU: beta ergänzt
   let alphaOrig = alpha;
+  let betaOrig = beta;
   // ESC/Render-Pause
   globalAwaitCounter++;
   tzuza++;
   if(rta>globalmaxrta) globalmaxrta=rta;
 
-  if (globalAwaitCounter > 2000) {
+  if (globalAwaitCounter > 3000) {
      var mygtime = Date.now() - globalAwaitCounterT;
-     if (mygtime < 500) {
+     if (mygtime < 700) {
        globalAwaitCounter = 0;
      } else {
        await new Promise(requestAnimationFrame);
@@ -5530,7 +5926,7 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 	// --- Transposition Table Lookup ---	
 	const [h32, h52] = spfeld2hash32(spfeld, zugnr);
 	let hash32 = h32;
-	let entry = readFromhash32(hash32);
+	let entry = readFromhash32(hash32,h52);
     var pvkillerzug = new zugspeicher();
 
 	if (entry) {
@@ -5571,8 +5967,14 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
   var aktwertung;
   var berbestzugzugliste = []; // Kind-PV des zuletzt berechneten Kandidaten
 
-  if(rtv>=2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
+  if(zuglist.length==0) // Kein Zug => Verlust
+	{
+		bewerteleaf.wertung = -(CONSTminwertung + rta);
+		return [bewerteleaf];
+	}
 
+
+  if(rtv>=2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
 
   //Vorsortierung
   if(1) 
@@ -5710,7 +6112,8 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     mess+=(""+debugi+"xxxx ");
     if(zuglist) if(zuglist[0]) console.log(mess+""+debugi+f2c(zuglist[0].af)+f2c(zuglist[0].zf)+" rta:"+rta);    
   }
-    
+  copyzugspei(zuglist[0], bestzug2); // Es soll immer ein Zug in bestzug2 sein
+
   // --- Schleife  ---
   for (var i443 = 0; i443 < zuglist.length; i443++) {
 
@@ -5752,7 +6155,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     //  bewerteleaf.wertung = -(CONSTmaxwertung - rta-0.1);
     //  return [bewerteleaf];
     //} 
-            
+
     // --- > Wiederholung
     // --- > Hash Suche nach Stellungswiederholung < ---
     //var globalStellungsspeicher = new Array(1000).fill(0);
@@ -5837,13 +6240,13 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	  if(rtv>6) if(mybonuswf<-0.5) mybonuswf=-0.5;
 	  if(rtv>5) if(mybonuswf<-0.7) mybonuswf=-0.7;
 	  if(rtv>4) if(mybonuswf<-1) mybonuswf=-1;
-
 	
+    const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
 	if (wiederholungsflag) {
 	   berbestzugzugliste=[];
 	   aktwertung=0.01*rta*(rta%2==ConstRemisPos? -1:1);
 	}
-	else if (rtv < (zuglist.length<16&&stz[farbe]>4&&stz[3-farbe]>4?5:(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?4:3)) )
+	else if (rtv < (zuglist.length<16&&stz[farbe]>5&&stz[3-farbe]>5?(fastbase+1):(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?fastbase:(fastbase-1))) )
 	{
         if (pmuehdroht(nextzug.zf)) mybonus+=1/8;
         if (rtv > 1) if (restsel>0) if (zugnr > 18                    ) if (pmuehdroht(nextzug.zf)) mybonus+=1/4; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/4;;
@@ -5906,7 +6309,6 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
       pvbestzugliste = berbestzugzugliste.slice(); // PV des Kindes übernehmen
     }
  
-
  
     globalStellungsspeicher[zugnr] = 0; // Hashwert wieder abräumen
     zugrueck(nextzug);
@@ -5920,16 +6322,16 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		{
 		// LOWERBOUND speichern
 		let hb = new TThashBucket();
-		//hb.checksum8  = checksum32to8_mix(spfeld2hash(spfeld));
-		hb.checksum48 = spfeld2hash(spfeld);
+		hb.Hash32key = h32;
+		hb.checksum48 = h52;
 		hb.searchdepth = rtv;
 		hb.wertung = bestwertung;
 		hb.af = bestzug2.af;
 		hb.zf = bestzug2.zf;
 		hb.wnf = bestzug2.wnf;
 		hb.TTflag = TTFlag.LOWERBOUND;
-		hb.height = rta + rtv;
-		writeTohash32(hb);
+		hb.height = zugnr + rtv;
+		writeTohash32(hb);   // <-- setzt INTERN TTgen[idx] = currentGen
 		}
 
       bestzug2.wertung = -bestwertung; // Bestwertung ubernehmen
@@ -5944,13 +6346,13 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		{
 			// --- Transposition Table Store ---
 			let hashbucket = new TThashBucket();
-			const [h32, h52] = spfeld2hash32(spfeld, zugnr);
+			//const [h32, h52] = spfeld2hash32(spfeld, zugnr);
 			hashbucket.Hash32key  = h32;
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld));
 			hashbucket.checksum48  = h52; // 48 Bit 
 			hashbucket.searchdepth = rtv;
 			hashbucket.wertung = bestwertung; // Wert aus Sicht dieses Knotens
-			hashbucket.height = rta + rtv;
+			hashbucket.height = zugnr + rtv;
 
 			// BESTER ZUG dieses Knotens
 			hashbucket.af  = bestzug2.af;
@@ -5960,7 +6362,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 			// FLAG bestimmen
 			if (bestwertung <= alphaOrig)
 				hashbucket.TTflag = TTFlag.UPPERBOUND;
-			else if (bestwertung >= beta)
+			else if (bestwertung >= betaOrig)
 				hashbucket.TTflag = TTFlag.LOWERBOUND;
 			else
 				hashbucket.TTflag = TTFlag.EXACT;
@@ -5973,30 +6375,6 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
   pvbestzugliste.push(bestzug2);
   return pvbestzugliste;
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -6180,7 +6558,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 
     nextzug = zuglist[i444];
     zugausfueh(nextzug);
-	copyzugspeishort(nextzug,zughistory[zugnr]);
+	//copyzugspeishort(nextzug,zughistory[zugnr]); // Zugwiederholung wird hier nicht geprueft
 
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
 
@@ -7672,7 +8050,7 @@ function spfeld2hash32(spfeld, zugnr) {
     let h = wangMix(high32);
         //h = mix32MurmurHash3(h);
         //h = mix32a(h);
-        h = mix32(h);
+        //h = mix32(h);
     let l = mix32fnv1a(low32);
 
     //let hash32 = h ^ l;
@@ -8005,6 +8383,14 @@ function toggleClassic() {
     if(!globalClassicNotation) melde("Notation Compact");
 }
 
+function toggleCache() {
+	globalCsize-=1;
+	if(globalCsize>2) globalCsize=0;
+	if(globalCsize<0) globalCsize=2;
+	initTT(globalCsize);
+    melde(CacheSizeString);
+}
+
 // Remissuche: In der Grundeinstellung bekommt jeder Zug einen zufälligen Bonus (zufbonus). 
 // Das hat den Effekt, dass das Programm im Grundsatz optimistisch gestimmt ist, da sich auch in ausgeglichenen Stellungen fast immer ein Zug mit einer positiven Wertung findet. 
 // Das Programm hat daher die Tendenz Remis zu vermeiden. 
@@ -8043,6 +8429,9 @@ function toggleRemissuche() {
 --A131PzohQma9grid.htm.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
 --A135PzohQma9grid.htm.htm--  11.05.26 TTables, Stwert verringert (12 zu 7 bis 10)
 --A137PzohQma9grid.htm.htm--  10 stone Morris
+--A138PzohQma9grid.htm.htm--  2 Slots für Hashtable
+--A139PzohQma9grid.htm.htm--  Hashgroesse waehlbar
+--A142PzohQma9grid.htm.htm--  PV wird aus Hash ergaenzt 16.05.26
 
 */
 
