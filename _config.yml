@@ -11,12 +11,6 @@ default_favicon: "data:image/x-icon;base64,AAABAAEAICAQAAEABADoAgAAFgAAACgAAAAgA
 # Automatische Layout-Zuweisung
 defaults:
   - scope:
-      path: "" # Gilt für alle Dateien im Projekt
-    values:
-      layout: "default"
-
-defaults:
-  - scope:
       path: ""
       type: "pages"
     values:
