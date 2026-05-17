@@ -3785,36 +3785,6 @@ document.write(Spielregeln);
 
 if(0) alert("################");
 if(0) alert("################");
-function bewerte_weg(zuf)
-{
- var wertung=0;
- if(zugnr>18 && stz[1]==3 && stz[2]==3)
-   {
-   var gegfarbe=3-farbe;
-   wertung=openmill(farbe);
-   if(takefrommillallowed) return wertung+zuf;
-   if(wertung!=888) return wertung+zuf;
-   for(var af=1; af<=24; af+=1)
-     {
-     if (spfeld[af] == gegfarbe)
-       {
-       if (pmuehcheck(af,gegfarbe))
-         return-7; /*schlecht, kann nicht aus Muehle nehmen*/
-       else
-         return wertung+zuf;
-       }
-     }
-   }
- if(zugnr<18) wertung += openmillsetz(farbe);
- wertung += (stz[farbe] - stz[3-farbe]) * stwert;
- if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
- var gegmoves=zggcount(3-farbe);
- //if (gegmoves==0) 
- //  console.log("farbe "+farbe+" Zuege 0 "+spf2string(spfeld,zugnr));
- //if (gegmoves==0) if (stz[3-farbe]>3) return 500-rta;
- wertung += zggcounty(farbe) - gegmoves + zuf;
- return wertung;
-}
 
 
 if(0) alert("################");
@@ -3841,43 +3811,10 @@ function bewerte(zuf, mwert)
  if(zugnr<18) wertung += openmillsetz(farbe);
  //if(1||globalProblem==0)
  wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
- if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
- if(farbe==1) wertung += mwert; else wertung -= mwert; 
+ if (stz[1]<7 && stz[2]<7) {if (stz[1]>5 || stz[2]>5) wertung=Math.floor(wertung/4); else wertung=Math.floor(wertung/8); }
+ if(farbe==1) wertung += mwert; else wertung -= mwert; // mwert ist immer aus Sicht von weiss
  if(globalProblem==0)
    {
-   wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
-   }
- return wertung;
-}
-
-if(0) alert("################");
-function bewerte_weg(zuf)
-{
- var wertung=0;
- var gegfarbe=3-farbe;
- if(zugnr>18 && stz[1]==3 && stz[2]==3)
-   {
-   wertung=openmill(farbe);
-   if(takefrommillallowed) return wertung+zuf;
-   if(wertung!=888) return wertung+zuf;
-   for(var af=1; af<=24; af+=1)
-     {
-     if (spfeld[af] == gegfarbe)
-       {
-       if (pmuehcheck(af,gegfarbe))
-         return-7; /*schlecht, kann nicht aus Muehle nehmen*/
-       else
-         return wertung+zuf;
-       }
-     }
-   }
- if(zugnr<18) wertung += openmillsetz(farbe);
- //if(1||globalProblem==0)
- wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
- if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/2);
- if(globalProblem==0)
-   {
-   wertung += bewertemuehlen(farbe);
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
  return wertung;
@@ -3907,75 +3844,19 @@ function bewertefast(zuf,zggcountgegfarbe,mwert)
  if(zugnr<18) wertung += openmillsetz(farbe);
  //if(1||globalProblem==0)
  wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
-if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
-if(farbe==1) wertung += mwert; else wertung -= mwert; 
+ //if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
+ if (stz[1]<7 && stz[2]<7) {if (stz[1]>5 || stz[2]>5) wertung=Math.floor(wertung/4); else wertung=Math.floor(wertung/8); }
+ if(farbe==1) wertung += mwert; else wertung -= mwert; // mwert ist immer aus Sicht von weiss
  if(globalProblem==0)
    {
    wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
    }
+  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+    wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;
+    
  return wertung;
 }
 
-function bewertefast_weg(zuf,zggcountgegfarbe)
-{
- var wertung=0;
- var gegfarbe=3-farbe;
- if(zugnr>18 && stz[1]==3 && stz[2]==3)
-   {
-   wertung=openmill(farbe);
-   if(takefrommillallowed) return wertung+zuf;
-   if(wertung!=888) return wertung+zuf;
-   for(var af=1; af<=24; af+=1)
-     {
-     if (spfeld[af] == gegfarbe)
-       {
-       if (pmuehcheck(af,gegfarbe))
-         return-7; /*schlecht, kann nicht aus Muehle nehmen*/
-       else
-         return wertung+zuf;
-       }
-     }
-   }
- if(zugnr<18) wertung += openmillsetz(farbe);
- //if(1||globalProblem==0)
- wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
- if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/2);
- if(globalProblem==0)
-   {
-   wertung += bewertemuehlen(farbe);
-   wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
-   }
- return wertung;
-}
-
-
-
-function bewertefast_vergleich(zuf, zggcountgegfarbe) 
-{
- var wertung=0;
- if(zugnr>18 && stz[1]==3 && stz[2]==3)
-   {
-   var gegfarbe=3-farbe;
-   wertung=openmill(farbe);
-   if(takefrommillallowed) return wertung+zuf;
-   if(wertung!=888) return wertung+zuf;
-   for(var af=1; af<=24; af+=1)
-     {
-     if (spfeld[af] == gegfarbe)
-       {
-       if (pmuehcheck(af,gegfarbe))
-         return-7; /*schlecht, kann nicht aus Muehle nehmen*/
-       else
-         return wertung+zuf;
-       }
-     }
-   }
- if(zugnr<18) wertung += openmillsetz(farbe);
- wertung += (stz[farbe] - stz[3-farbe]) * stwert;
- if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/2);
- wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
- return wertung;
-}
 
 
 //if(zugnr>18 && (stz[1]>3 && stz[2]>3))
@@ -4570,7 +4451,9 @@ function zggcounty (farbex)
    }
  }
  if (zugnr>16)
-   { if (msum) if(stz[3-farbex]==3) return (takefrommillallowed?777:500);;
+   { 
+     //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
+     if (msum) if(stz[3-farbex]==3) return (takefrommillallowed?777:500);;
      return zugsum + (msum?stwert:0);
    }
  else return zugsum + msum + msum;
@@ -4687,6 +4570,30 @@ function zggcountfast (farbex) //zaehlt nur ob mind 1 Zug
  return 0;
 }
 
+
+if(0) alert("################");
+function openmill12zi()
+{
+ var af,li;
+ var m2=0;
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0)
+   {
+   if  (li = spfeld[pmuehmatr0[af]]) //waag
+     if (li==spfeld[pmuehmatr1[af]])
+       if (li==spfeld[zugmatr[af][0]] || li==spfeld[zugmatr[af][1]]) // senkr
+	     return li;
+   if  (li = spfeld[pmuehmatr2[af]])
+     if (li==spfeld[pmuehmatr3[af]])
+       if (li==spfeld[zugmatr[af][2]] || li==spfeld[zugmatr[af][3]]) // senkr
+         return li;
+   }
+ }
+ return 0;
+}
+
+
 if(0) alert("################");
 function openmill12()
 {
@@ -4772,21 +4679,22 @@ function openmill_weg (farbex)
 }
 
 if(0) alert("################");
-function openmillsetz (farbex)
+function openmillsetz (farbex) 
 {
  var af,li;
  var m1=0;
  var m2=0;
+ const openmillsetzbonus=2;
  for(af=1; af<=24; af+=1)
  {
    if (spfeld[af] == 0)
    {
    if  (li = spfeld[pmuehmatr[af][0]])
      if (li==spfeld[pmuehmatr[af][1]])
-       {if (li==farbex) m1+=3; else m2+=3;};;
+       {if (li==farbex) m1+=openmillsetzbonus; else m2+=openmillsetzbonus};;
    if  (li = spfeld[pmuehmatr[af][2]])
      if (li==spfeld[pmuehmatr[af][3]])
-       {if (li==farbex) m1+=3; else m2+=3;};;
+       {if (li==farbex) m1+=openmillsetzbonus; else m2+=openmillsetzbonus};;
    }
  }
  return m1-m2;
@@ -5572,7 +5480,7 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 //checkpivotmuehlen();
 //checkquermuehlen();
 //debugverbose=1;
-console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
+console.log("bewertemuehlen Wert:"+ bewertemuehlen(1) +" openmill12zi "+ openmill12zi(1));
 //debugverbose=0;
 
 
@@ -6394,49 +6302,10 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if(0) alert("################# bewertefast ###############################");
+if(0) alert("################# brechneefast ###############################");
 if(0) alert("################");
 if(0) alert("################");
 if(0) alert("################################################");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
@@ -6583,7 +6452,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       var nextrtv=rtv - 1 + sel+mybonuswf;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
 
-	  if (rtv>3 || (stz[1]<5 || stz[2]<5 ))	  
+	  if (rtv>3 || ((stz[1]<5 || stz[2]<5 ) && rtv>=2))	  
 	      aktwertung = berbestzugfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
 	   else
 	      aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
@@ -6735,11 +6604,6 @@ if (newZuglist.length!=zuglist.length) alert ("fehler");
 
 
 
-
-
-
-
-
 function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   tzuza++;
   if(rta>globalmaxrtad) globalmaxrtad=rta;
@@ -6762,7 +6626,8 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   var nextzug;
   var bestwertung = CONSTminwertung + rta; 
   var aktwertung;
-
+  //var openmillflag= openmill12zi();
+  
   if(rtv>2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
 
 //  //Vorsortierung
@@ -6841,7 +6706,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
     
     if (1) {
       var sel = 0;
-      if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <8 ) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
+      if (rtv >= 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <8 ) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
 
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18) if (pmuehdroht(nextzug.zf)) {sel = 1;};
@@ -6851,8 +6716,19 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
       // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
       var nextrtv=rtv - 1 + sel;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
-	  aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
+
+ 	  if (nextrtv<=1 && sel==0 && openmill12zi()>0 && restsel>0)
+	  {
+		sel=1;
+	    aktwertung = berbestzugprevfastStatic(nextrtv+sel, restsel - sel, -beta, -bestwertung, -zufa, mwert);	  
+	  }
+	  else
+	  
+ 	    aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
       
+      //if (Math.abs(aktwertung) > 800 && Math.abs(aktwertung) < 850) console.log(spf2string(spfeld,zugnr)+" "+aktwertung+" "+nextrtv+" "+nextzug.af+" "+nextzug.zf);
+      //if (openmillflag==0 && openmill12zi()>0) console.log(spf2string(spfeld,zugnr)+" "+aktwertung+" "+nextrtv+" "+nextzug.af+" "+nextzug.zf);
+      //if (Math.abs(aktwertung) > 800 && Math.abs(aktwertung) < 850) debugger;
       if (aktwertung > bestwertung) 
         bestwertung = aktwertung;
     }
@@ -6870,6 +6746,72 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   // --- Reguläre Rückgabe ohne Cutoff ---
   return -bestwertung;
 }
+
+
+function berbestzugprevfastStatic (rtv, restsel, alpha, beta, zufa, mwert) {
+  tzuza++;
+  if(rta>globalmaxrtad) globalmaxrtad=rta;
+  
+  //if (rtv < 1) return -bewerte(zufa);
+  
+  var zggcountgegfarbe=1;
+  if (rtv < 1) { 
+      if(globalProblem) 
+	     zggcountgegfarbe= zggcountfast(3-farbe);
+      else 
+	     zggcountgegfarbe= zggcount(3-farbe);
+
+      if (zggcountgegfarbe==0) {if(zugnr>18) if (stz[3-farbe]>3) if(restsel-- >= 0) rtv=1;}
+      else return -bewertefast(zufa, zggcountgegfarbe, mwert);
+  }
+
+  var zuglist = makezgglist(farbe);
+  var nextzug;
+  var bestwertung = CONSTminwertung + rta; 
+  var aktwertung;
+  
+  if(rtv>2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
+
+//  //Vorsortierung
+
+
+  // --- Schleife  ---
+  for (var i446 = 0; i446 < zuglist.length; i446++) {
+
+    nextzug = zuglist[i446];
+    zugausfueh(nextzug); 
+
+    if (stz[farbe] < 3 && zugnr > 18) {
+      zugrueck(nextzug);
+      return -(CONSTmaxwertung - rta);
+    }
+    
+
+      //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
+      //if (rtv < 1.2) if (restsel>0) if (zugnr > 18) if (pmuehdroht(nextzug.zf)) {sel = 1;};
+
+      globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
+
+      // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
+	  aktwertung = berbestzugprevfastStatic(rtv -1, restsel, -beta, -bestwertung, -zufa, mwert);
+      
+      if (aktwertung > bestwertung) 
+        bestwertung = aktwertung;
+
+    zugrueck(nextzug);
+
+    // Beta-Cut: sofort Bewertung zurückgeben (Standard)
+	//var gering=0; if (i<1 || Math.abs(beta)>100 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
+	//var gering=globalgering3; if (i<Math.ceil(zuglist.length/2)+2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
+	var gering=globalgering3; if (i446<2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
+    if (bestwertung+gering >= beta) return -bestwertung;
+  }
+  // --- Schleife: Ende
+
+  // --- Reguläre Rückgabe ohne Cutoff ---
+  return -bestwertung;
+}
+
 
 
 
@@ -8434,6 +8376,7 @@ function toggleRemissuche() {
 --A139PzohQma9grid.htm.htm--  Hashgroesse waehlbar
 --A142PzohQma9grid.htm.htm--  PV wird aus Hash ergaenzt 16.05.26
 --A143PzohQma9grid.htm.htm--  if(hb.wertung %1 !== 0) {return}; // Zugwiederholung nicht in TT speichern und Float64Array wird zu TTwertung = new Int16Array(TT_SIZE2)
+--A144PzohQma9grid.htm.htm--  openmill12zi
 
 */
 
