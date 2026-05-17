@@ -1,4 +1,5 @@
 ---
+---
 title: Sloppy Mill game and analyse board, 9 and 10 men morris, free
 favicon: "data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA////AP//AAAAAQAAfv0AAEAFAABe9QAAXvUAAFg1AABbtQAAA4EAAFu1AABYNQAAXvUAAF71AABABQAAfv0AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 ---
@@ -2624,6 +2625,7 @@ return "Cache: "+csizeMB+" ("+slotsK+")";
 }
 
 
+
 //const TTable = [];
 
 //ersetzen
@@ -2714,7 +2716,7 @@ function entryValue(idx) {
 function protectedByDepthHeight(idx, hb) {
   return (
     depth[idx] > hb.searchdepth &&
-    (height[idx]) > hb.height &&
+    (height[idx] + 1) > hb.height &&
     Math.abs(height[idx] - hb.height) < 14
   );
 }
@@ -2775,13 +2777,19 @@ function writeEntryAt(idx, hb) {
 }
 
 function writeTohash32(hb) {
-  if(hb.zf==0) {console.log("Fehler bei write 2"); return}
-  if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
-
   const key = hb.Hash32key >>> 0;
 
   const idx0 = ttIndex0(key); // Hauptslot
+  //const idx1 = ttIndex1(key); // Nebenslot
   const idx1 = idx0+1; //ttIndex1(key); // Nebenslot
+
+  
+  if(hb.zf==0) {console.log("Fehler bei write 2"); return}
+  //hb.wertung=Math.floor(hb.wertung);
+  //if(hb.wertung % 1 !== 0) {if(Math.abs(hb.wertung % 1)>1) console.log(hb.wertung % 1); return}; // Zugwiederholung nicht in TT speichern 
+  if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
+
+
 
   // 1) Falls Key bereits vorhanden: update dort (Hauptslot zuerst)
   if (TThash32keys[idx0] === key) {
@@ -2886,7 +2894,7 @@ function readFromhash32(hash32, checksum52) {
   ttCollision++;    
 
   // ---------- Probe 1 (Nebenslot) ----------
-  const idx1 = idx0+1; //ttIndex1(hash32);
+  const idx1 = ttIndex1(hash32);
 
   if (TThash32keys[idx1] == hash32) 
 	{
@@ -3811,14 +3819,17 @@ function bewerte(zuf, mwert)
  if(zugnr<18) wertung += openmillsetz(farbe);
  //if(1||globalProblem==0)
  wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
+ //if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
  if (stz[1]<7 && stz[2]<7) {if (stz[1]>5 || stz[2]>5) wertung=Math.floor(wertung/4); else wertung=Math.floor(wertung/8); }
  if(farbe==1) wertung += mwert; else wertung -= mwert; // mwert ist immer aus Sicht von weiss
+
  if(globalProblem==0)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
  return wertung;
 }
+
 
 
 function bewertefast(zuf,zggcountgegfarbe,mwert)
@@ -3844,19 +3855,45 @@ function bewertefast(zuf,zggcountgegfarbe,mwert)
  if(zugnr<18) wertung += openmillsetz(farbe);
  //if(1||globalProblem==0)
  wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
- //if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
- if (stz[1]<7 && stz[2]<7) {if (stz[1]>5 || stz[2]>5) wertung=Math.floor(wertung/4); else wertung=Math.floor(wertung/8); }
- if(farbe==1) wertung += mwert; else wertung -= mwert; // mwert ist immer aus Sicht von weiss
+if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
+if(farbe==1) wertung += mwert; else wertung -= mwert; 
  if(globalProblem==0)
    {
    wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
    }
   else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;
-    
  return wertung;
 }
 
+
+
+function bewertefast_vergleich(zuf, zggcountgegfarbe) 
+{
+ var wertung=0;
+ if(zugnr>18 && stz[1]==3 && stz[2]==3)
+   {
+   var gegfarbe=3-farbe;
+   wertung=openmill(farbe);
+   if(takefrommillallowed) return wertung+zuf;
+   if(wertung!=888) return wertung+zuf;
+   for(var af=1; af<=24; af+=1)
+     {
+     if (spfeld[af] == gegfarbe)
+       {
+       if (pmuehcheck(af,gegfarbe))
+         return-7; /*schlecht, kann nicht aus Muehle nehmen*/
+       else
+         return wertung+zuf;
+       }
+     }
+   }
+ if(zugnr<18) wertung += openmillsetz(farbe);
+ wertung += (stz[farbe] - stz[3-farbe]) * stwert;
+ if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/2);
+ wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
+ return wertung;
+}
 
 
 //if(zugnr>18 && (stz[1]>3 && stz[2]>3))
@@ -4450,10 +4487,10 @@ function zggcounty (farbex)
       }
    }
  }
- if (zugnr>16)
-   { 
+ if (zugnr>17)
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3) return (takefrommillallowed?777:500);;
+     if (msum) if(stz[3-farbex]==3) return (takefrommillallowed?777:555);;
      return zugsum + (msum?stwert:0);
    }
  else return zugsum + msum + msum;
@@ -4594,6 +4631,8 @@ function openmill12zi()
 }
 
 
+
+
 if(0) alert("################");
 function openmill12()
 {
@@ -4678,6 +4717,7 @@ function openmill_weg (farbex)
  return 0;
 }
 
+if(0) alert("################");
 if(0) alert("################");
 function openmillsetz (farbex) 
 {
@@ -4935,6 +4975,7 @@ function zugausfueh (nextzug)
  zugnr+= 1;
  //alert("zugausf"); /** ==> zughist **/
 }
+
 
 if(0) alert("################");
 function zugausfueh2 (nextzug,zugnr)
@@ -5281,8 +5322,8 @@ async function computemoveA() {
     if (istWiederholungen(hash, globalStellungsspeicher, zugnr)>1) istWiederholungEin();
 	if (ist50zuege(hash, globalStellungsspeicher, zugnr)) melde("Remis nach 50 Zuege Regel");
 	
-    //Spielzug eintragen + dahinter etwas Platz schaffen
-	zughistory[zugnr].af = bestzug.af;
+	 //Spielzug eintragen + dahinter etwas Platz schaffen
+    zughistory[zugnr].af = bestzug.af;
     zughistory[zugnr].zf = bestzug.zf;
     zughistory[zugnr].wnf = bestzug.wnf;
     zughistory[zugnr + 1].af = 0;
@@ -5295,8 +5336,10 @@ async function computemoveA() {
     zughistory[zugnr + 7].zf = 0;
     zughistory[zugnr + 8].zf = 0;
     zughistory[zugnr + 9].zf = 0;
-		
-	// globalpv aus hash ergaenzen
+	
+	
+	
+		// globalpv aus hash ergaenzen
 	var savepos = spf2string(spfeld, zugnr); // Speichert Stellung
 	for (let k =1; k < globalpv.length; k++) // Alle Zuege der PV ausführen
 	{
@@ -5338,7 +5381,9 @@ async function computemoveA() {
     }
 	string2spf(savepos); // stellt Stellung wieder her
 	
+
 	//Principal Varition eintragen	
+			
 	for (let k =1; k < globalpv.length; k++) 
 	{
 	 zughistory[zugnr +k ].af = globalpv[k].af;
@@ -5480,90 +5525,45 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 //checkpivotmuehlen();
 //checkquermuehlen();
 //debugverbose=1;
-console.log("bewertemuehlen Wert:"+ bewertemuehlen(1) +" openmill12zi "+ openmill12zi(1));
+console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 //debugverbose=0;
 
 
   // --- Alpha-Beta Fenster an der Wurzel initialisieren ---
   alpha = CONSTminwertung;         // NEU: Alpha mit Minimum initialisieren (Fenster-Start)
   var beta = CONSTmaxwertung;      // NEU: Beta mit Maximum initialisieren
-
-
-
-// --- vor der for(rtvi...) Schleife ---
-let startRtvi = 0;
-let rootDepth = -1;
-let rootIsExact = false;
-let rootExactValue = 0;
-let rootHashMove = new zugspeicher;
-let hashFlag=false;
-
-  const [rh32, rh52] = spfeld2hash32(spfeld, zugnr);
-  const rootEntry = readFromhash32(rh32, rh52);
-
-  if (1 && rootEntry && rootEntry.searchdepth>3) {
-	let tmp=null;
-    rootDepth = rootEntry.searchdepth;
-    rootIsExact = (rootEntry.TTflag === TTFlag.EXACT);
-
-
-	// Zugliste so umsortieren, dass Hash-Move vorne steht
-	for (let i = 0; i < zuglist.length; i++) { 	
-		if (zuglist[i].af  == rootEntry.af && zuglist[i].zf  == rootEntry.zf && zuglist[i].wnf == rootEntry.wnf) 
-		{
-			hashFlag=true;
-			if(i>0) tmp = zuglist[i];
-			if(i>0) zuglist[i] = zuglist[0];
-			if(i>0) zuglist[0] = tmp;
-			zuglist[0].wertung = rootEntry.wertung;
-			copyzugspei(zuglist[0],bestzug);
-			copyzugspei(zuglist[0],rootHashMove);
-			//bestzug.af = rootEntry.af;
-			//bestzug.zf = rootEntry.zf;
-			//bestzug.wnf = rootEntry.wnf;
-			bestzug.wertung = rootEntry.wertung;
-			console.log("rootEntry1 " +bestzug.af+" "+bestzug.zf+" "+bestzug.wnf+rootIsExact)
-			//letzteWertung = bestzug.wertung;
-			//bestwertung = aktwertung = globalbestwertung = letzteWertung;
-			if (rootIsExact) startRtvi = rootDepth; else  startRtvi = rootDepth-1;
-			//break;
-			//startRtvi = rootDepth-1;
-		}
-  }
-}
-
-  /*iterative Suche*/
-for (rtvi = startRtvi; rtvi < rtv; rtvi++) {
-
+  for(rtvi=0;rtvi<rtv;rtvi++) /*iterative Suche*/
+  {
    //alert("rtvi "+rtvi); 
    globalrtvi= rtvi;
    globalrtacut=rtvi+globalrestsel+5;
-
-   if(hashFlag) 
-      hashFlag=false;
-   else
-      sortzuglist(zuglist);
-
     bestwertung= CONSTminwertung+rta; // rta= Rechentiefe aktuell (global)
-	
-	newSearchGeneration();
+    sortzuglist(zuglist);
 
 
+    newSearchGeneration();
+const [rh32, rh52] = spfeld2hash32(spfeld, zugnr);
+let rootEntry = readFromhash32(rh32, rh52);
+if (rootEntry) {
+  // Hash-Move aus TT extrahieren
+  let hashMove = new zugspeicher();
+  hashMove.af  = rootEntry.af;
+  hashMove.zf  = rootEntry.zf;
+  hashMove.wnf = rootEntry.wnf;
 
+  // Zugliste so umsortieren, dass Hash-Move vorne steht
+  for (let i = 0; i < zuglist.length; i++) {
+    if (zuglist[i].af  === hashMove.af &&
+        zuglist[i].zf  === hashMove.zf &&
+        zuglist[i].wnf === hashMove.wnf) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+      let tmp = zuglist[i];
+      zuglist[i] = zuglist[0];
+      zuglist[0] = tmp;
+      break;
+    }
+  }
+}
 
     //nextzug=zuglist[0];
     //alert ("af:"+nextzug.af+" zf:"+nextzug.zf+" wnf:"+nextzug.wnf+" wertung:"+nextzug.wertung)
@@ -5626,24 +5626,11 @@ for (rtvi = startRtvi; rtvi < rtv; rtvi++) {
 
 		{	
 			searchdepth=rtvi+sel-rtvdelay;
-			
-			if (rootIsExact && rtvi == startRtvi && zli == 0 &&
-				nextzug.af  == rootHashMove.af &&
-				nextzug.zf  == rootHashMove.zf &&
-				nextzug.wnf == rootHashMove.wnf) 
-  			  {aktwertungzugliste=[]; 
-			   aktwertung = rootHashMove.wertung;
-               console.log("rootEntry2 " +rootHashMove.af+" "+rootHashMove.zf+" "+rootHashMove.wnf+" "+rootHashMove.wertung) }
-			else			
-
-			
 			aktwertungzugliste = await berbestzug_async(searchdepth+0, globalrestsel+0, -beta, -bestwertung, -nextzug.wnfAM*globalZufall);
 		};
 
-		if (aktwertungzugliste.length){
-			aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
-			aktwertung = aktwertungzug.wertung;
-		}	
+        aktwertungzug = aktwertungzugliste[aktwertungzugliste.length-1];
+        aktwertung = aktwertungzug.wertung;
 				
 		if(zli==0){ 
 			rtvdelaymove[rtvi]=new zugspeicher();
@@ -5805,9 +5792,9 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
   tzuza++;
   if(rta>globalmaxrta) globalmaxrta=rta;
 
-  if (globalAwaitCounter > 3000) {
+  if (globalAwaitCounter > 2222) {
      var mygtime = Date.now() - globalAwaitCounterT;
-     if (mygtime < 700) {
+     if (mygtime < 666) {
        globalAwaitCounter = 0;
      } else {
        await new Promise(requestAnimationFrame);
@@ -5858,13 +5845,66 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 		else if (entry.TTflag === TTFlag.UPPERBOUND) {
 			beta = Math.min(beta, entry.wertung);
 		}
-		if (alpha >= beta) {
+
+
+/*		if (alpha >= beta) {
 			let z = new zugspeicher();
 			z.af=entry.af;
 			z.zf=entry.zf;
 			z.wnf=entry.wnf;
 			z.wertung = -entry.wertung;
 			return [z];
+		}
+*/
+
+if (alpha >= beta) {
+
+    // Verification Search nur wenn unsicher
+    let needVerify =
+        entry.searchdepth < rtv || 
+        entry.TTflag !== TTFlag.EXACT ||
+        Math.abs(entry.wertung - beta) < 4; // Margin frei wählbar
+
+    if (needVerify) {
+        // Verifiziere mit enger Suche
+        let verifyList = await berbestzug_async(
+            rtv - 1,
+            restsel,
+            alphaOrig,
+            betaOrig+3,
+            zufa
+        );
+
+        let verifyScore = verifyList[verifyList.length - 1].wertung;
+
+        if (verifyScore < beta+2) {
+            // Cutoff war falsch → NICHT abbrechen
+        } else {
+            // Cutoff bestätigt
+            let z = new zugspeicher();
+            z.af = entry.af;
+            z.zf = entry.zf;
+            z.wnf = entry.wnf;
+            z.wertung = -entry.wertung;
+            return [z];
+        }
+
+    } else {
+        // sicher genug → direkt verwenden
+        let z = new zugspeicher();
+        z.af = entry.af;
+        z.zf = entry.zf;
+        z.wnf = entry.wnf;
+        z.wertung = -entry.wertung;
+        return [z];
+    }
+			
+			
+			
+			
+			
+			
+			
 		}
 	}
 
@@ -5881,6 +5921,7 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 		bewerteleaf.wertung = -(CONSTminwertung + rta);
 		return [bewerteleaf];
 	}
+
 
 
   if(rtv>=2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
@@ -6021,8 +6062,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     mess+=(""+debugi+"xxxx ");
     if(zuglist) if(zuglist[0]) console.log(mess+""+debugi+f2c(zuglist[0].af)+f2c(zuglist[0].zf)+" rta:"+rta);    
   }
-  copyzugspei(zuglist[0], bestzug2); // Es soll immer ein Zug in bestzug2 sein
-
+   
+  copyzugspei(zuglist[0], bestzug2); // Es soll immer ein Zug in bestzug2 sein, zuglist,length>0 ist garantiert
+   
   // --- Schleife  ---
   for (var i443 = 0; i443 < zuglist.length; i443++) {
 
@@ -6150,12 +6192,14 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	  if(rtv>5) if(mybonuswf<-0.7) mybonuswf=-0.7;
 	  if(rtv>4) if(mybonuswf<-1) mybonuswf=-1;
 	
-    const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
+	const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
+
 	if (wiederholungsflag) {
 	   berbestzugzugliste=[];
 	   aktwertung=0.01*rta*(rta%2==ConstRemisPos? -1:1);
 	}
 	else if (rtv < (zuglist.length<16&&stz[farbe]>5&&stz[3-farbe]>5?(fastbase+1):(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?fastbase:(fastbase-1))) )
+	//else if (rtv < (zuglist.length<16&&stz[farbe]>4&&stz[3-farbe]>4?5:(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?4:3)) )
 	{
         if (pmuehdroht(nextzug.zf)) mybonus+=1/8;
         if (rtv > 1) if (restsel>0) if (zugnr > 18                    ) if (pmuehdroht(nextzug.zf)) mybonus+=1/4; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/4;;
@@ -6302,10 +6346,49 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
 
 
-if(0) alert("################# brechneefast ###############################");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if(0) alert("################# bewertefast ###############################");
 if(0) alert("################");
 if(0) alert("################");
 if(0) alert("################################################");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
@@ -6430,6 +6513,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
     zugausfueh(nextzug);
 	//copyzugspeishort(nextzug,zughistory[zugnr]); // Zugwiederholung wird hier nicht geprueft
 
+
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
 
     if (stz[farbe] < 3 && zugnr > 18) {
@@ -6452,7 +6536,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       var nextrtv=rtv - 1 + sel+mybonuswf;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
 
-	  if (rtv>3 || ((stz[1]<5 || stz[2]<5 ) && rtv>=2))	  
+	  if (rtv>3 || (stz[1]<5 || stz[2]<5 ))	  
 	      aktwertung = berbestzugfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
 	   else
 	      aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
@@ -6604,6 +6688,11 @@ if (newZuglist.length!=zuglist.length) alert ("fehler");
 
 
 
+
+
+
+
+
 function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   tzuza++;
   if(rta>globalmaxrtad) globalmaxrtad=rta;
@@ -6626,8 +6715,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   var nextzug;
   var bestwertung = CONSTminwertung + rta; 
   var aktwertung;
-  //var openmillflag= openmill12zi();
-  
+
   if(rtv>2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
 
 //  //Vorsortierung
@@ -6704,9 +6792,9 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
       return -(CONSTmaxwertung - rta);
     }
     
-    if (1) {
+    {
       var sel = 0;
-      if (rtv >= 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <8 ) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
+      if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <8 ) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
 
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18) if (pmuehdroht(nextzug.zf)) {sel = 1;};
@@ -6716,19 +6804,8 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
       // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
       var nextrtv=rtv - 1 + sel;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
-
- 	  if (nextrtv<=1 && sel==0 && openmill12zi()>0 && restsel>0)
-	  {
-		sel=1;
-	    aktwertung = berbestzugprevfastStatic(nextrtv+sel, restsel - sel, -beta, -bestwertung, -zufa, mwert);	  
-	  }
-	  else
-	  
- 	    aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
+	  aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
       
-      //if (Math.abs(aktwertung) > 800 && Math.abs(aktwertung) < 850) console.log(spf2string(spfeld,zugnr)+" "+aktwertung+" "+nextrtv+" "+nextzug.af+" "+nextzug.zf);
-      //if (openmillflag==0 && openmill12zi()>0) console.log(spf2string(spfeld,zugnr)+" "+aktwertung+" "+nextrtv+" "+nextzug.af+" "+nextzug.zf);
-      //if (Math.abs(aktwertung) > 800 && Math.abs(aktwertung) < 850) debugger;
       if (aktwertung > bestwertung) 
         bestwertung = aktwertung;
     }
@@ -6746,72 +6823,6 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   // --- Reguläre Rückgabe ohne Cutoff ---
   return -bestwertung;
 }
-
-
-function berbestzugprevfastStatic (rtv, restsel, alpha, beta, zufa, mwert) {
-  tzuza++;
-  if(rta>globalmaxrtad) globalmaxrtad=rta;
-  
-  //if (rtv < 1) return -bewerte(zufa);
-  
-  var zggcountgegfarbe=1;
-  if (rtv < 1) { 
-      if(globalProblem) 
-	     zggcountgegfarbe= zggcountfast(3-farbe);
-      else 
-	     zggcountgegfarbe= zggcount(3-farbe);
-
-      if (zggcountgegfarbe==0) {if(zugnr>18) if (stz[3-farbe]>3) if(restsel-- >= 0) rtv=1;}
-      else return -bewertefast(zufa, zggcountgegfarbe, mwert);
-  }
-
-  var zuglist = makezgglist(farbe);
-  var nextzug;
-  var bestwertung = CONSTminwertung + rta; 
-  var aktwertung;
-  
-  if(rtv>2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
-
-//  //Vorsortierung
-
-
-  // --- Schleife  ---
-  for (var i446 = 0; i446 < zuglist.length; i446++) {
-
-    nextzug = zuglist[i446];
-    zugausfueh(nextzug); 
-
-    if (stz[farbe] < 3 && zugnr > 18) {
-      zugrueck(nextzug);
-      return -(CONSTmaxwertung - rta);
-    }
-    
-
-      //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
-      //if (rtv < 1.2) if (restsel>0) if (zugnr > 18) if (pmuehdroht(nextzug.zf)) {sel = 1;};
-
-      globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
-
-      // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
-	  aktwertung = berbestzugprevfastStatic(rtv -1, restsel, -beta, -bestwertung, -zufa, mwert);
-      
-      if (aktwertung > bestwertung) 
-        bestwertung = aktwertung;
-
-    zugrueck(nextzug);
-
-    // Beta-Cut: sofort Bewertung zurückgeben (Standard)
-	//var gering=0; if (i<1 || Math.abs(beta)>100 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
-	//var gering=globalgering3; if (i<Math.ceil(zuglist.length/2)+2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
-	var gering=globalgering3; if (i446<2 || Math.abs(alpha)>99 || Math.abs(beta)>99 || Math.abs(bestwertung)>100) gering=0; //Geringschätzungsfaktor
-    if (bestwertung+gering >= beta) return -bestwertung;
-  }
-  // --- Schleife: Ende
-
-  // --- Reguläre Rückgabe ohne Cutoff ---
-  return -bestwertung;
-}
-
 
 
 
@@ -8377,6 +8388,8 @@ function toggleRemissuche() {
 --A142PzohQma9grid.htm.htm--  PV wird aus Hash ergaenzt 16.05.26
 --A143PzohQma9grid.htm.htm--  if(hb.wertung %1 !== 0) {return}; // Zugwiederholung nicht in TT speichern und Float64Array wird zu TTwertung = new Int16Array(TT_SIZE2)
 --A144PzohQma9grid.htm.htm--  openmill12zi
+--A146PzohQma9grid.htm.htm--  
+
 
 */
 
