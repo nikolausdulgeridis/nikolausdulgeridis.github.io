@@ -5868,19 +5868,19 @@ if (alpha >= beta) {
         entry.TTflag !== TTFlag.EXACT ||
         Math.abs(entry.wertung - beta) < 4; // Margin frei wählbar
 
-    if (needVerify) {
+    if (0 && needVerify) {
         // Verifiziere mit enger Suche
         let verifyList = await berbestzug_async(
             rtv - 1,
             restsel,
             alphaOrig,
-            betaOrig,
+            betaOrig+3,
             zufa
         );
 
         let verifyScore = verifyList[verifyList.length - 1].wertung;
 
-        if (verifyScore < beta+3) {
+        if (verifyScore < beta+2) {
             // Cutoff war falsch → NICHT abbrechen
         } else {
             // Cutoff bestätigt
