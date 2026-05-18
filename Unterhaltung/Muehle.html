@@ -4490,7 +4490,10 @@ function zggcounty (farbex)
  if (zugnr>17)
    { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3) return (takefrommillallowed?777:555);;
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr-1].wnf==0) return 555};;
+	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
+	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
+	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
      return zugsum + (msum?stwert:0);
    }
  else return zugsum + msum + msum;
@@ -5865,7 +5868,7 @@ if (alpha >= beta) {
         entry.TTflag !== TTFlag.EXACT ||
         Math.abs(entry.wertung - beta) < 4; // Margin frei wählbar
 
-    if (needVerify) {
+    if (0 && needVerify) {
         // Verifiziere mit enger Suche
         let verifyList = await berbestzug_async(
             rtv - 1,
@@ -6511,7 +6514,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 
     nextzug = zuglist[i444];
     zugausfueh(nextzug);
-	//copyzugspeishort(nextzug,zughistory[zugnr]); // Zugwiederholung wird hier nicht geprueft
+	copyzugspeishort(nextzug,zughistory[zugnr]); // 
 
 
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
