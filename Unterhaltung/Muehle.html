@@ -2653,11 +2653,18 @@ function entryValue(idx) {
 
 // Deine alte Schutzregel (nur leicht gekapselt)
 function protectedByDepthHeight(idx, hb) {
+
+  const flag = getFlag(idx);
+
+  // NEU: nur EXACT schützen
+  if (flag !== TTFlag.EXACT) return false;
+
   return (
     depth[idx] > hb.searchdepth &&
-    (height[idx] ) > hb.height && // height ist zugnr + rtv und soll die RT in dieser Partie abbilden (Idee: Schutz von tiefen Zuegen bei Rückw. Analyse)
+    height[idx] > hb.height &&
     Math.abs(height[idx] - hb.height) < 14
   );
+
 }
 
 // Zusätzlicher EXACT-Schutz: exact nicht von bounds verdrängen (außer sehr alt oder deutlich tiefer)
