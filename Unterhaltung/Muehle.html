@@ -2655,7 +2655,7 @@ function entryValue(idx) {
 function protectedByDepthHeight(idx, hb) {
   return (
     depth[idx] > hb.searchdepth &&
-    (height[idx] + 1) > hb.height &&
+    (height[idx] ) > hb.height && // height ist zugnr + rtv und soll die RT in dieser Partie abbilden (Idee: Schutz von tiefen Zuegen bei Rückw. Analyse)
     Math.abs(height[idx] - hb.height) < 14
   );
 }
@@ -3739,6 +3739,50 @@ function bewerte(zuf, mwert)
 {
  var wertung=0;
  var gegfarbe=3-farbe;
+ var om=0;
+
+ if(zugnr>18 && stz[1]==3 && stz[2]==3)
+   {
+   
+	om=openmillssingleduo(farbe);
+	if (om>=1)      
+	   { 
+	   if(takefrommillallowed) return 900-rta;  // Farbe hat Muehle=> Gewinn
+	   if (zughistory[zugnr-1].wnf==0) return 900-rta; // tfma Farbe hat Muehle=> Gewinn 
+	   return 111; // tfma Farbe hat Muehle aber kann nicht schlagen=> Gewinn, aber in einer Nebenvariante
+	   }
+	if (om==-2) // Farbe hat keine Muehle, aber der Gegner 2 => -Gewinn
+	   {
+		return -900+rta; 
+	   }
+	return zuf +om; 
+	}
+
+
+   
+ if(zugnr<18) wertung += openmillsetz(farbe);
+ //if(1||globalProblem==0)
+ wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
+ //if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
+ if (stz[1]<7 && stz[2]<7) {if (stz[1]>5 || stz[2]>5) wertung=Math.floor(wertung/4); else wertung=Math.floor(wertung/8); }
+ if(farbe==1) wertung += mwert; else wertung -= mwert; // mwert ist immer aus Sicht von weiss
+
+ if(globalProblem==0)
+   {
+   wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
+   }
+  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+    wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
+ return wertung;
+}
+
+
+
+if(0) alert("################");
+function bewerte_alt(zuf, mwert)
+{
+ var wertung=0;
+ var gegfarbe=3-farbe;
  if(zugnr>18 && stz[1]==3 && stz[2]==3)
    {
    wertung=openmill(farbe);
@@ -3766,6 +3810,8 @@ function bewerte(zuf, mwert)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
+  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+    wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
  return wertung;
 }
 
@@ -3773,6 +3819,51 @@ function bewerte(zuf, mwert)
 
 function bewertefast(zuf,zggcountgegfarbe,mwert)
 {
+ var om=0;
+ var wertung=0;
+ var gegfarbe=3-farbe;
+
+if(zugnr>18 && stz[1]==3 && stz[2]==3)
+   {
+   
+	om=openmillssingleduo(farbe);
+	if (om>=1)      
+	   { 
+	   if(takefrommillallowed) return 900-rta;  // Farbe hat Muehle=> Gewinn
+	   if (zughistory[zugnr-1].wnf==0) return 900-rta; // tfma Farbe hat Muehle=> Gewinn 
+	   return 111; // tfma Farbe hat Muehle aber kann nicht schlagen=> Gewinn, aber in einer Nebenvariante
+	   }
+	if (om==-2) // Farbe hat keine Muehle, aber der Gegner 2 => -Gewinn
+	   {
+		return -900+rta; 
+	   }
+	return zuf +om; 
+	}
+
+
+
+
+
+   
+   
+ if(zugnr<18) wertung += openmillsetz(farbe);
+ //if(1||globalProblem==0)
+ wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
+if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
+if(farbe==1) wertung += mwert; else wertung -= mwert; 
+ if(globalProblem==0)
+   {
+   wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
+   }
+  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+    wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;
+ return wertung;
+}
+
+
+function bewertefast_alt(zuf,zggcountgegfarbe,mwert)
+{
+ var om=0;
  var wertung=0;
  var gegfarbe=3-farbe;
  if(zugnr>18 && stz[1]==3 && stz[2]==3)
@@ -4396,6 +4487,65 @@ function zggcounty (farbex)
  {
    if (spfeld[af] == farbex)
    {
+    zf = zugmatropt0[af];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex)
+         if (spfeld[pmuehmatr1[zf]] == farbex)
+           msum+=1;
+      }
+    zf = zugmatropt1[af];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex)
+         if (spfeld[pmuehmatr1[zf]] == farbex)
+           msum+=1;
+      }
+
+    zf = zugmatropt2[af];    
+	if(zf) 
+	{ //---
+	      if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex)
+         if (spfeld[pmuehmatr3[zf]] == farbex)
+           msum+=1;
+      }
+    zf = zugmatropt3[af];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex)
+         if (spfeld[pmuehmatr3[zf]] == farbex)
+           msum+=1;
+      }
+	}  // ---
+	  
+   }
+ }
+ if (zugnr>17)
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+     //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 111};;
+	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
+	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
+	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
+//if (spfeld[zughistory[zugnr-1].zf]==0) console.log("zugnr:"+zugnr+" farbe:"+farbe+" zughistory[zugnr].zf:"+zughistory[zugnr-1].zf+" "+ spfeld[zughistory[zugnr].af]+" "+ spfeld[zughistory[zugnr].zf]+" "+ spfeld[zughistory[zugnr].wnf]+" "+ spfeld[zughistory[zugnr].wnfAM]);
+     return zugsum + (msum?stwert:0);
+   }
+ else return zugsum + msum + msum;
+}
+
+
+if(0) alert("################");
+function zggcounty_alt (farbex)
+{
+ var af,zf,wnf,ri;
+ var zugsum=0;
+ var msum= 0;
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == farbex)
+   {
     zf = zugmatr[af][0];
     if(zf) if (spfeld[zf]==0)
       { zugsum+=1;
@@ -4429,7 +4579,7 @@ function zggcounty (farbex)
  if (zugnr>17)
    { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr-1].wnf==0) return 555};;
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -4551,7 +4701,29 @@ function zggcountfast (farbex) //zaehlt nur ob mind 1 Zug
 
 
 if(0) alert("################");
-function openmill12zi()
+function openmillzi(farbe) // teste mind 1 M zi
+{
+ var af,li;
+ var m2=0;
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0)
+   {
+   if  (farbe == spfeld[pmuehmatr0[af]]) //waag
+     if (farbe == spfeld[pmuehmatr1[af]])
+       if (farbe == spfeld[zugmatr[af][0]] || farbe == spfeld[zugmatr[af][1]]) // senkr
+	     return 1;
+   if  (farbe == spfeld[pmuehmatr2[af]])
+     if (farbe == spfeld[pmuehmatr3[af]])
+       if (farbe == spfeld[zugmatr[af][2]] || li==spfeld[zugmatr[af][3]]) // senkr
+         return 1;
+   }
+ }
+ return 0;
+}
+
+if(0) alert("################");
+function openmill12zi() // // teste mind 1 M zi
 {
  var af,li;
  var m2=0;
@@ -4573,12 +4745,342 @@ function openmill12zi()
 }
 
 
-
-
 if(0) alert("################");
+function openmillsf(farbe) // check Muehle  springen
+{
+ var af=0;
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0)
+   {
+   if  (farbe== spfeld[pmuehmatr0[af]])
+     if (farbe==spfeld[pmuehmatr1[af]])
+       return farbe;
+   if  (farbe== spfeld[pmuehmatr2[af]])
+     if (farbe==spfeld[pmuehmatr3[af]])
+       return farbe;
+   }
+ }
+ return 0;
+}
+
+//var testpos="120000020110000000000200+6";
+//var testpos="120000020110000000000020+6";
+//var testpos="120000000110000000000220+6";
+//var testpos="120000000110000000000022+6";
+//var testpos="100000000110002000000022+6";
+//var testpos="100000000110020000000022+6";
+//var testpos="100000000110000000020022+6";
+
+
+//var testpos="010011020000000020020000+5";
+//var testpos="000001000000200220110000+7";
+//var testpos="002000000011000100000202+9";
+//var testpos="002000000011000000100202+12";
+//var testpos="001001101000000222001000+45";
+
+
+//string2spf(testpos);
+/*
+console.log("openmillcounts(1) "+ openmillcounts(1));
+console.log("openmillcounts(2) "+ openmillcounts(2));
+
+console.log("openmillsduo(1) "+ openmillsduo(1,1));
+console.log("openmillsduo(2) "+ openmillsduo(2,1));
+
+console.log("openmillssingleduo(1) "+ openmillssingleduo(1));
+console.log("openmillssingleduo(2) "+ openmillssingleduo(2));
+*/
+
+function openmillssingleduo_test(farbe) // test auf mind 1M oder 2 M // 0=kein 1= 1M, -1= 1M, -2=2M
+{
+//openmillssingleduo0(farbe);
+openmill(farbe);
+return 0;
+
+var ic=0;
+for(ic=0; ic<1000; ic+=1)
+{;}
+//return openmillssingleduo0(farbe); 
+
+//return openmillssingleduo_testversion(farbe);
+
+var wert1=openmillssingleduo(farbe);
+var wert2=0;
+var gegfarbe=3-farbe;
+var gegfarbe=3-farbe;
+
+if(stz[1]!=3 || stz[2]!=3) 
+console.log("openmillssingleduo fehlerA wert1:"+wert1+ " wert2:"+wert2+ " farbe:"+farbe+ " spf:"+spf2string(spfeld,zugnr));
+if(stz[1]!=3 || stz[2]!=3) return 0;
+
+
+wert2=openmillcounts(farbe);
+if (wert1 >0 && wert2 <=0) {
+  console.log("openmillssingleduo fehlerBa wert1:"+wert1+
+              " wert2:"+wert2+
+              " farbe:"+farbe+
+              " spf:"+spf2string(spfeld,zugnr));
+}
+
+if (wert2 > 0 && wert1 <= 0) {
+  console.log("openmillssingleduo fehlerBb wert1:"+wert1+
+              " wert2:"+wert2+
+              " farbe:"+farbe+
+              " spf:"+spf2string(spfeld,zugnr));
+}
+
+if (wert2<=0)
+{
+wert2=openmillcounts(gegfarbe);
+if (wert1 === -2 && wert2<2) {
+  console.log("openmillssingleduo fehlerCa wert1:"+wert1+
+              " wert2:"+wert2+
+              " farbe:"+farbe+
+              " spf:"+spf2string(spfeld,zugnr));
+}
+
+if (wert2 >= 2 && wert1 !== -2) {
+  console.log("openmillssingleduo fehlerCb wert1:"+wert1+
+              " wert2:"+wert2+
+              " farbe:"+farbe+
+              " spf:"+spf2string(spfeld,zugnr));
+}
+}
+
+return wert1; 
+}
+
+
+function openmillssingleduo(farbe) // test auf mind 1M oder 2 M // 0=kein 1= 1M, -1= 1M, -2=2M
+{
+ //console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=1;
+ var li=0;
+ var re=0;
+ var ob=0;
+ var un=0;
+ //var mc=0; 
+ //var nextstone=0;
+ const gegfarbe=3-farbe;
+ var gegststone=1;
+ var count=0; 
+ 
+ for(af; af<=24; ++af)
+ {
+   if (spfeld[af] == 0) continue;  // ueberspringe leere Felder
+   if (spfeld[af] == gegfarbe) if (gegststone==1) {gegststone=af+0; continue};  //1. Stein gegfarbe gefunden 
+   if (spfeld[af] == farbe) // Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]]
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) return 1; // waagerecht 2 farbe + 1 leer
+    ob = spfeld[pmuehmatr2[af]];
+    un = spfeld[pmuehmatr3[af]];
+    if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) return 1; // senkr 2 farbe + 1 leer
+	if(count) break; //beende Suche beim 2. Stein (keine M mehr moeglich)
+	count++;
+   }
+ }
+ //if(mc) return mc; 
+ return -openmillsduo(gegfarbe>>>0,gegststone>>>0); 
+}
+
+
+
+function openmillsduo(farbe,start) // check kreuz Muehle springen 0=kein 1=1 M gef 2= 2 M gef 
+{
+//console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=0;
+ var li=0;
+ var re=0;
+ var ob=0;
+ var un=0;
+ var mc=0; 
+ var nextstone=0;
+ //const gegfarbe=3-farbe;
+ //var gegststone=0;
+ //var count=0; 
+ 
+ for(af=start; af<=24; ++af)
+ {
+   //if (spfeld[af] == gegfarbe) if (gegststone==0) {gegststone=af; continue}  //1. Stein gegfarbe gefunden 
+   if (spfeld[af] != farbe) continue;  // ueberspringe leere Felder
+   //if (spfeld[af] == farbe) //1. Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]];
+    ob = spfeld[pmuehmatr2[af]];
+    un = spfeld[pmuehmatr3[af]];
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) mc+=1; // waagerecht 2 farbe + 1 leer
+    if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) mc+=1; // senkr 2 farbe + 1 leer
+	//if(mc>1) return 2; // 2 M gef		
+    if(mc==1)  //nächster Stein (mc ist 1)
+    {
+	if(li==farbe && re==0) nextstone= pmuehmatr0[af]; // 1. gefundene Muehle war waagerecht
+	if(re==farbe && li==0) nextstone= pmuehmatr1[af]; 
+	if(nextstone)
+		{ 
+		ob = spfeld[pmuehmatr2[nextstone]];
+		un = spfeld[pmuehmatr3[nextstone]];
+		if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) return 2; // aenkr 2 farbe + 1 leer
+		}
+		else {
+		 if(ob==farbe && un==0) nextstone= pmuehmatr2[af]; // 1. gefundene Muehle war senkr
+		 if(un==farbe && ob==0) nextstone= pmuehmatr3[af]; 
+			{ 
+			li = spfeld[pmuehmatr0[nextstone]];
+			re = spfeld[pmuehmatr1[nextstone]];
+			if ((li==farbe && re==0) || (li==0 && re==farbe) ) return 2; // waagerecht 2 farbe + 1 leer
+			}
+		}
+	}	
+	return mc; // spare weitere Suche (falls mc==0 ist eine weitere M moeglich, 2 sind nicht mehr moeglich)
+   }
+ }
+ return 0; // kann nie hierhin kommen
+}
+
+
+function openmillsduo_test(farbe,start) // check kreuz Muehle springen 1=1 M gef 2= 2 M gef 
+{
+console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=0;
+ var li=0;
+ var re=0;
+ var ob=0;
+ var un=0;
+ var mc=0; 
+ var nextstone=0;
+ const gegfarbe=3-farbe;
+ var gegststone=1;
+ var count=0; 
+ 
+ for(af=start; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0) continue;  // ueberspringe leere Felder
+   if (spfeld[af] == gegfarbe) if (gegststone==1) {gegststone=af; continue}  //1. Stein gegfarbe gefunden 
+   if (spfeld[af] == farbe) //1. Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]];
+    ob = spfeld[pmuehmatr2[af]];
+    un = spfeld[pmuehmatr3[af]];
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) mc+=1; // waagerecht 2 farbe + 1 leer
+    if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) mc+=10; // senkr 2 farbe + 1 leer
+	console.log("A af:"+af+ " li:"+li+ " re:"+re+ " ob:"+ob+ " un:"+un+ " mc:"+mc);
+	//if(mc>1) return mc; // 2 M gef	
+   if(mc==1 || mc==10)  //nächster Stein (mc ist 1)
+   {
+	if(li==farbe && re==0) nextstone= pmuehmatr0[af]; // 1. gefundene Muehle war waagerecht
+	if(re==farbe && li==0) nextstone= pmuehmatr1[af]; 
+	if(nextstone)
+		{ 
+		ob = spfeld[pmuehmatr2[nextstone]];
+		un = spfeld[pmuehmatr3[nextstone]];
+		if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) mc+=100; // aenkr 2 farbe + 1 leer
+		console.log("nextstone s:"+nextstone+ " mc:"+mc);
+		if(mc>100) return 2; else return mc; 
+		if(mc==2) return 2; else return 1; 
+		}
+	 if(ob==farbe && un==0) nextstone= pmuehmatr2[af]; // 1. gefundene Muehle war senkr
+	 if(un==farbe && ob==0) nextstone= pmuehmatr3[af]; 
+	 if(nextstone)
+		{ 
+		li = spfeld[pmuehmatr0[nextstone]];
+		re = spfeld[pmuehmatr1[nextstone]];
+		if ((li==farbe && re==0) || (li==0 && re==farbe) ) mc+=1000; // waagerecht 2 farbe + 1 leer
+		console.log("nextstone w:"+nextstone+ " mc:"+mc);
+		if(mc>100) return mc; else return 1; 
+		if(mc==2) return 2; else return 1; 
+		}
+	}
+
+	//if(mc==0) return 0; // wenn 1 Stein nicht verbunden fail, Zahl gef M <= 1	
+
+   }
+ }
+ console.log("openmillsduo fehler "+spf2string(spfeld,zugnr));
+ return 0; // kann nie hierhin kommen
+}
+
+
+function openmillssingle_test(farbe) // test auf mind eine M 1= M gef 0=kein 
+{
+ //console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=0;
+ var li=0;
+ var re=0;
+ var ob=0;
+ var un=0;
+ var mc=0; 
+ //var nextstone=0;
+ const gegfarbe=3-farbe;
+ var gegststone=1;
+ var count=0; 
+ 
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0) continue;  // ueberspringe leere Felder
+   if (spfeld[af] == gegfarbe) if (gegststone==1) {gegststone=af; continue};  //1. Stein gegfarbe gefunden 
+   if (spfeld[af] == farbe) // Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]];
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) {mc+=1; break;} // waagerecht 2 farbe + 1 leer
+    ob = spfeld[pmuehmatr2[af]];
+    un = spfeld[pmuehmatr3[af]];
+    if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) {mc+=1; break;} // senkr 2 farbe + 1 leer
+	if(count) break; //beende Suche beim 2. Stein
+	count++;
+   }
+ }
+ return mc; 
+}
+
+
+
+
+function openmillcounts(farbe) // offene Muehlen Spr
+{
+ 
+ if (debugausgabe)console.log( "enter farbe:"+farbe )
+ 
+ var af=0;
+ var m2=0;
+ var debugausgabe=0; 
+ if (debugausgabe) console.log( "enter farbe:"+farbe )
+
+
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == 0)
+   {
+   if (farbe == spfeld[pmuehmatr0[af]])
+     if (farbe==spfeld[pmuehmatr1[af]])
+       {m2++;  if (debugausgabe) console.log( "farbe:"+farbe +" waag af:"+af+  " spfeld[af]:"+spfeld[af] 
+	   +" pmuehmatr0[af]:"+pmuehmatr0[af]+" spfeld[pmuehmatr0[af]]:" +spfeld[pmuehmatr0[af]]
+	   +" pmuehmatr1[af]:"+pmuehmatr1[af]+" spfeld[pmuehmatr1[af]]:" +spfeld[pmuehmatr1[af]] )  }
+   if  (farbe == spfeld[pmuehmatr2[af]])
+     if (farbe == spfeld[pmuehmatr3[af]])
+       {m2++;   if (debugausgabe) console.log( "farbe:"+farbe +" senkr af:"+af+  " spfeld[af]:"+spfeld[af] 
+	   +" pmuehmatr2[af]:"+pmuehmatr2[af]+" spfeld[pmuehmatr2[af]]:" +spfeld[pmuehmatr2[af]]
+	   +" pmuehmatr3[af]:"+pmuehmatr3[af]+" spfeld[pmuehmatr3[af]]:" +spfeld[pmuehmatr3[af]] )  }
+   }
+ }
+ if (debugausgabe) console.log( "ende farbe:"+farbe +" m2 "+m2)
+ return m2;
+}
+
+
 function openmill12()
 {
- var af,li;
+ var af=0;
+ var li=0;
  var m2=0;
  for(af=1; af<=24; af+=1)
  {
@@ -4594,6 +5096,7 @@ function openmill12()
  }
  return 0;
 }
+
 
 if(0) alert("################");
 function openmill12_weg()
@@ -4618,6 +5121,7 @@ function openmill12_weg()
 if(0) alert("################");
 function openmill (farbex)
 {
+//console.log("openmill");
  var af,li;
  var m2=0;
  for(af=1; af<=24; af+=1)
@@ -5079,10 +5583,11 @@ function startmove (rtv)
 
 // Hier springt der Button berechne Zug hin
 async function computemove1() {  // NEU: async machen, um await zu nutzen
-    if (makezgglist(farbe).length == 0) melde(language == 'de' ? 'Kein Zug mehr' : 'no moves left' )
-	//melde("farbe"+farbe+"zugnr"+zugnr+"zgg"+makezgglist(farbe).length+"stzw"+stz[1]+"stzs"+stz[2]);
-	if (makezgglist(farbe).length == 0) return;
-	if (makezgglist(farbe).length == 0) return;
+    if (makezgglist(farbe).length == 0){ 
+	  melde(language == 'de' ? 'Kein Zug mehr' : 'no moves left' )
+  	  //melde("farbe"+farbe+"zugnr"+zugnr+"zgg"+makezgglist(farbe).length+"stzw"+stz[1]+"stzs"+stz[2]);
+	  return;
+	}
     if (document.forms[0].strlastpos)
         document.forms[0].strlastpos.value = spf2string(spfeld, zugnr);
     
@@ -5221,11 +5726,11 @@ async function computemoveA() {
     tzuza = 0;
     globalAwaitCounter = 0;
     globalAwaitCounterT = Date.now();
-    stwert = Math.floor(Math.random() * 3)+8; // ehemals 12, achtung kann TTable durcheinanderbringen
+    stwert = Math.floor(Math.random() * 3)+7; // ehemals 12, achtung kann TTable durcheinanderbringen
     if (zugnr < 18) stwert = 8;
     if (zugnr < 14) stwert = 7;
     if (zugnr < 6) stwert = 4;
-    stwert2 = Math.floor(Math.random() * 4)+4;
+    stwert2 = Math.floor(Math.random() * 3)+3;
     var savepos = spf2string(spfeld, zugnr);
     string2spf(savepos);
 
@@ -5396,7 +5901,7 @@ const FRT_BONUS_TABLE =  [0.8, 0.9, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0];
 
 
 
-var globalrestsel=3; 
+var globalrestsel=4; 
 var globalrtacut=0; 
 
 var globalzuglistlength1=0; 
@@ -5418,9 +5923,9 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 {
   if (globalProblem) 
 	{
-	 globalgering1=3;
-	 globalgering2=3;
-	 globalgering3=3;
+	 globalgering1=4;
+	 globalgering2=4;
+	 globalgering3=4;
 	}
 	else
 	{
@@ -5430,6 +5935,7 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 	}
 
   var zuglist= makezgglist(farbe);
+  var zugcount= zuglist.lentgh;
   var nextzug;
   var bestzug= new zugspeicher;
   var bestwertung= CONSTminwertung;
@@ -5519,7 +6025,8 @@ if (rootEntry) {
       nextzug=zuglist[zli];
       zugausfueh(nextzug);
       copyzugspei(nextzug, globalcurrentinvestigated);
-	  copyzugspeishort(nextzug,zughistory[zugnr]);
+	  copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
+
       //if(rtvi==1 && pmuehdroht(nextzug.zf)) alert("pmuehdroht "+ pmuehdroht(nextzug.zf)+" af:"+nextzug.af+" zf: "+nextzug.zf+" "+spf2string(spfeld,zugnr));	  
 	  // --- > Wiederholung
       // --- > Hash Suche nach Stellungswiederholung < ---
@@ -5547,7 +6054,7 @@ if (rootEntry) {
 		aktwertungzugliste=[];
         //if(1) if(zugnr>18 && (stz[1]+stz[2])==6) if(pmuehcheck(nextzug.zf,farbe)) sel=1;;
         //if(1) if(zugnr>18 && (stz[1]+stz[2])==6) if(pmuehcheck(nextzug.zf,3-farbe)) sel=1;;
-        if(1) if(zugnr>18 && (stz[1]+stz[2])<8) if(openmill12()) sel=1;
+        if(1) if(zugnr>18 && (stz[1]+stz[2])<8) if(openmill12()) sel=1; 
         globalLastAf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
         globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
         globalLastWnf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
@@ -5724,6 +6231,7 @@ const ConstRemisPos=1; // 0 oder 1 kompliziertes Thema,
 //
 
 
+var globalmymalus=0.5;
 
 
 async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU: beta ergänzt
@@ -5805,7 +6313,7 @@ if (alpha >= beta) {
     let needVerify =
         entry.searchdepth < rtv || 
         entry.TTflag !== TTFlag.EXACT ||
-        Math.abs(entry.wertung - beta) < 8; // Margin frei wählbar
+        Math.abs(entry.wertung - beta) < 7; // Margin frei wählbar
 
     if (needVerify) {
         // Verifiziere mit enger Suche
@@ -5814,12 +6322,12 @@ if (alpha >= beta) {
             restsel,
             alphaOrig,
             betaOrig,
-            zufa
+            Math.floor(zufa/2)
         );
 
         let verifyScore = verifyList[verifyList.length - 1].wertung;
 
-        if (verifyScore < beta) {
+        if (verifyScore < beta+2) {
             // Cutoff war falsch → NICHT abbrechen
         } else {
             // Cutoff bestätigt
@@ -5851,13 +6359,14 @@ if (alpha >= beta) {
 	}
 
   var zuglist = makezgglist(farbe);
+  var zugcount= zuglist.lentgh;
   var nextzug;
   var bestzug2 = new zugspeicher; // unser bester Zug auf dieser Ebene
   var bestwertung = CONSTminwertung + rta; 
   //bestzug2.wertung = bestwertung;
   var aktwertung;
   var berbestzugzugliste = []; // Kind-PV des zuletzt berechneten Kandidaten
-
+  var openmillsflag=0; if((stz[1]+stz[2])==6)openmillsflag=openmill12();
   if(zuglist.length==0) // Kein Zug => Verlust
 	{
 		bewerteleaf.wertung = -(CONSTminwertung + rta);
@@ -5885,6 +6394,16 @@ if (alpha >= beta) {
     var liste5 = []; // restzuege
 
     // Einsortieren
+	//
+
+	var letzteszf=0;
+    for (var i443z = 0; i443z < zuglist.length; i443z++) {
+		if(zuglist[i443z].wnf==0) continue;
+		if(letzteszf===zuglist[i443z].zf) zugcount--;
+		letzteszf=zuglist[i443z].zf;
+	}
+	if(zugcount<=0){console.log("zugcountA"+zugcount);zugcount=1};
+	
     for (var i443 = 0; i443 < zuglist.length; i443++) {
         nextzug = zuglist[i443]; 
 
@@ -6012,7 +6531,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
     nextzug = zuglist[i443];
     zugausfueh(nextzug);
-    copyzugspeishort(nextzug,zughistory[zugnr]);
+    copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
     if(rta==2)
 	  if(1){copyzugspei(nextzug, globalcurrentinvestigated1);
 	  if(0)console.log(
@@ -6062,7 +6581,10 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     globalLastAf= nextzug.af; //Globale Variable, Af immer vor Aufruf der näechsten Ebene setzen: globalLastAf=nextzug.zf; //Bisschen seltsames Konzept Gilt für einen 
     globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der nächsten Ebene setzen: globalLastZf=nextzug.zf; //kurzen Momt nach Aufruf der n. Rekursion
     globalLastWnf= nextzug.wnf; //Globale Variable, Zf immer vor Aufruf der nächsten Ebene setzen: globalLastWnf=nextzug.zf; //Ich wollte keinen Param einfügen
-    if (rtv>1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2])<8) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
+    
+	//if (farbe!=(3-spfeld[nextzug.zf])) console.log("farbe "+farbe+ " zf "+nextzug.zf+" spfeld[nextzug.zf]"+spfeld[nextzug.zf]);
+	
+	if (rtv>1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2])<7) if (openmill12()) sel = 1; else if(openmillsflag==0) mybonuswf-=globalmymalus; //openmill(1) ist etwas komisch funktioniert aber
     // A RT-Bonus für Stellungen mit wenig Zugmöglichkeiten
     //  if (zuglist.length<9){rtv+=1-0.1*zuglist.length;}  
     if (1)
@@ -6331,11 +6853,11 @@ if(0) alert("################################################");
 
 
 
-
-
 function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
   tzuza++;
   if(rta>globalmaxrtad) globalmaxrtad=rta;
+
+//if(stz[1]==3&&stz[2]==3) openmillssingleduo(farbe); nur Test
 
   var zggcountgegfarbe=1;
   if (rtv < 1) { 
@@ -6349,9 +6871,12 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
   }
 
   var zuglist = makezgglist(farbe);
+  var zugcount= zuglist.lentgh;
   var nextzug;
   var bestwertung = CONSTminwertung + rta; 
   var aktwertung;
+  var openmillsflag=0; if((stz[1]+stz[2])==6)openmillsflag=openmill12();
+
 
   if(rtv>=2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
 
@@ -6361,6 +6886,16 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
     var liste2 = []; // muehleKillerzug
     var liste4 = []; // Muehlezuege
     var liste5 = []; // restzuege
+
+
+
+	var letzteszf=0;
+    for (var i443z = 0; i443z < zuglist.length; i443z++) {
+		if(zuglist[i443z].wnf==0) continue;
+		if(letzteszf===zuglist[i443z].zf) zugcount--;
+		letzteszf=zuglist[i443z].zf;
+	}
+	if(zugcount<=0){console.log("zugcountA"+zugcount);zugcount=1};
 
 
     // Einsortieren
@@ -6445,7 +6980,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FRT_BONUS_TABLE[zuglist.length]; else rtv += 1/4* FRT_BONUS_TABLE[zuglist.length]}  }
   else
 	{ if (zuglist.length < 9) {if(stz[1]>4 && stz[2]>4) rtv += FRT_BONUS_TABLE[zuglist.length]; else rtv += 1/4* FRT_BONUS_TABLE[zuglist.length]}  };
-
+  
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
   // --- Schleife  ---
@@ -6453,8 +6988,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 
     nextzug = zuglist[i444];
     zugausfueh(nextzug);
-	copyzugspeishort(nextzug,zughistory[zugnr]); // 
-
+    copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
 
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
 
@@ -6467,7 +7001,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 	{
 	
       var sel = 0;
-      if (rtv > 0) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2])<8) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
+      if (rtv > 0) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2])<7) if (openmill12()) sel = 1; else if(openmillsflag==0) mybonuswf-=globalmymalus; //openmill(1) ist etwas komisch funktioniert aber
 
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
       if (rtv < 1.5) if (restsel>0) if (zugnr > 18) if(stz[farbe]<4) if (pmuehdroht(nextzug.zf)) {sel = 1;};
@@ -6525,6 +7059,7 @@ function berbestzugprev (zuglist, rtv, restsel, xalpha, xbeta, zufa) {
   var pvbestzug;
   var pvbestzugi;
   var newZuglist=[];
+  var zugcount=zuglist.length;
   
   var alpha= CONSTminwertung; //Kein Betacut da prev  
   var beta= CONSTmaxwertung; //Kein Betacut da prev  
@@ -6544,7 +7079,7 @@ function berbestzugprev (zuglist, rtv, restsel, xalpha, xbeta, zufa) {
 
     nextzug = zuglist[i445];
     zugausfueh(nextzug);
-	copyzugspeishort(nextzug,zughistory[zugnr]);
+    copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
 
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
 
@@ -6654,9 +7189,11 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   }
 
   var zuglist = makezgglist(farbe);
+  var zugcount= zuglist.lentgh;
   var nextzug;
   var bestwertung = CONSTminwertung + rta; 
   var aktwertung;
+  var openmillsflag=0; if((stz[1]+stz[2])==6)openmillsflag=openmill12();
 
   if(rtv>2) mwert= Math.floor((mwert+bewertemuehlen(1))/2);
 
@@ -6666,6 +7203,15 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
     var liste2 = []; // muehleKillerzug
     var liste4 = []; // Muehlezuege
     var liste5 = []; // restzuege
+
+
+	var letzteszf=0;
+    for (var i443z = 0; i443z < zuglist.length; i443z++) {
+		if(zuglist[i443z].wnf==0) continue;
+		if(letzteszf===zuglist[i443z].zf) zugcount--;
+		letzteszf=zuglist[i443z].zf;
+	}
+	if(zugcount<=0){console.log("zugcountC"+zugcount);zugcount=1};
 
 
     // Einsortieren
@@ -6720,13 +7266,14 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
 
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
-
+var mybonuswf=0;
   // --- Schleife  ---
   for (var i446 = 0; i446 < zuglist.length; i446++) {
 
     nextzug = zuglist[i446];
     zugausfueh(nextzug); 
-	copyzugspeishort(nextzug,zughistory[zugnr]);
+    copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
+	
 //    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
 
     if (stz[farbe] < 3 && zugnr > 18) {
@@ -6736,7 +7283,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
     
     {
       var sel = 0;
-      if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <8 ) if (openmill12()) sel = 1; //openmill(1) ist etwas komisch funktioniert aber
+      if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2]) <7 ) if (openmill12()) sel = 1; else if(openmillsflag==0) mybonuswf-=globalmymalus; //openmill(1) ist etwas komisch funktioniert aber
 
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18 && stz[3-farbe] + stz[farbe] >12) if (pmuehdroht(nextzug.zf)) {sel = 1;restsel-=2};
       //if (rtv < 1.2) if (restsel>0) if (zugnr > 18) if (pmuehdroht(nextzug.zf)) {sel = 1;};
@@ -6744,7 +7291,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
       // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
-      var nextrtv=rtv - 1 + sel;
+      var nextrtv=rtv - 1 + sel+mybonuswf;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
 	  aktwertung = berbestzugprevfast(nextrtv, restsel - sel, -beta, -bestwertung, -zufa, mwert);
       
@@ -8314,23 +8861,25 @@ function toggleRemissuche() {
   -- 2026 Feb --- 12.02. minimale Aenderungen: Variante wird nicht mehr mit der Zugliste exportiert, kleine Änderung am Parser
   -- 2026 Feb --- 17.02. Designanpassungen für Android und iphone, Navbar mit Spracherkennung (separat), Schleifenvariable i im Code entfernt, Version 106
   -- 2026 Feb --- 20.02. Konzept der Pivot- und Quermuehlen in die Bewertung eingebracht Version 111
---A112PzohQma9grid.htm.htm--
---A117PzohQma9grid.htm.htm-- 50 Zuege Regel 06.04.26
---A121PzohQma9grid.htm.htm-- Aufgaben, 2-player, TakeFrommillAllowed  06.04.26
---A123PzohQma9grid.htm.htm--  11.04.26
---A124PzohQma9grid.htm.htm--  13.04.26
---A127PzohQma9grid.htm.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
---A128PzohQma9grid.htm.htm--  25.04.26 
---A129PzohQma9grid.htm.htm--  25.04.26 
---A131PzohQma9grid.htm.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
---A135PzohQma9grid.htm.htm--  11.05.26 TTables, Stwert verringert (12 zu 7 bis 10)
---A137PzohQma9grid.htm.htm--  10 stone Morris
---A138PzohQma9grid.htm.htm--  2 Slots für Hashtable
---A139PzohQma9grid.htm.htm--  Hashgroesse waehlbar
---A142PzohQma9grid.htm.htm--  PV wird aus Hash ergaenzt 16.05.26
---A143PzohQma9grid.htm.htm--  if(hb.wertung %1 !== 0) {return}; // Zugwiederholung nicht in TT speichern und Float64Array wird zu TTwertung = new Int16Array(TT_SIZE2)
---A144PzohQma9grid.htm.htm--  openmill12zi
---A146PzohQma9grid.htm.htm--  
+--A112PzohQma9grid.htm--
+--A117PzohQma9grid.htm-- 50 Zuege Regel 06.04.26
+--A121PzohQma9grid.htm-- Aufgaben, 2-player, TakeFrommillAllowed  06.04.26
+--A123PzohQma9grid.htm--  11.04.26
+--A124PzohQma9grid.htm--  13.04.26
+--A127PzohQma9grid.htm--  19.04.26 Aufgabe Button takeFromMillAllowedBtn
+--A128PzohQma9grid.htm--  25.04.26 
+--A129PzohQma9grid.htm--  25.04.26 
+--A131PzohQma9grid.htm--  01.05.26 neues icon, Umbenennung Sloppy ,Steingroesse 42, labeldistance 1.0, Steinevorrat Abstand minimiert, unsichtbare Titelzeile 
+--A135PzohQma9grid.htm--  11.05.26 TTables, Stwert verringert (12 zu 7 bis 10)
+--A137PzohQma9grid.htm--  10 stone Morris
+--A138PzohQma9grid.htm--  2 Slots für Hashtable
+--A139PzohQma9grid.htm--  Hashgroesse waehlbar
+--A142PzohQma9grid.htm--  PV wird aus Hash ergaenzt 16.05.26
+--A143PzohQma9grid.htm--  if(hb.wertung %1 !== 0) {return}; // Zugwiederholung nicht in TT speichern und Float64Array wird zu TTwertung = new Int16Array(TT_SIZE2)
+--A144PzohQma9grid.htm--  openmill12zi
+--A146PzohQma9grid.htm--  
+--Muehle147.htm--  
+--Muehle149.htm--         openmillssingleduo ersetzt das alte openmill
 
 
 */
