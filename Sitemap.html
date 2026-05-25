@@ -151,17 +151,27 @@ let inIframe = false;
 try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
 
 
-const isSitemapPage = window.location.pathname.endsWith("Sitemap.html");
 
-/*
+let isSitemapPage = false;
+
+try {
+  isSitemapPage = window.top.location.pathname
+    .toLowerCase()
+    .endsWith("sitemap.html");
+} catch (e) {
+  isSitemapPage = false;
+}
+
 if (inIframe && isSitemapPage) {
-  document.body.style.display = "none";
+  window.top.location.href = window.location.href;
+}
+
+
 }
 else 
 {
   document.body.style.display = "block";
 }
-*/
 
 fetch("/sitemap.xml")
   .then(res => res.text())
