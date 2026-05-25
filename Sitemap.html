@@ -163,16 +163,16 @@ try {
 }
 
 if (inIframe && window.top.location.pathname.toLowerCase().endsWith("sitemap.html")) {
-  window.top.location.href = window.location.href;
+  window.top.location.href = "/";
 }
 
-
+/*
 console.log( "top self parent href");
 console.log( window.top.location.href);
 console.log( window.parent.location.href );
 console.log( window.self.location.href );
 console.log( window.location.href );
-
+*/
 
 
 fetch("/sitemap.xml")
