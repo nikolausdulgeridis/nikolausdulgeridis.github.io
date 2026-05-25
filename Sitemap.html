@@ -162,6 +162,7 @@ let inIframe = false;
 try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
 
 
+const iframe = document.getElementById("viewer");
 
 let isSitemapPage = false;
 
@@ -240,7 +241,7 @@ fetch("/sitemap.xml")
 	if (value === null) {
 
 	  const url = basePath + "/" + key;
-
+	  row.dataset.url = url
 	  const linkWrapper = document.createElement("span");
 	  linkWrapper.style.display = "flex";
 	  linkWrapper.style.alignItems = "center";
@@ -268,7 +269,6 @@ fetch("/sitemap.xml")
 	  }
 
 		
-		const iframe = document.getElementById("viewer");
 
 		iframe.addEventListener("load", () => {
 		  try {
@@ -277,13 +277,6 @@ fetch("/sitemap.xml")
 		  } catch (e) {}
 		});
 
-
-		if (inIframe) {
-		  window.open(url, "_blank", "noopener");
-		} else {
-		  const iframe = document.getElementById("viewer");
-		  if (iframe) iframe.src = url;
-		}
 	  };
 
 	  // 👉 Pfeil direkt daneben
@@ -306,7 +299,6 @@ fetch("/sitemap.xml")
 	  container.appendChild(row);
 	}
 	  else {
-		row.dataset.url = url;
         row.appendChild(name);
         container.appendChild(row);
 
@@ -348,7 +340,7 @@ fetch("/sitemap.xml")
   
 	  function updateActive() {
 	  document.querySelectorAll(".row").forEach(row => {
-		if (row.dataset.url === activeUrl) {
+		if (row.dataset.url && normalize(row.dataset.url) === normalize(activeUrl)) {
 		  row.classList.add("active");
 		} else {
 		  row.classList.remove("active");
