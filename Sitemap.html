@@ -153,7 +153,7 @@ try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
 
 const isSitemapPage = window.location.pathname.endsWith("sitemap.html");
 
-if (inIframe && isSitemapPage) {
+if (0&&inIframe && isSitemapPage) {
   document.body.style.display = "none";
 }
 
