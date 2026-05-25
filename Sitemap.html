@@ -151,9 +151,9 @@ let inIframe = false;
 try { inIframe = window.self !== window.top; } catch (e) { inIframe = true; }
 
 
-const isSitemapPage = window.location.pathname.endsWith("sitemap.html");
+const isSitemapPage = window.location.pathname.endsWith("Sitemap.html");
 
-if (0&&inIframe && isSitemapPage) {
+if (inIframe && isSitemapPage) {
   document.body.style.display = "none";
 }
 
