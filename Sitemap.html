@@ -49,6 +49,17 @@
 	}
 
 
+	.row.active {
+	  background: #d0e3ff;
+	}
+
+	@media (prefers-color-scheme: dark) {
+	  .row.active {
+		background: #1f6feb55;
+	  }
+	}
+
+
 
   .indent {
     width: 16px;
@@ -244,6 +255,28 @@ fetch("/sitemap.xml")
 		e.preventDefault();
 
 		row.classList.add("active");
+		
+		
+	  if (inIframe) {
+		window.open(url, "_blank", "noopener");
+	  } else {
+		const iframe = document.getElementById("viewer");
+		if (iframe) iframe.src = url;
+
+		activeUrl = url;
+		updateActive();
+	  }
+
+		
+		const iframe = document.getElementById("viewer");
+
+		iframe.addEventListener("load", () => {
+		  try {
+			activeUrl = iframe.contentWindow.location.href;
+			updateActive();
+		  } catch (e) {}
+		});
+
 
 		if (inIframe) {
 		  window.open(url, "_blank", "noopener");
@@ -273,6 +306,7 @@ fetch("/sitemap.xml")
 	  container.appendChild(row);
 	}
 	  else {
+		row.dataset.url = url;
         row.appendChild(name);
         container.appendChild(row);
 
@@ -311,6 +345,23 @@ fetch("/sitemap.xml")
       createNode(key, tree[key], root, 0, "");
     }
   });
+  
+	  function updateActive() {
+	  document.querySelectorAll(".row").forEach(row => {
+		if (row.dataset.url === activeUrl) {
+		  row.classList.add("active");
+		} else {
+		  row.classList.remove("active");
+		}
+	  });
+	}
+	``
+	  
+	function normalize(url) {
+	  return url.split("#")[0].split("?")[0];
+	}
+
+  
 </script>
 
 </body>
