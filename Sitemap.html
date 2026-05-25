@@ -156,6 +156,10 @@ const isSitemapPage = window.location.pathname.endsWith("Sitemap.html");
 if (inIframe && isSitemapPage) {
   document.body.style.display = "none";
 }
+else 
+{
+  document.body.style.display = "block";
+}
 
 
 fetch("/sitemap.xml")
