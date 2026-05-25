@@ -37,11 +37,6 @@
   .row:hover {
     background: #e8f0fe;
   }
-  
-	.ext:hover {
-	  color: #1f6feb;
-	}
-
 
   .indent {
     width: 16px;
@@ -95,7 +90,6 @@
   <div class="header">🗂️ Sitemap Explorer</div>
   <div id="tree"></div>
 </div>
-<iframe id="viewer" width="900" height="800" style="border:1px solid #ccc;"></iframe>
 
 <script>
 const excluded = ["_includes", "_layouts", ".github"];
@@ -157,47 +151,16 @@ fetch("/sitemap.xml")
       if (inIframe) { name.textContent += " ↗"; }
 
 
-	if (value === null) {
+      if (value === null) {
 
-	  const url = basePath + "/" + key;
-
-	  // 👉 Name = iframe Navigation
-	  const link = document.createElement("a");
-	  link.href = "#";
-	  link.appendChild(name);
-
-	  link.onclick = (e) => {
-		e.preventDefault();
-
-		if (inIframe) {
-		  // 👉 Wenn wir selbst im iframe sind → extern öffnen
-		  window.open(url, "_blank", "noopener");
-		} else {
-		  // 👉 sonst im Ziel-iframe anzeigen
-		  const iframe = document.getElementById("viewer");
-		  if (iframe) iframe.src = url;
-		}
-	  };
-
-	  row.appendChild(link);
-
-	  // 👉 separater Pfeil für neues Fenster
-	  const ext = document.createElement("span");
-	  ext.textContent = "↗";
-	  ext.style.marginLeft = "6px";
-	  ext.style.fontSize = "12px";
-	  ext.style.cursor = "pointer";
-
-	  ext.onclick = (e) => {
-		e.stopPropagation();
-		window.open(url, "_blank", "noopener");
-	  };
-
-	  row.appendChild(ext);
-
-	  container.appendChild(row);
-	  }
-	  else {
+        const link = document.createElement("a");
+        link.href = basePath + "/" + key;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.appendChild(name);
+        row.appendChild(link);
+        container.appendChild(row);
+      } else {
         row.appendChild(name);
         container.appendChild(row);
 
