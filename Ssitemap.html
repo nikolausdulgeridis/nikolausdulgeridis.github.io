@@ -219,6 +219,8 @@ fetch("/sitemap.xml")
 	  link.onclick = (e) => {
 		e.preventDefault();
 
+		row.classList.add("active");
+
 		if (inIframe) {
 		  window.open(url, "_blank", "noopener");
 		} else {
