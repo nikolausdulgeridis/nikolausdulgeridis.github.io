@@ -86,16 +86,40 @@
     .row:hover { background: #1f6feb33; }
     body { color: #c9d1d9; }
   }
+  
+  
+  
+.layout {
+  display: flex;
+  height: 100vh;   /* optional, volle Höhe */
+}
+
+.explorer {
+  width: 300px;
+  flex-shrink: 0; /* bleibt fix */
+}
+
+#viewer {
+  flex: 1;              /* nimmt restlichen Platz */
+  height: 800px;
+  border: 1px solid #ccc;
+}
+
+  
 </style>
 </head>
 
 <body>
 
-<div class="explorer">
-  <div class="header">🗂️ Sitemap Explorer</div>
-  <div id="tree"></div>
+<div class="layout">
+
+	<div class="explorer">
+	  <div class="header">🗂️ Sitemap Explorer</div>
+	  <div id="tree"></div>
+	</div>
+	<iframe id="viewer" width="1200" height="800" style="border:1px solid #ccc;"></iframe>
+
 </div>
-<iframe id="viewer" width="900" height="800" style="border:1px solid #ccc;"></iframe>
 
 <script>
 const excluded = ["_includes", "_layouts", ".github"];
