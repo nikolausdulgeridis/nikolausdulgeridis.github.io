@@ -1,0 +1,227 @@
+<div><strong>JavaScript - Beispiel zur Datumsberechnung - Monatswechsel</strong></div>
+<div>&nbsp;</div>
+<div><em>Thema:&nbsp;</em></div>
+<div><em>Beispiele f&uuml;r Datumsberechnung in JavaScript, anhand einer mit wenig Aufwand anpassbaren Vorlage</em></div>
+<div><br />
+siehe auch:&nbsp;<a href="./JavaScript-ClockExample.htm">JavaScript-ClockExample.htm</a><br />
+<br />
+Im Intranet sammelt sich einiges an: Dienstpl&auml;ne, Umsatzberichte, ... <br />
+Der Zugriff kann z. B. &uuml;ber eine Ubersichtsseite erfolgen, mit einem Link auf jeden Monat.<br />
+<br />
+<strong>Beispiel Linkliste</strong>:</div>
+<div><em><span style="font-style: normal;">/dfs/berichte/Ausgaben-01-2019.html</span></em></div>
+<div><em><span style="font-style: normal;">/dfs/berichte/Ausgaben-02-2019.html</span></em></div>
+<div><em><em><span style="font-style: normal;">...&nbsp;<br />
+</span></em></em></div>
+<div>Nun w&auml;re es eleganter, das ganze etwas dynamischer zu gestelten.&nbsp;Das wird im folgenden Beispiel mit etwas JavaScript realisiert (da wir derzeit noch keine Inhalte haben, ist der iFrame nat&uuml;rlich leer, es soll hier nur die Mechanik dargestellt werden).<br />
+&nbsp;</div>
+<hr />
+<h3>Beispiel (Hinweis: das iFrame ist leer bzw. undefiniert)</h3>
+<hr />
+<style type="text/css">
+ #berichtframe { margin: 1px; border-radius: 8px; box-shadow: 1px 1px 4px #000; height: 300px; width: 600px; display: inline}
+</style>
+<div>&nbsp;<input type="button" title="zurueck" value="&lt;&lt;" onclick='nextmonat(-1);' />&nbsp; &nbsp;<input type="button" title="vor" value="&gt;&gt;" onclick='nextmonat(+1);' />&nbsp; Bericht&nbsp; <b><span id="Anzeigemonat">-JavaScript needed-</span> </b>&nbsp; <b><span id="Anzeigejahr">-JavaScript needed-</span> </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dateiname <span id="berichturl">-JavaScript needed-</span>&nbsp;</div>
+<div style="clear: both;"><iframe src="" id="berichtframe" ></iframe></div>
+<br />
+<div>&nbsp;</div>
+<script>
+
+var basispfad="./";
+var basisname="bericht-mm-jjjj";
+var jetzt= new Date();
+var monat=jetzt.getMonth();
+var jahr= jetzt.getFullYear();;
+var MonatAr= ["Januar","Februar","M&auml;rz","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+
+show();
+
+function show()
+ {
+  document.getElementById("Anzeigemonat").innerHTML=MonatAr[monat];
+  document.getElementById("Anzeigejahr").innerHTML=jahr;
+
+  // lade Bericht im Frame  
+  mm=monat+1;
+  if(mm<10) mm='0'+mm; // zwei Ziffern
+  var berichtname= basisname.replace(/mm/,mm);
+  berichtname= berichtname.replace(/jjjj/,jahr);
+  var berichturl= basispfad+berichtname;
+  document.getElementById("berichturl").innerHTML=berichturl;
+  //Laden des iframes:  
+  document.getElementById("berichtframe").src=berichturl;
+ }
+
+function nextmonat(direction)
+ {
+ monat+=direction; // direction +1=vor, -1=zurueck
+ if (monat<0 || monat>11) {monat-=direction*12; jahr+=direction;}
+ show();
+ }
+
+</script> <hr />
+<div>&nbsp;<br />
+Der JavaScript Code im Einzelnen<br />
+&nbsp;</div>
+<div><strong>A)&nbsp;</strong><strong>Angenommen, wir wollen den Namen des Berichts im aktuellen Monat erhalten:</strong>&nbsp;</div>
+<div>
+<div><em><span style="font-style: normal;"><br />
+Die Berichte wurden in unserem Beispiel nach folgendem Schema abgelegt:&nbsp;<br />
+</span><em>&lt;basepath&gt;/Bericht-&lt;mm&gt;-&lt;jjjj&gt;.htm</em>l</em></div>
+<div>&nbsp;</div>
+</div>
+<div><em>&nbsp;var jetzt= new Date();&nbsp;</em></div>
+<div><em>&nbsp;var mm= &quot;&quot;+(jetzt.getMonth()+1); &nbsp; // Wertebereich 1 bis 12&nbsp;</em></div>
+<div><em>&nbsp;var jjjj= jetzt.getFullYear(); &nbsp; &nbsp; // vierstellig (ab 1970)</em></div>
+<div><em>&nbsp;var basepath=&quot;./&quot;;</em></div>
+<div><em>&nbsp;if(mm&lt;10) mm='0'+z; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// zwei Ziffern&nbsp;</em></div>
+<div><em>&nbsp;var result=basepath+&quot;Bericht-&quot;+mm+&quot;-&quot;+jjjj;</em></div>
+<div>&nbsp;</div>
+<div>Hier sehen wir den ersten Fallstrick: die haeufigste Konvention ist ein zweistelliges Monatsformat (also 01 ), das muss aber natuerlich nicht so sein. Hier muss man sich mit demjenigen, der den Bericht einstellt abstimmen. Man kann alternativ den Link direkt von der &Uuml;bersichtsseite nehmen, damit w&auml;re auch sichergestellt, dass das Dokument existiert.</div>
+<div>&nbsp;</div>
+<div>Elegant ist die Verwendung eines Templates, mm und jjjj sind die Platzhlter:</div>
+<div><em>&nbsp;var bericht= &quot;Bericht-mm-jjjj.htm&quot;; // hier das Template mit Platzhaltern</em></div>
+<div><em>&nbsp;bericht= bericht.replace(/mm/,mm); &nbsp;</em><em>// ersetze mm mit dem aktuellen M</em><em>onat</em></div>
+<div><em>&nbsp;bericht= bericht.replace(/jjjj/,jjjj);&nbsp;</em><em>// ersetze jjjj mit dem aktuellen Jahr</em></div>
+<div><em>&nbsp;var result=basepath+bericht;</em></div>
+<div>&nbsp;</div>
+<div>Ben&ouml;tigt man den Monat in Textform, kann man das wie folgt loesen;</div>
+<div><em>&nbsp;MonatAr= [&quot;Januar&quot;,&quot;Februar&quot;,&quot;M&amp;auml;rz&quot;,&quot;April&quot;,&quot;Mai&quot;,&quot;Juni&quot;,&quot;Juli&quot;,&quot;August&quot;,&quot;September&quot;,&quot;Oktober&quot;,&quot;November&quot;,&quot;Dezember&quot;];</em></div>
+<div><em>&nbsp;monatTxt= MonatAr[new Date().getMonth()];</em></div>
+<div>(Man beachte den Umlaut im Monat Maerz - ein weiterrer Fallstrick, da der Umlaut auf versch. Arten geschrieben oder codiert werden kann)</div>
+<div>&nbsp;</div>
+<div><strong>B)&nbsp;</strong><strong>Jetzt kommen wir zum eigentlichen Thema des Blogs: Ermitteln des Folgemonats</strong></div>
+<div>&nbsp;</div>
+<div>Im Grunde w&auml;re die Augabe einfach, m&uuml;sste nicht der Jahreswechsel ber&uuml;cksichtigt werden. Es bieten sich zwei grundsaetzlich verschiedene Ans&auml;tze:&nbsp;</div>
+<div>&nbsp;</div>
+<div>mathematisch:</div>
+<div><em>&nbsp;</em></div>
+<div><em>&nbsp;var jetzt= new Date(); &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// hole aktuelles Datum</em></div>
+<div><em>&nbsp;var m= jetzt.getMonth(); &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// Monat Wertebereich 1 bis 12&nbsp;</em></div>
+<div><em>&nbsp;var jjjj= jetzt.getFullYear(); &nbsp; &nbsp; // Jahr&acute;vierstellig&nbsp;</em></div>
+<div><em>&nbsp;</em></div>
+<div><em>&nbsp;function nxtmon(direction,m,j)&nbsp;</em></div>
+<div><em>&nbsp;{</em></div>
+<div><em>&nbsp; // direction= +1 =&gt; vorwaerts, -1 =&gt; rueckwaerts&nbsp;</em></div>
+<div><em>&nbsp; // m= Monat, Wertebereich 0..11</em></div>
+<div><em>&nbsp; m+=direction;</em></div>
+<div><em>&nbsp; if (m&lt;0 || m&gt;11) {m-=direction*12; j+=direction;}</em></div>
+<div><em>&nbsp; // alternativ mit Modulorechnung:&nbsp;</em></div>
+<div><em>&nbsp; //m=(m+direction+12)%12;</em></div>
+<div><em>&nbsp; //if (m-direction&lt;0 || m-direction&gt;11) j+=direction;</em></div>
+<div><em>&nbsp;}</em></div>
+<div>&nbsp;</div>
+<div>oder &uuml;ber die JS Datumsbibliothek:&nbsp;</div>
+<div>&nbsp;</div>
+<div><em>&nbsp;function naechsterMonat(aktdatum,direction)&nbsp;</em></div>
+<div><em>&nbsp;{</em></div>
+<div><em>&nbsp; var eintag=24*60*60*1000;&nbsp;</em></div>
+<div><em>&nbsp; var nxt=aktdatum;</em></div>
+<div><em>&nbsp; var aktmonat= aktdatum.getMonth();&nbsp;</em></div>
+<div><em>&nbsp; max = 32;</em></div>
+<div><em>&nbsp; do&nbsp;</em></div>
+<div><em>&nbsp; &nbsp; {</em></div>
+<div><em>&nbsp; &nbsp; &nbsp;nxt= &nbsp;new Date(nxt.getTime() + eintag * direction);</em></div>
+<div><em>&nbsp; &nbsp; }&nbsp;</em></div>
+<div><em>&nbsp; while (max-- &amp;&amp; (aktmonat == nxt.getMonth()));</em></div>
+<div><em>&nbsp; return nxt; // ergebnis ist der erste Tag im naechsten Monat oder der letzte im vorigen</em></div>
+<div><em>&nbsp;}</em></div>
+<div><em>&nbsp;</em></div>
+<div>Die letzte Variante hat den Vorteil, dass die internen Bibliotheken automatisch Schaltjahre etc. beruecksichtigen. Das ist im vorliegenden Fall nicht interessant, aber bei komplizierteren Berechnungen (z. Bsp. Ermittlung des n&auml;chsten Tages) erspart man sich eine Menge Arbeit.&nbsp;</div>
+<div>&nbsp;</div>
+<div><strong>C)&nbsp;</strong><strong>Zeit runden</strong></div>
+<div><strong>&nbsp;</strong></div>
+<div><strong>Ein etwas anderes Thema ist die Frage, wie auf ganze Stunden oder Minuten werden kann<br />
+<br />
+</strong><em>Die Fragestellung ist etwas offtopic, kann aber spaeter benoetigt werden, deshalb erlauben wir uns den kleinen Ausflug&nbsp;</em></div>
+<div>&nbsp;<br />
+Algorithmus: Angenommen wir wollen auf 30 Minuten runden. <br />
+&nbsp;- Hole Integer Wert aus der Unix Zeit <br />
+&nbsp;- teile durch 30 Min<br />
+&nbsp;- Nachkommastellen abschneiden<br />
+&nbsp;- multipliziere mit 30&nbsp;<br />
+&nbsp;- Wandle Integer zur&uuml;ck in Unix Zeit<br />
+<br />
+<em>&lt;script&gt;<br />
+jetzt= new Date();<br />
+t=(Date.parse(jetzt));<br />
+rundeaufminuten=30;<br />
+//abrunden, runden, aufrunden: floor round ceil<br />
+var result = new Date(Math.round(t/(rundeaufminuten*60*1000))*(rundeaufminuten*60*1000));<br />
+document.write(&quot;&lt;br&gt;Zeit gerundet auf 30 Minuten&lt;br&gt; &quot;);<br />
+document.write(result);<br />
+&lt;/script&gt; </em><br />
+<em><br />
+</em>noch ein Beispiel:&nbsp;<br />
+zur aktuellen Zeit eine halbe Stunde addieren<br />
+<em><br />
+<em>jetzt= new Date();</em> <br />
+<em>t=(Date.parse(jetzt));</em> <em><br />
+</em><em>result = new Date(t+30*60*1000);</em><br />
+<br />
+</em></div>
+<div>&nbsp;</div>
+<div><strong>D)&nbsp;</strong><strong>der fertige Code&nbsp;</strong></div>
+<div><strong><br />
+Das Skript enth&auml;lt ein iFrame f&uuml;r den aktuellen Monat und einen Button zum Vor- und Zur&uuml;ckbl&auml;ttern.<br />
+<br />
+</strong>Man k&ouml;nnte argumentieren, dass ein CMS eine eher zeitgemaesse L&ouml;sung darstellt.&nbsp;<br />
+Das ist aber mitnichten der Fall. Ein Firmenintranet ist inhomogen aufgebaut und enth&auml;lt den Zugriff auf verschiedenste Datenquellen. Ein oder mehrere CMS (z.Bsp. ein Firmenwiki) stellen hier nur einen Teilaspekt dar.<br />
+<strong> <br />
+<hr />
+<br />
+</strong></div>
+<div>&lt;head&gt;<br />
+&lt;style&gt;</div>
+&nbsp;#berichtframe { margin: 1px; border-radius: 8px; box-shadow: 1px 1px 4px #000; height: 300px; width: 600px; display: inline} <br />
+&lt;/style&gt;<br />
+&lt;/head&gt;<br />
+<br />
+&lt;div&gt;<br />
+&amp;nbsp;&lt;input type=&quot;button&quot; onclick='nextmonat(-1);' value=&quot;&lt;&lt;&quot; title=&quot;zurueck&quot;/&gt;&amp;nbsp;<br />
+&amp;nbsp;&lt;input type=&quot;button&quot; onclick='nextmonat(+1);' value=&quot;&gt;&gt;&quot; title=&quot;vor&quot; /&gt;&amp;nbsp;<br />
+Bericht&amp;nbsp;<br />
+&lt;b&gt;&lt;span id=&quot;Anzeigemonat&quot;&gt;-JavaScript needed-&lt;/span&gt; &lt;/b&gt;&amp;nbsp;<br />
+&lt;b&gt;&lt;span id=&quot;Anzeigejahr&quot; &gt;-JavaScript needed-&lt;/span&gt; &lt;/b&gt;&amp;nbsp;<br />
+&amp;nbsp;&amp;nbsp; Dateiname:&nbsp;&lt;span id=&quot;berichturl&quot;&gt;-JavaScript needed-&lt;/span&gt; &amp;nbsp;<br />
+&lt;/div&gt;<br />
+<br />
+&lt;div style=&quot;clear:both&quot;&gt;<br />
+&lt;iframe src=&quot;bericht-12-2019.htm&quot; id=&quot;berichtframe&quot; &gt;&lt;/iframe&gt; <br />
+&lt;/div&gt;<br />
+<br />
+&lt;script&gt;<br />
+<br />
+var basispfad=&quot;./&quot;;<br />
+var basisname=&quot;bericht-mm-jjjj&quot;;<br />
+var jetzt= new Date();<br />
+var monat=jetzt.getMonth();<br />
+var jahr= jetzt.getFullYear();;<br />
+var MonatAr= [&quot;Januar&quot;,&quot;Februar&quot;,&quot;M&amp;auml;rz&quot;,&quot;April&quot;,&quot;Mai&quot;,&quot;Juni&quot;,&quot;Juli&quot;,&quot;August&quot;,&quot;September&quot;,&quot;Oktober&quot;,&quot;November&quot;,&quot;Dezember&quot;];<br />
+<br />
+show();<br />
+<br />
+function show() <br />
+&nbsp;{<br />
+&nbsp; document.getElementById(&quot;Anzeigemonat&quot;).innerHTML=MonatAr[monat];<br />
+&nbsp; document.getElementById(&quot;Anzeigejahr&quot;).innerHTML=jahr;<br />
+<br />
+&nbsp; // lade Bericht im Frame &nbsp;<br />
+&nbsp; mm=monat+1;<br />
+&nbsp; if(mm&lt;10) mm='0'+mm; // zwei Ziffern <br />
+&nbsp; var berichtname= basisname.replace(/mm/,mm);<br />
+&nbsp; berichtname= berichtname.replace(/jjjj/,jahr);<br />
+&nbsp; var berichturl= basispfad+berichtname;<br />
+&nbsp; document.getElementById(&quot;berichturl&quot;).innerHTML=berichturl;<br />
+&nbsp; // lade Bericht in frame<br />
+&nbsp; document.getElementById(&quot;berichtframe&quot;).src=berichturl;<br />
+&nbsp;}<br />
+<br />
+function nextmonat(direction) <br />
+&nbsp;{<br />
+&nbsp;monat+=direction; // direction +1=vor, -1=zurueck<br />
+&nbsp;if (monat&lt;0 || monat&gt;11) {monat-=direction*12; jahr+=direction;}<br />
+&nbsp;show();<br />
+&nbsp;}<br />
+<br />
+&lt;/script&gt;

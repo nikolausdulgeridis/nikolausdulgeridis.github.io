@@ -1,0 +1,138 @@
+<h3>Theoretisch zu erwartende Punkteverteilung in einem Schachturnier nach Schweizer System</h3>
+<table cellspacing="2" cellpadding="2" border="0">
+    <tbody>
+        <tr>
+            <td>
+            <div id="result">You need JavaScript</div>
+            </td>
+            <td valign="top">
+            <form name="Formular">
+                Runden       <input type="text" onkeyup="berechne(this.form)" value="5" name="runden" size="3" />       Spieler       <input type="text" onkeyup="berechne(this.form)" value="80" name="spieler" size="3" />
+            </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr />
+<div>
+<p>Die Berechnung bezieht sich auf die Punkteverteilung in einem Turnier nach Schweizer System. In dieser Turnierform werden in jeder Spieler mit gleicher Punktezahl gegeneinander gepaart. Dadurch ist es m&ouml;glich, ein grosses Turnier in einer begrenzten Zeit durchzuf&uuml;hren.</p>
+<p>Es handelt es sich hierbei um eine Anwendung des Algorithmus <a href="http://nikolausdulgeridis.de.tl/Wuerfel.htm">Wuerfel</a>. Die Regeln des Schweizer Systems besagen, da&szlig; immer punktgleiche Gegner gegeneinander spielen. Mathematisch ist dieses Problem darstellbar durch den Versuch, eine M&uuml;nze mehrmals zu werfen.</p>
+<p>siehe auch:    <a href="http://www.wiki-aventurica.de/wiki/Wahrscheinlichkeit_Summen_N-seitiger_W%C3%BCrfel">www.wiki-aventurica.de/wiki/Wahrscheinlichkeit_Summen_N-seitiger_W&uuml;rfel</a>)</p>
+</div>
+<script>
+function berechne(f)
+{
+ var runden = parseInt(f.runden.value);
+ var spieler = parseInt(f.spieler.value);
+
+ /* Anmerkung fuer einen Wuerfel hier minpunkt=1; var maxpunkt=6; eintragen*/
+ var minpunkt = 0;
+ var maxpunkt = 2; 
+ var erg = maxpunkt * runden;    /* = maximale Punktzahl (verloren=0,remis=1,gewonnen=2) */
+ var e= new Array();
+ var a= new Array();
+ for (var i=0; i<= erg ; i++) {a[i]= 0;e[i]= 0;}
+
+ /* 0. Runde (Initialisierung des Feldes) */
+ e[0] = 1;
+
+ /* Runde 1 bis <runden> */
+ for (var k=1; k<= runden; k++)
+ {
+  /* Kopieren des letztberechneten Feldes E() in Feld a() */
+  for (var i=0; i< erg; i++)
+    a[i] = e[i];
+  
+  /* Aufsummieren der möglichen Ergebnisse 0,1,2
+     (Das Ergebnis 0 ist bereits in Feld E() enthalten, daher nur noch Berechnen von 1 und 2) */
+  for (var j=1; j<= maxpunkt; j++)
+  {
+   /* Transponieren des alten Feldes a() um die akt. Punktzahl (j) und summ */
+   for (var i=0; i<=erg; i++)
+     {e[i + j] = e[i + j] + a[i];}
+   }
+ }
+var sum = 0;
+for (var i= minpunkt * runden; i<=erg; i++)
+ sum = sum + e[i];
+
+var ausgabe="";
+ausgabe+="<table border=1 cellspacing=2 cellpadding=4><tr>";
+ausgabe+="<td>Punkte</td><td>%</td><td>Spieler</td><td>Platz</td></tr><tr>";
+
+var platzold=0;
+var platz=0;
+for (var i= erg; i>=minpunkt * runden; i--)
+  {
+  ausgabe+= "<td> "+ i/2+" </td>";
+  ausgabe+= "<td> "+ Math.floor(1000*e[i]/(sum))/10 +" </td>";
+  ausgabe+= "<td> "+ Math.floor(10*spieler*e[i]/(sum))/10 +" </td>";
+  platzold= platz;
+  platz+=   spieler*e[i]/(sum);
+  ausgabe+= "<td> "+ Math.ceil(platzold) + " - "+ Math.round(platz) +" </td>";
+  ausgabe+= "</tr>";
+  }
+ausgabe+="</tr></table>";
+document.getElementById("result").innerHTML=ausgabe;
+}
+berechne(document.forms[0]); 
+</script>  <!--
+ Der einfachste Algorithmus w&uuml;rfelt eine grosse Zahl fiktiver Spiele einfach aus:
+ *** Beispiel in JavaScript ***
+ var runden = 3;
+ var e= new Array();
+ for (var i=0; i&lt;= 2*runden; i++) e[i]= 0;
+ for (var count=0; count < 10000; count++)
+  {
+   var punkte= 0;
+   for (var i=0; i &lt; runden ; i++) punkte+= Math.floor(Math.random()*3);
+     e[punkte] = e[punkte] + 1;
+  }
+ for (var i in e)
+   document.write("Punkte "+i+" = "+Math.floor(1000*e[i]/10000)/10+"%&lt;"+"br&gt;");
+
+<hr>
+<pre>
+In obigem Rechner wird ein anderer Algorithmus benutzt, der aber zu den 
+bekannten mathematischen Verfahren analog sein dürfte.  
+
+Beschreibung: 
+Die Zahl der zu untersuchenden Möglichkeiten wächst mit der Zahl der 
+Würfe exponentiell
+
+In einer Schachpartie gibt es 3 mögliche Ergebnisse (gewonnen, ver-
+loren, remis), ein Turnier nach Schweizer System umfaßt i.d.R. 8
+Runden ==> 3^8 (=6561) versch. Mögl.k.
+
+Lösung:
+Hat man ein Feld [E()], in dem die Möglichkeiten zu einem best.
+Ergebnis zu gelangen aufsummiert sind, reprod. sich ein best.
+Feld E(i) auf die Felder, die durch den nächsten Wurf erreicht
+werden können.
+Hatte man nach der letzten Runde n Möglichkeiten auf
+eine Summe von 1 zu kommen (==> E(1)=n), ergeben sich
+für die nächste Runde folgende Möglichkeiten:
+ - es wird eine 1 gewürfelt ==> E(2)=E(2) + E(1)
+ - ...
+ - es wird eine 6 gewürfelt ==> E(7)=E(7) + E(1)
+Ausgehend von jedem möglichen Punktestand wird das vorbeschriebene
+Verfahren durchgeführt und zum nächsten Wurf übergegangen.
+
+Noch abstrakter betrachtet wird das Feld jeweils um eine Stelle
+verschoben und die einzelnen Felder aufsummiert:
+
+Alter Wurf: ==> neuer Wurf
+E(1) ==>    
+E(2) ==> E(1)
+E(3) ==> E(1) + E(2)
+E(4) ==> E(1) + E(2) + E(3)
+E(5) ==> E(1) + E(2) + E(3) + E(4)
+E(6) ==> E(1) + E(2) + E(3) + E(4) + E(5)
+E(7) ==> E(1) + E(2) + E(3) + E(4) + E(5) + E(6)
+E(8) ==>        E(2) + E(3) + E(4) + E(5) + E(6) + E(7)
+E(9) ==>               E(3) + E(4) + E(5) + E(6) + E(7) + E(8)
+usw.
+
+</pre>
+
+-->

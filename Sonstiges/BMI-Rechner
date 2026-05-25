@@ -1,0 +1,120 @@
+<SCRIPT LANGUAGE="JavaScript">
+if (0) document.write("");
+
+function berechne(f)
+{
+ if (0) alert(f.gewicht.value);
+ var gewicht = parseInt(f.gewicht.value*1000)/1000;
+ var groesse = parseInt(f.groesse.value*1000)/1000;
+ groesse=groesse/100;
+ if (groesse==0 || gewicht==0) return;
+ var bmi=gewicht/(groesse*groesse);
+ bmi=parseInt(bmi*100)/100;
+ f.bmiresult.value=bmi;
+
+ var gew;
+ document.forms[1].bmiresultlist.value ="";
+ for (gew = gewicht-8 ; gew < (gewicht+8) ; gew+=1) 
+  {
+   bmi=gew/(groesse*groesse);
+   bmi=parseInt(bmi*10)/10;
+   if (0) if (gew==gewicht) f.bmiresultlist.value += "n";;
+   document.forms[1].bmiresultlist.value += "" + gew + "kg_"+ groesse + "m_" + bmi + " ";
+  }
+}
+</SCRIPT>
+<table cellspacing="2" cellpadding="2" border="0">
+    <tbody>
+        <tr>
+            <td>
+            <h4>BMI (Gewicht/Gr&ouml;sse&sup2;)</h4>
+            <form name="Formular" onload="berechne(document.forms[0])" action="">
+                <table cellspacing="2" cellpadding="2" border="0">
+                    <tbody>
+                        <tr>
+                            <td>Gr&ouml;&szlig;e</td>
+                            <td><input type="text" value="177" name="groesse" onkeyup="berechne(this.form)" size="3" />  177 cm</td>
+                        </tr>
+                        <tr>
+                            <td>Gewicht</td>
+                            <td><input type="text" value="77" name="gewicht" onkeyup="berechne(this.form)" size="3" /> kg</td>
+                        </tr>
+                        <tr>
+                            <td>BMI =</td>
+                            <td><input type="button" value="?" name="bmiresult" onClick="berechne(this.form)" /> <br />
+                            &nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            </td>
+            <td valign="top"><img height="150" border="0" align="right" width="150" src="https://img.webme.com/pic/n/nikolausdulgeridis/pic_sport_diaet.jpg" alt="" /></td>
+        </tr>
+        <tr>
+            <td>
+            <form>
+                <textarea name="bmiresultlist" cols="18" rows="17"></textarea>
+            </form>
+            </td>
+            <td>
+            <table cellspacing="1" cellpadding="2" border="1">
+                <tbody>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Kategorie</th>
+                        <th>BMI (kg/m&sup2;)</th>
+                        <th>K&ouml;rpergewicht</th>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#2a50ff">&nbsp;</td>
+                        <td>starkes Untergewicht</td>
+                        <td>&le; 16,0</td>
+                        <td rowspan="3"><a href="http://de.wikipedia.org/wiki/Untergewicht">Untergewicht</a></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#3a60bb">&nbsp;</td>
+                        <td>m&auml;&szlig;iges Untergewicht</td>
+                        <td>16,0-17,0</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#4a708b">&nbsp;</td>
+                        <td>leichtes Untergewicht</td>
+                        <td>17,0-18,5</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#006400">&nbsp;</td>
+                        <td>Normalgewicht</td>
+                        <td>18,5-25,0</td>
+                        <td><a href="http://de.wikipedia.org/wiki/Normalgewicht">Normalgewicht</a></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#ffff00">&nbsp;</td>
+                        <td>Pr&auml;adipositas</td>
+                        <td>25,0-30,0</td>
+                        <td><a href="http://de.wikipedia.org/wiki/&Uuml;bergewicht">&Uuml;bergewicht</a></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#ffa500">&nbsp;</td>
+                        <td>Adipositas Grad I</td>
+                        <td>30,0-35,0</td>
+                        <td rowspan="3"><a href="http://de.wikipedia.org/wiki/Adipositas">Adipositas</a></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#ff0000">&nbsp;</td>
+                        <td>Adipositas Grad II</td>
+                        <td>35,0-40,0</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#8b0000">&nbsp;</td>
+                        <td>Adipositas Grad III</td>
+                        <td>&ge; 40,0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><a href="http://de.wikipedia.org/wiki/Body-Mass-Index"> Quelle: Wikipedia </a></p>
+            </td>
+        </tr>
+    </tbody>
+    <!-- Nikolaus Dulgeridis 2013, NikolausDulgeridis@gmail.com //-->
+</table>
+<script>berechne(document.forms[0]); </script>

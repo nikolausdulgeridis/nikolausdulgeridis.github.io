@@ -1,0 +1,118 @@
+<div><b>Verwendung:</b> In die linke Seite eine Werteliste aus einem anderen Dokument reinkopieren, dann go druecken, Text kann man stehen. Getrennt wird mit Leerzeichen. Der Rechner wurde von mir fuer die schnelle Umrechnung der Grafner Funkcodes benoetigt.</div>
+<br />
+<table width="700" border="1">
+    <tbody>
+        <tr>
+            <td><b>dez2bin</b> &nbsp;&nbsp;&nbsp;&nbsp;  <select id="Stellen" size="1" title="Zahl der Stellen">
+            <option>32 Stellen</option>
+            <option>24 Stellen</option>
+            <option>16</option>
+            <option>8</option>
+            </select>  <select id="Gruppe" size="1" title="4er Gruppen (Standard)">
+            <option>4 Stellen</option>
+            <option>8 Stellen</option>
+            <option>16</option>
+            <option>32</option>
+            </select>  <input type="button" onclick='givehex();' value="go" />    <hr />
+            <form>
+                <textarea id="input" cols="12" rows="17" title="hier eine Werteliste aus einem anderen Dokument reinkopieren, dann go druecken, Text kann man stehenlassen. "></textarea>   <textarea id="output" cols="55" rows="17" title="Ausgabe in Binaer und Hex "></textarea>
+            </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script>
+
+var bstellen=32;
+var bgruppe=4;
+function readDropValues()
+{
+var dropdown = document.getElementById("Stellen");
+var selectedText = dropdown.options[dropdown.selectedIndex].text;
+bstellen=(parseInt(selectedText));
+if (isNaN(bstellen)) bstellen=4;
+
+var dropdown = document.getElementById("Gruppe");
+var selectedText = dropdown.options[dropdown.selectedIndex].text;
+bgruppe=(parseInt(selectedText));
+if (isNaN(bgruppe)) bgruppe=4;
+}
+
+</script>  <script>
+// Testwerte
+document.getElementById("input").value="1 2 3 ";
+
+givehex();
+
+function givehex()
+{
+ readDropValues();
+ //alert(bstellen);
+ //var bstellen=32;
+ //var bgruppe=4;
+
+ //alert(222);
+ var hexa=document.getElementById("input").value;
+ document.getElementById("input").value="";
+ var a=hexa.split(" ");
+ var inp="Dezimal: \n";
+ var out="Binaer: \n";
+ var myBin="";
+ for (var i=0; i<a.length; i++)  {
+   //alert(i+" "+a[i]);
+   var myDez=parseInt(a[i]);
+   if (isNaN(myDez)) myDez=0;
+   if (myDez>0) 
+    {  
+    inp+=myDez+" \n"
+    myBin = ""; //"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var myBin1 = ("000000000000000000000000000000000000"+myDez.toString(2)).slice(-1*bstellen);
+    cnt=9;
+    //alert("Q"+myBin1.slice(-1)+bgruppe+(myBin1.length>0));
+    while (myBin1.length>0){
+       if (myBin1.length>bgruppe) 
+          {
+          myBin=myBin1.slice(-1*bgruppe) +" "+ myBin; 
+          //alert("A"+myBin1);
+          myBin1=myBin1.slice(0,myBin1.length-1*bgruppe);
+          //alert("B"+myBin1);
+          //alert("C"+myBin);
+          }
+       else 
+          {
+          myBin=myBin1.slice(0) +" "+myBin; 
+          myBin1="";
+          }
+       if (cnt--<0) break;
+       };
+    //alert("Result"+myBin);
+    //document.write("* "+a[i]+" * " + myBin+" # <br>");
+    out+=myBin+ "# "+("000000000"+myDez.toString(16)).slice(-8) + "\n";
+    } //endif
+  } // endfor
+ document.getElementById("input").value=""+inp+"";
+ document.getElementById("output").value=""+out+"";
+}
+/*
+var a= new Array();
+
+//a[1]=55;
+//alert a[1];
+a.push(16762196);
+a.push(16762193);
+a.push(16765268);
+a.push(16765265);
+a.push(16766036);
+a.push(16766228);
+a.push(16766276);
+a.push(16766303);
+
+for (i=0;i<a.length;i++)
+{
+// alert(i);
+ var myDez=a[i];
+ var myBin = ("000000000000000000000000000"+myDez.toString(2)).slice(-24);
+ document.write("* "+a[i]+" * " + myBin+" # <br>");
+}
+*/
+</script>

@@ -1,0 +1,95 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tbody>
+        <tr>
+            <th align="left" class="titel"><br />
+            Zahlenspielereien<br />
+            &nbsp;</th>
+        </tr>
+    </tbody>
+</table>
+<b>1. Verzinsung bis zur Verdoppelung</b><br />
+<br />
+Um ungef&auml;hr absch&auml;tzen zu k&ouml;nnen, wie lange es dauert, bis eine  Ausgangsgr&ouml;&szlig;e K bei periodischer Verzinsung zu einem bestimmten Zinssatz  p aufgedoppelt wird, kann man folgende Formel verwenden:
+<pre>
+	n = 70 / p
+  </pre>
+Beispielsweise m&ouml;chte man wissen, wie lange es dauert, bis sich die  Bev&ouml;lkerungzahl der Erde verdoppelt, wenn die Zahl der Menschen auf der  Erde j&auml;hrlich um 2% zunimmt. Man rechnet hier einfach 70 / 2 = 35. Also  gibt es in 35 Jahren demnach doppelt so viele Erdenb&uuml;rger im Vergleich  zu heute.   <br />
+<br />
+<br />
+<b>2. Variablewert zwischen zwei konstanten Werten wechseln</b><br />
+<br />
+Man stelle sich vor, man ben&ouml;tige in der Programmierung eine Funktion, die zwei feste Zahlenwerte vertauscht.   Eine Variable soll auf einen Wert A gesetzt werden, wenn sie den Wert B enth&auml;lt und umgekehrt. Daf&uuml;r   w&uuml;rde man in der Regel eine if-Anweisung verwenden. Eine andere M&ouml;glichkeit w&auml;re die Folgende:
+<pre>
+	x = A + B - x;
+  </pre>
+Dies wird zwar nicht dem Prinzip der Strukturierten Programmierung gerecht und man sollte deshalb auch auf    die Implementierung dessen verzichten, da es nur schwer lesbar ist ... aber ich finde es nett. :)   <br />
+<br />
+<br />
+<b>3. Zwei Variablenwerte ohne Hilfvariable vertauschen</b><br />
+<br />
+Normalerweise ben&ouml;tigt man, um die Werte zweier numerischer Variablen zu vertauschen eine zus&auml;tzliche   Hilfsvariable. Das ganze sieht dann z.B. so aus:
+<pre>
+	x = 7;
+	y = 3;
+	
+	h = x;   // h = 7
+	x = y;   // x = 3
+	y = h;   // y = 7
+  </pre>
+Anschlie&szlig;end steht also dann in x der Wert aus y und umgekehrt. Man kommt allerdings auch ohne diese   Hilfvariable h aus. N&auml;mlich folgenderma&szlig;en:
+<pre>
+	x = 7;
+	y = 3;
+	
+	x = x - y;   // x = 7 - 3 = 4
+	y = x + y;   // y = 4 + 3 = 7
+	x = y - x;   // x = 7 - 4 = 3
+  </pre>
+Noch rafinierter geht es mit der XOR-Verkn&uuml;pfung. Damit ben&ouml;tigt man statt wie oben zwei Operatoren (+ und   -) nur noch einen Einzigen, n&auml;mlich den XOR-Operator. Dazu das selbe Beispiel wie oben nur Dieses - wegen   der besseren Lesbarkeit - in Bin&auml;rdarstellung:
+<pre>
+	x = 111;
+	y = 011;
+	
+	x = x XOR y;   // x = 111 XOR 011 = 100
+	y = x XOR y;   // y = 100 XOR 011 = 111
+	x = x XOR y;   // x = 100 XOR 111 = 011
+  </pre>
+Selbiges funktioniert beispielsweise auch mit der Umkehrfunktion von XOR (also NOT XOR) oder entsprechend    dem obigen +/- Verfahren auch mit * (Mal) und / (Geteilt). Bei Letzterem darf allerdings weder x noch y den   Wert 0 enthalten (Division durch 0!).     <br />
+<br />
+Unter Verwendung einer Programmiersprache wie beispielsweise Java l&auml;sst sich das Vertauschen von Variablenwerten durch   Ausnutzung der Operatorenpriorit&auml;ten auch mit einer einzigen Anweisung realisieren (In Java steht das ^-Zeichen    bzw. das sog. Zirkumflex f&uuml;r den XOR-Operator):
+<pre>
+       int x = 7;
+       int y = 3;
+
+       x ^= y ^ (y = x);
+  </pre>
+Oder alternativ:
+<pre>
+       x += y - (y = x);
+  </pre>
+<b>4. Rekursive anonyme Funktionen</b><br />
+<br />
+Das folgende Skript zeigt den Aufruf einer rekusiven anonymen Funktion zur Berechnung der Fakult&auml;t von 5 in JavaScript:
+<pre>
+	<b>var</b> r = 
+
+	  <b>function</b> (x) {
+	    <b>return function</b> (fn) {
+	      <b>return</b> fn(fn);
+	    } (<b>function</b> (fn) {
+	      <b>return</b> x(<b>function</b> (x) {
+	        <b>return</b> fn(fn)(x);
+	      });
+	    });
+	  }
+	  (<b>function</b> (rec) {
+	    <b>return function</b> (n) {
+	      <b>if</b> (n == 1) <b>return</b> 1;
+	      <b>else return</b> n * rec(n - 1);
+	    };
+	  })(5);
+  </pre>
+<br />
+<br />
+<br />
+<br />

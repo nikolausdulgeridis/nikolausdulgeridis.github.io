@@ -1,0 +1,357 @@
+<div style="width:600px;clear:both"><img width="100" height="45" align="right" alt="" src="//img.webme.com/pic/n/nikolausdulgeridis/filmsymbol.gif" />
+<h4>Linux: Videobearbeitung mit ffmpeg - Videos splitten / zusammenf&uuml;gen</h4>
+<div><em>Thema: Bash Skript zum Zusammenf&uuml;gen und Schneiden von Videos unter Linux mit ffmpeg</em></div>
+<br />
+<div>Videocapture Ger&auml;te zeichnen Videoschnipsel in der Gr&ouml;&szlig;e von 2 GB auf. Diese m&uuml;ssen vor der Weiterverarbeitung zusammengef&uuml;gt werden. Viele einfache Aufgaben lassen sich &uuml;ber die Konsole effizienter l&ouml;sen als erst eine Gui zu laden. Ein wichtiger Grund f&uuml;r mich war jedoch dass die Videobearbeitung bei mir unter Linux l&auml;uft, VLC und Dateiexplorer hingegen unter Windows.<br />
+<br />
+Das unten wiedergegebene Skript fasst die wichtigsten Routineaufgaben zusammen. So erm&ouml;glicht der einfache Befehl&nbsp;<q>splitvideo.sh c</q> alle Videos im Verzeichnis zusammenzuf&uuml;gen. <br />
+&nbsp;</div>
+<strong>Features</strong>:&nbsp;
+<ul>
+    <li>Video zusammenf&uuml;gen</li>
+    <li>Video splitten</li>
+    <li>Werbepausen herausschneiden</li>
+    <li>Anfang oder Ende abschneiden</li>
+    <li>transcode Videos (zu h264 mp4 Container)</li>
+    <li>Videoschnipsel &nbsp;video, video_1, ... zusammenf&uuml;gen (speziell f&uuml;r Digitnow Capture device)</li>
+</ul>
+<strong>Andere Tools:</strong><br />
+Wer Tools f&uuml;r die Videobearbeitung sucht, kann sich Handbrake und KDenlive ansehen.<br type="_moz" />
+<br type="_moz" />
+------------------------------------------<br />
+<br />
+<strong>Vorgehen:</strong><br />
+Alle Dateien muessen im selben Verzeichnis stehen. Die Videos werden in alphabetischer Reihenfolge zusammengef&uuml;gt: video1, video2, usw.<br />
+<div><br />
+<strong>Verwendung:<br />
+</strong>Die Arbeitsumgebung ben&ouml;tigt einen komfortablen Dateiexplorer und einen Videoplayer zum Ablesen der Zeitmarken (z. Bsp. VLC und Totalcommander) . Die Verwendung im Netzwerk ist nicht zwingend, erm&ouml;glicht aber die Arbeit auf mehrere Computer zu verteilen.&nbsp;</div>
+<div>Der Aufruf des Skripts erfolgt aus dem Verzeichnis in dem sich die Videodateien befinden.</div>
+<div><strong><br />
+</strong><strong>Beispiel 1:</strong></div>
+<div># cd /srv/meineVideos&nbsp;<br />
+# splitvideo.sh c</div>
+<div>Der letzte Befehl f&uuml;gt alle Videos im Verzeichnis /srv/meineVideos zu einem Video zusammen.<br />
+In der Datei mylist.tmp wird die Reihenfolge protokolliert.<br />
+Ergebniskontrolle und Abr&auml;umen erfolgt im Anschluss mit VLC und dem Dateiexplorer.<br />
+<strong><br />
+Beispiel 2:</strong><br />
+<div># cd /srv/meineVideos&nbsp;</div>
+<div># splitvideo.sh s 00:30:00&nbsp;<br />
+Splittet das Video im Verzeichnis an der Zeitmarke 30 Minuten, nach Beendigung befinden sich in dem Verzeichnis genau 3 Dateien: originaldatei, anfang_video, ende_video, der Zeistempel der Originaldatei bleibt bei allen Operationen erhalten.&nbsp;<br />
+&nbsp;</div>
+</div>
+<div><strong>Installation:<br />
+</strong>ffmpeg muss installiert sein: sudo apt update &amp;&amp; sudo apt install ffmpeg.<br />
+Das u.a. Skript im Verzeichnis /usr/local/bin ablegen und mit chmod +x aufuehrbar machen.</div>
+<div># sudo nano &nbsp;/usr/local/bin/splitvideo.sh <br />
+# sudo chmod +x /usr/local/bin/splitvideo.sh&nbsp;<br />
+<strong><br />
+Fehlerausgabe:</strong></div>
+<div>
+<div>Bei Fehlern gibt zuweilen das Konsolenfenster wichtige Hinweise. So kann z. Bsp. die Datei video_1_1.mp4 nicht verarbeitet werden, weil _1 den Beginn einer Videokette signalisiert und daher der Name nicht eindeutig ist. Bei Auftreten der Datei video_10 verweigert das Tool ebenfalls den Dienst, weil die Sortierung nicht stimmt. Bitte in diesem Fall die Dateien entsprechend der Anweisung manuell umbenennen. <br />
+<br />
+<strong>Warnung</strong><br />
+Falls die Verabeitung stoppt mit dem Hinweis 'file exists, overwrite?' grunds&auml;tzlich nein dr&uuml;cken und die Situation analysieren. Sicherheit geht vor! In den meisten F&auml;llen ist die Datei noch im Videoplayer ge&ouml;ffnet. <br />
+Alle Operationen behalten eine Kopie der Ursprungsdateien, es l&auml;sst sich also in jedem Fall die Ausgangssituation wiederherstellen. Die Dateien sollten erst gel&ouml;scht werden, sobald man sich von der erfolgreichen Bearbeitung &uuml;berzeugt hat. Die Gr&ouml;sse der Dateien ist dabei ein wichtiger Hinweis, ausserdem sollte man nach dem Zusammenf&uuml;gen auf korrekte Reihenfolge und Vollst&auml;ndigkeit pr&uuml;fen, das kann in der Datei mylist.old nachgesehen werden. <br />
+Es wird empfohlen auf einem Sicherungslaufwerk eine Kopie der Originaldateien aufzubewahren.</div>
+<br />
+<strong>Zusammenf&uuml;gen von Digitnow Videocapture Dateien (Option f)<br />
+</strong>Es kann in bestimmten Situationen sinnvoll sein, die genaue Arbeitsweise zu verstehen: Das Tool sucht zuerst nach einer Datei *_1.mp4, das ist der Indikator f&uuml;r die Existenz einer Videokette, ein Beispiel w&auml;re 'video_77_1.mp4'. Im n&auml;chsten Schritt werden alle Dateien 'video_77*' in das tempor&auml;re Verzeichnis concat1 verschoben und zusammengef&uuml;gt (alphabetische Reihenfolge). Die Ergebnisdatei erh&auml;lt den Namen und den Zeitstempel der ersten Datei (mit f&uuml;hrendem underliner), in diesem Beispiel also _video_77.mp4.&nbsp;</div>
+<div><br />
+In einigen F&auml;llen lassen sich Videos nicht zusammenf&uuml;gen, dann kann man versuchen, mit der Option r die Container vorher neu zu schreiben. Das sollte man allerdings nur machen wenn es erforderlich ist, da dadurch die Tonspuren an den R&auml;ndern 'ges&auml;ubert' werden, wodurch hinterher zwei 1/10 Sekunden fehlen. Eine zweite M&ouml;glichkeit besteht darin, die Dateien zu transcodieren (Parameter t),&nbsp;<br />
+<div>
+<div><br />
+<strong>Hinweise:</strong><br />
+- Funktionen: Zusammenf&uuml;gen, Splitten, Entfernen, Anfang oder Ende abschneiden, Refresh<br />
+- Hinweise zur Verwendung erh&auml;lt man bei Aufruf der Hilfe (-h).<br />
+- Rootrechte sind erforderlich f&uuml;r die Operationen f und w<br />
+- Bei der Sortierung von Dateien ist zu beachten: Video10 kommt vor Video9 Gross Z kommt vor klein a&nbsp;<br />
+<div>- Wegen der Komprimierung ist ein sekundengenaues Schneiden von h264 Videos nicht moeglich.<br />
+- Der Fokus liegt auf der h264 Codierung und mp4 Containern. Bei anderen Formaten wie z. Bsp. mpeg2 funktionieren manche Befehle mit ffmpeg nicht. H265 wird von ffmpeg gut unterst&uuml;tzt. Das default Audio Format ist AAC, auch mp3 wird problemlos verarbeitet. Weitere Kan&auml;le werden i.d.R mitkopiert (keine Gew&auml;hr). Bei Fragen die ffmpeg Dokumentation zu Rate ziehen.&nbsp;<br />
+- Die Transcode Funktion ist eher provisorisch implementiert. Ich empfehle stattdessen Handbrake, um die beste Qualit&auml;t zu erreichen. Dar&uuml;ber hinaus empfiehlt es sich, verschiedene alte Codierer vorzuhalten. Insbesondere mpeg2 wird zuweilen von alten Tools besser verarbeitet.<br />
+- Gute Ergebnisse liefert ffmpeg auf aktuellen Arm64 Konsolen, z. Bsp.Odroid N2 etc. Mit ffmpeg auf alten Arm32 Systemen (RasPi 2, Odroid XU4) hatte ich weniger gute Erfahrungen gemacht.&nbsp;<br />
+<br />
+<strong>Tempor&auml;rer&nbsp;</strong><br />
+Festplatten m&ouml;gen es nicht gleichzeitig zu lesen und zu schreiben. Deshalb kann die Verwendung einer zweiten Festplatte als Ziel, die Performance verbessern. Das w&uuml;rde aber auch die Bedienung komplizieren,&nbsp; deshalb wird nur der Operation w ein optionales Temp Laufwerk spendiert, das &uuml;ber ein Konfigurationsfile definiert werden kann.&nbsp;<br />
+<br />
+&nbsp;&nbsp;</div>
+</div>
+</div>
+</div>
+</div>
+<br />
+<div>--- Skript mit Temp Ordner und Konfigfile&nbsp; ---</div>
+<div>
+<div>
+<div style="color: rgb(0, 0, 0); font-family: Times New Roman; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-decoration: none; text-indent: 0px; text-transform: none; -webkit-text-stroke-width: 0px; white-space: normal; word-spacing: 0px;">---&nbsp; (<a href="https://sites.google.com/site/nikolausdulgeridis/downloads/splitvideo.sh?attredirects=0&amp;d=1">oder Download hier</a>)&nbsp;---</div>
+<span style="display: inline !important; float: none; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-family: Times New Roman; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-decoration: none; text-indent: 0px; text-transform: none; -webkit-text-stroke-width: 0px; white-space: normal; word-spacing: 0px;"> </span>
+<div style="color: rgb(0, 0, 0); font-family: Times New Roman; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-decoration: none; text-indent: 0px; text-transform: none; -webkit-text-stroke-width: 0px; white-space: normal; word-spacing: 0px;">
+<div>&nbsp;</div>
+</div>
+#!/bin/bash</div>
+<div>echo ======================================================</div>
+<div>echo ======= $0 =======</div>
+<div>echo Parameter:</div>
+<div>echo Param1 $1 Param2 $2 Param3 $3</div>
+<div>echo Pfad:</div>
+<div>pwd</div>
+<div>echo Dateien im Verzeichnis:</div>
+<div>ls</div>
+<div>maxtime=&quot;72:00:00&quot;;</div>
+<div>TmpVid=&quot;./tmp/&quot;;</div>
+<div>echo maxtime=$maxtime - derzeit festgelegtes Maximum, bei Bedarf einen hoeheren Wert definieren</div>
+<div>echo TempDir fuer Operation w: $TmpVid</div>
+<div>&nbsp;</div>
+<div>## optionale Parameter f&Atilde;&frac14;r ffmpeg</div>
+<div>## map=&quot;-map 0:0 -map 0:1 -map 0:2 -ignore_unknown&quot;&nbsp;</div>
+<div>&nbsp;</div>
+<div>if [ &quot;$1&quot; == &quot;-h&quot; -o &quot;$1&quot; == &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp;echo Features:</div>
+<div>&nbsp;echo - Videos zusammenf&Atilde;&frac14;gen</div>
+<div>&nbsp;echo - Video splitten</div>
+<div>&nbsp;echo - Werbepausen herausschneiden</div>
+<div>&nbsp;echo - Anfang oder Ende abschneiden</div>
+<div>&nbsp;echo - Videosplitter &nbsp;video, video_1, ... zusammenf&Atilde;&frac14;gen - speziell f&Atilde;&frac14;r Digitnow Capture device</div>
+<div>&nbsp;echo - transcode Videos zu .h264 mp4 Container</div>
+<div>&nbsp;echo ### help ###</div>
+<div>&nbsp;echo Hilfe:</div>
+<div>&nbsp;echo splitvideo.sh a[nfang] time</div>
+<div>&nbsp;echo splitvideo.sh b{ende} &nbsp;time [dauer]</div>
+<div>&nbsp;echo splitvideo.sh c[oncat]&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh s[plit] &nbsp; time [time]</div>
+<div>&nbsp;echo splitvideo.sh w[ithout] time time</div>
+<div>&nbsp;echo splitvideo.sh f[ull]&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh t[ranscode] [transcodeparameter]</div>
+<div>&nbsp;echo Beispiel:</div>
+<div>&nbsp;echo splitvideo.sh a 01:00:00 - liefert das Video von 0 bis 1 Stunde&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh b 01:00:00 - liefert das Video von 1 Std bis Ende&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh b 01:00:00 00:30:00 - liefert &nbsp;von 1 Std bis 1:30h&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh s 01:00:00 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- split bei 1 Std&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh s 01:00:00 01:30:00 - split bis 1 Std und ab 1:30h&nbsp;</div>
+<div>&nbsp;echo splitvideo.sh c - verbindet alle Videos in alphabet. Reihenfolge &nbsp;</div>
+<div>&nbsp;echo splitvideo.sh w 01:00:00 01:30:00 - entf. 1 Std bis 1:30h</div>
+<div>&nbsp;echo splitvideo.sh r - refresh - schreibt alle Container neu, Originaldateien erhalten die Endung _old</div>
+<div>&nbsp;echo splitvideo.sh f - verbindet alle Videos nach dem Muster file.mp4 file_1.mp4 .. nach _file.mp4</div>
+<div>&nbsp;echo splitvideo.sh t - transcode alle Videocontainer mkv, wmv, mpeg2, h265, h264 zu video.Mp4</div>
+<div>&nbsp;echo splitvideo.sh t \&quot;-preset slow -crf 19 -vf scale=960:-2\&quot; - transcode mit Parametern</div>
+<div>&nbsp;echo ###</div>
+<div>&nbsp;echo warning: option f is especially designed for the sake of video capture devices, which split videos at 2GB</div>
+<div>&nbsp;echo keep cautious, there is much room for unexpected side effects, backup your data before use!!</div>
+<div>&nbsp;echo no root permission required, if you run into problems you can try with sudo -i though</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div># Hinweis: temporaere Verzeichnisse werden mit 'sudo chown nobody:nogroup concat*; sudo chmod 777 concat*;' zugaenglich gemacht</div>
+<div># bei Nutzung im Netzwerk, kann es sonst Zugriffsfehler geben.&nbsp;</div>
+<div>&nbsp;</div>
+<div>#Rootrechte&nbsp;</div>
+<div>#sudo -i</div>
+<div>&nbsp;</div>
+<div>#without</div>
+<div>if [[ &quot;$1&quot; == &quot;w&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;if [ &quot;$2&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp;if [ &quot;$3&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp; # make tempfolder (if not exists)</div>
+<div>&nbsp; mkdir &quot;$TmpVid&quot;;</div>
+<div>&nbsp; # read config</div>
+<div>&nbsp; if test -f &quot;$(dirname $0)&quot;/splitvideoconfig.sh; then &nbsp;&nbsp;</div>
+<div>&nbsp; &nbsp; sudo chmod +x &quot;$(dirname $0)&quot;/splitvideoconfig.sh;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span>&quot;$(dirname $0)&quot;/splitvideoconfig.sh;</div>
+<div>&nbsp; fi</div>
+<div>&nbsp; sudo chown nobody:nogroup &quot;$TmpVid&quot;; sudo chmod 777 &quot;$TmpVid&quot;;</div>
+<div>&nbsp; rm &quot;$TmpVid&quot;anfang.mp4 &quot;$TmpVid&quot;anfang_bak.mp4 &quot;$TmpVid&quot;bisende.mp4 &quot;$TmpVid&quot;bisende_bak.mp4</div>
+<div>&nbsp; mv &quot;$TmpVid&quot;anfang.mp4 &quot;$TmpVid&quot;anfang_bak.mp4; mv &quot;$TmpVid&quot;bisende.mp4 &quot;$TmpVid&quot;bisende_bak.mp4</div>
+<div>&nbsp; #maxtime=06:00:00;</div>
+<div>&nbsp; #write beginning</div>
+<div>&nbsp; cuttime=$2; for i in *.*; do infile=&quot;$i&quot;; done; echo $cuttime $infile;&nbsp;</div>
+<div>&nbsp; ffmpeg -ss 00:00:00 -t &quot;$cuttime&quot; -i &quot;$infile&quot; &nbsp; -c copy &quot;$TmpVid&quot;anfang.mp4;&nbsp;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; &quot;$TmpVid&quot;anfang.mp4;&nbsp;</div>
+<div>&nbsp; #write middle&nbsp;</div>
+<div>&nbsp; ffmpeg -ss $cuttime -t 555 -i &quot;$infile&quot; &nbsp; -c copy &quot;$TmpVid&quot;mitte.mp4;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; &quot;$TmpVid&quot;mitte.mp4;&nbsp;</div>
+<div>&nbsp; rm &quot;$TmpVid&quot;mitte_&quot;$infile&quot;</div>
+<div>&nbsp; mv &quot;$TmpVid&quot;mitte.mp4 &quot;$TmpVid&quot;mitte_&quot;$infile&quot;</div>
+<div>&nbsp; #write end</div>
+<div>&nbsp; if [ &quot;$3&quot; != &quot;&quot; ]; then cuttime=$3; fi</div>
+<div>&nbsp; ffmpeg -ss $cuttime -t &quot;$maxtime&quot; -i &quot;$infile&quot; &nbsp; -c copy &quot;$TmpVid&quot;bisende.mp4;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; &quot;$TmpVid&quot;bisende.mp4;&nbsp;</div>
+<div>&nbsp; echo mv &quot;$infile&quot; &quot;$infile&quot;_bak.ts</div>
+<div>&nbsp; mv &quot;$infile&quot; &quot;$infile&quot;_bak.ts</div>
+<div>&nbsp;</div>
+<div>&nbsp; rm mylist.txt; rm mylist.old;&nbsp;</div>
+<div>&nbsp; for f in &quot;$TmpVid&quot;anfang.mp4 &quot;$TmpVid&quot;bisende.mp4; do &nbsp;lastfile=&quot;$f&quot;; echo &quot;file '$f'&quot;; echo &quot;file '$f'&quot; &gt;&gt; mylist.txt; done;&nbsp;</div>
+<div>&nbsp; ffmpeg -f concat -safe 0 -i mylist.txt -c copy &quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp; touch -r &quot;$lastfile&quot; &quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp; cp mylist.txt mylist.old;&nbsp;</div>
+<div>&nbsp; rm mylist.txt; rm mylist.old;&nbsp;</div>
+<div>&nbsp; #rm anfang.mp4 bisende.mp4</div>
+<div>&nbsp; mv &quot;$TmpVid&quot;anfang.mp4 &quot;$TmpVid&quot;anfang_bak.mp4</div>
+<div>&nbsp; mv &quot;$TmpVid&quot;bisende.mp4 &quot;$TmpVid&quot;bisende_bak.mp4</div>
+<div>&nbsp; #mv outfile.mp4 &quot;$infile&quot; &nbsp;&nbsp;</div>
+<div>&nbsp;else&nbsp;</div>
+<div>&nbsp; echo parameter fehlt</div>
+<div>&nbsp;fi</div>
+<div>&nbsp;fi</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#split</div>
+<div>if [[ &quot;$1&quot; == &quot;s&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;if [ &quot;$2&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp; mv anfang.mp4 anfang_bak.mp4; mv bisende.mp4 bisende_bak.mp4</div>
+<div>&nbsp; #maxtime=24:00:00;</div>
+<div>&nbsp; cuttime=$2; for i in *.*; do infile=&quot;$i&quot;; done; echo $cuttime $infile;&nbsp;</div>
+<div>&nbsp; ffmpeg -ss 00:00:00 -t &quot;$cuttime&quot; -i &quot;$infile&quot; -c copy anfang_&quot;$infile&quot;;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; anfang_&quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp; if [ &quot;$3&quot; != &quot;&quot; ]; then cuttime=$3; fi</div>
+<div>&nbsp; ffmpeg -ss $cuttime -t &quot;$maxtime&quot; -i &quot;$infile&quot; -c copy bisende_&quot;$infile&quot;;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; bisende_&quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp;else&nbsp;</div>
+<div>&nbsp; echo parameter fehlt</div>
+<div>&nbsp;fi</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#anfang -&gt; liefert den Anfang -&gt; ~anfang.mp4</div>
+<div>if [[ &quot;$1&quot; == &quot;a&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;if [ &quot;$2&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp; rm anfang.mp4;</div>
+<div>&nbsp; mv anfang.mp4 anfang_bak.mp4; mv bisende.mp4 bisende_bak.mp4</div>
+<div>&nbsp; #maxtime=24:00:00;</div>
+<div>&nbsp; cuttime=$2; for i in *.*; do infile=&quot;$i&quot;; done; echo $cuttime $infile;&nbsp;</div>
+<div>&nbsp; ffmpeg -ss 00:00:00 -t &quot;$cuttime&quot; -i &quot;$infile&quot; &nbsp; -c copy anfang_&quot;$infile&quot;;</div>
+<div>&nbsp; ##ffmpeg -ss $cuttime -t &quot;$maxtime&quot; -i &quot;$infile&quot; -c copy bisende.mp4;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; &nbsp;anfang_&quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp;else&nbsp;</div>
+<div>&nbsp; echo parameter fehlt</div>
+<div>&nbsp;fi</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#bis -&gt; liefert das Ende -&gt; bisende.mp4</div>
+<div>if [[ &quot;$1&quot; == &quot;b&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;if [ &quot;$2&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp; rm bisende.mp4;</div>
+<div>&nbsp; mv anfang.mp4 anfang_bak.mp4; mv bisende.mp4 bisende_bak.mp4</div>
+<div>&nbsp; #maxtime=24:00:00;</div>
+<div>&nbsp; cuttime=$2; for i in *.*; do infile=&quot;$i&quot;; done; echo $cuttime $infile;&nbsp;</div>
+<div>&nbsp; if [ &quot;$3&quot; != &quot;&quot; ]; then maxtime=$3; fi</div>
+<div>&nbsp; ##ffmpeg -ss 00:00:00 -t &quot;$cuttime&quot; -i &quot;$infile&quot; &nbsp; -c copy anfang.mp4;</div>
+<div>&nbsp; ffmpeg -ss $cuttime -t &quot;$maxtime&quot; -i &quot;$infile&quot; &nbsp; -c copy bisende_&quot;$infile&quot;;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; bisende_&quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp;else&nbsp;</div>
+<div>&nbsp; echo parameter fehlt</div>
+<div>&nbsp;fi</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#concat -&gt; vebindet alle videos im Verzeichnis -&gt; _&lt;firstfile&gt;</div>
+<div>if [[ &quot;$1&quot; == &quot;c&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;rm mylist.txt;&nbsp;</div>
+<div>&nbsp;rm mylist.old;&nbsp;</div>
+<div>&nbsp;for f in *.*; do firstfile=&quot;$f&quot;; break; done;&nbsp;</div>
+<div>&nbsp;for f in *.*; do lastfile=&quot;$f&quot;; echo &quot;file '$f'&quot;; echo &quot;file '$f'&quot; &gt;&gt; mylist.txt; done;&nbsp;</div>
+<div>&nbsp;ffmpeg -f concat -safe 0 -i mylist.txt -c copy outfile.mp4;&nbsp;</div>
+<div>&nbsp;touch -r &quot;$firstfile&quot; outfile.mp4;&nbsp;</div>
+<div>&nbsp;mv outfile.mp4 _&quot;$firstfile&quot;</div>
+<div>&nbsp;mv mylist.txt mylist.old;&nbsp;</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#refresh -&gt; schreibt alle files neu -&gt; outfiletemp.mp4 -&gt; $infile</div>
+<div>if [[ &quot;$1&quot; == &quot;r&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;rm mylist.txt; rm mylist.old;&nbsp;</div>
+<div>&nbsp;for infile in *.*; do &nbsp;</div>
+<div>&nbsp; ffmpeg -ss 00:00:00 -t 09:00:00 -i &quot;$infile&quot; -c copy outfiletemp.mp4;</div>
+<div>&nbsp; touch -r &quot;$infile&quot; outfiletemp.mp4;&nbsp;</div>
+<div>&nbsp; #touch -r outfiletemp.mp4 &quot;$infile&quot;;&nbsp;</div>
+<div>&nbsp; mv &quot;$infile&quot; &quot;$infile&quot;_old</div>
+<div>&nbsp; mv outfiletemp.mp4 &quot;$infile&quot; &nbsp;</div>
+<div>&nbsp;done;&nbsp;</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#full -&gt; verbindet alle files nach dem Muster file.mp4 file_1.mp4 .. -&gt; _file.mp4</div>
+<div>#(fuer Videosschnipsel vom DigitNow Videograbber, andere Geraete haben evtl. ein anderes Namensschema)</div>
+<div>if [[ &quot;$1&quot; == &quot;f&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;if ls *P_1.mp4 1&gt; /dev/null 2&gt;&amp;1; then</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> echo Konflikt festgestellt, Dateiname nicht verarbeitbar</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> ls *P_1.mp4</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> ls *P_1_1.mp4</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> echo bitte Dateinamen aendern von datei_1.mp4 zu datei_01.mp4 bzw. datei_01_1.mp4 etc.</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> exit</div>
+<div>&nbsp;fi</div>
+<div>&nbsp;if ls *_10.mp4 1&gt; /dev/null 2&gt;&amp;1; then</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> echo Konflikt festgestellt, Datei nicht verarbeitbar</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> ls *_10.mp4 # oder ls *_1[0,1-9].mp4</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> echo bitte Dateinamen aendern von datei_10.mp4 zu dateix10.mp4</div>
+<div>&nbsp;else</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span>if test -d concat1; then</div>
+<div><span class="Apple-tab-span" style="white-space:pre">		</span>echo &quot;directory exists&quot;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span>else</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> if ls *_1.mp4 1&gt; /dev/null 2&gt;&amp;1; then</div>
+<div><span class="Apple-tab-span" style="white-space:pre">		</span>#ls *[0-9]_1.mp4; ls *_1.mp4</div>
+<div><span class="Apple-tab-span" style="white-space:pre">		</span>## !! Selbstaufruf des Skripts mit $0 c !!</div>
+<div><span class="Apple-tab-span" style="white-space:pre">		</span>unset fg fh fi fk; fcount=0; for fg in *_1.mp4; do echo file: $fg ; fh=${fg//_1.mp4/}; fcount=$((fcount+1)); mkdir concat$fcount; sudo chown nobody:nogroup concat$fcount; sudo chmod 777 concat$fcount; echo $fcount; for fi in &quot;$fh&quot;*; do echo $fi; mv -n &quot;$fi&quot; ./concat$fcount/; done; cd concat$fcount; for fk in *.*; do firstfile=&quot;$fk&quot;; break; done; $0 c; mv -n _&quot;$fk&quot; ../; cd ..; done;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> else</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; echo no files found for concat&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> fi</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span>fi</div>
+<div>&nbsp;fi</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#transcode -&gt; wandelt alle Videocontainer (mkv, wmv, mpeg2, h265, h264) im Verzeichnis zu -&gt; video.Mp4</div>
+<div>#Optional kann Qualit&Atilde;&curren;t und Aufloesung mitgegeben werden &quot;-preset slow -crf 19 -vf scale=960:540&quot;</div>
+<div>#Hinweis: crf (constant rate factor): 18-20 Spielfilmqualit&Atilde;&curren;t, 22-26 Dokumentationen, unter 18 bringt nichts, ueber 30 gibt Artefakte</div>
+<div>#crf - konstante qualitet, cbr - constant bitrate (wird nicht mehr verwendet)</div>
+<div>#cbr ist nur bei Leitungen oder Geraeten mit konstanter Bitrate zu empfehlen. Wenn ausgerechnet die rasante Verfolgungsjagd&nbsp;</div>
+<div>#verpixelt wird, kann man das Video wegwerfen. Deshalb wird heutzutage kommerziell eine Mischform</div>
+<div>#verwendet, mit konstanter Qualitaet aber festgelegtem Limit und einem Vorlaufpuffer.</div>
+<div>#### noch nicht getestet</div>
+<div>if [[ &quot;$1&quot; == &quot;t&quot;* ]]; then&nbsp;</div>
+<div>&nbsp;#transcodeparam=&quot;-preset slow -crf 19 -vf scale=960:540&quot;</div>
+<div>&nbsp;#transcodeparam=&quot;-preset slow -crf 19 -vf scale=960:-2&quot;</div>
+<div>&nbsp;transcodeparam=&quot;-preset slow -crf 20&quot;</div>
+<div>&nbsp;if [ &quot;$2&quot; != &quot;&quot; ]; then&nbsp;</div>
+<div>&nbsp; transcodeparam=&quot;$2&quot;</div>
+<div>&nbsp;fi</div>
+<div>&nbsp;for i in *.*; do&nbsp;</div>
+<div>&nbsp; &nbsp;date; echo &quot;$i&quot;; begin=$(date +%s);&nbsp;</div>
+<div>&nbsp; &nbsp;#ffmpeg -i &quot;$i&quot; -c:v libx264 -threads 0 -preset slow -crf 19 -vf scale=960:540 &quot;$i&quot;.Mp4;&nbsp;</div>
+<div>&nbsp; &nbsp;ffmpeg -i &quot;$i&quot; -c:v libx264 -threads 0 $transcodeparam &quot;$i&quot;.Mp4;&nbsp;</div>
+<div>&nbsp; &nbsp;now=$(date +%s); diff=$(($now - $begin)); mins=$(($diff / 60)); secs=$(($diff % 60)); touch -r &quot;$i&quot; &nbsp;&quot;$i&quot;.Mp4;&nbsp;</div>
+<div>&nbsp; &nbsp;echo &quot;Time $mins:$(printf %02d $secs) $i $diff&quot;;&nbsp;</div>
+<div>&nbsp;done;</div>
+<div>fi</div>
+<div>&nbsp;</div>
+<div>#-----------------------------------------</div>
+<div>#Letztes Update.&nbsp;</div>
+<div>#17.10.2019 - Parameter f(ull) hinzugef&Atilde;&frac14;gt</div>
+<div># Vor&Atilde;&frac14;berlegung:&nbsp;</div>
+<div># &nbsp; &nbsp;Videoaufnahmen werden vom Capture device gesplittet nach dem Muster: video.mp4, video_1.mp4, ...</div>
+<div># &nbsp; &nbsp;jede gesplittete Videoaufnahme enth&Atilde;&curren;lt daher genau einen Kandidaten: video_1.mp4</div>
+<div># Algorithmus:&nbsp;</div>
+<div># - Suche nach einer Datei mit dem Muster &lt;file&gt;_1.mp4</div>
+<div># - Verschiebe alle Dateien mit der Maske &lt;file&gt;* in das temporaere Verzeichnis Concat1</div>
+<div># - Zusammenf&Atilde;&frac14;gen der Dateien im temporaeren Verzeichnis</div>
+<div># - Wiederhole&nbsp;</div>
+<div>#17.12.2019 Aenderungen:</div>
+<div>#- chmod 777 fuer temporaere Verzeichnisse, um den Zugriff mit Samba im Netz zu erlauben,</div>
+<div># &nbsp;Hintergrund ist, wenn aus Performance Gruenden eine lokale schnelle SSD benutzt wird, ist der Anwendung&nbsp;</div>
+<div># &nbsp;der Netzwerkkontext zun&Atilde;&curren;chst einmal nicht bekannt, dafuer gibt es auch keine allgemeingueltige Loesung.&nbsp;</div>
+<div># &nbsp;Allerdings ist das Thema auf einem Board, das der Videobearbeitung gewidmet ist, wenig relevant..</div>
+<div># &nbsp;Die Berechtigungsstruktur wird in diesem Fall durch die Netzwerkkonfiguration abgebildet..</div>
+<div># &nbsp;Bei Bedarf kann der Zugriff z. Bsp.mit chmod 664 und chown Netzuser Netzgruppe angepasst werden.</div>
+<div>#- Ausgabedateien heissen nun anfang_&lt;firstfile&gt; bzw bisende&lt;firstfile&gt; statt einfach anfang.mp4 bzw bisende.mp4</div>
+<div>#- Die concat Ausgabedatei erhaelt nun den Zeitstempel von firstfile statt den der zuletzt hinzugefuegten Datei.</div>
+<div>#19.12.2019 Parameter t(ranscode) hinzugef&Atilde;&frac14;gt</div>
+<div>#5.1.2019 Korrektur bei Parameter f: &nbsp;## !! Selbstaufruf des Skripts mit $0 c !! (statt absoluter Pfad)</div>
+<div>#18.3.20 Temp Folder f&Atilde;&frac14;r Operation w eingef&Atilde;&frac14;hrt</div>
+<div># Hintergrund ist, dass es m&Atilde;&para;glich ist den Temp Ordner auf einem separaten LW anzulegen,&nbsp;</div>
+<div># dadurch ergibt sich eine bessere Performance</div>
+<div>#18.3.20 sudo wurde den Kommandos chmod und chown vorangestellt (Operationen f und w)</div>
+<div>#18.3.20 Optionales Config File hinzugefuegt</div>
+<div># &nbsp;Pfad: selbes Verzeichnis wie Skript</div>
+<div># &nbsp;Name: splitvideoconfig.sh</div>
+<div># &nbsp;Inhalt: TmpVid=&quot;./tmp/&quot;; # oder alternatives Verzeichnis angeben</div>
+<div># &nbsp;das Konfigurationsfile gilt derzeit nur fuer w[ithout], falls nicht vorhanden gilt der Standardwert</div>
+<div># 4.3.2020 Korrektur bei r[efresh]</div>
+<div># &nbsp; alt: mv $infile &quot;$infile&quot;_old</div>
+<div># &nbsp; alt: mv outfiletemp.mp4 $infile&nbsp;</div>
+<div># &nbsp; neu: mv &quot;$infile&quot; &quot;$infile&quot;_old</div>
+<div># &nbsp; neu: mv outfiletemp.mp4 &quot;$infile&quot;&nbsp;</div>
+</div>
+<br />

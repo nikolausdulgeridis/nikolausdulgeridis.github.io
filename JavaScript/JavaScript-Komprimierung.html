@@ -1,0 +1,45 @@
+<strong>Entpacken komprimierter&nbsp;</strong><strong>Html&nbsp;</strong><strong>Dokumente mit Javascript<br />
+<br />
+</strong><em>Das Entpacken von Online Inhalten mit Javascript kann sinnvoll sein, sei es um Bandbreite zu sparen oder wertvollen localstorage optimal zu nutzen.</em><br />
+<br />
+Manche Dokumente werden bei der Html Konvertierung durch redundate Formatinformationen erheblich aufgeblasen. Das kostet nicht nur Bandbreite sondern bei Emailversand auch Speicherplatz im Empf&auml;ngerpostfach.&nbsp;<br />
+<br />
+In dieser Situation habe ich M&ouml;glichkeiten getestet, Html direkt im Browser zu entpacken. Folgende Bibliotheken finden sich im Netz:<br />
+<ol>
+    <li>LZ-string --- Javascript Kompression/ Dekompression, St&auml;rken:&nbsp;einfach zu handhaben, kompatibel bis IE7, Url: <a href="http://pieroxy.net/blog/pages/lz-string/index.html">http://pieroxy.net/blog/pages/lz-string/index.html</a></li>
+    <li>LZMA-JS --- Javascript Kompression/ Dekompression, St&auml;rken: sehr gute Kompression, URL:&nbsp;<a href="http://cdn.jwebsocket.org/lzma-js/1.3.7/demos/advanced_demo.html">http://cdn.jwebsocket.org/lzma-js/1.3.7/demos/advanced_demo.html</a></li>
+</ol>
+In meinem Test ergaben sich folgende Werte beim Komprimieren einer 1 MB grossen Tabelle<br />
+LZMA - 15 KB<br />
+LZ-String - 80 KB<br />
+<br />
+Bei dem komprimierten Ergebnis handelt es sich um Binaerformat, zur Speicherung im Html Dokument muss eine Konvertierung in ein Textformat erfolgen, z. Bsp. Hex oder Base64, dadurch ist ein Aufschlag von 50% faellig, da nur 6 von 8 Bits genutzt werden. Dazu kommt der Overhead f&uuml;r das Dekompresiionsskript (ca. 10 KB).<br />
+<br />
+Obwohl Lzma mit Lempelziff Komprimierung bessere Ergebnisse zeigt, habe ich hier nur die Verwendung von LZ-String getestet, da LZMA keine Kompatibilit&auml;t zu alten Browsern bietet.&nbsp;<br />
+<br />
+Vorteile komprimierter HTML Dokumente:<br />
+- Platzersparnis<br />
+- Bandbreite<br />
+- geringere Belastung des Empfaengerkontos<br />
+- bessere Performance bei langsamer Verbindung<br />
+<br type="_moz" />
+Nachteile:<br />
+- weniger kompatibel (im Vergleich zu reinem HTML)<br />
+- nicht durchsuchbar (Volltextsuche oder SEO)<br />
+- m&ouml;glicherweise erh&ouml;hte Gefahr der Abweisung durch Spam Filter&nbsp;<br />
+- Javascript muss aktiviert sein<br />
+- Kompressionsergebnis abhaengig vom Content<br />
+- overhead durch Kompressions Algorithmus<br />
+- zus&auml;tzlicher Aufwand bei der Erstellung<br />
+<br />
+Die meisten Vor- und Nachteile liegen auf der Hand. Auf zwei Punkte will ich genauer eingehen:
+<ul>
+    <li>Kompatibilit&auml;t: Javascript muss aktiviert und in der aktivierten Sicherheitszone zugelassen sein. Das mag in vielen F&auml;llen kein Problem sein, schr&auml;nkt aber den Wunsch nach maximaler Verf&uuml;gbarkeit und Reichweite ein.</li>
+    <li>Durchsuchbarkeit: Hier muss man ein wenig um die Ecke denken. Variante 1 (Versand als Email Anhang): Jedes Dokument, das mir einmal zugesendet wurde, landet bei mir auf einem grossen Haufen irgendwo auf der Festplatte. Falls ich irgendwann &uuml;ber einen Namen stolpere, den ich nicht mehr zuordnen kann, durchsuche ich alle Dateien der letzten Jahre. Diese M&ouml;glichkeit entfaellt, da die Inhalte in einem unentzifferbaren Binaerformat vorliegen. Falls das ein Problem darstellt w&auml;re ein workaround eine gezippte Version der Datei mitzusenden. Variante2: Komprimierte Webseiten k&ouml;nnen von Suchmaschinen nicht gelesen werden - Stichwort SEO. Das kann ein Problem sein (muss aber&nbsp;nicht, Anwendungsfall: Email Adressen verschleiern).&nbsp;</li>
+</ul>
+<strong>Demo:&nbsp;</strong><br />
+Als Vorlage f&uuml;r eigene Versuche kann diese Seite verwendet werden<br />
+<a href="http://nikolausdulgeridis.de.tl/LZCompressTemplate.htm" target="_blank">http://nikolausdulgeridis.de.tl/LZCompressTemplate.htm</a><br />
+<br />
+Als letztes fehlt noch das Tool um einen Text in einen komprimierten Base64 String zu wandeln:<br />
+<a href="http://nikolausdulgeridis.de.tl/LZ_demo64.htm" target="_blank">http://nikolausdulgeridis.de.tl/LZ_demo64.htm</a> <br type="_moz" />

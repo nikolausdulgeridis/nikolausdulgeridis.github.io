@@ -1,0 +1,105 @@
+<link rel="shortcut icon" type="image/x-icon" href="data:image/gif;base64,R0lGODdhIAAgAPEAAAQCBMTCxPwCBPz+/CwAAAAAIAAgAAACj4SPqZvjD6OcAwRAs3YWRwE+4QAKzgh1kkm2LStK6ne6JlxHM8TeNe5KXVaoUemE4gw3TN0SEohKp9RqdNdsYrObLTfj/U7CYqenDH4+rGw2GV15oy1quNBgl3XO+fiV/7XwBzjQNmVghTA3uFCGyHAghngBSagxWYnHdCCVqfkQCUpH6anQyclYWoWaWloAADs=" />
+<h3>Komprimiere Text</h3>
+<p>Entfernen &uuml;berfl&uuml;ssiger Leerzeilen - doppelte Leerzeilen werden entfernt, einzeln stehende Textzeilen zusammengasst.</p>
+Eingabe<br />
+<textarea autofocus="" id="intext" cols="150" rows="16" onchange="chg()" onkeyup="chg()" onClick="this.select()"></textarea> <br />
+<br />
+Ausgabe<br />
+<textarea id="outtext" cols="150" rows="16" onClick="this.select()"></textarea>     <script>
+String.prototype.rtrim = function (s) { if (s == undefined) s = '\\s'; return this.replace(new RegExp("[" + s + "]*$"), '');};
+String.prototype.ltrim = function (s) { if (s == undefined) s = '\\s'; return this.replace(new RegExp("^[" + s + "]*"), ''); };
+
+function zweiZeiler(zeile) {
+  //Erkennt einen Textblock. Kriterien: mindesten 90 Zeichen, mehrere Satzzeichen Punkt oder Fragezeichen
+  if(0) alert("abc.de".split(".").length - 1);  
+  var xzeile=" "+zeile+" "; 
+  if (zeile) xzeile= xzeile.trim();
+  if (xzeile.length < 90) return 0;
+  if (xzeile.length > 180) return 1;
+  if (((xzeile.split(".").length - 1) + (xzeile.split("?").length -1))  > 1 ) return 1;
+  return 0;
+}
+
+function stripZeilenOben(text) {
+  var ox="beginthistext"+text;
+  for (var i = 0; i < 9; i++) {
+  ox=ox.replaceAll(/(beginthistext\n)/gm, 'beginthistext')};
+  ox=ox.replaceAll(/(beginthistext)/gm, '');
+  return ox;
+}
+
+function stripZeilenUnten(text) {
+  var ox=text +"finishthistext";
+  for (var i = 0; i < 9; i++) {
+  ox=ox.replaceAll(/(\nfinishthistext)/gm, 'finishthistext')};
+  ox=ox.replaceAll(/(finishthistext)/gm, '');
+  return ox;
+}
+
+function chg() {
+
+  //Vorbereitung: Leerzeichen rechts im Dokument entfernen
+  var tarr=document.getElementById("intext").value.split("\n"); 
+  var ox="";
+  for (var i = 0; i < tarr.length; i++)
+  {
+  tarr[i]=tarr[i].rtrim();
+  ox=ox+tarr[i]+"\n";
+  }  
+
+  // \r durch \n erstzen (falls der Fallvorkommen sollte)
+  ox=ox.replaceAll(/(\r)/gm, '\n'); 
+  
+  //Leerzeilen oben und unten entfernen
+  ox=stripZeilenOben(ox);
+  ox=stripZeilenUnten(ox);
+  
+  //doppelte Leerzeilen durch einfache Leerzeilen ersetzen
+  for (var i = 0; i < 9; i++) {ox=ox.replaceAll(/(\n\n\n)/gm, '\n\n');};
+  //ox=ox.replaceAll(/(\r\n|\n|\r)/g, ''); Beispielvorlage für eine Ersetzung
+  
+  
+  //Dokument in Array wandeln: tarr=Originaldokument, tarr1=Ausgabe
+  // sline=Hilfsvariable zum Erkennen alleinstehender Zeilen, lastdel= merkt zuletzt entfernte Zeile
+  var tarr=ox.split("\n"); 
+  var tarr1=ox.split("\n"); 
+  var sline=0;
+  var lastdel=-1;
+  ox="";
+  for (var i = (tarr.length-1); i>2 ; i--)
+  {
+	if (tarr[i].length > 4) {sline++}; // Zaehle Zahl zusammenhaengender Zeilen => sline  
+	if (zweiZeiler(tarr[i])==1) {sline++}; // Erkenne Textblock mit mehreren Sätzen am Stück => sline 
+	if (tarr[i]=="") if (sline<=1) {tarr1.splice(i,1); lastdel=i; sline=0;} else sline=0; //Leerzeile gefunden 
+	if (sline>=2) if(lastdel!=-1) {tarr1[lastdel]= "\n"+tarr1[lastdel];if(0)alert(i);lastdel=-1;} //Textblock erkannt
+  }  
+  ox=tarr1.join("\n"); 
+
+  //Schreibe Ergebnis 
+  document.getElementById("outtext").value = ox;
+  
+  // Text innerhalb des Ergebnis Elements auswählen
+   document.getElementById("outtext").select();
+   
+   // Ausgewählten Text in die Zwischenablage kopieren
+   document.execCommand('copy');
+}
+
+</script>
+<p><br />
+Created: 27.4.2022 by Nikolaus Dulgeridis</p>
+<p><!--
+Dies ist ein Beispieltext 
+
+Zwei einzelne 
+
+Zeilen, die zusammengefasst werden. 
+
+Dazu ein Textblock Dazu ein Textblock Dazu ein Textblock Dazu ein Textblock Dazu ein Textblock. Dazu ein Textblock Dazu ein Textblock Dazu ein Textblock? Dazu ein Textblock. 
+
+
+
+Mit freundlichen Gruessen
+
+Schmidt  
+--></p>

@@ -1,0 +1,226 @@
+<h3>Reminder Window (Test)</h3>
+<b>
+<div id="Clock">&nbsp;</div>
+</b>
+<h4>Termin &Uuml;bersicht</h4>
+<b>
+<div><input type="button" onclick='deleteTermin(0);' value="delete" /><input type="button" onclick='plusTermin(0);' value="+" /> <input type="button" onclick='minusTermin(0);' value="-" /></div>
+<div><input type="button" onclick='deleteTermin(1);' value="delete" /><input type="button" onclick='plusTermin(1);' value="+" /> <input type="button" onclick='minusTermin(1);' value="-" /></div>
+<div><input type="button" onclick='deleteTermin(2);' value="delete" /><input type="button" onclick='plusTermin(2);' value="+" /> <input type="button" onclick='minusTermin(2);' value="-" /></div>
+</b>
+<h4>Termin hinzuf&uuml;gen</h4>
+<input type="button" onclick='setzeTermin(-2);' value="Zeit" name="btnzEingabe" id="btnzEingabe" />   <input type="text" placeholder="hh" value="hh" size="2" name="hh" id="hh" />    <b> : </b>   <input type="text" placeholder="mm" value="mm" size="2" name="mm" id="mm" />    Uhr&nbsp;&nbsp;&nbsp;   <!--
+ <nix input type="button" onclick='setzeTermin(-3);' value="Minuten" name="btnmEingabe" id="btnmEingabe" /> 
+ <nix input type="text" placeholder="in ... Minuten" value="" size="10" onkeyup="showTermin(this.form)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="mEingabe" id="mEingabe" /> 
+-->  <br />
+<br />
+<input type="button" onclick='setzeTermin( 0);' value="0 Minuten" />   <input type="button" onclick='setzeTermin(15);' value="15 Minuten" />   <input type="button" onclick='setzeTermin(30);' value="30 Minuten" />   <input type="button" onclick='setzeTermin(60);' value="60 Minuten" />  <br />
+<br />
+<b>Runde auf </b> <br />
+<select id="rundeminuten" size="1">
+<option>1 Minute</option>
+<option>5 Minuten</option>
+<option>15 Minuten</option>
+<option>30 Minuten</option>
+<option>60 Minuten</option>
+</select>  <br />
+<br />
+<b> Alarm </b> <br />
+<input type="checkbox" id="checkalert" checked="" />  Alert<br />
+<input type="checkbox" id="checkpopup" value="popup" checked="" /> Popup Window<br />
+<br />
+<div id="meldungen">&nbsp;</div>
+<script>
+var anzahlTermine=3;
+var termine= makeTerminlist(anzahlTermine);
+var jetzt= new Date();
+var testTerminSemaphor=0;
+
+showTime();
+showTermin();
+
+function rundeMinuten(z,rminute) {var t=Date.parse(z); return new Date(Math.ceil(t/(rminute*60*1000))*(rminute*60*1000));}
+function rundeTag(z) {var t=z.getTime(); return t-(t%(24*60*60*1000))+(z.getTimezoneOffset()*60*1000);}
+function zweiZiffern(z) {if((""+z).length == 1) return '0'+z; return ""+z;}
+function woTag(zeit) { var wtagname = new Array("So","Mo","Di","Mi","Do","Fr","Sa"); var wtag = zeit.getDay(); return wtagname[wtag];}
+function radioWert(rObj) {for (var i=0; i<rObj.length; i++) if (rObj[i].checked) return rObj[i].value; return false;}
+function getRadioWert() {var rwert=radioWert(document.getElementsByName("rundeRadio")); if (rwert==false) return 1;return rwert;}
+function getRundWert() {var dropdown = document.getElementById("rundeminuten");var selectedText = dropdown.options[dropdown.selectedIndex].text;return parseInt(selectedText,10);}
+function terminObj() { this.zeit = 0; this.win = 0; this.intvlId = 0; }
+function makeTerminlist(anzahl){var terminlist= new Array(); for(var i=0; i<anzahl; i++) terminlist.push(new terminObj); return terminlist}
+function melde(txt){document.getElementById("meldungen").innerHTML= txt; window.setTimeout("meldeAus()",2000);}
+function meldeAus(){document.getElementById("meldungen").innerHTML= "";}
+
+function showTime()
+{
+ jetzt= new Date();
+ var tString = "Es ist "+ timeString(jetzt)+" Uhr";
+ tString = jetzt;
+ document.getElementById("Clock").innerHTML= tString;
+ testTermin();
+ showTermin();
+}
+
+function timeString(zeit)
+{
+ var h,m,s;
+ h = zweiZiffern((zeit.getHours()));
+ m = zweiZiffern((zeit.getMinutes()));
+ s = zweiZiffern((zeit.getSeconds()));
+ return woTag(zeit) +" "+h+":"+m+":"+s;
+}
+
+function showTermin()
+{
+ for( var i=0; i<termine.length; i++)
+  { 
+   var tString;
+   var diffsec;
+   var diffmin;
+   if(termine[i].zeit==0)
+   tString = " --:--:-- ";
+     else 
+   {
+   diffsec = ((Date.parse(termine[i].zeit)-Date.parse(jetzt))/1000);
+   diffmin = (diffsec-diffsec%60)/60;
+   tString = "" + timeString(termine[i].zeit)+" ## "+zweiZiffern(diffmin)+":"+zweiZiffern(diffsec%60)+" ## ";
+   if(testTerminSemaphor) tString += " $";
+   }
+   document.getElementById("Termin"+i).innerHTML= tString;
+  }
+  testTermin();
+}
+
+function testTermin()
+{
+ var myWindow;
+ if (testTerminSemaphor) return; 
+ for (var i=0; i<termine.length; i++)
+ { 
+  if (termine[i].zeit>0)  
+  if (jetzt >= termine[i].zeit )  
+   { 
+    testTerminSemaphor=1; 
+    var tString;
+    tString = ""+ timeString(termine[i].zeit)+"";
+    termine[i].zeit=0;  
+    if (document.getElementById("checkpopup").checked)
+     { 
+      myWindow = window.open("mypopup","","width=500px, height=390px");
+      myWindow.document.write("<h3>Termin</h3>"+tString+ " "+i+" "+termine.length);
+      myWindow.focus();
+     }
+    if (document.getElementById("checkalert").checked)
+     { 
+      alert ("Zeit abgelaufen "+tString+ " "+i+" "+termine.length);
+      if (document.getElementById("checkpopup").checked) myWindow.close();
+     }
+    showTime(); for(var ii=0; ii<termine.length; ii++){if(termine[ii].zeit>0) if (jetzt >= termine[ii].zeit) termine[ii].zeit=0;} 
+    sortiereTermin();
+    showTermin();
+    testTerminSemaphor=0; 
+   }
+ } 
+}
+
+function setzeTermin(pminuten)
+{
+//alert(pminuten);
+ var minuten=pminuten;
+ var zeit;
+ var t=(jetzt.getTime());
+
+ if(pminuten==-1)
+  {
+  minuten= parseInt(document.getElementById("mEingabe").value,10);
+  if(isNaN(minuten)) 
+    minuten=0;
+  else
+    setzeTermin(minuten);
+  }
+
+ if(pminuten==-2)
+  {
+  t=rundeTag(jetzt);
+  if (isNaN(parseInt(document.getElementById("hh").value,10))) {melde("keine Nummer hh");return;}
+  if (isNaN(parseInt(document.getElementById("mm").value,10))) {melde("keine Nummer mm");return;}
+  if (parseInt(document.getElementById("hh").value,10)>23) {melde("Fehler Stunde max 23");return;}
+  if (parseInt(document.getElementById("mm").value,10)>59) {melde("Fehler Minute max 59");return;}
+  t += (parseInt(document.getElementById("hh").value,10) * 60*60*1000); 
+  t += (parseInt(document.getElementById("mm").value,10) * 60*1000); 
+  if (isNaN(t)) {melde("keine Nummer");return;}
+  if (jetzt.getTime()-t>60*60*1000) t+=24*60*60*1000; // Tagesumschlag bei 0 Uhr 
+  zeit = new Date(t); 
+  }
+ else
+  {
+  zeit = new Date(t + minuten*60*1000); 
+  zeit= rundeMinuten(zeit, getRundWert())
+  document.getElementById("hh").value=zweiZiffern(zeit.getHours());
+  document.getElementById("mm").value=zweiZiffern(zeit.getMinutes());
+  //return;
+  }
+
+ var i;
+ for(i=0; i<termine.length; i++)
+  { 
+   if (termine[i].zeit==0) break;
+  }
+ if (i==termine.length) {melde("Terminliste voll");return;} 
+ 
+ if(zeit<jetzt) {melde("Termin bereits abgelaufen");return;}
+ termine[i].zeit=zeit;
+ sortiereTermin();
+ showTermin();
+ testTermin();
+}
+
+function plusTermin(i)
+{if(termine[i].zeit!=0) termine[i].zeit = new Date(Date.parse(termine[i].zeit) +60*1000); sortiereTermin();}
+
+function minusTermin(i)
+{if(termine[i].zeit!=0)   termine[i].zeit = new Date(Date.parse(termine[i].zeit) -60*1000); sortiereTermin();}
+
+function deleteTermin(i) 
+{termine[i].zeit = 0; sortiereTermin();}
+
+function sortiereTermin()
+{
+ for(var ready=2; ready>0; ready--)
+ for(var i=0; i<termine.length-1; i++)
+ { 
+  // entfene doppelte
+  if(termine[i].zeit!=0)    
+  if(termine[i+1].zeit!=0)    
+  if(Math.abs(Date.parse(termine[i].zeit)-Date.parse(termine[i+1].zeit))<2*60*1000)    
+   {
+    termine[i+1].zeit = 0;
+    ready++;
+    melde("Termin bereits vorhanden");
+   }   
+  // leere Eintraege nach hinten
+  if(termine[i].zeit==0)    
+  if(termine[i+1].zeit!=0)    
+   {
+    var tmp = termine[i];
+    termine[i] = termine[i+1];
+    termine[i+1] = tmp;
+    ready++;
+   }   
+  // sortiere
+  if(termine[i+1].zeit != 0)   
+  if(termine[i].zeit > termine[i+1].zeit)
+   {
+    var tmp = termine[i];
+    termine[i] = termine[i+1];
+    termine[i+1] = tmp;
+    ready++;
+   }   
+ }
+ showTermin();
+}
+
+setInterval("showTime()",1000);
+document.write("");
+//<!-- 11.06.2016 -->
+</script>

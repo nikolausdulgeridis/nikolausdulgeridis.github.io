@@ -1,0 +1,96 @@
+<h3>JavaScript - Uhr Beispiel</h3>
+<div>Einfaches Beispiel f&uuml;r eine Uhr und Datumsanzeige in JavaScript</div>
+<br />
+<div><strong>&quot;Lange&quot; Datumsanzeige: <br />
+</strong></div>
+<ol>
+    <li>zuerst wird in Html der Ausgabebereich definiert,</li>
+    <li>dann die Ausgabefunktion:in JavaScript deklariert</li>
+    <li>zum Schluss wird mit setInterval der Timer gestartet</li>
+</ol>
+&lt;div id=&quot;clockfull1&quot;&gt;clockfull1&lt;/div&gt;<br />
+&lt;script&gt;<br />
+<div>
+<div>&nbsp; &nbsp; &nbsp;function showTime1() { document.getElementById(&quot;clockfull1&quot;).innerHTML= new Date(); }&nbsp;</div>
+<div>&nbsp; &nbsp; setInterval(&quot;showTime1()&quot;,1000);&nbsp;<br />
+&lt;/script&gt;<br />
+<br />
+<strong>&quot;Kurze&quot; Datumsanzeige</strong><br />
+Die oben verwendete &quot;lange&quot; Datumsanzeige ist die native Datumsausgabe in Javascript zzgl. Zeitzone. Das Format kann je nach Browser variieren und entspricht daher selten unseren Anforderungen (streng genommen gibt es dieses Format gar nicht sondern es ist die Stringausgabe eines Datumsobjekts, Stichwort Opearator&uuml;berladung). Man k&ouml;nnte auf die Idee verfallen und den Text hinter GMT abschneiden. Der n&auml;chste Browser verwendet aber vielleicht UTC statt GMT, dann geht das schief. Stattdessen muss man etwas weiter ausholen und Jahr, Monat, Tag, Stunde, Minute &uuml;ber die Datumsfunktionen abfragen und eine Anzeige im gew&uuml;nschten Format zusammensetzen.&nbsp;Den Code findet man im Beispiel unten.<br />
+<br />
+<strong>Zeitgesteuertes Meldungsfeld</strong><br />
+Mit setTimeout wird im folgenden Beispiel eine Melung nach 5 Sekunden wieder ausgeblendet<br />
+<ol>
+    <li>zuerst wird in Html der Ausgabebereich definiert,</li>
+    <li>dann wird die Ausgabefunktion ...</li>
+    <li>und die Stopfunktion in JavaScript deklariert</li>
+    <li>zum Schluss wird die Meldungsausgabe auufgerufen (der Timer startet automatisch)</li>
+</ol>
+<div>Meldungen: &lt;span id=&quot;meldungen&quot;&gt;...Meldungen...&lt;/span&gt;&lt;br&gt;</div>
+<div>
+<div>&lt;script&gt;<br />
+&nbsp;function melde(txt){document.getElementById(&quot;meldungen&quot;).innerHTML= txt; window.setTimeout(&quot;meldeAus()&quot;,15000);}</div>
+<div>&nbsp;function meldeAus(){document.getElementById(&quot;meldungen&quot;).innerHTML= &quot;&quot;;}<br />
+&nbsp;melde(&quot;Meldung verschwindet nach 15 Sekunden&quot;);<br />
+&lt;script&gt;</div>
+<h4>Alle Beispiele zusammengefasst</h4>
+<div style="border:2px solid gray;padding:4px;margin:4px; width:666px; overflow: auto; ">
+<div>Meldungen: <span id="meldungen">...Meldungen...</span></div>
+<div>Datum lang: <span id="clockfull">clockfull</span></div>
+<div>Zeit kurz: <span id="clockshort">clockshort</span></div>
+</div>
+<script>
+setInterval("showTime()",1000);
+melde("Meldung verschwindet nach 15 Sekunden");
+ 
+ function showTime() {
+ document.getElementById("clockfull").innerHTML=  new Date();
+ document.getElementById("clockshort").innerHTML= timeString(new Date());
+ }
+ function timeString(zeit) {
+  var h,m,s;
+  h = zweiZiffern((zeit.getHours()));
+  m = zweiZiffern((zeit.getMinutes()));
+  s = zweiZiffern((zeit.getSeconds()));
+  return woTag(zeit) +" "+h+":"+m+":"+s;
+ }
+ function zweiZiffern(z) {if((""+z).length == 1) return '0'+z; return ""+z;}
+ function rundeMinuten(z,rminute) {var t=Date.parse(z); return new Date(Math.ceil(t/(rminute*60*1000))*(rminute*60*1000));}
+ function rundeTag(z) {var t=z.getTime(); return t-(t%(24*60*60*1000))+(z.getTimezoneOffset()*60*1000);}
+ function woTag(zeit) { var wtagname = new Array("So","Mo","Di","Mi","Do","Fr","Sa"); var wtag = zeit.getDay(); return wtagname[wtag];}
+ function melde(txt){document.getElementById("meldungen").innerHTML= txt; window.setTimeout("meldeAus()",15000);}
+ function meldeAus(){document.getElementById("meldungen").innerHTML= "";}
+</script>    <br />
+<hr />
+<strong>Code</strong><br />
+<br />
+&lt;div style=&quot;border:2px solid gray;padding:4px;margin:4px; width:666px; overflow: auto; &quot;&gt;</div>
+<div>&nbsp; &nbsp;Meldungen: &lt;span id=&quot;meldungen&quot;&gt;...Meldungen...&lt;/span&gt;&lt;br&gt;</div>
+<div>&nbsp; &nbsp;Datum lang: &lt;span id=&quot;clockfull&quot;&gt;clockfull&lt;/span&gt;&lt;br&gt;</div>
+<div>&nbsp; &nbsp;Zeit kurz: &lt;span id=&quot;clockshort&quot;&gt;clockshort&lt;/span&gt;&lt;br&gt;</div>
+<div>&lt;/div&gt;</div>
+<div>&nbsp;</div>
+<div>&lt;script&gt;</div>
+<div>setInterval(&quot;showTime()&quot;,1000);</div>
+<div>melde(&quot;Meldung verschwindet nach 15 Sekunden&quot;);</div>
+<div>&nbsp;</div>
+<div>&nbsp;function showTime() {</div>
+<div>&nbsp;document.getElementById(&quot;clockfull&quot;).innerHTML= &nbsp;new Date();</div>
+<div>&nbsp;document.getElementById(&quot;clockshort&quot;).innerHTML= timeString(new Date());</div>
+<div>&nbsp;}</div>
+<div>&nbsp;function timeString(zeit) {</div>
+<div>&nbsp; var h,m,s;</div>
+<div>&nbsp; h = zweiZiffern((zeit.getHours()));</div>
+<div>&nbsp; m = zweiZiffern((zeit.getMinutes()));</div>
+<div>&nbsp; s = zweiZiffern((zeit.getSeconds()));</div>
+<div>&nbsp; return woTag(zeit) +&quot; &quot;+h+&quot;:&quot;+m+&quot;:&quot;+s;</div>
+<div>&nbsp;}</div>
+<div>&nbsp;function zweiZiffern(z) {if((&quot;&quot;+z).length == 1) return '0'+z; return &quot;&quot;+z;}</div>
+<div>&nbsp;function rundeMinuten(z,rminute) {var t=Date.parse(z); return new Date(Math.ceil(t/(rminute*60*1000))*(rminute*60*1000));}</div>
+<div>&nbsp;function rundeTag(z) {var t=z.getTime(); return t-(t%(24*60*60*1000))+(z.getTimezoneOffset()*60*1000);}</div>
+<div>&nbsp;function woTag(zeit) { var wtagname = new Array(&quot;So&quot;,&quot;Mo&quot;,&quot;Di&quot;,&quot;Mi&quot;,&quot;Do&quot;,&quot;Fr&quot;,&quot;Sa&quot;); var wtag = zeit.getDay(); return wtagname[wtag];}</div>
+<div>&nbsp;function melde(txt){document.getElementById(&quot;meldungen&quot;).innerHTML= txt; window.setTimeout(&quot;meldeAus()&quot;,5000);}</div>
+<div>&nbsp;function meldeAus(){document.getElementById(&quot;meldungen&quot;).innerHTML= &quot;&quot;;}</div>
+<div>&lt;/script&gt;</div>
+</div>
+</div>

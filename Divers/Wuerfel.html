@@ -1,0 +1,145 @@
+<h3>Computer-Simulation mit mehreren W&uuml;feln</h3>
+<table cellspacing="2" cellpadding="2" border="0">
+    <tbody>
+        <tr>
+            <td>
+            <div id="result">You need JavaScript</div>
+            </td>
+            <td valign="top">
+            <div>
+            <form name="Formular">
+                <table cellspacing="2" cellpadding="4" border="0">
+                    <tbody>
+                        <tr>
+                            <td>Min           <input type="text" onkeyup="berechne(this.form)" value="1" name="min" size="3" />           Max           <input type="text" onkeyup="berechne(this.form)" value="6" name="max" size="3" />           W&uuml;rfel           <input type="text" onkeyup="berechne(this.form)" value="2" name="runden" size="3" /></td>
+                            <td>
+                            <div nowrap="">&nbsp; Kombinationen      <span id="komb">-</span>         &nbsp; mittlere Augenzahl <span id="emittel">-</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp; <input type="button" onclick="berechnemath(this.form)" value="Berechnen" name="calcmath" />                       &nbsp; <input type="button" onclick="berechnezuf(this.form)" value="W&uuml;rfeln" name="wuerfeln" /></td>
+                            <td>&nbsp; Zahl der W&uuml;rfe           <input type="text" onkeyup="berechne(this.form)" value="10000" name="versuche" size="6" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            </div>
+            <hr />
+            <div>
+            <pre>
+   <b>JavaScript Beispiel: Simulation mit zwei W&uuml;rfeln</b>
+   &lt;script&gt;
+   var min=1;
+   var max=6;
+   var runden = 2;
+   var versuche = 10000;
+   var e= new Array();
+   for (var i=0; i&lt;= max*runden; i++) e[i]= 0;
+   for (var count=0; count &lt; versuche; count++)
+    {
+     var punkte= 0;
+     for (var i=0; i &lt; runden ; i++) 
+       punkte+= Math.floor(Math.random()*(max-min+1)+min);
+     e[punkte] = e[punkte] + 1;
+    }
+   for (var i= min*runden; i&lt;=max*runden ;i++)
+     document.write(&quot;Punkte &quot;+i+&quot; = &quot;+Math.round(1000*e[i]/versuche)/10+&quot;%&lt;br&gt;&quot;);
+   &lt;/script &gt;
+   </pre>
+            </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<script>
+berechne(document.forms[0]); 
+
+function berechne(f)
+{
+ berechnemath(f);
+}
+function berechnezuf(f)
+{
+ var runden = parseInt(f.runden.value);
+ var min = parseInt(f.min.value);
+ var max = parseInt(f.max.value);
+ var versuche = parseInt(f.versuche.value);
+
+ /* var runden = 2; var min=1; var max=6; */
+ var e= new Array();
+ for (var i=0; i<= max*runden; i++) e[i]= 0;
+ for (var count=0; count < versuche; count++)
+  {
+   var punkte= 0;
+   for (var i=0; i < runden ; i++) 
+     punkte+= Math.floor(Math.random()*(max-min+1)+min);
+   e[punkte] = e[punkte] + 1;
+  }
+ putausgabe(e,min,max,runden,1);
+}
+
+function putausgabe(e,min,max,runden,spieler)
+{
+var komb= Math.pow(max-min+1,runden);
+var sum=0;
+var emittel=0;
+for (var i= min*runden; i<=max*runden ;i++) 
+  {sum+=e[i]; emittel+=e[i]*i;}
+emittel= Math.round(100*emittel/sum)/100;
+
+var ausgabe="";
+ausgabe+="<table border=1 cellspacing=2 cellpadding=4><tr>";
+ausgabe+="<td>Punkte</td><td>%</td><td>Komb</td><td>Total</td></tr><tr>";
+
+/*for (var i= max*runden; i>=min * runden; i--)*/
+for (var i= min*runden; i<=max*runden ;i++) 
+  {
+  ausgabe+= "<td> "+ i +" </td>";
+  ausgabe+= "<td> "+ Math.floor(1000*e[i]/(sum))/10 +" </td>";
+  ausgabe+= "<td> "+ Math.round(e[i]/sum*komb) +" </td>";
+  ausgabe+= "<td> "+ Math.floor(e[i]) +" </td>";
+  ausgabe+= "</tr>";
+  }
+ausgabe+="</tr></table>";
+document.getElementById("result").innerHTML=  " "+ ausgabe;
+document.getElementById("komb").innerHTML=    " "+ komb;
+document.getElementById("emittel").innerHTML= " "+ emittel;
+}
+
+function berechnemath(f)
+{
+ var runden = parseInt(f.runden.value);
+ var min = parseInt(f.min.value);
+ var max = parseInt(f.max.value);
+ var e= new Array();
+ var a= new Array();
+ var erg = max * runden;    /* = maximale Punktzahl */
+ for (var i=0; i<= erg ; i++) {a[i]= 0;e[i]= 0;}
+ /* 0. Runde (Initialisierung des Feldes) */
+ e[0] = 1;
+
+ /* Runde 1 bis <runden> */
+ for (var k=1; k<= runden; k++)
+ {
+  /* Kopieren des letztberechneten Feldes E() in Feld a() */
+  for (var i=0; i< erg; i++)
+    {a[i] = e[i];e[i]=0;}
+  
+  /* Aufsummieren der m&ouml;glichen Ergebnisse 1,2,3, ...  */
+  for (var j=min; j<= max; j++)
+  {
+   /* Transponieren des alten Feldes a() um die akt. Punktzahl (j) und summ */
+   for (var i=0; i<=erg; i++)
+     {e[i + j] = e[i + j] + a[i];}
+   }
+ }
+ putausgabe(e,min,max,runden,1);
+}
+</script>  <hr />
+<div>Oft ist es nicht m&ouml;glich f&uuml;r Ereignisse eine einfache Formel zur  Berechnung der Wahrscheinlichkeiten zu finden. In diesen F&auml;llen bietet es sich an,  eine Versuchsreihe durchzuf&uuml;hren. Nachteil: die Zuverl&auml;ssigkeit der Stichprobe ist schwer zu bestimmen.</div>
+<div><br />
+Links: <br />
+auf dieser Site: <a href="./SchwSystem.htm">SchwSystem</a>&nbsp;Turniertabelle im Schweizer System berechnen<br />
+<a href="http://www.wiki-aventurica.de/wiki/Wahrscheinlichkeit_Summen_N-seitiger_W%C3%BCrfel"> www.wiki-aventurica.de/wiki/Wahrscheinlichkeit_Summen_N-seitiger_W&uuml;rfel</a>  <br />
+<a href="http://www.landrat-lucas.de/mint/stochastik/augensummen.xls"> www.landrat-lucas.de/mint/stochastik/augensummen.xls</a> Beschreibung des Algorithmus<br />
+<a http:="" www.stochastik-in-der-schule.de="" sisonline="" struktur="" jahrgang05-85="" heft2="" 1985-2_scho.pdf"="">http://www.stochastik-in-der-schule.de/sisonline/struktur/jahrgang05-85/heft2/1985-2_Scho.pdf</a> Beschreibung des Algorithmus</div>

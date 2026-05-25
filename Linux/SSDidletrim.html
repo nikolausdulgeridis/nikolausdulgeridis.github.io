@@ -1,0 +1,306 @@
+<title>Trim SSD when idle</title>
+<div style="width:614px;clear:both"><img width="90" height="73" align="right" alt="Putzen" src="//img.webme.com/pic/n/nikolausdulgeridis/picPutzene.gif" />
+<h3>Linux: SSD im Ruhezustand trimmen&nbsp;</h3>
+<h4>Putzaktion f&uuml;r das SSD Laufwerk</h4>
+</div>
+SSDs ben&ouml;tigen einen gelegentlichen trim. Das verbessert die Performance und das Wear Levelling und kommt daher auch der Lebensdauer zugute. Ubuntu und andere Systeme haben den Aufruf in einem w&ouml;chentlichen Zeitrahmen integriert.&nbsp;<br />
+<br />
+Warum eigentlich nur w&ouml;chentlich fragt man sich, aber bei h&auml;ufigerer Ausf&uuml;hrung von trim, steigt die Wahrscheinlichkeit, in einem ung&uuml;nstigen Augenblick mitten in einen Dateitransfer hineinzuplatzen. Das ist im Grunde nicht schlimm, aber es erscheint aussichtsreicher, gezielt einen ruhigen Moment abzuwarten. Einerseits um den Dateitransfer nicht zu st&ouml;ren und andererseits dem SSD Controller etwas Zeit zur Reorganisation zu geben. Zuf&auml;llig haben wir auf dieser Site bereits ein fertiges Ferstplattenidleprogramm, das wir f&uuml;r diesen Zweck nur anpassen m&uuml;ssen, indem wir 'sudo fstrim -va' im richtigen Moment ausf&uuml;hren.<br />
+<br />
+Der Algorithmus wird f&uuml;r unsere Zwecke in entscheidenden Punkten abgewandelt<br />
+wiederhole alle 4h -&gt;<br />
+Intervall 4/2/1 ... Stunden -&gt; check if idle <br />
+-&gt; Zwangstrim nach spaetestens 8h<br />
+<br />
+<strong>Motivation:</strong><br />
+Ich bin wahrscheinlich der letzte Mensch auf diesem Planeten, der seinem Board eine schnelle SSD spendiert hat. Nach zwei Wochen ungebrochener Geschwindigkeitsrekorde, fielen die Schreibraten auf einen Bruchteil des urspr&uuml;nglichen Wertes. Auf einmal war aus der schnellsten Platte in meiner Kollektion die langsamste geworden. Auch ein trim Kommando half nicht. Was war geschehen? Meine Suche in Userforen f&uuml;hrte mich lediglich zu der Erkenntnis, dass ich scheinbar der erste Mensch war, der je &uuml;ber das Problem gestolpert ist. Schliesslich entschied ich die Platte neu zu formatieren. Siehe da, alles wie am ersten Tag. Offenbar hatten Inkonsistenzen im Dateisystem dazu gef&uuml;hrt, dass der Trim Befehl wirkungslos blieb (m&ouml;glicherweise h&auml;tte ein fsck und nachfolgender trim ebenfalls getan). Jedenfalls wurde durch das Erlebnis mein Augenmerk auf den Wert einer gut aufger&auml;umten Disk gelenkt.&nbsp;<br />
+<br />
+<strong>Hintergrund: </strong><br />
+Der Befehl trim markiert die Sektoren nur als geloescht, der SSD Controller wird die freigewordenen Bl&ouml;cke sp&auml;ter im Hintergrund reorganisieren und nach und nach physikalisch l&ouml;schen, es kann einige Zeit dauern bis der getrimmte Bereich tats&auml;chlich wieder zur Verf&uuml;gung steht. Der L&ouml;schvorgang an sich ist vergleichsweise langwierig, aber da die Bl&ouml;cke recht gross sind (64k+) und u.U. parallel gel&ouml;scht werden k&ouml;nnen, f&auml;llt das nicht so sehr ins Gewicht. Gelegentlich m&uuml;ssen die Inhalte von noch teilweise belegten Bereichen zusammengefasst werden, um die freigewordenen Bl&ouml;cke l&ouml;schen zu k&ouml;nnen (das &auml;hnelt ein wenig dem altbekannten Defragmentieren, obwohl das Ziel etwas anders ist). Die Controller gehen hier teilweise unterschiedlich aggressiv gegen die L&uuml;cken in den bereits getrimmten Bereichen vor. Im Ergebnis wird sich der SSD Controller bem&uuml;hen, m&ouml;glichst viele freie Bl&ouml;cke vorzuhalten, damit der n&auml;chste Schreibvorgang ohne Zeitverlust vonstatten gehen kann. <br />
+<br />
+In der Vergangenheit wurden Laufwerke oft mit der Option discard gemountet, dann wird der trim direkt im Anschluss an eine Schreib/L&ouml;schoperation durchgef&uuml;hrt. Der Vorteil gegenueber einer w&ouml;chentlichen Trim Aktion, wie sie z.B. Ubuntu einplant, ist einfach dass die Bereiche unverz&uuml;glich an den Controller gemeldet werrden. Davon wird mittlerweile abgeraten, da die von discard ausgel&ouml;ste Kommunikation zur Unzeit die Schnittstelle und die SSD belastet. Allerdings gehen die Auffassungen &uuml;ber den Nutzen von discard in einigen Quellen auseinander.&nbsp;Insbesonere Intel warnt sogar ausdr&uuml;cklich davor, discard zu aktivieren, warum wird allerdings nicht gesagt. NVME ist eine performante Schnittstelle, die Intel gerne f&uuml;rr SSDSs als Standard etablieren m&ouml;chte. M&ouml;glicherweise ist Intels Sorge, dass die Geschwindigkeit durch die Verwendung von discard leidet, was NVME schlecht aussehen liesse.<br />
+(siehe u.a.&nbsp;<a href="https://wiki.ubuntuusers.de/SSD/TRIM">wiki.ubuntuusers.de/SSD/TRIM</a>&nbsp;oder&nbsp;<a href="https://www.intel.com/content/dam/support/us/en/documents/ssdc/data-center-ssds/Intel_Linux_NVMe_Guide_330602-002.pdf">intel.com/.../Intel_Linux_NVMe_Guide</a>).<br />
+<br />
+Wenn wir nach einem Zustand relativer Ruhe suchen, m&uuml;ssen wir ber&uuml;cksichtigen, dass es Anwendungen geben kann, die kontinuierlich aber mit niedriger Frequenz auf die Platte zugreifen, in diesen F&auml;llen kann es schwerfallen, einen absoluten Ruhepunkt zu finden. Genau deshalb ist das 'normale' Idle Skript f&uuml;r unseren Zweck nicht ausreichend &nbsp;Stattdessen wird wiederholt in einem sich verk&uuml;rzenden Intervall gemessen. Zwangstrim erfolgt nach spaetestens 8h.<br />
+<br />
+Bei der idle Pr&uuml;fung werden alle Laufwerke einbezogen. Im Grunde w&uuml;rde es reichen, die Pr&uuml;fung auf die SSDs zu begrenzen, aber vorzugsweise suchen wir einen Zustand, in dem das Gesamtsystem in Ruhe ist. Man k&ouml;nnte auch Prozessorlast und Netzaktivit&auml;t als Indikatoren hinzuziehen, das ist aber derzeit nicht vorgesehen (eine &auml;hnliche Funktion bietet Xidle auf einigen Systemen, das trifft aber nicht genau unseren Bedarf).<br />
+<br />
+<strong>Wahl des Intervalls<br />
+</strong>Zun&auml;chst einmal , warum 4 Stunden. Nun 4 Stunden sind einerseits weniger als 1 Woche, andererseits eine Zeitspanne in der ein Transfervolumen denkbar ist, das einen trim sinnvoll machen kann. Variante 1: kein Datentransfer in den letzten 4 Stunden. Eigentlich gut, denn wir haben den gew&uuml;nschten Ruhezustand und k&ouml;nnen trimmen. Zur&uuml;ck zum Anfang, wir warten vier Stunden. Variante 2: Datentransfer hat stattgefunden, wir wissen aber nicht, ob das Sytem in diesem Moment idle ist, wir warten also ein weiteres &nbsp;mal, diesmal mit verk&uuml;rztem Intervall: Kein Datentransfer: Trim und zurueck zum Anfang, Sonst k&uuml;rzeres Intervall und so weiter bis Intervall = 0. Man kann &uuml;ber die g&uuml;nstigste Intervalldauer spekulieren, der Vorteil des Algorithmus ist immerhin, er ist robust bei guter Trefferquote bez&uuml;glich der Vorhersage eines Ruhemoments.&nbsp;<br />
+<br />
+Also: <br />
+Intervall := 4*3600 Sekunden<br />
+Loop:<br />
+&nbsp;warte Intervall<br />
+&nbsp;kein Datentransfer oder Intervall=0 =&gt; Trim und alles auf Anfang<br />
+&nbsp;Interval := Intervall/2<br />
+End Loop<br />
+<br />
+L&auml;ngstm&ouml;gliche Dauer bis trim: 8 Stunden (Grenzwertsatz)<br />
+<br />
+Berechnung im Skript:<br />
+let intervall=4*3600<br />
+<div>
+<div>let intervall=$intervall/2; if &nbsp;[ $intervall == 0 ] ; then echo Ende! ; else echo Intervall ist $intervall Sekunden; fi</div>
+</div>
+<div>
+<div><br />
+<strong>Risiken:</strong> <br />
+Praktisch Null. Das Skript belastet wegen seiner grossen Intervalldauer die Systemressourcen nur unmerklich. Der Trim Befehl selber ist unbedenklich. Auch ein versehentlich mehrfach gestartetes Skript hat keine erw&auml;hnenswerten Auswirkungen, deshalb ist eine Kontrolle beim Start &uuml;berfl&uuml;ssig. Ebenfalls ist eine Kollision mit dem w&ouml;chentlichen Trim oder Ausf&uuml;hrung bei aktivierter discard Option folgenlos. Den w&ouml;chentlichen Cronjob lassen wir einfach unangetestet, damit haben wir auch ein Fallback falls aus irgendeinem Grund das Skript nicht l&auml;uft.<br />
+<br />
+<strong>Hinweis:</strong><br />
+Trim wurde jetzt auch im Skript disk_spindown.sh hinzugef&uuml;gt. Der Unterschied zu diesem Skript ist, dass disk_spindown.sh konservativer herangeht. Es wird nur bei absoluter Ruhe getrimmt. Ins Gehege kommen sich die Skripte nicht, beide koennen parallel betrieben werden.<br />
+<br />
+<strong>Alternative CronJob:</strong><br />
+Wem das alles zu umst&auml;ndlich ist, kann auch einfach einen CronJob z.B alle 6 Stunden (das w&auml;re 4x am Tag) mit 'sudo fstrim -av' einrichten. Die Wahrscheinlichkeit mitten in einem Datentransfer zu landen ist auch hier gering. Jedenfalls ist die w&ouml;chentliche Ausf&uuml;hrung nach meiner Erfahrung zu selten, um eine performante Leistung der SSD stets zu gew&auml;hrleisten. Also, wer es einfach mag nimmt den CronJob, wem die gesteuerte Vorgehensweise lieber ist, st&uuml;rzt sich auf das Skript. Mit beiden Varianten liegt man sicherlich richtig.<br />
+<br />
+<strong>Windows:</strong>&nbsp;<br />
+Der Vollst&auml;ndigkeit halber auch ein Hinweis f&uuml;r Windows Nutzer. Unter Windows 7/10 ist analog zu Linux eine Trim Funktion f&uuml;r SSDs integriert. Der w&ouml;chentliche Ausf&uuml;hrungsturnus ist jedoch auch hier eher grossz&uuml;gig bemessen. Manuell kann der Trim unter Laufwerkseigenschaften / Laufwerksoptimierung getriggert werden oder man f&uuml;gt einen Aufruf im Task Scheduler hinzu. Auf alten Windows XP Systemen existiert keine Trim Unterst&uuml;tzung, hier muss bei Bedarf ein Defragmentier Tool (z.B. OO-Defrag) aushelfen oder man bootet zwischendurch eine Linux Live CD (z.B. Slax). Aufruf in der Konsole erfolgt dann mit 'sudo fstrim -av'. F&uuml;r ntfs existiert Trim Unterst&uuml;tzung ab Version NTFS-3G 2015.3.14. Fat32 wird i.d.R. nicht unterst&uuml;tzt.<br />
+<br />
+<strong>Verschl&uuml;sselte SSD:</strong><br />
+F&uuml;r verschl&uuml;sselte Partitionen k&ouml;nnnen die folgenden Artikel als Anhaltspunkt dienen:<br />
+<a href="https://www.heise.de/ct/hotline/Linux-Verschluesselte-SSD-trimmen-2405875.html">https://www.heise.de/ct/hotline/Linux-Verschluesselte-SSD-trimmen-2405875.html</a><br />
+<a href="http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html">http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html</a><br />
+<br />
+<div><strong>Installation:</strong></div>
+<div><strong>a)</strong> Teste Ausfuehrung von fstrim auf der Befehlszeile</div>
+<div>sudo fstrim -av</div>
+<div>(a f&uuml;r alle, v f&uuml;r verbose, Linux erkennt freundlicherweise selber die in Frage kommenden SSDs)&nbsp;<br />
+&nbsp;</div>
+<div><strong>b)</strong> pr&uuml;fen, ob das Laufwerk /run/shm ein Ramdrive ist:</div>
+<div>Das Ramdrive dient zum Zwischenspeichern der Laufwerkstabelle</div>
+<div>sudo df -h&nbsp;</div>
+<div>hier sollte neben dem Laufwerk die Bezeichnung Ramfs oder tmpfs (oder so &auml;hnlich stehen), falls nicht, muss ein anderes Laufwerk gesucht werden (das ist &uuml;brigens der einzige Fall, in dem man an das Skript Hand anlegen muss).&nbsp;</div>
+<div>&nbsp;</div>
+<div><strong>c)</strong> Skript speichern</div>
+<div>das unten stehende Skript unter&nbsp;</div>
+<div>/usr/local/bin/SSDidletrim.sh</div>
+<div>speichern.&nbsp;</div>
+<div>&nbsp;</div>
+<div><strong>d)</strong> Skript ausf&uuml;hrbar machen:</div>
+<div>sudo chmod +x /usr/local/bin/SSDidletrim.sh</div>
+<div>&nbsp;</div>
+<div><strong>e)</strong> Test:</div>
+<div>Programm starten (zum Testen wird eine verk&uuml;rzte Zeit angegeben)<br />
+nohup sudo /usr/local/bin/SSDidletrim.sh 9 9 &amp; # Erlaeuterung: 9/4/2/1 Sekunden, 9 Durchlaeufe, im Hintergrund</div>
+<div>&nbsp;</div>
+<div><strong>f)</strong> Logfile ausgeben:</div>
+<div>
+<div>cat /var/log/SSDidletrim.log</div>
+</div>
+<div>&nbsp;</div>
+<div><strong>g)</strong> Skript im Autostart aktivieren</div>
+<div>wenn der Test erfolgreich war, muss das Programm noch in der Autostart verankert werden, &nbsp;</div>
+<div>
+<div>dazu in der Datei /etc/rc.local folgende Zeile am Ende einf&uuml;gen (aber vor exit 0, sudo ist hier nicht erforderlich)</div>
+<div>
+<div><span style="background-color: rgb(0, 255, 0);">/usr/local/bin/SSDidletrim.sh &amp; &gt;/dev/null</span></div>
+</div>
+</div>
+<div>Aufruf des Editors:&nbsp;<br />
+sudo nano /etc/rc.local</div>
+<div>&nbsp;</div>
+<div><strong>h)</strong> Rechner neustarten und evtl. noch einmal testen.&nbsp;</div>
+<div>ps -ef | grep -ivw grep | grep -i SSDidletrim.sh #Pruefe ob Prozess l&auml;uft</div>
+<div>&nbsp;</div>
+<strong>Deinstallation:</strong><br />
+<div>Skript l&ouml;schen:&nbsp;<br />
+&nbsp; sudo rm /usr/local/bin/SSDidletrim.sh</div>
+<div>
+<div>Logfile l&ouml;schen:<br />
+<div>&nbsp;sudo rm /var/log/SSDidletrim.log</div>
+<div>Aufruf aus dem Autostart entfernen:</div>
+&nbsp;sudo nano &nbsp;/etc/rc.local&nbsp;</div>
+</div>
+<div>&nbsp;<br />
+<strong>Troubleshooting:</strong></div>
+Der Befehl 'sudo fstrim -av'&nbsp;muss auf dem System ausf&uuml;hrbar sein.<br />
+Das Skript muss mit chmod +x ausf&uuml;hrbar gemacht werden.<br />
+<div>Pruefe ob Prozess l&auml;uft: sudo ps -ef | grep -ivw grep | grep -i trim<br />
+<div>Logfile pr&uuml;fen: sudo cat /var/log/SSDidletrim.log&nbsp;</div>
+Hinweise: <br />
+Falls man das Skript auf einem Netzlaufwerk ablegt:&nbsp;</div>
+&nbsp;- Netzlaufwerke werden oft mit der Option -noexec gemounted&nbsp;<br />
+&nbsp;- beim Systemstart muss das Laufwerk rechtzeitig verf&uuml;gbar sein, falls das Skript aus&nbsp;<span style="font-family: tahoma, verdana, arial; font-size: 11px; background-color: rgb(221, 221, 238);">/etc/rc.local</span>&nbsp;gestartet wird.<br />
+rc.local wird nicht als bash sondern als Bourne Shell nach Posix Standard ausgef&uuml;hrt, es gilt der entsprechende Befehlssatz.<br />
+&nbsp;</div>
+</div>
+<strong>Links: </strong><br />
+<a href="https://wiki.ubuntuusers.de/SSD/TRIM">https://wiki.ubuntuusers.de/SSD/TRIM</a>&nbsp;<br />
+<a href="https://www.intel.com/content/dam/support/us/en/documents/ssdc/data-center-ssds/Intel_Linux_NVMe_Guide_330602-002.pdf">https://www.intel.com/content/dam/support/us/en/documents/ssdc/data-center-ssds/Intel_Linux_NVMe_Guide_330602-002.pdf</a><br />
+<a href="https://askubuntu.com/questions/464306/a-command-which-checks-that-trim-is-working">https://askubuntu.com/questions/464306/a-command-which-checks-that-trim-is-working</a>&nbsp;<br />
+<br />
+----------------------------------------------<br />
+Skript (<a href="https://sites.google.com/site/nikolausdulgeridis/downloads/SSDidletrim.sh?attredirects=0&amp;d=1">or download here</a>)<br />
+----------------------------------------------<br />
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>
+<div>#!/bin/bash</div>
+<div># Purpose of this script:&nbsp;</div>
+<div># perform fstrim -av every 4-8 hours, preferably when disk is idle</div>
+<div># Installation:</div>
+<div># ---------------</div>
+<div># - Put it to /usr/local/bin/SSDidletrim.sh</div>
+<div># - Set the Permissons sudo chmod 744 /usr/local/bin/SSDidletrim.sh</div>
+<div># - Startup: we put a new line in /etc/rc.local for systemwide start.</div>
+<div># /usr/local/bin/SSDidletrim.sh &amp; &gt;/dev/null</div>
+<div># exit 0</div>
+<div>#</div>
+<div># Now you can reboot the pc, for activate or to activate a change.</div>
+<div># # **************************************************</div>
+<div>&nbsp;</div>
+<div>##################################################</div>
+<div>### troubleshooting ###</div>
+<div># please check your PATH settings if you run into problems, also make sure your script is executing with root permissions</div>
+<div># especially when using crontab, it may happen, that the path settings differ from what you expect.&nbsp;</div>
+<div># so you should &nbsp;test under real conditions, to be sure its working&nbsp;</div>
+<div>#</div>
+<div>### check the followung commands are working</div>
+<div># cat /proc/diskstats</div>
+<div># sudo fstrim -av</div>
+<div>#</div>
+<div>### logfile watching&nbsp;</div>
+<div># watch &quot;cat /var/log/SSDidletrim.log &amp;&amp; echo --- &amp;&amp; ps -ef | grep -i SSDidletrim | grep -ivw grep&quot;</div>
+<div>##################################################</div>
+<div>&nbsp;</div>
+<div>### Logfile:</div>
+<div>SSDidletrimLog=&quot;/var/log/SSDidletrim.log&quot;</div>
+<div>&nbsp;</div>
+<div># Where is your Ramdrive?&nbsp;</div>
+<div># Check it out with &nbsp;df -h or mount command.</div>
+<div># Possible Values Examples: /dev/shm , /run/shm&nbsp;</div>
+<div>#ramdrive=/run/shm</div>
+<div>ramdrive=/var/tmp</div>
+<div>&nbsp;</div>
+<div># The SSD trim Time in Seconds</div>
+<div># The Raktion done in $SSDtrimtime maximum of 2 times. Depending build by the script. Protects for the cpu load.&nbsp;</div>
+<div>let SSDtrimtimeInit=4*3600;&nbsp;</div>
+<div>if [ $1 ] ; then let SSDtrimtimeInit=&quot;$1&quot;; fi</div>
+<div>let SSDtrimtime=$SSDtrimtimeInit;&nbsp;</div>
+<div>&nbsp;</div>
+<div># Counter</div>
+<div># counter, 0 means infinite &nbsp;</div>
+<div>let counter=0;</div>
+<div>if [ $2 ] ; then let counter=&quot;$2&quot;; fi</div>
+<div>&nbsp;</div>
+<div># Log&nbsp;</div>
+<div># appendlog= append log, newlog=new log (default), nolog= no output to logfile&nbsp;</div>
+<div>logmode=&quot;newlog&quot;;&nbsp;</div>
+<div>if [ $3 ] ; then logmode=&quot;$3&quot;; fi</div>
+<div>if [ &quot;$logmode&quot; == &quot;nolog&quot; ]; then SSDidletrimLog=&quot;/dev/null&quot;; fi #!!caution!! stringcompare spaces: if_[_$1_==_ $2_]; then usw.</div>
+<div>if [ &quot;$logmode&quot; == &quot;newlog&quot; ]; then rm $SSDidletrimLog; fi</div>
+<div>&nbsp;</div>
+<div># Which disks are handled&nbsp;</div>
+<div>diskvolumes=&quot;a b c d e f g h i j k l m n o p q r s t u v w x y z&quot;</div>
+<div>#watch &quot;date &amp;&amp; cat /proc/diskstats | grep sd&quot;</div>
+<div>&nbsp;</div>
+<div># Build onece the tempfiles&nbsp;</div>
+<div>if [ ! -f $ramdrive/ssddiskstate1 ]; then touch $ramdrive/ssddiskstate1;fi&nbsp;</div>
+<div>if [ ! -f $ramdrive/ssddiskstate2 ]; then touch $ramdrive/ssddiskstate2;fi</div>
+<div>&nbsp;</div>
+<div>###&nbsp;</div>
+<div>#Wait before 1st run and initialize file ssddiskstate1</div>
+<div>#Start logging</div>
+<div>echo '***'</div>
+<div>echo start disk monitoring: SSDidletrim.sh - ssd trim when idle</div>
+<div>echo start disk monitoring: SSDidletrim.sh - ssd trim when idle &gt;&gt; $SSDidletrimLog</div>
+<div>echo &quot;date: $(date) &nbsp;--- settings: &quot;seconds:$SSDtrimtime repeat:$counter &quot;</div>
+<div>echo &quot;date: $(date) &nbsp;--- settings: &quot;seconds:$SSDtrimtime repeat:$counter &quot; &nbsp;&gt;&gt; $SSDidletrimLog</div>
+<div>echo '************************************************************************ '</div>
+<div>echo '* usage: &nbsp; sudo [/bin/bash] SSDidletrim.sh [ &lt;delay&gt; [ &lt;count&gt; [ [newlog|appendlog|nolog] ] ] ] '</div>
+<div>echo '* example: sudo /usr/local/bin/SSDidletrim.sh 9 9 &gt;/dev/null &amp; # trim after 9/4/2/1 seconds, 9 rounds'</div>
+<div>echo &quot;* view log: cat /var/log/SSDidletrim.log&quot;</div>
+<div>echo '************************************************************************ '</div>
+<div>echo '*** ps -ef | grep -i SSDidletrim | grep -ivw grep ***'</div>
+<div>ps -ef | grep -i SSDidletrim | grep -ivw grep&nbsp;</div>
+<div>echo '*** ps -ef | grep -i SSDidletrim | grep -ivw grep ***' &nbsp;&gt;&gt; $SSDidletrimLog</div>
+<div>ps -ef | grep -i SSDidletrim | grep -ivw grep &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &gt;&gt; $SSDidletrimLog</div>
+<div>echo '****************************************************************'</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div># Here we go...&nbsp;</div>
+<div>cat /proc/diskstats &gt; $ramdrive/ssddiskstate1</div>
+<div>#let SSDtrimtime=1; &nbsp; # on the first run perform trim without delay</div>
+<div>let count=0;</div>
+<div>let shutdown=0;</div>
+<div>&nbsp;</div>
+<div>while [ true ] ; do</div>
+<div>sleep 1; #wait 1 sec min between every loop</div>
+<div># cycle diskstat to test for activity&nbsp;</div>
+<div>mv $ramdrive/ssddiskstate1 $ramdrive/ssddiskstate2&nbsp;</div>
+<div>cat /proc/diskstats &gt; $ramdrive/ssddiskstate1</div>
+<div>&nbsp;</div>
+<div># Loop through all array disks and spin down idle disks.&nbsp;</div>
+<div>let allidle=1;</div>
+<div>for disk in $diskvolumes&nbsp;</div>
+<div>do</div>
+<div>&nbsp; &nbsp;if [ &quot;$(diff $ramdrive/ssddiskstate1 $ramdrive/ssddiskstate2 | grep -w sd$disk )&quot; = &nbsp;&quot;&quot; ] ; then&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> # skip drive letters that are currently not used</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> if [ $(cat $ramdrive/ssddiskstate1 | grep -cw -m 1 sd$disk ) != &quot;0&quot; ] ; then&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #-hdparm -y /dev/sd$disk &gt;/dev/null 2&gt;&amp;1;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #echo hdparm -y /dev/sd$disk &nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #echo hdparm -C /dev/&quot;sd$disk&quot;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null | grep &quot;sd$disk&quot; -A 1) &nbsp;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null| grep &quot;sd$disk&quot; -A 1) &gt;&gt; $SSDidletrimLog</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #-echo spindown &quot;sd$disk&quot; &nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #-echo spindown &quot;sd$disk&quot; &nbsp;&gt;&gt; $SSDidletrimLog&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; : # simply empty command</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> fi;</div>
+<div>&nbsp; &nbsp;else</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> let allidle=0;</div>
+<div>&nbsp; &nbsp;fi;</div>
+<div>done&nbsp;</div>
+<div>&nbsp;</div>
+<div>let count+=1;&nbsp;</div>
+<div>if [ &quot;$counter&quot; -eq &quot;$count&quot; ]; then break; fi &nbsp;&nbsp;</div>
+<div>if [ $((count % 999)) -eq 0 ]; then rm $SSDidletrimLog; echo remove; fi &nbsp;# simple logfile size limit</div>
+<div>&nbsp;</div>
+<div>if [ $allidle -eq 1 ] ; then</div>
+<div>&nbsp; let allidlecount=$allidlecount+1;</div>
+<div>else</div>
+<div>&nbsp; let allidlecount=0;</div>
+<div>fi;</div>
+<div>&nbsp;</div>
+<div>if [ $allidle -eq 1 -o $SSDtrimtime -lt 2 ] ; then&nbsp;</div>
+<div>&nbsp; #trimresult=$(sudo fstrim -av)</div>
+<div>&nbsp; echo --- trim interval $SSDtrimtime --- | tee -a $SSDidletrimLog</div>
+<div>&nbsp; sudo fstrim -av &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | tee -a $SSDidletrimLog</div>
+<div>&nbsp; echo startloop':' SSDtrimtimeInit $SSDtrimtimeInit // date $(date) | tee -a $SSDidletrimLog&nbsp;</div>
+<div>&nbsp; let SSDtrimtime=$SSDtrimtimeInit;&nbsp;</div>
+<div>else</div>
+<div>&nbsp; let SSDtrimtime=$SSDtrimtime/2;&nbsp;</div>
+<div>fi;</div>
+<div>echo trimtime $SSDtrimtime count $count&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp; #test only</div>
+<div>&nbsp; ##check networkactivity 1 sec</div>
+<div>&nbsp; #nwstat=($(dstat -n --bw 1 1 | grep -v e)); &nbsp;let nwaktiv=0; for ele in &quot;${nwstat[@]}&quot;; do if [ $ele != &quot;0&quot; ]; then let nwaktiv+=1 ;fi ; done ;&nbsp;</div>
+<div>&nbsp; #for ele in &quot;${nwstat[@]}&quot;; do echo $i $ele; let i+=1; done</div>
+<div>&nbsp; #echo nwaktiv $nwaktiv</div>
+<div>&nbsp; #if [ $nwaktiv -ge 1 ] ; then&nbsp;</div>
+<div>&nbsp; # &nbsp;allidlecount=0;</div>
+<div>&nbsp; #fi</div>
+<div>&nbsp;</div>
+<div>#Wait</div>
+<div>sleep $SSDtrimtime</div>
+<div>&nbsp;</div>
+<div>done</div>
+<div>echo script finished':' $0&nbsp;</div>
+<div>exit 0</div>
+<div>&nbsp;</div>
+<div>#Beta release 2.3.2020</div>
+<br />
+&nbsp;</div>
+</div>
+<div>#----------------------------</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+#Seite erstellt: 1.2.2020

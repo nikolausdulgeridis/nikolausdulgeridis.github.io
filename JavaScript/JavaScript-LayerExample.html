@@ -1,0 +1,47 @@
+<h3>JavaScript Layer Example</h3>
+Wer kennt sie nicht, die nervigen Werbe Layer.<br />
+Hier ist so einer.<br />
+<br />
+----- Code ----<br />
+<br />
+<div>&lt;style type=&quot;text/css&quot;&gt;</div>
+<div>&nbsp; #nervigerlayer {</div>
+<div>&nbsp; &nbsp; position: absolute;</div>
+<div>&nbsp; &nbsp; border: 1px solid red;</div>
+<div>&nbsp; &nbsp; background: yellow;</div>
+<div>&nbsp; &nbsp; left: 100px;</div>
+<div>&nbsp; &nbsp; top: 100px;</div>
+<div>&nbsp; &nbsp; display:inline;</div>
+<div>}&lt;/style&gt;</div>
+<div><br />
+&lt;div id=&quot;nervigerlayer&quot;&gt;</div>
+<div>&nbsp; &lt;h2&gt;Layer Example&lt;/h2&gt;</div>
+<div>&nbsp; &lt;h3&gt;mit absoluter Position&lt;/h3&gt;</div>
+<div>&nbsp; &lt;h4&gt;5Sekunden&lt;/h4&gt;</div>
+<div>&lt;/div&gt;</div>
+<div>&lt;script&gt;</div>
+<div>&nbsp; window.setTimeout(&quot;closelayer()&quot;, 5000);</div>
+<div>&nbsp; function closelayer()&nbsp;{document.getElementById(&quot;nervigerlayer&quot;).style.display = 'none';&nbsp;}</div>
+&lt;/script&gt;<br />
+<br />
+<hr />
+<br />
+<style type="text/css">
+  #nervigerlayer {
+    position: absolute;
+    border: 1px solid red;
+    background: yellow;
+    left: 100px;
+    top: 100px;
+    display:inline;
+    xdisplay:none;
+}</style>
+<div id="nervigerlayer">
+<h2>Layer Example</h2>
+<h3>mit absoluter Position</h3>
+<h4>5Sekunden</h4>
+</div>
+<script>
+  window.setTimeout("closelayer()", 5000);
+  function closelayer() {document.getElementById("nervigerlayer").style.display = 'none'; }
+</script>

@@ -1,0 +1,217 @@
+<title>sd card wrecking - geplante Obsolenz bei USB Sicks</title>
+<h3>Geplante Obsoleszenz - Warum USB Sticks versterben</h3>
+<table cellspacing="0" cellpadding="0" border="0" width="611">
+</table>
+<b><i>Wer sich auf Expertentipps verl&auml;sst oder empfohlene Tools (wie SD Formatter von sdcard.org) verwendet, tappt in eine Falle. Die Folge: der Speicherstick wird immer langsamer und bleibt schlie&szlig;lich stehen. Klingt unwahrscheinlich? Welche Sticks betroffen sind und wie man das Problem umgeht steht in diesem Tipp.</i></b><br />
+<br />
+Mehrere meiner neuen Sandisk Cruzer gaben nach wenigen Wochen auf. Unterirdische Schreibraten weit unter 500 KB/s f&uuml;hrten dazu, dass Aufnahmen einfach abbrachen. Hingegen mein JetFlash von Annodazumal spurtet wie am ersten Tag. Was war passiert, hatte ich eine schlechte Serie erwischt? Meine Ursachenforschung f&ouml;rderte erstaunliches zutage. <br />
+<br />
+Bevor wir uns in Einzelheiten verlieren, es gibt Abhilfe: Den Stick (oder die SD Karte) nie!! vollschreiben. Alle anderen wohlmeinenden Tips oder auch Tools f&uuml;hren an der Sache vorbei und oft sogar zum vorzeitigen Ableben der filigranen Speicherriesen. Wobei man korrekterweise anraten sollte, die Datenpartitition von vornherein um 10% zu verkleinern, um ein ungewolltes Vollaufen sicher auszuschliessen. <br />
+<br />
+Das wars. Wer nur an der Probleml&ouml;sung interessiert war, kann hier  aufh&ouml;ren zu lesen. Wer weitere Hintergr&uuml;nde erfahren will, kann dem Blog weiter folgen oder  studiert einen der angef&uuml;gten Links.<br />
+<br />
+<strong>Ursachen</strong><br />
+Alle Anzeichen deuten daraf hin, dass die Hersteller zunehmend auf ein ausreichendes Overprovisioning verzichten, mit dem unter anderem der Verlust von defekten Speixherzellen ausgeglichen soll. Ein Speicherstick von 8GB wird deshalb intern nie exakt 8GB Speicher vorweisen, sondern z.B. 8,5 oder mehr. Wird eine kritische Marke unterschritten wird der Stick langsamer und friert schliesskich ein. Es kann zwar noch gelesen aber nicht mehr geschrieben werden, ein Indiz daf&uuml;r dass der Controller grunds&auml;tzlicch eigentlich funktioniert. <br />
+<br />
+Es geh&ouml;rt zu den Eigenartigen von USB Sticks und SD Karten, dass einmal belegter Speicher intern nie wieder frei gegeben wird, das liegt an der vereinfachten USB Schnitttelle. Deshalb der Rat eine um 10 Prozent verkleinerte Partition zu verwenden. Es widerspricht ein wenig der Logik, aber tats&auml;chlich findet st&auml;ndig ein Austausch zwischen den Bereichen statt, so dass der stillgelegte Speicher tatsaechlich als Reserve genutzt wird.<br />
+<br />
+<strong>Welche Karten sind betroffen, welche nicht?<br />
+</strong> Nicht oder weniger betroffen sind SSDS und teure High Speed Karten, die &uuml;ber gen&uuml;gend Overprovisioning verf&uuml;gen, sowie Karten die nie vollgeschrieben werden, wie &uuml;blicherweise in Kameras oder Handys. Stark betroffen sind billige Speichersticks ohne Overprovisioning, die vollgeschrieben wurden und die oft mit Ausschuss Nands best&uuml;ckt werden, die nach der Qualit&auml;tskontrolle f&uuml;r SSDS nicht in Frage kamen.<br />
+<br />
+Das erkl&auml;rt auch, weshalb es nicht l&auml;ngst zu einem Aufschrei gekommen ist. In vielen F&auml;llen kommt es zu keinen Problemen und selbst wenn man in die Falle gelaufen ist, ist die Neigung wegen eines Sticks von 20 Euro zum H&auml;ndler zu gehen, gering. Schlie&szlig;lich war von vornherein klar, dass es sich um die Billig Variante, also Wegwerf Ware handelte. Und alle sind gl&uuml;cklich. Die Hersteller verkaufen mehr oder an reum&uuml;tige Kunden teure Sticks usw. Wobei man sagen mu&szlig;, 3 Wegwerfsticks a 20 Euro sind unterm Strich kein Schn&auml;ppchen mehr. Eine SSD ist dann doch deutlich langlebiger und kommt daher g&uuml;nstiger.<br />
+<br />
+<strong>Overprovisioning<br />
+</strong>SSDS aber in geringerem Umfang auch USB Sticks bzw. SD Karten verf&uuml;gen &uuml;ber ein sogenanntes Overprovisioning d.h. ein Teil des Speichers wird f&uuml;r den Ersatz fehlerhafter Bl&ouml;cke und f&uuml;r das Wear Levelling abgezweigt. Eine 128GB SSD wird nach aussen nur 120 GB melden, 8 GB bleiben reserviert. Sehr sch&ouml;n ist die Funktion in folgerndem Artikel beschrieben: <a href="https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/">https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/<br />
+</a><br />
+Der Overprovisioning Speicher hat also folgende Aufgaben<br />
+- Turbo Boost (speziell bei SSD)<br />
+- Wear Levelling (gleichmaessige Abnutzung, oft verwendete Bloecke werden geschont)<br />
+- Ersatz fehlerhafter Bl&ouml;cke<br />
+<br />
+<strong>Wieviel Overprovisioning Speicher wird ben&ouml;tigt </strong><br />
+USB Sticks und SD Karten verf&uuml;gen wegen ihrer Gr&ouml;sse aber auch aus Kostengr&uuml;nden (der Preiskampf ist hart) &uuml;ber wenig Reserve. Betrachten wir den Extremfall: Eine Karte mit 64k Bloecken und 512 Byte Sektoren. Die Karte ist vollst&auml;ndig bef&uuml;llt und es soll ein einzelner Sektor neu beschrieben werden. Es kann aber immer nur ein Block im Ganzen gel&ouml;scht werden. Wir brauchen also mindestens 1 ExtraBlock sonst steckt das System fest. Es kommt aber noch schlimmer. Sagen wir, wir wollen 64k schreiben, und ben&ouml;tigen einen freien Block. Dummerweise ziehen sich die 64k freien oder zum L&ouml;schen freigegebenen Bereiche aber zuf&auml;llig &uuml;ber 10 Bl&ouml;cke. Wir m&uuml;ssen daher einen Block aussuchen und seine belegten Inhalte in die freien Sektoren in den anderen Bl&ouml;cken kopieren. Dann m&uuml;ssen wir den gerade freiger&auml;umten Block l&ouml;schen und haben f&uuml;r die Operation Platz. <br />
+<br />
+Das sollte deutlich machen, wie aufwendig der Vorgang wird, wenn wir mit zu wenig Reserve Bl&ouml;cken arbeiten: die Vielzahl der Kopiervorg&auml;nge macht das Schreiben extrem langsam und senkt auch die Lebenserwartung dramatisch, st&auml;ndig muss umger&auml;umt werden. Grunds&auml;tzlich sollte bei einem 64GB Stick mindesten 1GB freier Platz vorgehalten werden, damit der Kopiervorgang verz&ouml;gerungsfrei schreiben kann. Wenn das GB aufgebraucht ist, sind voraussichtlich inzwischen wieder gen&uuml;gend Bl&ouml;cke gel&ouml;scht, so dass der Vorgang unterbrechungsfrei fortgesetzt wird. Mehr Bl&ouml;cke bedeuten auch Vorteile f&uuml;r ein gesundes Wear Levelling. Man sollte ber&uuml;cksichtigen, dass defekte Bloecke ausfallen, billige Sticks sind hier besonders gef&auml;hrdet, da sie sowieso kaum &uuml;ber Reserve Bl&ouml;cke verf&uuml;gen.<br />
+<br />
+Allgemein werden 10 % Overprovisioning empfohlen, allerdings ist der Wert eher von der &Uuml;bertragungsgeschwindigkeit abh&auml;ngig. Ein128GB Stick kommt mit 5 GB Reserve ebenso gut zurecht wie ein 64 GB Stick mit der gleichen Technik. Man muss nat&uuml;rlich bei gr&ouml;sseren Sticks mehr Ersatzsektoren vorhalten. Fr&uuml;her wurden bis zu 30% Reserve empfohlen, das erscheint jedoch &uuml;bertrieben. Ab einer bestimmten Gr&ouml;&szlig;e bringt es keinen Geschwindigkeitsvorteil mehr und verbessert auch nicht das Wear Levelling.<br />
+<br />
+<strong>Das Filesystem und 'freie' Sektoren</strong><br />
+Jeder Sektor, der einmal beschrieben wurde, wandert aus dem Provisioning Pool in den belegten Bereich. Selbst wenn die Festplatte gel&ouml;scht formatiert oder patitioniert wird &auml;ndert sich daran nichts. Der Grund ist, dass zwar der Computer wei&szlig; dass die Festplatte formatiert wurde, aber vers&auml;umt hat, das dem Kartencontroller mitzuteilen. Aus Sicht des Kartencontrollers sind die Sektoren weiterhin belegt. Es gibt nur drei M&ouml;glichkeiten, einen Sektor wieder freizugeben: &Uuml;berschreiben, Trim oder Erase. Der bekannteste Befehl ist Trim. Hiermit wandern freie Sektoren zur&uuml;ck in den Provisioniong und k&ouml;nnen vom Kartencontroller wieder frei als Rangiermasse verwendet werden. Anders als viele glauben, l&ouml;scht Trim keine Sektoren, sondern gibt sie nur frei. Gel&ouml;scht werden Bl&ouml;cke sobald der Controller erkennt, dass alle Sektoren darauf freigegeben sind.<br />
+<br />
+USB Sticks k&ouml;nnen keinen Trim durchf&uuml;hren, da ihr USB Controller die ATA Befehle nicht durchl&auml;sst. Punkt. Der Provisioning Bereich wird also nie wieder wachsen wenn er einmal belegt wurde.<br />
+<br />
+Es gibt einen Ausweg zumindest in der Theorie: Laut SDA Spezifikation (ich glaube 2015) ist das vorgeschriebene Filesystem Fat32 oder exFat. Es ist daher dem Controller erlaubt, selbst&auml;ndig nicht benutzte/gel&ouml;schte Sektoren zu identifizieren. Nur macht das kein Controller: <a href="https://www.computerbase.de/forum/threads/trim-und-gc-ein-erklaerungsversuch.865108/">https://www.computerbase.de/forum/threads/trim-und-gc-ein-erklaerungsversuch.865108/</a><br />
+<br />
+Trim von SDXC<br />
+SD oder SDXC k&ouml;nnen mit einem Trick getrimmt werden: Mit einem SBC (Raspberry, Odroid, nano Pi, Rock Pi) k&ouml;nnen Ata Befehle an die Karte &uuml;bertragen werden. Theoretisch k&ouml;nnen auch Notebook Kartenleser genutzt werden, allerdings mangelt es an Software. Normale USB Cardreader scheiden ebenso wie normale USB Sticks aus, wegen der ATA Befehle, <br />
+<br />
+Nachfolgend ein Erfahrungsbericht eines Raspberry Users. https://www.reddit.com/r/techsupport/comments/9yxqal/sd_card_with_trim_or_blkdiscard_support/<br />
+SD card with TRIM or blkdiscard support<br />
+I've been using heavy writes to SD cards for a project, and they tend to slow down after there are no free blocks. Using blkdiscard or fstrim on the card fixes this immediately, but unfortunately the only SD card reader I have that has TRIM support is a raspberry pi (I've tried the readers built into two laptops and three USB ones).<br />
+<br />
+So interessant es ist, SD Karten zu trimmen, so m&uuml;hselig ist es und bei USB Sticks versagt das Verfahren v&ouml;llig.&nbsp;Zudem hat man keine Kontrolle, ob der trim tats&auml;chlich ausgef&uuml;hrt wird.&nbsp;Es bleibt beim einzig vern&uuml;nftigen Rat, die Partition um 5-10% zu verkleinern, dann wird man l&auml;nger Freude an seinem Stick haben. Nar&uuml;rlich verlagern die Hersteller auf diese Weise die Kosten auf den Verbraucher, da erst durch die fehlende Provisioning Reserve das Problem entsteht. Andererseits wird der Speicher immer billiger, abgesehen von dem Umstand dass es eine Frechheit ist, Ger&auml;te mit einem offenkundigen Mangel zu verkaufen, sollte das also kein Thema sein.<br />
+<br />
+Kommen wir zu den Eingangs erw&auml;hnten Tools und Tips<br />
+<br />
+<strong>Tools<br />
+</strong><strong><br />
+SD Formatter von sdcard.org<br />
+</strong> Das Tool wird unter anderem von Sandisk empfohlen, jener Firma also, die sich nicht scheut SD Sticks auf den Markt zu werfen, die sich nach wenigen Wochen selbst zerst&ouml;ren (geplante Obsoleszenz).<br />
+<br />
+Beim SD Formatter wird vollmundig davor gewarnt, andere Tools oder Betriebssysteme zu verwenden<br />
+<div><br />
+&quot;The SD Formatter was created specifically for memory cards using the SD/SDHC/SDXC standards. It is strongly recommended to use the SD Formatter instead of formatting utilities provided with operating systems that format various types of storage media. Using generic formatting utilities may result in less than optimal performance for your memory cards.&quot;</div>
+<br />
+Ruft man das Tool auf, kann man nicht das Dateisystem w&auml;hlen, es wird automatisch Fat32 oder exFat eingestellt, je nach Gr&ouml;sse des Lauswerks. Das geht insofern in Ordnung, als es der SDA Spezifikation entspricht, es bringt in der Praxis oft wenig, weil viele Mediaplayer kein exFat verstehen und SD Karten nicht profitieren. Aber damit kann ich leben. Was ich sehr kritisch aufnehme: Die Partitionsgr&ouml;sse kann nicht frei gew&auml;hlt werden und das scheint mir grenzwertig. Das Problem, dass USB Sticks mangels verf&uuml;gbarer Sektoren dazu neigen abzusterben, ist seit Jahren bekannt und w&auml;re mindestens eine Erw&auml;hnung wert gewesen. Aber hier wird der User f&uuml;r dumm verkauft. Aber es geht noch weiter:<br />
+<br />
+<div>What is the difference between Quick and Overwrite format methods?</div>
+Quick format deletes all the file/directory entries by initializing file system parameters of the card, but it does not delete the data written in files. Overwrite format deletes file/directory entries by initializing file system parameters of the card (same as with Quick format), and erases all data by overwriting the user data area completely. The Overwrite format takes more time to complete than the Quick format method.<br />
+<br />
+Ich habe die vollst&auml;ndige Formatierung in zwei F&auml;llen getestet. In einem Fall mit gutem Erfolg, die SD Karte die in der Schreibrate stark schwankte, arbeitete danach einwandfrei und in erwarteter Geschwindindigkeit (ca. 5 &nbsp;MB/s). Im anderen Fall (dem erw&auml;hnten Sandisk Cruizer, die anderen Cruzer habe ich leider schon weggeschmissen), f&uuml;hrte das vollst&auml;ndige Formatieren zu einer deutlichen Verschlechterung aus mageren 600KB/s wurden 250 KB/s, bereits die Formatierung dauerte zwei Tage. Das scheint die Annahme zu best&auml;tigen, dass das Vollschreiben dem schw&auml;chelnden USB Stick nicht gut bekommen ist, vermutlich weil auch der letzte freie Puffer entzogen wurde. Das gute Ergenis des ersten Tests l&auml;sst sich gut mit kippenden Speicherbl&ouml;cken erkl&auml;ren, die durch das &Uuml;berschreiben entweder endg&uuml;ltig aus dem Verkehr gezogen oder m&ouml;glicherweise noch einmal aufgefrischt wurden. Des &ouml;fteren wird von Anwendern dem SD Formatter ein geheimes Rezept anorakelt, das ihn bef&auml;higt fragw&uuml;rdige Sticks zu reparieren. Trotz des positiv verlaufenden ersten Tests habe ich daran ernste Zweifel und zwar sowohl der eigenen Dokumentation des SD Formatters folgend als auch wegen der technischen Grenzen durch die USB Schnittstelle.<br />
+<br />
+<strong>H2testw</strong><br />
+Tool um USB Fake Sticks zu erkennen. Der Speicherplatz der Karte wird einmal vollgeschrieben. Ein wichtiges Tool, da viele Fake Karten im Umlauf sind. Trotzdem Finger weg, au&szlig;er man hat eine Idee, wie man die Karte hinterher trimmen kann. Wer unbedingt testen will, sollte eine verkleinerte Partition anlegen (ca. 10%), dann gibt es keine Probleme.<br />
+<br />
+<strong>Fazit:<br />
+</strong>Das ganze Thema ist ein h&auml;ssliches Beispiel f&uuml;r geplante Obsoleszenz. Die Sticks werden offenbar so designt, dass das schmale Overprisioning nicht reicht sowohl das Wear Levelling als auch eine Reserve f&uuml;r den unvermeidlichen Schwund durch defekte Sektoren zu bedienen. Die Folge: sobald der Stick vollgeschrieben wurde, stirbt er unvermeidlich ab.<br />
+<br />
+Offensichtlich profitieren alle davon, denn eine Warnung oder Tipps zur Vermeidung sucht man im Netz vergeblich. Iim Gegenteil, die verbreiteten Tips und Tools f&uuml;hren sogar noch in die Irre. <br />
+<br />
+<strong>Anmerkung::</strong><br />
+Die Aussage, dass eine verkleinerte Partition Lebensdauer und Performance eines USB Sticks verbessern k&ouml;nne, ist genaugenommen eine begr&uuml;ndete aber unbewiesene Annahme, die auf fr&uuml;heren Artikeln sowie auf Erfahrungen mit SSDS beruht. Es gibt keine frei zug&auml;nglichen Tools mit denen der Zustand des Overprovisioning gepr&uuml;ft werden kann. Ein Unsicherheitsfaktor besteht darin, dass unterschiedliche Baueelemente ineinandergreifen, hier k&ouml;nnten allenfalls die Hersteller belastbare Aussagen machen. Um die Annahme zu verifizieren k&ouml;nnte man repr&auml;sentative Tests mit einer ausgew&auml;hlten Serie durchf&uuml;hren, solche Untersuchungen gibt es allerdings bisher nicht. Auf der anderen Seite schadet eine geringf&uuml;gig verkleinerte Partition aber auch nicht und bei der Kurzlebigkeit vieler Sticks ist es vermutlich die beste Empfehlung, die man zur Zeit geben kann.<br />
+<br />
+K&ouml;nnte man Entwarnung geben, angesichts der Tatsache, dass nur wenige User (wie oben festgestellt) das Problem jemals feststellen werden? Nein. Es gibt ein verwandtes Thema. Es sind immer noch viele Fake Sticks unterwegs, die als 128GB verkauft werden, obwohl nur 32G oder weniger real vorhanden sind. Viele Verbraucher merken das erst sp&auml;t oder nie, wenn de SD Karte dann irgendwann voll&auml;uft, wird eine neue besorgt. Trotzdem besteht ein Anspruch, dass das Produkt das erf&uuml;llt, was draufsteht, der Kartenfake ist kein Kavaliersdelikt.<br />
+<strong><br />
+</strong>
+<div><br />
+###***####***###***####***<br />
+###***####***###***####***</div>
+<br />
+<strong>Links<br />
+<br />
+</strong>  <hr />
+<div><a href="https://www.computerbase.de/forum/threads/trim-und-gc-ein-erklaerungsversuch.865108/"><strong>https://www.computerbase.de/forum/threads/trim-und-gc-ein-erklaerungsversuch.865108/</strong></a></div>
+<div>
+<div>Wer kein TRIM nutzt und seine SSD schon einmal richtig voll geschrieben hat, der kann z.B. die volle Leistung nur noch mit Tools zum vollst&auml;ndigen L&ouml;schen aller Daten die der SSD Hersteller liefert oder benennt, wieder herstellen. Diese Tools l&ouml;schen die Daten nicht selbst, sondern teilen dem Controller &uuml;ber das Secure Erease ATA Kommando dies selbst zu machen.</div>
+<div>Deshalb sollte man eine SSD ohne TRIM niemals ganz voll schreiben und bei SSDs f&uuml;r den professionellen Einsatz wird deshalb auch schon vom Hersteller reichlich Platz freigelassen! Windows hilft nur insofern, als dass es bei NTFS einen Teil (standardm&auml;&szlig;ig 12.5%) der Kapazit&auml;t f&uuml;r den MFT reserviert und diesen Platz erst mit anderen Daten beschreibt, wenn keine anderen LBAs mehr verf&uuml;gbar sind. Sicherer ist es aber, die Partition etwas kleiner zu w&auml;hlen damit ein Teil der Kapazit&auml;t garantiert unbeschrieben bleibt.</div>
+<div>&nbsp;</div>
+Wenn er das Filesystem kennt kann der Controller nat&uuml;rlich auch versuchen die Daten auf der SSD selbst zu interpretieren um das Setzen eines &quot;Gel&ouml;scht Flags&quot; zu erkennen, die der Datei zugeordneten Sektoren zu finden und diese dann f&uuml;r ung&uuml;ltig zu erkl&auml;ren. Dies st&ouml;&szlig;t aber bei der Vielzahl von Filesystemen auf Grenzen und wird z.B. in RAIDs und bei Cryptographierung schon gleich gar nicht funktionieren. Obendrein birgt es au&szlig;erdem die Gefahr von Datenverlust etwa aufgrund einer Fehlinterpretation wegen &Auml;nderungen des Filessystems oder wegen einer Inkonsistenz im Filesystem. Deshalb ist dies keine wirkliche Alternative zu TRIM und auch nicht verbreitet und soll deswegen hier auch nicht weiter betrachtet werden. Soweit ich wei&szlig; hat nur Samsung so etwas mal zu der Zeit implementiert, als TRIM nicht nicht verbreitet und die Samsung SSDs nur f&uuml;r OEMs waren (es gab die Modelle aber f&uuml;r Endkunden als OCZ, Corsair und Kingston) und prompt funktionierten die in RAIDs nicht, weil laufen Fehlinterpretationen passierten und daher die falschen Daten gel&ouml;scht wurden.</div>
+<hr />
+<div><a href="https://www.heise.de/download/product/h2testw-50539"><strong>https://www.heise.de/download/product/h2testw-50539</strong></a></div>
+<div>Warum ist H2testw n&ouml;tig?</div>
+<hr />
+<div><a href="https://superuser.com/questions/417077/restoring-the-oxide-layer-of-the-nand-in-a-ssd-to-restore-performance"><strong>https://superuser.com/questions/417077/restoring-the-oxide-layer-of-the-nand-in-a-ssd-to-restore-performance</strong></a></div>
+<div>From what I have read in the literature the best way to detrap the electrons in the oxide layer is rest and temperature. If you just leave the array be with no reading, writing or erasing the electrons in the oxide layer (and in the floating gate) will leak out over time. Heat speeds up this process. This is why an SSD which is not heavily used can last far longer than what the ratings suggest.</div>
+<hr />
+<div><a href="https://www.reddit.com/r/techsupport/comments/9yxqal/sd_card_with_trim_or_blkdiscard_support/"><strong>https://www.reddit.com/r/techsupport/comments/9yxqal/sd_card_with_trim_or_blkdiscard_support/</strong></a></div>
+<div>SD card with TRIM or blkdiscard support</div>
+<div>I've been using heavy writes to SD cards for a project, and they tend to slow down after there are no free blocks. Using blkdiscard or fstrim on the card fixes this immediately, but unfortunately the only SD card reader I have that has TRIM support is a raspberry pi (I've tried the readers built into two laptops and three USB ones).</div>
+<div>This requires either:</div>
+<div>a) putting an OS on the SD card, booting it on the pi, trimming it, then reformatting it again or,</div>
+<div>b) for me to constantly switch my pi from USB boot to SD card boot (which is also quite cumbersome).</div>
+<div>Does anyone know how I can find out if an SD card reader supports TRIM or how to source one that does?</div>
+<div>Edit: Alternatively any other method that sets the discard bit on the whole SD card quickly and conveniently would solve the same problem.</div>
+<hr />
+<div><a href="https://www.heise.de/forum/heise-online/News-Kommentare/SD-Memory-Card-Formatter-5-0-fuer-aktuelles-Windows-und-macOS/CMD38/posting-31028860/show/"><strong>https://www.heise.de/forum/heise-online/News-Kommentare/SD-Memory-Card-Formatter-5-0-fuer-aktuelles-Windows-und-macOS/CMD38/posting-31028860/show/</strong></a></div>
+<div>CMD38</div>
+<div>Ein Blick in die Physical Layer Simplified Specification Version 6.00 f&uuml;r SD-Karten offenbart unter Kapitel 4.3.5 das ERASE-Kommando (CMD38) f&uuml;r SDHC- und SDXD-Cards. Unter 4.3.5.2 hei&szlig;t es:</div>
+<div>The DISCARD operation is similar to the default ERASE operation. Card may de-allocate the discarded blocks partially or completely. The contents of a region where the discard function has been applied shall be treated as &lsquo;don&rsquo;t care&rsquo; by host. After discard operation the previously written data may be partially or fully read by the host, depending on the card implementation.</div>
+<div>It is desirable to discard many write blocks simultaneously in order to enhance the data throughput. Identification of these write blocks is accomplished with the ERASE_WR_BLK_START (CMD32), ERASE_WR_BLK_END (CMD33) commands. The host should adhere to the following command sequence: ERASE_WR_BLK_START, ERASE_WR_BLK_END and DISCARD (CMD38)</div>
+<div>Das ist ungef&auml;hr das &Auml;quivalent zum TRIM-Befehl bei SSDs. Nun macht die SD Association keine Angaben, ob ihr Formatter dieses Kommando wirklich nutzt. Bei diversen $OS-Boardmitteln bin ich jedenfalls deutlich weniger zuversichtlich.</div>
+<hr />
+<div><a href="https://www.computerbase.de/forum/threads/sd-karte-und-trim-befehl.1819300/"><strong>https://www.computerbase.de/forum/threads/sd-karte-und-trim-befehl.1819300/</strong></a></div>
+<div>Der Grund ist recht einfach: SD Karten kennen kein TRIM-Kommando, daf&uuml;r aber ein ERASE CMD38 welches auf das Gleiche hinausl&auml;uft. Formatierst du mit Betriebssystemmitteln, wird die Karte nicht gel&ouml;scht. Beim Schreiben neuer Daten werden die Bl&ouml;cke also erstmal gel&ouml;scht und dann beschrieben, was die Performance stark beeintr&auml;chtigt.</div>
+<div>Siehe dazu auch auf der Webseite des SD-Formatters:</div>
+<div>&quot;The SD Formatter was created specifically for memory cards using the SD/SDHC/SDXC standards. It is strongly recommended to use the SD Formatter instead of formatting utilities provided with operating systems that format various types of storage media. Using generic formatting utilities may result in less than optimal performance for your memory cards.&quot;</div>
+<hr />
+<div><a href="https://www.heise.de/download/product/sd-formatter-74314"><strong>https://www.heise.de/download/product/sd-formatter-74314</strong></a></div>
+<div>Zum anderen gibt es den Format-Modus &quot;Overwrite format&quot;, der drastisch zur Sache geht. Er erstellt nicht nur ein neues Inhaltsverzeichnis, sondern macht mit den bereits vorhandenen Daten kurzen Prozess und l&ouml;scht sie vor dem Formatieren von der Partition. Dieser Vorgang dauert je nach Gr&ouml;&szlig;e der SD-Karte lange. F&uuml;r eine noch gr&uuml;ndlichere L&ouml;schung der vorhandenen Daten kann man die Freeware auffordern, alle Daten auf der Karte mit zuf&auml;lligen Daten zu &uuml;berschreiben, diese dann wieder zu l&ouml;schen und dann erst die Formatierung zu starten. Das dauert noch l&auml;nger, ist daf&uuml;r aber besonders effektiv, wenn man vermeiden m&ouml;chte, dass irgendwelche pers&ouml;nlichen Daten auf der Karte verbleiben. Selbst Recovery-Software kann diese dann nicht mehr wiederherstellen.</div>
+<hr />
+<div><a href="https://gitlab.com/scalvin/stickpic"><strong>https://gitlab.com/scalvin/stickpic</strong></a></div>
+<div>Now I issued a 'blkdiscard -v /dev/mmcblk0' on the device (note that this is a scary dangerous command, which, used on an SSD, would nuke all your data into nirvana within milliseconds, so be very careful to get the device name right). The result is this: ...</div>
+<div>You can find some more patchy information on SD card 'erase' command CMD32, CMD33, CMD38 on the internet, but as always, many vocal people are highly confused and it is hard to come by reliable info. Thus this tool, play with it and you will understand this much better. At least it gives you a small window into the internal workings of these amazing little gadgets.</div>
+<hr />
+<div><a href="https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/"><strong>https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/</strong></a></div>
+<div>Mit dieser Technik erreicht die SSD 860 QVO laut Samsung beim sequentiellen Schreiben eine Leistung von 520 MByte/s. Sollte der TurboWrite-Speicher ausgesch&ouml;pft sein, sinkt die Datenrate auf 80 MByte/s (1-TByte-Modell) und 160 MByte/s. In der Praxis d&uuml;rfte dieser Fall allerdings bei den meisten Nutzern kaum eintreten.</div>
+<hr />
+<div><a href="https://www.heise.de/forum/heise-online/News-Kommentare/SD-Memory-Card-Formatter-5-0-fuer-aktuelles-Windows-und-macOS/CMD38/posting-31028860/show/"><strong>https://www.heise.de/forum/heise-online/News-Kommentare/SD-Memory-Card-Formatter-5-0-fuer-aktuelles-Windows-und-macOS/CMD38/posting-31028860/show/</strong></a></div>
+<div>Ein Blick in die Physical Layer Simplified Specification Version 6.00 f&uuml;r SD-Karten offenbart unter Kapitel 4.3.5 das ERASE-Kommando (CMD38) f&uuml;r SDHC- und SDXD-Cards. Unter 4.3.5.2 hei&szlig;t es:</div>
+<div>The DISCARD operation is similar to the default ERASE operation. Card may de-allocate the discarded blocks partially or completely. The contents of a region where the discard function has been applied shall be treated as &lsquo;don&rsquo;t care&rsquo; by host. After discard operation the previously written data may be partially or fully read by the host, depending on the card implementation.</div>
+<div>It is desirable to discard many write blocks simultaneously in order to enhance the data throughput. Identification of these write blocks is accomplished with the ERASE_WR_BLK_START (CMD32), ERASE_WR_BLK_END (CMD33) commands. The host should adhere to the following command sequence: ERASE_WR_BLK_START, ERASE_WR_BLK_END and DISCARD (CMD38)</div>
+<div>Das ist ungef&auml;hr das &Auml;quivalent zum TRIM-Befehl bei SSDs. Nun macht die SD Association keine Angaben, ob ihr Formatter dieses Kommando wirklich nutzt. Bei diversen $OS-Boardmitteln bin ich jedenfalls deutlich weniger zuversichtlich.</div>
+<hr />
+<div><strong>Der folgende Beitrag ist von 2013!!</strong></div>
+<div><a href="https://administrator.de/forum/trim-factory-reset-usb-flash-203974.htmlhttps://administrator.de/forum/trim-factory-reset-usb-flash-203974.html"><strong>https://administrator.de/forum/trim-factory-reset-usb-flash-203974.htmlhttps://administrator.de/forum/trim-factory-reset-usb-flash-203974.html</strong></a></div>
+<div>Wie im Vorwort gesagt, habe SSDs und USB-Flashspeicher die Eigenheit, immer langsamer zu werden, je voller sie sind. Bei der SSD hat man dies ja mit einem reservierten Bereich, dem Trim-befehl und ggf. einen Herstellertool gel&ouml;st, um beschriebenen Speicher als &quot;frei&quot; zu markieren und damit die Geschwindigkeit wieder zu steigern.</div>
+<div>Nun ist es USB-Sticks zwar &auml;hnlich, aber im Gegensatz zu den SSDs hat man hier meines Wissens deutlich weniger Reservespeicher (wenn &uuml;berhaupt) und auch keinen Trim-Befehl zur Verf&uuml;gung.<br />
+<hr />
+<a href="https://www.computerbase.de/forum/threads/sd-karte-und-trim-befehl.1819300/"><strong>https://www.computerbase.de/forum/threads/sd-karte-und-trim-befehl.1819300/</strong></a><br />
+Gibt es f&uuml;r SD Karten eigentlich etwas &auml;hnliches, wie den Trim Befehl oder ist das hier v&ouml;llig Sinnlos?<br />
+'SD Karten kennen kein TRIM-Kommando, daf&uuml;r aber ein ERASE CMD38 welches auf das Gleiche hinausl&auml;uft. Formatierst du mit Betriebssystemmitteln, wird die Karte nicht gel&ouml;scht. Beim Schreiben neuer Daten werden die Bl&ouml;cke also erstmal gel&ouml;scht und dann beschrieben, was die Performance stark beeintr&auml;chtigt. ' <br />
+'In dem Thread hat Holt jedoch direkt geantwortet und Recht behalten. Trim Komandos sind im SD-Card Standard nicht vorgesehen. Das Tool fstrim unter Linux nutzt entsprechend L&ouml;schbefehle ' <hr />
+<div><a href="https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/"><b>https://www.zdnet.de/88348289/ssd-mit-4-bit-mlc-samsung-ssd-860-qvo-ausprobiert/</b></a></div>
+<hr />
+<div><b><a href="https://stackoverflow.com/questions/14296733/ata-commands-to-usb-drive"><strong>https://stackoverflow.com/questions/14296733/ata-commands-to-usb-drive</strong></a></b></div>
+<hr />
+<div><a href="https://stackoverflow.com/questions/45141019/how-to-get-identify-device-data-of-a-usb-hdd"><b>https://stackoverflow.com/questions/45141019/how-to-get-identify-device-data-of-a-usb-hdd</b></a></div>
+<div>&nbsp;</div>
+<hr />
+<div><strong><a href="https://www.computerbase.de/forum/threads/wie-oft-kann-man-usb-sticks-formatieren.1445301/">https://www.computerbase.de/forum/threads/wie-oft-kann-man-usb-sticks-formatieren.1445301/</a></strong> <br />
+Ja, die USB Stick beruhen auch auf dem gleiche NAND Speicher wie SSD, aber meist wird da eher minderwertige Qualit&auml;t verbaut, erst recht von Herstellern ohne eigene NAND Fertigung, da gut NANDs knapp und teuer sind. TransMemory kenne ich zwar nicht, aber da nur 4 Firmen NAND Hersteller (Flash Forward, Hynix, IMFT und Samsung) und davon 2 Jont Ventures sind (Flash Forward von SanDisk und Toshiba, IMFT von Intel und Micron, wobei Micron Consumerprodukte unter dem Labeln Crucial und Lexar verkauft), kann TransMemory auch nur eine der zahllosen Firmen sein, die bei billigen Sticks den letzten Mist an NAND einbauen (m&uuml;ssen) den es irgendwo gibt, um Gewinn zu machen. Die halten dann mit Gl&uuml;ck ein paar Hundert Zyklen aus. <br />
+Zitat von Info-Formatiker: Wenn es min. 10.000x klappen sollte, dann d&uuml;rfte er noch ein paar Jahre halten. Vergiss 10.000, das war bei NAND in Sticks mit 1, 2 und vielleicht noch 4GB mal so, aber ein 32GB Stick ist daf&uuml;r zu neu und dann ist das noch die Write Amplification, die ist gerade bei USB Stick teilsweise sehr hoch. Wenn er ein oder zwei Jahre ist gut, sonst kaufe halt das n&auml;chste mal eine guten Stich von SanDisk oder Lexar, wie die ScanDisk Extreme USB3 Sticks, die haben sogar einen SSD Controller drin.</div>
+<br />
+### offtopic ### <br />
+<a href="https://askubuntu.com/questions/464306/a-command-which-checks-that-trim-is-working"><strong>https://askubuntu.com/questions/464306/a-command-which-checks-that-trim-is-working</strong></a> <br />
+<a href="https://www.intel.com/content/dam/support/us/en/documents/ssdc/data-center-ssds/Intel_Linux_NVMe_Guide_330602-002.pdf"><strong>https://www.intel.com/content/dam/support/us/en/documents/ssdc/data-center-ssds/Intel_Linux_NVMe_Guide_330602-002.pdf</strong></a> <br />
+<a href="https://kb.sandisk.com/app/answers/list"><strong>https://kb.sandisk.com/app/answers/list</strong></a> <br />
+<br />
+<div><a href="https://www.thomas-krenn.com/de/wiki/SSD_Secure_Erase"><strong>https://www.thomas-krenn.com/de/wiki/SSD_Secure_Erase</strong></a></div>
+<div>In diesem Artikel zeigen wir wie Sie unter Linux ein Secure Erase einer SSD durchf&uuml;hren. Sie k&ouml;nnen damit die Performance vieler gebrauchten SSDs f&uuml;r die k&uuml;nftige Anwendung steigern. Es gehen dabei aber alle Daten der SSD verloren.Update August 2011: Bei der Formatierung von NTFS ab Windows 7 oder der Formatierung von Ext4 ab mke2fs 1.41.10 oder XFS ab xfsprogs 3.1.0 ein ATA Trim durchgef&uuml;hrt wird, ist in diesen F&auml;llen ein Secure Erase nicht mehr erforderlich</div>
+<div>&nbsp;</div>
+<div><a href="https://www.thomas-krenn.com/de/wiki/SSD_Over-Provisioning_mit_hdparm"><strong>https://www.thomas-krenn.com/de/wiki/SSD_Over-Provisioning_mit_hdparm</strong></a></div>
+<div>&nbsp;</div>
+<div><a href="https://www.heise.de/ct/hotline/Flash-Speichermedien-sicher-loeschen-2169583.html"><strong>https://www.heise.de/ct/hotline/Flash-Speichermedien-sicher-loeschen-2169583.html</strong></a></div>
+<div>Bei vielen Flash-Speichermedien besteht keine eindeutige Beziehung zwischen einer physischen Speicherzelle und einer extern per USB oder etwa auch SATA ansprechbaren Sektoradresse. Man spricht auch von Flash Translation Layer (FTL): Controller und Firmware nutzen ihn f&uuml;r Funktionen wie Wear Leveling, also die gleichm&auml;&szlig;ige &bdquo;Abnutzung&ldquo; der Speicherzellen bei Schreibvorg&auml;ngen. Dabei verwenden sie oft auch reservierte Speicherbereiche, die nicht extern adressierbar sind (Overprovisioning).</div>
+<div>&nbsp;<br />
+<a href="https://www.datenretter-koeln.de/blog/uber-die-zuverlassigkeit-von-usb-sticks-und-speicherkarten-sowie-hauptursachen-fur-den-datenverlust-2/"><strong>https://www.datenretter-koeln.de/blog/uber-die-zuverlassigkeit-von-usb-sticks-und-speicherkarten-sowie-hauptursachen-fur-den-datenverlust-2/</strong></a><br />
+<div>Abnutzung des Speichers</div>
+<div>Der Speicher wird erkannt und funktioniert, aber seine Dateien werden mit Fehlern gelesen. Dateiinhalte werden verdreht, Datenarchiv wird besch&auml;digt, es kann auch die Meldung &bdquo;CRC-Fehler&ldquo; kommen.</div>
+<div>Die Ursache daf&uuml;r sind Defekte vom Flash-Speicher auf physischer Ebene, was am h&auml;ufigsten &nbsp;an Produktionsfehlern oder der Abnutzung liegt. NAND-Flash konnte urspr&uuml;nglich nur eine begrenzte Anzahl von Speichervorg&auml;ngen erm&ouml;glichen, und je h&ouml;her die Speicherkapazit&auml;t des Chips ist, desto niedriger ist die Nutzungsdauer: von 1 Mio. Schreibzyklen vor einigen Jahren bis 100 Tausend &nbsp;in neuen Models und sogar 10 Tausend in billigem Speicher MLC (Multi &ndash; Level Cell).</div>
+</div>
+<br />
+https://www.ioff.de/archive/index.php/t-424332.html Das einzige was man vielleicht tun k&ouml;nnte, ist auf dem Stick etwas Platz frei zu lassen. Dann hat der Controller mehr Spielraum, um die Zellen gleichm&auml;&szlig;g/abwechselnd zu beschreiben. Der haken an der Sache ist freilich: erstens wei&szlig; man nicht, ob der verwendete Flash-Controller davon &uuml;berhaupt profitiert. Und zweitens muss er die leeren Zellen &uuml;berhaupt erst mal als leer erkennen. Da reicht es nicht, dass das Betriebssystem den Platz frei l&auml;sst. Die Zelle muss dabei auch physisch frei sein. Und das bedeutet je nach Flashtyp meist eben nicht &quot;alles mit 0 gef&uuml;llt&quot;, sondern alle Bits auf 1. Sprich: vergiss es, und benutz die Sticks einfach normal weiter! :D<br />
+<br />
+<a href="https://www.flashbay.de/blog/lebensdauer-eines-usb-sticks">https://www.flashbay.de/blog/lebensdauer-eines-usb-sticks</a><br />
+<div style="line-height: 22px; padding: 10px 10px 10px 60px; border-bottom: 2px solid rgb(219, 232, 247); color: rgb(85, 85, 85); font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14px; background: url(&quot;http://www.gravatar.com/avatar/4333f87f7c640f137f6058343318a685?s=32r=G&amp;d=mm&quot;) no-repeat scroll 10px 10px rgb(255, 255, 255);" class="comments_content"><b style="">Troy&nbsp;</b>| 01 Nov, 2014
+<pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">
+Hello, You only mentioned write cycles which causes wear on the drive. Do read cycles have the same effect on the drive? If I install OS (such as linux) on a flash drive and use it as a boot drive. It will be left running 24/7, and it will do reading most of the time after initial setup. How long will the drive lasts? Thanks</pre>
+</div>
+<div style="line-height: 22px; padding: 10px 10px 10px 60px; border-bottom: 2px solid rgb(219, 232, 247); color: rgb(85, 85, 85); font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14px; background: url(&quot;http://www.gravatar.com/avatar/c73e266208f6e5380e5dfd2d7a1ea02f?s=32r=G&amp;d=mm&quot;) no-repeat scroll 10px 10px rgb(255, 255, 255);" class="comments_content"><b style="">Chris&nbsp;</b>,&nbsp;<i style="">Flashbay</i>&nbsp;| 03 Nov, 2014
+<pre style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">
+Hi Troy, 
+Thanks for the comment. In short we estimate 10 read operations to be equivalent to 1 write operation in terms of wear to the NAND flash memory. 
+In your specific use case, the retention of the flash drive will depend on:
+i) Memory type (SLC, MLC, TLC):
+Single level cell (SLC) NAND will have the best data retention. It is subjected less 'read disturb' than MLC or TLC. However SLC NAND flash  is much more expensive than MLC or TLC NAND flash.
+A read disturb occurs when a cell that is not being read receives elevated voltage stress and can occasionally result in a bit flip. The probability of read disturb is much lower than is a write disturb.
+ii) Flash management
+The controller chip does a lot of work to reduce the wear on NAND flash by employing the following techniques: Wear-levelling algorithms, bad block management, error detection and correction, write amplification and over provisioning.
+We generally use controllers made by Silicon Motion (SMI) which have excellent flash management. If you buy a flash drive which is much bigger than your data storage requirement you will also benefit from better wear levelling than a drive with little free space.
+Our advice would be to purchase a high-quality Flash Drive and run your chosen Operating System from there. It might cost you slightly more but it will be worth it.  People have been running Operating Systems from Flash Drives for quite a while now so there's no reason to think your Flash Drive will stop working after a couple years - if you purchase one with high-quality parts!
+</pre>
+<div>&nbsp;</div>
+</div>
+<br />
+<hr />
+<!--
+--------------------------------------
+Spontanes Entfernen des USB Sticks
+Ob das unwillkürliche Abziehen einen Einfluss auf die Lebensdauer eines Sticks hat, ist nirgends dokumentiert, dabei wird selbst die intelligenteste Controller Logik durch diese Praxis auf die Probe gestellt, besonders da der Vorgang meist direkt nach dem Schreibvorgang stattfindet, also in einem Moment in dem eine Reorganisation des Speichers zu erwarten wäre.Das 'sichere' entfernen hilft dem Controller vermutlich wenig, da der Computer meines Wissens lediglich die Schreibvorgängr abschliesst ohne den Stick zu informieren. Hier ein Auszug aus der FAQ von Sandisk:
+
+https://kb-de.sandisk.com/app/answers/detail/a_id/21135/~/auswerfen-ihres-usb-laufwerks-von-ihrem-computer
+Zum Beispiel kann der Schreib-Caching-Prozess (der von den meisten Betriebssystemen verwendet wird) Daten auf dem PC-Speicher halten, anstatt sie sofort zu schreiben. Wenn das Laufwerk aus dem Gerät entfernt wird, bevor die Informationen vollständig übertragen wurde oder gerade übertragen werden, wird der Prozess unterbrochen und Sie können eine beschädigte Datei erhalten. Wenn Sie das Laufwerk ordnungsgemäß auswerfen, werden Sie vom System über den Schreib- oder Lesestatus der Daten informiert und können das betreffende Programm ordnungsgemäß schließen.
+
+Überraschenderweise findet sich nirgendwo eine Empfehlung, dem Stick einige Minuten Ruhe zu gönnen oder ähnliches, bevor man ihn abzieht. Demzufolge hat das Verhalten in diesem Punkt offenbar keinen Einfluss auf die Lebensdauer (oder es ist nicht bekannt). 
+--> ---------------------------------<br />
+Seite erstellt Datum: 25.1.2020</div>
+<br />

@@ -1,0 +1,214 @@
+<br />
+<img height="67" align="right" width="100" alt="" src="//img.webme.com/pic/n/nikolausdulgeridis/fernanime2.gif" /> <span style="font-family: Arial;"><strong>Grafner Funksteckdose<br />
+</strong>Einstellen der Systemcodes zur Benutzung mit Raspberry Pi und Co<br />
+</span><br />
+<span style="font-family: Arial;">Falls jemand die Codes ben&ouml;tigt, der Aufbau ist wie folgt<br />
+- 10 Bits Sytemcode - 1 wird zu 11, 0 wird zu 01, z.Bsp 11011 ergibt 11 11 01 11 11<br />
+- 10 Bits Unitcode (00 = selektiert, 01=nicht selektiert)<br />
+- 4 Bits command on/off - 0001=on, 0100=off<br />
+</span><br />
+<span style="font-family: 'Courier New';">111111111100010101010001 # FFC554 Aoff (Systemcode 11111</span><span style="font-family: 'Courier New';">, Unit A</span><span style="font-family: 'Courier New';">)<br />
+111111111100010101010100 # FFC554 Aon &nbsp;(Systemcode 11111</span><span style="font-family: 'Courier New';">, Unit A</span><span style="font-family: 'Courier New';">)<br />
+ssssssssss</span><span style="font-family: 'Courier New';">AABBCCDDEEcccc&nbsp;</span><span style="font-family: 'Courier New';">#&nbsp;systemcodes,&nbsp;</span><span style="font-family: 'Courier New';">unitcodes,</span><span style="font-family: 'Courier New';">&nbsp;</span><span style="font-family: 'Courier New';">command(0001=on,0100=off)</span><span style="font-family: 'Courier New';"><br />
+</span><br />
+Links zu dem Thema:<br />
+<ul>
+    <li style="font-weight: bold;"><span style="color: rgb(0, 0, 238); text-decoration: underline;"><a target="_blank" href="https://tutorials-raspberrypi.de/raspberry-pi-funksteckdosen-433-mhz-steuern/">https://tutorials-raspberrypi.de/raspberry-pi-funksteckdosen-433-mhz-steuern/</a></span></li>
+    <li style="font-weight: bold;"><a href="https://www.ebay.de/itm/Grafner-Funksteckdosen-4-teilig-Set-Fernbedienung-Funksteckdosenset-New-7741/112544058460">https://www.ebay.de/itm/Grafner-Funksteckdosen-4-teilig-Set-Fernbedienung-Funksteckdosenset-New-7741/112544058460</a></li>
+    <li style="font-weight: bold;"><a target="_blank" href="https://www.amazon.de/Grafner&reg;-Funk-Steckdosenset-Steckdosen-Funkschalter-Schalter/">https://www.amazon.de/Grafner&reg;-Funk-Steckdosenset-Steckdosen-Funkschalter-Schalter/</a></li>
+    <li style="font-weight: bold;"><a href="http://microguard.de/docs/MicroGuardUSB/Funkmodul/Funk-Steckdose_Anleitung_MicroGuard-USB.pdf">http://microguard.de/docs/MicroGuardUSB/Funkmodul/Funk-Steckdose_Anleitung_MicroGuard-USB.pdf</a></li>
+</ul>
+<div><strong>Konfiguration der Dipschalter</strong></div>
+<div>Die Fernbedienung hat 5&nbsp;Dipschalter f&uuml;r den Hauscode.</div>
+<div>Die Empf&auml;ngerdosen haben 5&nbsp;Dipschalter f&uuml;r den Hauscode&nbsp;und zus&auml;tzlich 5 f&uuml;r den Unitcode (A-E).</div>
+<div><em><br />
+Hauscode:&nbsp;</em></div>
+<div>Eine frei w&auml;hlbare Schalterkombination, die an allen Steckdosen und der Fernbedienung identisch eingestellt wird.&nbsp;Hiermit soll vermieden werden, dass sich Nachbarn ins Gehege kommen.&nbsp;<br />
+&nbsp;</div>
+<div><em>Unitcode:&nbsp;</em></div>
+<div>An den Empf&auml;ngerdosen kann &uuml;ber 5 DIP Schalter festgelegt werden, auf welche Taste der Fernbedienung (A-E) die Dose reagiert.</div>
+<ul>
+    <li>A: 10000</li>
+    <li>B: 01000</li>
+    <li>C: 00100</li>
+    <li>D: 00010</li>
+    <li>E: 00001</li>
+</ul>
+Nun lassen sich mit 5 DIP Schaltern eigentlich 32 Zust&auml;nde adressieren.&nbsp;Die &quot;&uuml;berfl&uuml;ssigen&quot; Codes k&ouml;nnen nat&uuml;rlich nicht &uuml;ber die Fernbedienung angesprochen werden, k&ouml;nnen aber &uuml;ber ein RF Modul auf einem Computer adressiert werden..<br />
+<div>&nbsp;</div>
+<div><strong>Anmerkungen zur Technik:&nbsp;</strong></div>
+<ul>
+    <li>Es wird (wie auch bei vergleichbaren Modellen) nur 1 Leitungsweg getrennt, das heisst das angeschlossene Ger&auml;t ist stromlos aber nicht spannungsfrei!&nbsp;</li>
+    <li>Der Verbrauch betraegt ca. 0,5W/h pro Dose. Das gilt auch im eingeschalteten Zustand.</li>
+    <li>Wie bei allen Relaisschaltern besteht bei hohen induktiven oder kapaz. Lasten eine geringe Gefahr des &quot;Verklebens&quot; der Kontakte.</li>
+    <li>Die theoretisch m&ouml;gliche Reichweite wird mit dem Steckdosenset nicht ausgereizt. Sender und Empfaenger sollten sich in einer Entfernung bis 10 m befinden.</li>
+</ul>
+Die Konfiguration mit Dip Schaltern wirkt auf den ersten Blick anachronistisch, ist aber besonders bei Bastlern beliebt, da die Codes leicht ermittelt und programmtechnisch umgesetzt werden k&ouml;nnen. Eine gel&auml;ufige Alternative sind selbstlernende Dosen, mit einem zuf&auml;lligen aber feststehenden Code auf der Fernbedienung, der von den angesteuerten Empfaengersteckdosen &quot;gelernt&quot; werden muss. Sicherheit: Sicherheitstechnisch arbeiten die Ger&auml;te ohne Fangnetz, die Codes k&ouml;nnen leicht erraten oder abgeh&ouml;rt werden. Andererseits ist der Schaden, den ein boeswilliger Nachbar im schlimsten Fall anrichten kann, begrenzt, da gewohnlich nur Licht oder Musikanlage geschaltet werden. Etwas unbequem ist hingegen, dass die &Uuml;bertragung weder durch Pr&uuml;fsummen abgesichert ist, noch der Ger&auml;tezustand abgefragt werden kann. Das schr&auml;nkt die Verwendbarkeit von Programmen zur Hausautomatisierung ein. <br />
+<br />
+<hr />
+<h4>Grafner Funksteckdose Sendecodes</h4>
+Systemcode  <input type="text" title="Code der Fernbedienung" onchange="givegcodes();" id="syscode" name="syscode" size="5" value="11111" placeholder="#11111#" />  &nbsp;&nbsp;   Unitmodus <select title="Unitcode Standard(A-E) oder 32(00000...11111)" onChange="givegcodes();" size="1" id="unitmodus">
+<option>5</option>
+<option>32</option>
+</select> &nbsp;&nbsp;   <input type="button" value="go" onclick="givegcodes();" />   <br />
+<div id="outdiv">&nbsp;</div>
+<script>
+givegcodes();
+function givegcodes()
+ {
+ var dropdown = document.getElementById("unitmodus");
+ var selectedText = dropdown.options[dropdown.selectedIndex].text;
+ unitmodus=(parseInt(selectedText));
+ if (isNaN(unitmodus)) unitmodus=5;
+
+
+  var out="";
+  var tmp="";
+  // lies DeviceCode aus Textfeld (und entferne alles was nicht '0' oder '1') 
+  syscodeTxt= document.getElementById("syscode").value.trim();
+  for (var i=0; i<syscodeTxt.length; i++)
+    { if("01".indexOf(syscodeTxt.substr(i,1))>=0) tmp+=syscodeTxt.substr(i,1);  }
+  syscodeTxt=tmp;
+  document.getElementById("syscode").value=tmp;
+  syscodeTxt= document.getElementById("syscode").value.trim();
+  //alert(syscodeTxt);
+
+  //Berechne Wert für Devicecode (eingabe: string aus syscode ausgabe: sys10, integer 10 Bit)
+  var sys10=0;
+  for (var j=0; j<syscodeTxt.length; j++)
+   {
+    sys10*=4;
+    sys10+=1;
+    if(syscodeTxt.substr(j,1)=="1") 
+      sys10+=2;
+   } //document.write("adr" +sys10 + " " +("0000000000"+sys10.toString(2)).slice(-1*10));
+
+ if (unitmodus==5)
+ {
+  out+= "<br>1. Liste: alle 5 unitcodes A-E (Hinweis: Action 1/0 = on/off)<br><br>";
+  //alle 5 unitcodes 10000 01000 00100 00010 00001, Ergebnis: unit10, integer 10 Bit 
+  unit10=0;
+  for (var i=0; i<5; i++)
+  {
+    unitName= "ABCDE".substr(i,1);
+    unitcodeTxt= ("00000"+Math.pow(2,4-i).toString(2)).slice(-1*5);
+    var unit10=0;
+    for (var j=0; j<unitcodeTxt.length; j++)
+     {
+      unit10*=4;
+      unit10+=1;
+      if(unitcodeTxt.substr(j,1)=="1") 
+        unit10-=1;
+     } 
+   //alert(unitcodeTxt+ unit10);
+   //document.write("adr" +sys10 + " " +("0000000000"+sys10.toString(2)).slice(-1*10));
+   //document.write("unit" +unit10 + " " +("0000000000"+unit10.toString(2)).slice(-1*10));
+
+   //ergebnis zusammenfuehren in send24, integer 24Bit
+   send24=((sys10<<10) + unit10)<<4;
+
+   // action hinzuaddieren, danach wandeln in string-binaerzahl und ausgeben
+   for (action=0; action<2; action++)
+   {
+     var send24a=send24+1;
+     if(action==1) send24a=send24+4;
+     out+=(""+unitName+ " Unitcode:" +unitcodeTxt + " ");
+     out+=(" Action "+action+ " ");
+     out+=("0000000000000000000000000000" + send24a.toString(2)).slice(-1*24);
+     out+=" Dezimal: "+ send24a+"<br>";
+   }
+   out+="<br> ";
+  } 
+ } 
+
+  // out+="<br> <hr> <br> <hr> ";
+
+
+ if (unitmodus==32)
+ {
+  out+= "<br>2. Liste: alle 32 moeglichen unitcodes (Hinweis: Action 1/0 = on/off)<br><br>";
+  //alle 32 unitcodes 00000 ... 11111, Ergebnis: unit10, integer 10 Bit 
+  unit10=0;
+  for (var i=0; i<32; i++)
+  {
+    unitName= " "; "ABCDE".substr(i,1);
+    //unitcodeTxt= ("00000"+Math.pow(2,4-i).toString(2)).slice(-1*5);
+    unitcodeTxt= ("00000"+i.toString(2)).slice(-1*5);
+    var unit10=0;
+    for (var j=0; j<unitcodeTxt.length; j++)
+     {
+      unit10*=4;
+      unit10+=1;
+      if(unitcodeTxt.substr(j,1)=="1") 
+        unit10-=1;
+     } 
+   //alert(unitcodeTxt+ unit10);
+   //document.write("adr" +sys10 + " " +("0000000000"+sys10.toString(2)).slice(-1*10));
+   //document.write("unit" +unit10 + " " +("0000000000"+unit10.toString(2)).slice(-1*10));
+
+   //ergebnis zusammenfuehren in send24, integer 24Bit
+   send24=((sys10<<10) + unit10)<<4;
+
+   // action hinzuaddieren, danach wandeln in string-binaerzahl und ausgeben
+   for (action=0; action<2; action++)
+   {
+     var send24a=send24+1;
+     if(action==1) send24a=send24+4;
+     out+=(""+unitName+ " Unitcode:" +unitcodeTxt + " ");
+     out+=(" Action "+action+ " ");
+     out+=("0000000000000000000000000000" + send24a.toString(2)).slice(-1*24);
+     out+=" Dezimal: "+ send24a+"<br>";
+   }
+   out+="<br> ";
+  } 
+ } 
+
+  document.getElementById("outdiv").innerHTML=out;
+ }
+</script> <br />
+<hr />
+<br />
+<strong>Programmierung </strong><br />
+<br />
+Es gibt preiswerte Funkmodule zum Anschluss an Arduino oder Raspberry Pi. Das folgende Beispiel wurde auf einem Raspberry2 getestet und&nbsp;nutzt die Wiring Pi Bibliothek..<br />
+<br />
+Das Programm sendg.cpp&nbsp;berechnet aus der Angabe des Systemcodes und der Unitnummer A-E den Sendecode und steuert die Funksteckdose an.&nbsp;Hinweise zur Kompilierung befinden sich in den inline Kommentaren. Grundsaetzlich ist eine Nutzung auch auf nicht-Raspberry Boards denkbar, sofern Wiring Pi unterstuetzt wird.<br />
+<br />
+./RPi_utils/sendg.cpp 19.11.2017 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+Edit: <br />
+Das Programm wurde verschoben in den Download Bereich. Der Grund ist, dass die Steuerung &uuml;ber eine Webschnittstelle praxisgerechter ist. Eine m&ouml;gliche Herangehensweise wird im folgenden Abschnitt vorgeschlagen.&nbsp;<br />
+<br />
+<strong>Steuerung per Website und remote von anderen Rechnern<br />
+</strong> <br />
+Naturgemaess wuenschen wir uns ein Webfrontend zur Steuerung der Funksteckdose, das auch von anderen Rechnern aus bedient werden kann.&nbsp;<br />
+<br />
+Als Vorlage kann man das Projekt RF Outlet nehmen. Der Code ist relativ &uuml;berschaubar und kann an die eigenen Bed&uuml;rfnisse angepasst werden.&nbsp;<br />
+<br />
+Anmerkungen:
+<ul>
+    <li>Die Oberfl&auml;che von RF Outlet zeigt den Betriebszustand an und schaltet je nach aktuellem Zustand entweder ein oder aus. Der Status ist aber von der Funkteckdose nicht abfragbar, das kann zu Fehlern bei der Anzeige des tatsaechlichen Betriebszustands f&uuml;hren.&nbsp;</li>
+    <li>Der HTML Code verwendet die JQuery Bibliothek. Das ist nicht direkt ein Nachteil. aber wen das st&ouml;rt, der muss wohl den Code umschreiben.</li>
+    <li>Als Webfrontend dient die Datei index.html, die Schnitstelle zum Ansteuern der Ger&auml;te bilden die Dateien send.php und codesend.cpp.</li>
+    <li>Binaries sind vor der Verwendung mit &quot;chmod +x&quot; ausf&uuml;hrbar zu machen, auch das Laufwerk muss mit entsprechenden Rechten zur Ausf&uuml;hrung gemountet sein (siehe Mountoptionen oder Datei fstab).</li>
+    <li>Link zu dem Projekt RF Outlet&nbsp;in den Git Repositories:&nbsp;<a href="https://github.com/xillwillx/433Mhz">https://github.com/xillwillx/433Mhz</a></li>
+</ul>
+<strong> <br />
+Zur besseren &Uuml;bersicht fassen wir die Vorgehensweise noch einmal zusammen:</strong><br />
+<ul>
+    <li>Als Vorbereitung sollten wir zuerst die Sendecodes ermitteln (mit RF Sniffer oder Tabelle)</li>
+    <li>Es muss kein Raspberry sein, aber dann muss die Bibliothek wiring Pi bzw. RCswitch auf diesem Computer verwendbar sein.</li>
+    <li>Anschliessen der RF433 Hardware, dabei orientieren wir uns an den ver&ouml;ffentlichten Raspi Projekten.</li>
+    <li>Installation von wiringPi, Anleitungen gibt es auf der RF Outlet Seite oder dem Wiring Pi Projekt.</li>
+    <li>Zum Testen der Hardware steuern wir die Funksteckdosen &uuml;ber codesend oder sendg auf dem Raspberry direkt per Kommandozeile an (chmod +x nicht vergessen).&nbsp;</li>
+    <li>Installieren der Website:&nbsp;
+    <ul>
+        <li>Apache wird ben&ouml;tigt. Alternativen: Cherokee, Nginx, Monkey, Hiawatha, Lighttpd, Thttpd. (Manche Alternativen unterst&uuml;tzen nur statische Websites, sind also doch nicht geeignet).</li>
+        <li>PHP wird ben&ouml;tigt.&nbsp;Anleitung zur Installation: http://www.gtkdb.de/index_36_2860.html</li>
+        <li>Testen der Funktion des Apache Webservers (sprich bei Eingabe der IP des Raspberry im Browser eines anderen Computers soll die Apache Testseite erscheinen)</li>
+        <li>Kopieren der Dateien in den Apache www Ordner. Evtl. muss codesend.cpp noch kompiliert werden.</li>
+    </ul>
+    </li>
+    <li>Test der Funktion der Webseite</li>
+</ul>
+<hr />
+last update: 27.2.2019

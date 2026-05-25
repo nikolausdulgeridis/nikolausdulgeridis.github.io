@@ -1,0 +1,57 @@
+<h3>Algorithmus  Mischen</h3>
+<pre>
+&Uuml;ber Sortieralgorithmen gibt es Buecher, Vorlesungen und wissenschaftliche 
+Abhandlungen. Geht es um den umgekehrten Vorgang -das Mischen- hat man Schwierigkeiten das 
+Wort &uuml;berhaupt zu googeln. 
+
+Folgende einfache Verfahren sind bew&auml;hrt:</pre>
+<ul>
+    <li>Ziehe eine zufaellige Karte aus Stapel A und lege sie auf Stapel B.</li>
+    <li>Vertausche die erste Karte mit einer zuf&auml;lligen Karte aus dem Deck, dann die zweite usw.</li>
+</ul>
+<pre>
+Man kann auf die Idee kommen, zur Sicherheit ein zweites Mal zu mischen. 
+Das ist nicht erforderlich, der Algorithmus ist von der Sortierung zu Beginn nicht abh&auml;ngig. 
+Es schadet allerdings auch nicht, der Aufwand bleibt linear.
+
+ <hr />
+
+<strong>JavaScript Beispiel</strong>
+
+<pre>
+ /* Scramble 1 */
+ var stapelA= new Array(1,2,3,4); 
+ var stapelB= new Array(); 
+ for ( ; stapelA.length &gt; 0 ; )
+   {
+     var zuf= Math.floor(Math.random()*(stapelA.length)); /* zufaellige Karte */
+     stapelB.push(stapelA[zuf]);                          /* lege auf Stapel B */
+     stapelA[zuf]= stapelA[stapelA.length-1]              /* entferne die Karte aus Stapel A */
+     stapelA.pop();
+   }
+
+/* Scramble 2 */
+ var stapelA= new Array(1,2,3,4); 
+ for ( var i= 0; i&lt; stapelA.length ; i++ )
+   {
+     var zuf= Math.floor(Math.random()*(stapelA.length));     /* zufaellige Karte */     
+     stapelA[i] += stapelA[zuf] - (stapelA[zuf]= stapelA[i]); /* tausche */     
+   }
+ alert (stapelA);
+</pre>
+<hr />
+Beispielausgabe
+<script>
+ /* Scramble1 */
+ var stapelA= new Array(1,2,3,4); 
+ for (var i=0 ; i<4 ; i++ ) document.write(" "+ stapelA[i]); document.write("  # Start<br>");
+ var stapelB= new Array(); 
+ for ( ; stapelA.length>0 ; stapelA.pop())
+   {
+     var zuf= Math.floor(Math.random()*(stapelA.length)); /* zufaellige Karte */
+     stapelB.push(stapelA[zuf]);                        /* lege auf Stapel B */
+     stapelA[zuf]= stapelA[stapelA.length-1]            /* entferne die Karte aus Stapel A */
+   }
+ for (var i=0 ; i<4 ; i++ ) document.write(" "+ stapelB[i]); document.write(" # Scramble 1<br>"); 
+
+</script></pre>

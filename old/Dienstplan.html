@@ -1,0 +1,250 @@
+<style type="text/css">
+ table {table-layout: fixed;}
+ #table1 td {width:77px}
+ #table2 td {width:77px}
+ H1    {color:red}
+ #dummy{color:white}
+ #wotag{color:red}
+ #mtag{color:brown}
+ #name1{color:blue}
+ #name2{color:grey}
+ #name3{color:grey}
+ #name4{color:grey}
+ #name5{color:grey}
+</style>
+<form name="form" action="javascript:starten()">
+    <p>
+    <table id="table1">
+        <tbody>
+            <tr>
+                <td><b>Datum:</b></td>
+                <td><span id="Clock">&nbsp;</span></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td><b>Name:</b></td>
+                <td><input type="text" value="schmid" size="22" name="name" id="name" /></td>
+            </tr>
+            <tr>
+                <td><b>Pfad zum Dienstplan: </b></td>
+                <td><input type="text" value="Schichtplan.htm" size="155" name="dienstplan" id="dienstplan" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" onclick='' value="Start" /></td>
+            </tr>
+        </tbody>
+    </table>
+    </p>
+</form>
+<table id="table2" border="1">
+    <tbody>
+        <tr id="dummy">
+            <td>x</td>
+            <td>x</td>
+            <td>x</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+            <td>xxxxx</td>
+        </tr>
+        <tr id="wotag">
+        </tr>
+        <tr id="mtag">
+        </tr>
+        <tr id="name1">
+        </tr>
+        <tr id="name2">
+        </tr>
+        <tr id="name3">
+        </tr>
+        <tr id="name4">
+        </tr>
+        <tr id="name5">
+        </tr>
+    </tbody>
+</table>
+<br />
+<div id="meldungen">&nbsp;</div>
+<script>
+ // globale Variablen
+ var suchtext;
+ var mydatei;
+ var debug=0;
+ var wi;
+ var namemax=5;
+ var pruefsumme=0;
+ var moz=1;
+
+ // hole gespeicherte Werte aus Cookies
+ var cookieName= getCookie("Name"); 
+ if (cookieName!=null) document.getElementById("name").value=cookieName;
+ var cookieDienstplan= getCookie("Dienstplan");
+ if (cookieDienstplan!=null) document.getElementById("dienstplan").value=cookieDienstplan;
+ if (debug) if (cookieName!=null) alert(cookieName) ;
+ if (debug) if (cookieDienstplan!=null) alert(cookieDienstplan)  ;
+
+ //aktueller Monat
+ var jetzt = new Date();
+ var aktuellermonat= jetzt.getMonth()+1; 
+ var tString = jetzt;
+ document.getElementById("Clock").innerHTML= tString;
+
+ // kleine Bibliothek
+ function myTrim(x) {return x.replace(/^\s+|\s+$/gm,'');}
+ function melde(txt){document.getElementById("meldungen").innerHTML= txt; window.setTimeout("meldeAus()",15000);}
+ function meldeAus(){document.getElementById("meldungen").innerHTML= "";}
+ function psum(txt){var sum=0;for(var i=0;i<txt.length;i++) sum+=txt.charCodeAt(i)*(i%11+1);return sum;}
+ function setCookie(cname,cvalue,exdays) {var d = new Date();d.setTime(d.getTime() + (exdays*24*60*60*1000));var expires = "expires=" + d.toGMTString();document.cookie = cname+"="+cvalue+"; "+expires;}
+ function getCookie(cname) {var name = cname + "=";var ca = document.cookie.split(';');for(var i=0; i<ca.length; i++) {var c = ca[i];while (c.charAt(0)==' ') {c = c.substring(1);}if (c.indexOf(name) == 0) {return c.substring(name.length, c.length);}}return "";}
+
+ // Aufruf
+ function starten() {
+  suchtext=document.getElementById("name").value;
+  mydatei=document.getElementById("dienstplan").value;
+  wi = window.open(mydatei,"wi","width=600px, height=500px,resizable=yes,scrollbars=yes"); // oeffne Fenster
+  for(var i=1; i<= namemax; i++)  if(moz) document.getElementById("name"+i).innerHTML="";  // Lösche altes Ergebnis
+  window.setTimeout("start0()", 1000); // warte
+ }
+
+ // verzoegerter Aufruf
+ function start0() {
+  var mydocument=wi.document;
+  var myele=mydocument.getElementsByTagName("table");
+  if (debug) alert("myele:"+myele.length);
+  if (myele.length)
+   window.setTimeout("start1()", 2000);
+  else
+   window.setTimeout("start0()", 1000);
+ }
+
+ // Durchsuche alle Tabellen
+ function start1() {
+ var mydocument=wi.document;
+ var myele=mydocument.getElementsByTagName("table");
+ for(var i=0; i<myele.length; i++)
+   { 
+   //document.write("-"+myele[i].id+"-");
+   mytbl=myele[i];
+   sucheTr (mytbl,suchtext);
+   }
+ }
+
+ // Start Suche
+function sucheTr(tabelle,suchname) {
+ if (debug) alert("suche:"+suchname);
+ var nameflag=0; // Nur 1 Zeile dieses Typs
+ var wotagflag=0; // Nur 1 Zeile dieses Typs
+ suchname=suchname.toLowerCase();
+ suchname=myTrim(suchname);
+ var usergefunden=0;
+ var zeile=tabelle.getElementsByTagName("tr");
+ if(debug) document.write("Tabelenzeilen"+zeile.length+"<br>");
+ for (var z=0;z<zeile.length;z++) 
+ {
+  s=zeile[z].innerHTML; // hole table row 
+    
+  if(0) // Suche in den Childknoten (derzeit disabled wg. performance)
+  { 
+   var zelle=zeile[z].getElementsByTagName("td");
+   var s="";
+   for (var j=0;j<zelle.length;j++) {
+    if(debug) document.write("j"+j+" ");
+    var kids=zelle[j].childNodes;
+    for (var k=0;k<kids.length;k++) {
+    if(debug) document.write("-"+k+" ");
+     if (kids[k].nodeType==3) s+=kids[k].data
+     if (kids[k].nodeType==1 && kids[k].firstChild && kids[k].firstChild.nodeType==3) s+=kids[k].firstChild.data;
+    }
+   }
+  } // endif
+
+ var fund=0; // bisher nichts gefunden in der Zeile
+
+ //Name finden
+ if (s.toLowerCase().indexOf(suchname)>-1) 
+  {
+   fund++; 
+   usergefunden++; 
+   if(moz) if (usergefunden<=namemax) document.getElementById("name"+usergefunden).innerHTML=zeile[z].innerHTML;   
+   if(0)document.write(s+"<br>");
+   pruefsumme=psum(s);
+  }
+
+ //Wochentagsleiste finden
+  if (wotagflag==0) 
+  if (s.toLowerCase().indexOf("mo")>-1) 
+  if (s.toLowerCase().indexOf("di")>-1) 
+  if (s.toLowerCase().indexOf("mi")>-1) 
+  if (s.toLowerCase().indexOf("do")>-1) 
+  if (s.toLowerCase().indexOf("fr")>-1) 
+  if (s.toLowerCase().indexOf("sa")>-1) 
+  if (s.toLowerCase().indexOf("so")>-1) 
+  {
+   wotagflag++;fund++; 
+   if(moz) document.getElementById("wotag").innerHTML=zeile[z].innerHTML;
+   if(0)document.write(s+"<br>");
+  };
+
+ //Monatstagsleiste finden
+  if (nameflag==0) 
+  if (s.toLowerCase().indexOf("name")>-1) 
+  if (s.toLowerCase().indexOf("13")>-1) 
+  if (s.toLowerCase().indexOf("14")>-1) 
+  if (s.toLowerCase().indexOf("26")>-1) 
+  if (s.toLowerCase().indexOf("27")>-1) 
+  if (s.toLowerCase().indexOf("28")>-1) 
+  {
+   nameflag++;
+   fund++; 
+   if(moz) document.getElementById("mtag").innerHTML=zeile[z].innerHTML;
+   if(0)document.write(s+"<br>");
+  };
+
+  if(fund==0) zeile[z].style.display="none"; // Blende Zeile aus
+ }
+ melde(" Treffer: "+usergefunden+"<br>");
+
+ //Verwendung der Cookies: 
+ // function setCookie(cname,cvalue,exdays) 
+ // function getCookie(cname) 
+
+ var cookiepsum= getCookie("Psum");  // Vergleiche neue und alte Prüfsumme
+ if(usergefunden) if (cookiepsum!=null) if (cookiepsum!=pruefsumme) alert("Dienstplan hat sich geändert"); 
+ setCookie("Name",suchname,66);      // merke den Namen
+ setCookie("Psum",pruefsumme,66);    // merke die Prüfsumme
+ setCookie("Dienstplan",mydatei,66); // merke die Datei
+
+ //wi.close();
+}
+//wi.focus();
+</script>

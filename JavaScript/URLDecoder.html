@@ -1,0 +1,242 @@
+<!--
+<style> 
+td.edit_content_top{background: url() #345;} 
+td.headline2{color: #012;} 
+td.edit_content{background: url() #edc;} 
+td.edit_content_main div{overflow: visible!important;} 
+td.edit_content_bottom{background: url() #789;} 
+td.edit_content_bottom2{background: url() #456;} 
+.edit_rechts_bottom{display:none;}
+</style>
+-->
+<link href="https://img.webme.com/pic/n/nikolausdulgeridis/code123.ico" rel="shortcut icon" />
+<h3>URL Decoder</h3>
+<p>Der h&auml;ufigste Verwendungszweck ist, dass man unleserliche URL Zeilen entziffern m&ouml;chte. Dazu einfach die URL kopieren und unten (zweite Box) bei Decode einf&uuml;gen. Der umgewandelte Code wird darunter angezeigt. Manchmal findet man das Thema auch an unerwarteter Stelle, so hatte ich bspw. die Datei Aschenbr&ouml;del von einer Linux Platte auf Windows gesichert. Zur&uuml;ck kam Aschenbr&Atilde;&para;del.</p>
+<div style="border:2px solid gray;padding:4px;margin:4px;clear:both">
+<table width="777" border="1">
+    <tbody>
+        <tr>
+            <td><em>Encode</em></td>
+            <td>Beispiel:  <input type="button" name="btnex1" value="http://" onclick='document.getElementById("eri1").value=document.getElementById("btnex1").value;esc(0);' id="btnex1" />  <input type="button" name="btnex3" value="?&amp;=&lt;&gt;;" onclick='document.getElementById("eri1").value=document.getElementById("btnex3").value;esc(0);' id="btnex3" />  <input type="button" name="btnex2" value="&Auml;&Ouml;&Uuml; &auml;&ouml;&uuml; &szlig;" onclick='document.getElementById("eri1").value=document.getElementById("btnex2").value;esc(0);' id="btnex2" />  <input type="button" name="btnex0" value="&Delta;ή&mu;&omicron;&upsilon;" onclick='document.getElementById("eri1").value=document.getElementById("btnex0").value;esc(0);' id="btnex0" />  <input type="button" name="btnex4" value="dieseSeite" onclick='document.getElementById("eri1").value=document.location.href;esc(0);' id="btnex4" /></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><b>Eingabe</b></td>
+            <td><input type="text" id="eri1" name="eri1" onkeyup="esc(this.form)" size="88" value="" placeholder="-- zu codierende URL hier eingeben --" /></td>
+            <td><input type="button" id="btnxfer1" name="btnxfer1" onclick='document.getElementById("uri1").value=document.getElementById("eri1").value;unesc(0);' value="decode" /></td>
+        </tr>
+        <tr>
+            <td>escape</td>
+            <td><input type="text" id="eri2" size="88" value=" " /></td>
+            <td><input type="button" id="btnxfer2" name="btnxfer2" onclick='document.getElementById("uri1").value=document.getElementById("eri2").value;unesc(0);' value="decode" /></td>
+        </tr>
+        <tr>
+            <td>encodeURI</td>
+            <td><input type="text" id="eri3" size="88" value=" " /></td>
+            <td><input type="button" id="btnxfer3" name="btnxfer3" onclick='document.getElementById("uri1").value=document.getElementById("eri3").value;unesc(0);' value="decode" /></td>
+        </tr>
+        <tr>
+            <td>encodeURIComponent</td>
+            <td><input type="text" id="eri4" size="88" value=" " /></td>
+            <td><input type="button" id="btnxfer4" name="btnxfer4" onclick='document.getElementById("uri1").value=document.getElementById("eri4").value;unesc(0);' value="decode" /></td>
+        </tr>
+        <tr>
+            <td>encodeHTML</td>
+            <td><input type="text" id="eri5" size="88" value=" " /></td>
+            <td><input type="button" id="btnxfer5" name="btnxfer5" onclick='document.getElementById("uri1").value=document.getElementById("eri5").value;unesc(0);' value="decode" /></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<script>
+function encodeHTML(text) {
+    var entities = [
+        ['nixnix','apos'],
+        ['&','amp'],
+        ['<','lt'],
+        ['>','gt'],
+        ['Ä','Auml'],
+        ['Ö','Ouml'],
+        ['Ü','Uuml'],
+        ['ä','auml'],
+        ['ö','ouml'],
+        ['ü','uuml'],
+        ['ß','szlig']
+    ];
+
+    for (var i = 0, max = entities.length; i < max; ++i) 
+        text = text.replace(new RegExp(entities[i][0], 'g'), ("&"+entities[i][1])+";");
+    return text;
+}
+function decodeHTML(text) {
+    var entities = [
+        ['apos', 'nixnix'],
+        ['amp', '&'],
+        ['lt', '<'],
+        ['gt', '>']
+    ];
+    for (var i = 0, max = entities.length; i < max; ++i) 
+        text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+    return text;
+}
+</script><script>
+if(0)document.getElementById("eri1").value="http://google.de?Text=der übergebene Text";
+if(0)document.getElementById("eri1").value="http://";
+//esc(0);
+function esc(param)
+{
+t=document.getElementById("eri1").value;
+try
+ {
+ u2=escape(t);
+ u3=encodeURI(t);
+ u4=encodeURIComponent(t);
+ u5=encodeHTML(t);
+ document.getElementById("eri2").value=u2;
+ document.getElementById("eri3").value=u3;
+ document.getElementById("eri4").value=u4;
+ document.getElementById("eri5").value=u5;
+ }
+catch(e) 
+ {alert("error");}
+};
+</script>
+<div style="border:2px solid gray;padding:4px;margin:4px;clear:both"><em>Decode</em>
+<table width="777" border="1">
+    <tbody>
+        <tr>
+            <td><b>Eingabe</b></td>
+            <td><input type="text" id="uri1" name="uri1" onkeyup="unesc(this.form)" size="88" value="" placeholder="-- zu decodierende URL hier eingeben --" /></td>
+        </tr>
+        <!--
+        <tr>
+            <td> unescape 	</td>
+            <td> <input type="text" value=" " size="88" id="uri2" /> 	</td>
+        </tr>
+        <tr>
+            <td> decodeURI 	</td>
+            <td> <input type="text" value=" " size="88" id="uri3" /> 	</td>
+        </tr>
+        <tr>
+            <td> decodeURIComponent 	</td>
+            <td> <input type="text" value=" " size="88" id="uri4" /> 	</td>
+        </tr>
+	-->
+        <tr>
+            <td>Htmldecode</td>
+            <td>
+            <div id="divuri1">-</div>
+            </td>
+        </tr>
+        <tr>
+            <td>unescape+Htmldecode</td>
+            <td>
+            <div id="divuri2">-</div>
+            </td>
+        </tr>
+        <tr>
+            <td>decodeURI+Htmldecode</td>
+            <td>
+            <div id="divuri3">-</div>
+            </td>
+        </tr>
+        <tr>
+            <td>decodeURIComponent+H.</td>
+            <td>
+            <div id="divuri4">-</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<script>
+if(0)document.getElementById("uri1").value="http://google.de?Text=der ";
+// unesc(0);
+function unesc(param)
+{
+//document.getElementById("uri2").value="#fail#";
+//document.getElementById("uri3").value="#fail#";
+//document.getElementById("uri4").value="#fail#";
+document.getElementById("divuri1").value="#fail#";
+document.getElementById("divuri2").value="#fail#";
+document.getElementById("divuri3").value="#fail#";
+document.getElementById("divuri4").value="#fail#";
+u2=u3=u4="#fail#";
+
+t=document.getElementById("uri1").value;
+document.getElementById("divuri1").innerHTML=t;
+
+try{u2=unescape(t);} catch(e){;};
+//document.getElementById("uri2").value=u2;
+document.getElementById("divuri2").innerHTML=u2;
+
+try{u3=decodeURI(t);} catch(e){;};
+//document.getElementById("uri3").value=u3;
+document.getElementById("divuri3").innerHTML=u3;
+
+try{u4=decodeURIComponent(t);} catch(e){;};
+//document.getElementById("uri4").value=u4;
+document.getElementById("divuri4").innerHTML=u4;
+};
+</script>  <!--
+Beispiel 1) Ägypten: Der Umlaut Ä hat in Html den Code <a href="javascript:(void( 
+(document.getElementById("eri1").value="&"+"Auml;")?esc(0):0))"><u><i>&</i>Auml;</u></a> mit Escape-Codierung ergibt sich <a href="javascript:(void( 
+(document.getElementById("uri1").value="%"+"26Auml%"+"3Bgypten")?unesc(0):0))"><u>Ägypten"</u></a>.
+-->
+<p><b>Allgemeines zum Thema Encoding:<br />
+</b>Viele Browser benutzen Url Encoding f&uuml;r Sonderzeichen. Dabei werden die Zeichen mit vorangestelltem Prozent in ihr&nbsp;<a href="http://unicode.e-workers.de/sz_im_web.php#unicode">Unicode</a>&nbsp;&Auml;quivalent umgewandelt (nicht zu verwechseln mit HTML Entities).	Das hin und her verschiedener Codierverfahren f&uuml;hrt dazu, dass die seltsamen Codefragmente weit verbreitet sind: in Linklisten, Foren, Datenbanken usw, ironischerweise auch auf Seiten, die Tipps zur richtigen Zeichencodierung geben. Die Gr&uuml;nde sind vielf&auml;ltig. Mit dem Decoder lassen sich die verschiedenen Codierverfahren untersuchen.<br />
+<br />
+<b>Beispiel: Umlaute</b> <br />
+Man bet&auml;tige oben den Umlaute Button und dann in der Zeile encodeURI den decode Button.  Das Ergebnis sind Sonderzeichen, die man vor allem in Forenarchiven oft sieht . Der Grund ist, dass die alte Escape Codierung Probleme bereitet und stattdessen die neuere  Funktion encodeURI Verwendung findet.  Bei der Decodierung ist jedoch escape immer noch der Standard.  L&ouml;sungsm&ouml;glichkeit: keine.  Man sieht es z. Bsp. der Zeichenfolge %26 nicht an, ob und welche Codierung angewendet wurde.   Bei Verwendung einer Datenbank macht es Sinn einen geeigneten Zeichensatz einzustellen, um die Probleme zu umgehen.   <a href="http://www.alphadevx.com/a/420-Converting-a-MySQL-database-from-latin1-to-utf8">  www.alphadevx.com/a/420-Converting-a-MySQL-database-from-latin1-to-utf8</a>.</p>
+<p><b>Beispiel: Sonderzeichen in Seitenaufrufen</b> <br />
+1 &lt;a href=&quot;test.php?x=1&amp;y=2&quot;&gt; ... <br />
+2 &lt;a href=&quot;test.php?x=1&amp;amp;y=2&quot;&gt; ... <br />
+Welche Variante ist die richtige? <a href="JavaScript:alert('Nr. 2, theoretisch ... (selfhtml bevorzugt Variante 1)')">Aufl&ouml;sung</a>  <script> 
+ var newline=unescape("%"+"0A");
+ if(((window.location.href).split('?')).length>1)
+   alert("Diese Seite wurde aufgerufen mit folgenden Angaben "+newline+" Url: "+
+   window.location.href+newline+" Parameter: "+window.location.search);
+</script>     Test:  <script> 
+ var search=window.location.search;
+ var thispage=((window.location.href).split('?'))[0];
+ var test1url=thispage+ ("?x=1&y=2");
+ var test2url=thispage+ encodeHTML("?x=1&y=2");
+ document.write('<a href="' + test1url+ '">test1</a> ');
+ document.write('<a href="' + test2url+ '">test2</a> ');
+ </script>   (Wie Sie sehen, sehen Sie nichts...) <br />
+Zum Abschluss ein Test mit Url-Encoding   <script>
+ test3url=thispage+ encodeURI("?x=1&y=2");
+ test4url=thispage+'?'+encodeURI("x=1&y=2");
+ test5url=thispage+ encodeURIComponent("?x=1&y=2");
+ test6url=thispage+'?'+encodeURIComponent("x=1&y=2");
+ document.write('<a href="' + test3url+ '">test3</a> ');
+ document.write('<a href="' + test4url+ '">test4</a> ');
+ document.write('<a href="' + test5url+ '">test5</a> ');
+ document.write('<a href="' + test6url+ '">test6</a> ');
+ </script>  (Fazit: es ist kompliziert) <br />
+Links zu dem Thema: <br />
+<a href="http://de.selfhtml.org/javascript/objekte/unabhaengig.htm">de.selfhtml.org/javascript/objekte</a>&nbsp;  <br />
+<a href="http://wiki.selfhtml.org/wiki/Glossar:URL-Codierung">wiki.selfhtml.org/wiki/Glossar:URL-Codierung</a> <br />
+<a href="http://www.htmlhelp.com/tools/validator/problems.html#amp">www.htmlhelp.com/tools/validator/problems.html#amp</a></p>
+<p><b>Beispiel: manipulierte Links</b> <br />
+Malware-Links werden oft so gestaltet, dass in ihnen scheinbar vertrauensw&uuml;rdige Domainnamen auftauchen. Schwerer zu erkennen sind Manipulationen mit fremden Zeichens&auml;tzen.  So wird aus dem vertrauensw&uuml;rdigen gmx.de ein vom Original kaum zu  unterscheidendes  gm<span style="color: #ff0000;">х</span>.de  oder aus postbank.de wird  <span style="color: #ff0000;">р</span>ostbank.de.  Sieht genauso aus, aber das &quot;х&quot; im zweiten gmх ist ein kyrillisches Ha  bzw. &quot;ch&quot; und das zweite &quot;р&quot; in рostbank ist ein kyrillisches &quot;r&quot;. <br />
+Quelle: <a href="http://www.iron-city.de/index.php/konzept/85-umgang-mit-emails">www.iron-city.de/index.php/konzept/85-umgang-mit-emails</a></p>
+<p><b>weitere Beispiele:</b> <br />
+%26Auml%3Bgypten  <br />
+http://de.wikipedia.org/wiki/Gro%C3%9Fer_Sprung_nach_vorn <br />
+http://www.facebook.com/#!/pages/Gef%C3%A4llt-mir-aus-Mitleid <br />
+http://www.%66b%69.%67o%76 <br />
+%u06AF%u06CC%u0631%20%u0633%u0647%20%u067E%u06CC%u0686 <br />
+%DA%AF%DB%8C <!-- Ende Unescape Code --></p>
+<p><b>Links</b> <br />
+<a href="http://de.wiktionary.org/wiki/Hilfe:Sonderzeichen/Tabelle"> de.wiktionary.org/wiki/Hilfe:Sonderzeichen/Tabelle </a> <br />
+<a href="http://utf8-chartable.de/unicode-utf8-table.pl"> utf8-chartable.de/unicode-utf8-table.pl </a></p>
+<span style="color: rgb(128, 128, 128);">Aenderungsliste:<br />
+14.04.2014 diverse Aenderungen<br />
+01.07.2014 uri+htmdecode hinzugefuegt <br />
+07.10.2014 <br />
+- placeholder Attribut<br />
+- link hinzugefuegt www.htmlhelp.com/tools/validator/problems.html#amp<br />
+</span><span style="color: rgb(128, 128, 128);">- marginale Aenderungen&nbsp;<br />
+</span><span style="color: rgb(128, 128, 128);">26.2.2019<br />
+- marginale Aenderungen&nbsp;</span><br style="color: rgb(128, 128, 128);" />

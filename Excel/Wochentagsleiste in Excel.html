@@ -1,0 +1,1245 @@
+<em>Thema: Wochentagsleiste mit automatischer Anzeige der Wochentage in Excel.&nbsp;Zu meiner &Uuml;berraschung finden sich zu diesem Standardanliegen keine fertigen Vorlagen im Netz. Deshalb wird hier eine L&ouml;sung nachgeliefert.&nbsp;<br />
+</em><hr />
+Ziel: eine Liste wie unten (Das Beispiel funktioniert auch in Openoffice).<br />
+Die <a href="http://nikolausdulgeridis.de.tl/WoTagleiste1JahrCsv.htm"><strong>Formelansicht&nbsp;f&uuml;r ein Jahr im CSV Format</strong></a> findet man hier&nbsp;oder im <a href="https://sites.google.com/site/nikolausdulgeridis/downloads/WoTagleiste1Jahr.xls?attredirects=0&amp;d=1"><strong>Download</strong></a><strong>.</strong><br />
+Die <a href="http://nikolausdulgeridis.de.tl/WoTag1MonatCsv.htm"><strong>Formelansicht f&uuml;r einen einzelnen Monat im CSV Format</strong></a> findet man hier<strong>&nbsp;</strong>oder im <a href="https://sites.google.com/site/nikolausdulgeridis/downloads"><strong>Download</strong></a><strong>.</strong><br />
+<br />
+<hr />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="ProgId" content="Excel.Sheet">
+<meta name="Generator" content="Microsoft Excel 15">
+<link rel="File-List" href="wotagsleiste_Jahr-Dateien/filelist.xml" /><style id="wotagsleiste_2018_25803_Styles" type="text/css">
+<!--table
+	{mso-displayed-decimal-separator:"\,";
+	mso-displayed-thousand-separator:"\.";}
+.xl1525803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6525803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:"mmm\\ yy";
+	text-align:center;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl6625803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:white;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:bottom;
+	background:#2F75B5;
+	mso-pattern:#2F75B5 none;
+	white-space:nowrap;}
+.xl6725803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:white;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:"mmm\\ yy";
+	text-align:center;
+	vertical-align:bottom;
+	background:#5B9BD5;
+	mso-pattern:#5B9BD5 none;
+	white-space:nowrap;}
+.xl6825803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:white;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:bottom;
+	background:#5B9BD5;
+	mso-pattern:#5B9BD5 none;
+	white-space:nowrap;}
+.xl6925803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:white;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	background:black;
+	mso-pattern:black none;
+	white-space:nowrap;}
+.xl7025803
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:white;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:Calibri, sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	border-top:1.0pt solid white;
+	border-right:none;
+	border-bottom:none;
+	border-left:none;
+	background:#2F75B5;
+	mso-pattern:#2F75B5 none;
+	white-space:nowrap;}
+-->
+</style><!--[if !excel]>&nbsp;&nbsp;<![endif]--><!--Die folgenden Informationen wurden durch den Web-Formular-Assistenten von
+Microsoft Excel erstellt.--><!--Falls das gleiche Element mit Excel veröffentlicht wird, werden alle
+Informationen zwischen den DIV-Etiketten ersetzt.--><!-----------------------------> <!--START OF OUTPUT FROM EXCEL PUBLISH AS WEB PAGE WIZARD --> <!----------------------------->
+<div id="wotagsleiste_2018_25803" align="center" x:publishsource="Excel">
+<table border="0" cellpadding="0" cellspacing="0" width="1010" style="border-collapse:&#10; collapse;table-layout:fixed;width:750pt">
+    <colgroup><col width="35" style="mso-width-source:userset;mso-width-alt:1280;width:26pt" />  <col width="31" style="mso-width-source:userset;mso-width-alt:1133;width:23pt" />  <col width="30" style="mso-width-source:userset;mso-width-alt:1097;width:23pt" />  <col width="49" style="mso-width-source:userset;mso-width-alt:1792;width:37pt" />  <col width="28" style="mso-width-source:userset;mso-width-alt:1024;width:21pt" />  <col width="27" span="31" style="mso-width-source:userset;mso-width-alt:987;&#10; width:20pt" />  </colgroup>
+    <tbody>
+        <tr height="21" style="height:15.75pt">
+            <td height="21" class="xl1525803" width="35" style="height:15.75pt;width:26pt">JJJJ</td>
+            <td class="xl1525803" width="31" style="width:23pt">MM</td>
+            <td class="xl1525803" width="30" style="width:23pt">&nbsp;</td>
+            <td class="xl1525803" width="49" style="width:37pt">Monat</td>
+            <td class="xl1525803" width="28" style="width:21pt">&nbsp;</td>
+            <td class="xl6925803" width="27" style="width:20pt">1</td>
+            <td class="xl6925803" width="27" style="width:20pt">2</td>
+            <td class="xl6925803" width="27" style="width:20pt">3</td>
+            <td class="xl6925803" width="27" style="width:20pt">4</td>
+            <td class="xl6925803" width="27" style="width:20pt">5</td>
+            <td class="xl6925803" width="27" style="width:20pt">6</td>
+            <td class="xl6925803" width="27" style="width:20pt">7</td>
+            <td class="xl6925803" width="27" style="width:20pt">8</td>
+            <td class="xl6925803" width="27" style="width:20pt">9</td>
+            <td class="xl6925803" width="27" style="width:20pt">10</td>
+            <td class="xl6925803" width="27" style="width:20pt">11</td>
+            <td class="xl6925803" width="27" style="width:20pt">12</td>
+            <td class="xl6925803" width="27" style="width:20pt">13</td>
+            <td class="xl6925803" width="27" style="width:20pt">14</td>
+            <td class="xl6925803" width="27" style="width:20pt">15</td>
+            <td class="xl6925803" width="27" style="width:20pt">16</td>
+            <td class="xl6925803" width="27" style="width:20pt">17</td>
+            <td class="xl6925803" width="27" style="width:20pt">18</td>
+            <td class="xl6925803" width="27" style="width:20pt">19</td>
+            <td class="xl6925803" width="27" style="width:20pt">20</td>
+            <td class="xl6925803" width="27" style="width:20pt">21</td>
+            <td class="xl6925803" width="27" style="width:20pt">22</td>
+            <td class="xl6925803" width="27" style="width:20pt">23</td>
+            <td class="xl6925803" width="27" style="width:20pt">24</td>
+            <td class="xl6925803" width="27" style="width:20pt">25</td>
+            <td class="xl6925803" width="27" style="width:20pt">26</td>
+            <td class="xl6925803" width="27" style="width:20pt">27</td>
+            <td class="xl6925803" width="27" style="width:20pt">28</td>
+            <td class="xl6925803" width="27" style="width:20pt">29</td>
+            <td class="xl6925803" width="27" style="width:20pt">30</td>
+            <td class="xl6925803" width="27" style="width:20pt">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" style="height:15.0pt">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+            <td class="xl7025803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">1</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jan 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6725803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">1</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jan 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">2</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Feb 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6725803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">&nbsp;</td>
+            <td class="xl6825803">&nbsp;</td>
+            <td class="xl6825803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">2</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Feb 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">&nbsp;</td>
+            <td class="xl6625803">&nbsp;</td>
+            <td class="xl6625803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">3</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Mrz 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6725803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">3</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Mrz 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">4</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Apr 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6725803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">4</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Apr 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">5</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Mai 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6725803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">5</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Mai 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">6</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jun 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6725803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">6</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jun 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">7</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jul 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6725803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">7</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Jul 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">8</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Aug 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6725803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">8</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Aug 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">9</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Sep 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6725803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">9</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Sep 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">10</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Okt 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6725803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">10</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Okt 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">11</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Nov 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6725803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">11</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Nov 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">&nbsp;</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">12</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Dez 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6725803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+            <td class="xl6825803">Di</td>
+            <td class="xl6825803">Mi</td>
+            <td class="xl6825803">Do</td>
+            <td class="xl6825803">Fr</td>
+            <td class="xl6825803">Sa</td>
+            <td class="xl6825803">So</td>
+            <td class="xl6825803">Mo</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" align="right" style="height:15.0pt">2018</td>
+            <td class="xl1525803" align="right">12</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl6525803">Dez 18</td>
+            <td class="xl6525803">&nbsp;</td>
+            <td class="xl6625803">1</td>
+            <td class="xl6625803">2</td>
+            <td class="xl6625803">3</td>
+            <td class="xl6625803">4</td>
+            <td class="xl6625803">5</td>
+            <td class="xl6625803">6</td>
+            <td class="xl6625803">7</td>
+            <td class="xl6625803">8</td>
+            <td class="xl6625803">9</td>
+            <td class="xl6625803">10</td>
+            <td class="xl6625803">11</td>
+            <td class="xl6625803">12</td>
+            <td class="xl6625803">13</td>
+            <td class="xl6625803">14</td>
+            <td class="xl6625803">15</td>
+            <td class="xl6625803">16</td>
+            <td class="xl6625803">17</td>
+            <td class="xl6625803">18</td>
+            <td class="xl6625803">19</td>
+            <td class="xl6625803">20</td>
+            <td class="xl6625803">21</td>
+            <td class="xl6625803">22</td>
+            <td class="xl6625803">23</td>
+            <td class="xl6625803">24</td>
+            <td class="xl6625803">25</td>
+            <td class="xl6625803">26</td>
+            <td class="xl6625803">27</td>
+            <td class="xl6625803">28</td>
+            <td class="xl6625803">29</td>
+            <td class="xl6625803">30</td>
+            <td class="xl6625803">31</td>
+        </tr>
+        <tr height="20" style="height:15.0pt">
+            <td height="20" class="xl1525803" style="height:15.0pt">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+            <td class="xl1525803">&nbsp;</td>
+        </tr>
+        <!--[if supportMisalignedColumns]-->
+        <tr height="0" style="display:none">
+            <td width="35" style="width:26pt">&nbsp;</td>
+            <td width="31" style="width:23pt">&nbsp;</td>
+            <td width="30" style="width:23pt">&nbsp;</td>
+            <td width="49" style="width:37pt">&nbsp;</td>
+            <td width="28" style="width:21pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+            <td width="27" style="width:20pt">&nbsp;</td>
+        </tr>
+        <!--[endif]-->
+    </tbody>
+</table>
+</div>
+<!-----------------------------> <!--END OF OUTPUT FROM EXCEL PUBLISH AS WEB PAGE WIZARD--> <!-----------------------------><strong>Hinweis:</strong>&nbsp;<br />
+Will man die Tabelle auf das Jahr 2020 aktualisieren, reicht es in Excel in der ersten Spalte das Jahr zu &auml;ndern<br />
+<strong><br />
+Erl&auml;uterung der Formeln&nbsp;</strong><br />
+<div><br />
+das Datum in $D3 ist exakt der Anfang eines Monats um 0 Uhr, z.Bsp. 01.06.2012 00:00 Uhr <br />
+also nicht einfach Jetzt() o.&auml;. verwenden, sondern das Datum konstruieren mit<br />
+&quot;=DATUM(2012;6;1)&quot;<br />
+<br />
+Die Abfrage am ersten Tag ist eine simple Pr&uuml;fung, falls das Datum in $D3 leer (also 0) ist erscheint eine Fehlermeldung &nbsp;(aber auch&nbsp;alles kleiner 999 ist unplausibel, das entspricht Jahr 3 nach Christi)<br />
+&quot;=WENN(($D3)&gt;999; TAG($D3+0);&quot;&quot;!!Datumsfehler!!&quot;&quot;)&quot;<br />
+<br />
+an den Tagen 1 bis 28 wird einfach der Tag ausgegeben<br />
+=TAG($D3+1) ... usw.<br />
+<br />
+an den Tagen 29 bis 31 wird gepr&uuml;ft: ist der Monat der gleiche wie am Monatsersten, falls nein bleibt das Feld leer&nbsp;<br />
+&quot;=WENN(MONAT($D3)=MONAT($D3+28);TAG($D3+28);&quot;&quot;&quot;&quot;)&quot;;</div>
+<br />
+-----------------<br />
+&Auml;nderungen:<br />
+29.12.2019 Erl&auml;uterng der Formeln hinzugef&uuml;gt<br type="_moz" />
+</meta>
+</meta>
+</meta>

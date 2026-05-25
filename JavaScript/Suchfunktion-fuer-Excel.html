@@ -1,0 +1,10 @@
+<h3>JavaScript: Suchleiste f&uuml;r Excel Tabelle&nbsp;</h3>
+Excel Tabellen werden gern im Html Format verteilt, wenn es sich um eine gr&ouml;ssere Zahl von Empf&auml;ngern handelt. Das anh&auml;ngende Beispiel demonstriert, wie man eine aus Excel exportierte Html Tabelle um eine Suchfunktion erg&auml;nzen kann.&nbsp;Der Code wird entweder in die Tabelle injiziert oder das Skript kann als eigenst&auml;ndige Applikation das Dokument einlesen.<br />
+<br />
+Die interessante Fragestellung: ist, wie erfolgt der Zugriff auf die Tabelle? Es gibt grunds&auml;tzlich zwei Ans&auml;tze: Zum einen kann man den Dokument Quellcode interpretieren. Das ist m&ouml;glich ohne den gesamten Syntaxbaum aufzuspannen, da wir bei einer autogenerierten Datei einen stereotypen Aufbau voraussetzen d&uuml;rfen. Die andere M&ouml;glichkeit besteht darin das Dom Objekt zu durchsuchen. Das attraktive bei dieser Variante liegt darin, dass der Browser die Syntaxpr&uuml;fung &uuml;bernimmt.&nbsp;Aus praktischen Gr&uuml;nden wurde eine Mischform gew&auml;hlt. Es hat sich gezeigt, dass Tabellen und Rows im Dom gut identifiziert werden k&ouml;nnen, die Repr&auml;sentation der Spalten ist hingegen bei den Browsern unterschiedlich. Deshalb werden im zweiten Schritt die Zeilen mit Hilfe des&nbsp;InnerHtml Attributs geparst. Die Spalten werden anhand der Tags &lt;td*&gt; und &lt;/td&gt; identifiziert, eventuelle span Attribute werden allerdings nicht interpretiert.<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Suchleiste-fuer-Excel-Tabelle-Demo.htm">zur Demo</a><br />
+<span style="color: rgb(192, 192, 192);"><br />
+------------------------------------------<br />
+erstellt 5.3.2020</span><br type="_moz" />
+<br type="_moz" />

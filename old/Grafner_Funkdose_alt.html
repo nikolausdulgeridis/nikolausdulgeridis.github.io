@@ -1,0 +1,67 @@
+<br />
+<img height="67" width="100" src="//img.webme.com/pic/n/nikolausdulgeridis/fernanime2.gif" alt="" align="right" /><span style="font-family: Arial;"><strong>Grafner Funksteckdose<br />
+</strong>Einstellen der Systemcodes zur Benutzung mit Raspberry Pi und Co<br />
+</span><br />
+<span style="font-family: Arial;">Falls jemand die Codes ben&ouml;tigt, der Aufbau ist wie folgt<br />
+- 10 Bits Sytemcode - 1 wird zu 11, 0 wird zu 01, z.Bsp 11011 ergibt 11 11 01 11 11<br />
+- 10 Bits Unitcode (00 = selektiert)<br />
+- 4 Bits command on/off - 0001=on, 0100=off<br />
+</span><br />
+<span style="font-family: 'Courier New';">111111111100010101010001 # FFC554 Aoff (Systemcode 11111</span><span style="font-family: 'Courier New';">, Unit A</span><span style="font-family: 'Courier New';">)<br />
+111111111100010101010100 # FFC554 Aon &nbsp;(Systemcode 11111</span><span style="font-family: 'Courier New';">, Unit A</span><span style="font-family: 'Courier New';">)<br />
+ssssssssss</span><span style="font-family: 'Courier New';">AABBCCDDEE0ccc&nbsp;</span><span style="font-family: 'Courier New';">#&nbsp;systemcodes,&nbsp;</span><span style="font-family: 'Courier New';">unitcodes,</span><span style="font-family: 'Courier New';">&nbsp;</span><span style="font-family: 'Courier New';">command(001=on,100=off)</span><span style="font-family: 'Courier New';"><br />
+</span><br />
+Links zu dem Thema:<br />
+<ul>
+    <li style="font-weight: bold;"><span style="color: rgb(0, 0, 238); text-decoration: underline;"><a href="https://tutorials-raspberrypi.de/raspberry-pi-funksteckdosen-433-mhz-steuern/" target="_blank">https://tutorials-raspberrypi.de/raspberry-pi-funksteckdosen-433-mhz-steuern/</a></span></li>
+    <li style="font-weight: bold;"><a href="https://www.ebay.de/itm/Grafner-Funksteckdosen-4-teilig-Set-Fernbedienung-Funksteckdosenset-New-7741/112544058460">https://www.ebay.de/itm/Grafner-Funksteckdosen-4-teilig-Set-Fernbedienung-Funksteckdosenset-New-7741/112544058460</a></li>
+    <li style="font-weight: bold;"><a href="https://www.amazon.de/Grafner&reg;-Funk-Steckdosenset-Steckdosen-Funkschalter-Schalter/" target="_blank">https://www.amazon.de/Grafner&reg;-Funk-Steckdosenset-Steckdosen-Funkschalter-Schalter/</a></li>
+</ul>
+<br />
+<hr />
+<br />
+/home/pi/433Utils/RPi_utils/switch.cpp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  19.11.2017 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+/*<br />
+&nbsp;* Usage: ./switch &lt;unitCode&gt; &lt;command&gt;<br />
+* Command is 0 for OFF and 1 for ON<br />
+*<br />
+* Code for Raspberry Pi - send codes for grafner remote switch<br />
+*&nbsp; compile:<br />
+*&nbsp; g++ -DRPI ../rc-switch/RCSwitch.cpp switch.cpp -o switch -lwiringPi<br />
+*/<br />
+<br />
+#include &quot;../rc-switch/RCSwitch.h&quot;<br />
+#include &lt;stdlib.h&gt;<br />
+#include &lt;stdio.h&gt;<br />
+<br />
+int main(int argc, char *argv[]) {<br />
+<br />
+&nbsp;&nbsp;&nbsp; // GPIO 17, change if you use another Pin<br />
+&nbsp;&nbsp;&nbsp; int PIN = 0;<br />
+<br />
+&nbsp;&nbsp;&nbsp; if (wiringPiSetup() == -1) return 1;<br />
+&nbsp;&nbsp;&nbsp; RCSwitch mySwitch = RCSwitch();<br />
+&nbsp;&nbsp;&nbsp; mySwitch.enableTransmit(PIN);<br />
+<br />
+&nbsp;&nbsp;&nbsp; // select here the systemcode of your remote device<br />
+&nbsp;&nbsp;&nbsp; // the list is not complete, feel free to add missing codes :-)<br />
+&nbsp;&nbsp;&nbsp; // (only the first 10 bits have to be changed)<br />
+&nbsp;&nbsp;&nbsp; int Basis11111= 0xFFD551;<br />
+&nbsp;&nbsp;&nbsp; int Basis10111= 0xDFD551;<br />
+&nbsp;&nbsp;&nbsp; int Basis11011= 0xF7D551;<br />
+&nbsp;&nbsp;&nbsp; int Basis00001= 0x55D551;<br />
+&nbsp;&nbsp;&nbsp; int myBasis= Basis11011;<br />
+<br />
+&nbsp;&nbsp;&nbsp; int ABCDE= 0x4000;<br />
+&nbsp; &nbsp; //int sel=&nbsp; ABCDE &gt;&gt; (atoi(argv[1])*2);<br />
+&nbsp;&nbsp;&nbsp; //int korr= 0x800000 &gt;&gt; 2;<br />
+&nbsp;&nbsp;&nbsp; //printf(&quot;===%d===\n&quot;, ( ABCDE &gt;&gt; (atoi(argv[1])*2) ) );<br />
+<br />
+&nbsp;&nbsp;&nbsp; if (atoi(argv[1]) &gt;= 1) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mySwitch.send( myBasis -&nbsp;&nbsp; ( ABCDE &gt;&gt; (atoi(argv[1])*2) )&nbsp; +  atoi(argv[2])*3 , 24 );<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mySwitch.send(0x55C554, 24); // test<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp; return 0;<br />
+}<br />

@@ -1,0 +1,418 @@
+<div style="width:614px;clear:both"><img src="//img.webme.com/pic/n/nikolausdulgeridis/dograbbit_t20-loYZJZ.jpg" width="150" height="100" align="right" hspace="4" alt="" /><strong>Linux: inaktive Festplatten in den Ruhestand schicken (Standby)</strong> <br />
+<div id="ugx"><br />
+<em>Das hier vorgestellte Skript &uuml;berwacht auf Linux Systemen die Plattenaktivit&auml;t und erzwingt den Standby.&nbsp;Interessant ist die Anwendung vor allem f&uuml;r Computer, die rund um die Uhr laufen m&uuml;ssen (NAS) oder Backup Systeme.&nbsp;</em><em>SSD Platten profitieren naturgem&auml;&szlig; nicht.</em></div>
+</div>
+<br />
+<b>Vorbemerkung: Welches Problem wird gel&ouml;st<br />
+<br />
+</b>Festplattendienste laufen rund um die Uhr, werden im Mitttel aber nur wenige Stunden am Tag real genutzt.&nbsp;Um bei pausierenden Platten Energie zu sparen gibt es zwei Optionen:&nbsp;<br />
+- Parken der Schreib/Lesek&ouml;pfe, das verringert den Luftwiderstand (10% Ersparnis)<br />
+- Spindown (&gt; 50% Einsparung)<br />
+<br />
+Um eine inaktive Disk in den Spindown zu schicken, gibt es folgende M&ouml;glichkeiten<br />
+<br />
+- Aktivieren der APM Funktion der Festplattte <br />
+- Das Programm HDIdlie, ein C++ Programm, der Spindown erfolgt &uuml;ber die SCSI Systemschnittstelle<br />
+- Das hier anh&auml;ngende Shell Skript (der Spindown erfolgt&nbsp;mit Hilfe des Programms HD-Parm)<br />
+<br />
+<em>&Uuml;berwachung via APM:</em><strong><br />
+</strong><br />
+Jede Festplatte verf&uuml;gt &uuml;ber einen eigenen Mikrocontroller. Als Schnittstelle nach aussen gibt es Smart, APM und einige lowlevel-Funktionen. Man kann der Festplatte also mitteilen: Schalte nach 30 Minuten ohne Datentransfer in den Standby, der&nbsp;Festplattencontroller &uuml;bernimmt den Rest. Nur leider funktioniert das nicht immer, eigentlich eher selten. Die Gr&uuml;nde sind: verschiedene Modelle, verschiedene Schnittstellen und das Thema steht in der Agenda der Hersteller auch nicht sehr weit oben.&nbsp;<br />
+<br />
+<em>&Uuml;berwachung via PC / NAS Controller:&nbsp;</em><br />
+<br />
+Welches System k&ouml;nnte stattdessen die Festplatte herunterfahren? Bei einem Nas, also einem Computer der Festplattendienste zur Verf&uuml;gung stellt, haben wir rein zuf&auml;llig einen zweiten Mikrocontroller, der rund um die Uhr l&auml;uft und die Festplattenaktivit&auml;t &uuml;berwacht. Davon profitieren sowohl HDIdle als auch dieses Skript. Einzige Gegenindikation: Wenn das Nas-Board zur Energieersparnis selber in den Standby geht, dann f&auml;llt die &Uuml;berwachung u.U. aus. (Kurz zur Erl&auml;uterung, warum &nbsp;reden wir hier vorzugsweise &uuml;ber Nas? Weil normale Desktops nach wenigen Stunden Betrieb abgeschaltet werden, da ist das Thema doch eher nebens&auml;chlich. Wenn der Computer allerdings rund um die Uhr l&auml;uft, dann ist die Sachlage nat&uuml;rlich eine andere).<br />
+<br />
+<strong>Welches Risiko besteht?</strong><br />
+<br />
+Das Skript initiiert nach 40 Minuten den Spindown, betroffen sind die Platten sda bis sdz&nbsp;<br />
+Bei SSD ist der Spindown Befehl wirkungslos aber unbedenklich.<br />
+Das gr&ouml;sste Risiko besteht darin, dass der spindown zu oft oder gar nicht ausgel&ouml;st wird.<br />
+zu oft) unwahrscheinlich, im Zweifel das Logfile pr&uuml;fen (/var/log/disk_spindown.log)<br />
+nie)&nbsp;nach 60 Minuten die Festplatte anfassen und auf Laufger&auml;usche pr&uuml;fen oder den Stromverbrauch messen.<br />
+<br />
+<strong>Ist ein Spindown sch&auml;dlich f&uuml;r die Festplatte?<br />
+<br />
+</strong>Grunds&auml;tzlich ja, vor allem der nachfolgende spinup ist eine elektrische und mechanische Belastung, die die Lebensdauer verk&uuml;rzt. Demgegen&uuml;ber steht, dass auch ein ununterbrochener Betrieb einen Verschleiss bewirkt, obwohl die modernen gasgef&uuml;llten Lager extrem langlebig sind. Die Hersteller geben einen Grenzwert f&uuml;r die maximale Anzahl der zul&auml;ssigen Spindowns w&auml;hrend der Lebensdauer einer Platte an. Hier bitte die Herstellerdokumentation oder den Smartstatus zu Rate ziehen. Nach meiner Einsch&auml;tzung sollte man versuchen, im Mittel unter 10/Tag zu bleiben.<br />
+<br />
+<strong>Deinstallation:<br />
+</strong><br />
+- Eintrag aus der Datei /etc/rc.local entfernen<br />
+- pr&uuml;fen, ob das Skript: noch aktiv ist: ps aux | grep disk_spindown | grep -ivw grep<br />
+- Skript von der Festplatte loeschen:&nbsp;/usr/local/bin/disk_spindown.sh<br />
+<br />
+<strong>Allgemeine &Uuml;berlegungen zur Planung eines energieeffizienten NAS<br />
+</strong><em><br />
+</em>Serverdienste laufen rund um die Uhr werden aber nur einen Bruchteil der Zeit genutzt. Durch die st&auml;ndige Verf&uuml;gbarkeit konkurrieren sie selbst bei moderatem Energieverbrauch mit der Kochgelegenheit.<br />
+<br />
+Erster Ausweg&nbsp;ist die Wahl der passenden Hardware. Statt eines Desktops reicht ein Minicomputer oder ein dediziertes Nas System. Kleine Armboards sind wegen ihrer gen&uuml;gsamen Prozessoren sehr beliebt, Auch moderne Intelsysteme stehen dank fortgeschrittenem Powermanagement nicht schlechter da. Am Besten schneiden trotzdem einige (nicht alle) kommerzielle NAS Systeme ab.&nbsp;<br />
+<br />
+Zweitens Festplatten. Eine grosse Festplatte ist im Verbrauch g&uuml;nstiger als mehrere kleine. Das Ausrangieren ineffizienter alter Platten ist daher eine der effektivsten Massnahmen. <br />
+<br />
+Drittens Powermanagement. Eine mechanische.Platte ben&ouml;tigt im Betrieb 4-8 W, im Standby/Spindown &lt;2 W. <br />
+<br />
+<strong>Backupstrategie:&nbsp;<br />
+</strong><br />
+Datenverlust droht immer und jederzeit, der Smartstatus ist nur ein schwaches Indiz f&uuml;r das Ende der Festplatte.&nbsp;Wer Daten verliert, kann nicht den Festplattenhersteller beschuldigen. Datenverlust ist immer eine Folge schlechter Planung.<br />
+<br />
+<u>Priorit&auml;ten setzen</u>: f&uuml;r 'normale' Daten reicht ein gelegentlicher sync auf eine zweite Platte. Wichtige Daten (Finanzen, Arbeit, Familie) werden mehrfach an verschiedenen Orten abgelegt.&nbsp;Heutzutage gibt es Clouds, das sollte man auch nutzen.&nbsp;<br />
+<br />
+<strong>Kompatibilit&auml;t</strong><br />
+<br />
+Grunds&auml;tzlich funktioniert das Skript auf allen Computern, auf denen der Befehl&nbsp;<span style="font-family: tahoma, verdana, arial; font-size: 11px; background-color: rgb(221, 221, 238);">hdparm -y &nbsp;/dev/sd*</span>&nbsp;die Festplatten erfolgreich in den Standby versetzt. HDParm ist ein verbreitetes Tool und wird&nbsp;unter Linux&nbsp;breit unterst&uuml;tzt. Erfolgreich getestet habe ich das Skript mit Raspberry2, Odroid C1, Odroid XU4 zusammen mit externen Festplatten von Seagate, WD, etc.. Bei&nbsp;Odroid N2 gibt es ein Treiberproblem bei externen Festplatten. Der Fehler entsteht vermutlich durch unvollst&auml;ndige Umsetzung der Ata Befehle durch das USB3 Sata Interface und betrifft auch andere Boards mit der selben Konstellation. Das Problem ist zwar l&ouml;sbar, muss aber f&uuml;r jedes Festplattenmodell wiederholt werden.<br />
+<strong><br />
+Troubleshooting:</strong><br />
+<br />
+Bei Verwendung von externen Platten mit USB3 Schnittstelle, kann es zu Kompatibilit&auml;tsproblemen kommen, wenn der UAS Treiber geladen wird. Der Grund ist nach mehreren Quellen m&ouml;glicherweise die unvollst&auml;ndige Umsetzung der Ata Befehle in der USB Schnittstelle.<br />
+<div>
+<div><br />
+Folgende Tests sollte man daher in der Linux Konsole durchf&uuml;hren:<br />
+sudo&nbsp;hdparm -I &nbsp; /dev/sd* # inf&nbsp;</div>
+</div>
+<div>
+<div>sudo&nbsp;hdparm -C /dev/sd* # status</div>
+</div>
+<div>
+<div>sudo&nbsp;hdparm -y &nbsp;/dev/sd* # Parken und spindown<br />
+sudo&nbsp;hdparm -Y /dev/sd* # sleep</div>
+sudo&nbsp;cat /proc/diskstats &nbsp; # Protokoll der Plattenaktivit&auml;t unter Linux<br />
+sudo fstrim -av &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# SSD trim<br />
+<br />
+Bei Kommunikationsproblen zwischen hdparm und der Schnittstelle kann es zu einer Fehlermeldung kommen:<br />
+<div><small>root@odroidN2:~# hdparm -C /dev/sdb</small></div>
+<div><small>/dev/sdb:</small></div>
+<div><small>SG_IO: bad/missing sense data, sb[]: &nbsp;70 00 05 00 00 00 00 0a 00 00 00 00 24 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</small></div>
+<div><br />
+Trotzdem kann in vielen F&auml;llen der Standbymodus aktiviert werden. Oder man versuchgt eine der Alternativen.<br />
+<br />
+<strong>Alternativen:</strong></div>
+<br />
+<em><strong>a) HDIdle</strong></em> ist in C++ geschrieben und muss vor der Verwendung heruntergeladen und kompiliert werden (s. Link).&nbsp;<br />
+<em><strong>b) APM</strong></em>: Ich habe es aufgegeben mit den APM Parametern herumzudoktern. Es ist ein Ratespiel und f&uuml;r jede Festplatte anders. Der einzige Weg APM zuverl&auml;ssig zu konfigurieren sind die Tools der Hersteller. Will man die Platte mit Linux verwenden, muss man sie erst an einem Windows PC konfigurieren und dann umstecken.&nbsp;<br />
+&nbsp;</div>
+<div><a href="http://maker-tutorials.com/raspberry-pi-festplatte-automatisch-standby-hdparm">http://maker-tutorials.com/raspberry-pi-festplatte-automatisch-standby-hdparm<br />
+</a><a href="https://ittweak.de/raspberry-pi-usb-fesplatte-in-standby-ruhemodus-idle-setzen">https://ittweak.de/raspberry-pi-usb-fesplatte-in-standby-ruhemodus-idle-setzen</a></div>
+<div><a href="http://debiananwenderhandbuch.de/hdparm%20Festplattenparameter.html">http://debiananwenderhandbuch.de/hdparm Festplattenparameter.html</a>&nbsp;</div>
+<br />
+-------------------------------------------------------------------<br />
+<br />
+<strong>Skript:</strong><br />
+<br />
+<div>Das folgende Skript &uuml;berwacht die Festplattenaktivitaet und schaltet nach ca. 40 Minuten die angeschlossen Festplatten in den Standby. Die Vorlage habe ich auf folgender Seite gefunden <a href="https://linuxwiki.de/hdparm" target="_blank">https://linuxwiki.de/hdparm</a> und ein wenig modifiziert.&nbsp;<br />
+<br />
+<strong>Installation:<br />
+</strong>
+<div><br />
+<strong>a) Installation von Hdparm<br />
+</strong>Einzige Voraussetzung ist eine installierte Version des Tools hdparm <br />
+sudo apt install hdparm</div>
+<div><br />
+Kontrolle, ob die ben&ouml;tigten Programme vorhanden sind:<br />
+sudo which diff</div>
+<div>sudo which hdparm</div>
+<br />
+<strong>b) pr&uuml;fen, ob das Laufwerk /run/shm ein Ramdrive ist:<br />
+</strong>Das Ramdrive dient zum Zwischenspeichern der Laufwerkstabelle<br />
+sudo df -h <br />
+hier sollte neben dem Laufwerk die Bezeichnung Ramfs oder tmpfs (oder so &auml;hnlich stehen), falls nicht, muss ein anderes Laufwerk gesucht werden (das ist &uuml;brigens der einzige Fall, in dem man an das Skript Hand anlegen muss).&nbsp;
+<div><br />
+<strong>c) Skript speichern<br />
+</strong> das unten stehende Skript unter <br />
+<div>
+<div>/usr/local/bin/disk_spindown.sh</div>
+<div>speichern. <br />
+<br />
+<strong>d) Skript ausf&uuml;hrbar machen:</strong></div>
+sudo chmod +x /usr/local/bin/disk_spindown.sh<br />
+<br />
+<strong>e) Test:</strong><br />
+Programm starten: (zum Testen kann eine verk&uuml;rzte Zeit angegeben werden)<br />
+sudo /usr/local/bin/disk_spindown.sh 60 3 &amp; #&nbsp;Erlaeuterung: 60 Sekunden, 3 Durchlaeufe, neuer Prozess<br />
+<br />
+Prozess abfragen:<br />
+sudo ps -ef  | grep -ivw grep | grep -i disk_spindown # Pruefe ob Prozess l&auml;uft</div>
+<div><br />
+<div>Logfile auslesen:</div>
+watch &quot;sudo cat /var/log/disk_spindown.log&quot;</div>
+</div>
+<div><br />
+Hinweis: Das Logfile gibt nur Aufschluss, ob der Standby eingeleitet wurde. Eine Kontrolle findet nicht statt, da manche Festplatten bei einer Statusabfrage erst wieder hochfahren.<br />
+<br />
+<div><strong>f) Autostart aktivieren</strong></div>
+<div>wenn der Test erfolgreich war, muss das Programm noch in der Autostart verankert werden, &nbsp;dazu in der Datei /etc/rc.local folgende Zeile am Ende einf&uuml;gen (aber vor exit 0)<br />
+<br />
+<span style="background-color: rgb(0, 255, 0);">/usr/local/bin/disk_spindown.sh &amp; &gt;/dev/null</span>
+<div>
+<div>&nbsp;</div>
+</div>
+<div><strong>g) Rechner neustarten und evtl. noch einmal testen. <br />
+</strong>&nbsp;sudo ps -ef | grep -ivw grep | grep -i disk_spindown # Pruefe ob Prozess l&auml;uft<br />
+<div>&nbsp;for disk in {a..f} ; do echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null | grep &quot;sd$disk&quot; -A 1) ; done # aktueller Status der Platten</div>
+<div>&nbsp;sudo cat /var/log/disk_spindown.log # Logfile&nbsp;</div>
+<div>&nbsp;</div>
+Nach sp&auml;testens 60 Minuten sollte die Festplatte in den Standby gehen. Zur Best&auml;tigung kann man die Festplatte anfassen und auf Laufger&auml;usche pr&uuml;fen. Wenn man ein Messger&auml;t hat, kann man ausserdem die Stromaufnahme pr&uuml;fen.<br />
+<br />
+&nbsp;</div>
+</div>
+<script>
+//alert(document.getElementById("unteregrenze").style);
+//alert(document.getElementById("unteregrenze").style.display);
+var ugvisible=1;
+</script>
+<div id="ug1"><input type="button" onclick="javascript:document.getElementById(&quot;unteregrenze&quot;).style.display=(ugvisible==0)?&quot;inline&quot;:&quot;none&quot;;ugvisible=1-ugvisible;" value="_Links_" title="click here" /></div>
+<div id="unteregrenze"><br />
+<div><strong>********** </strong></div>
+<div>Links:<br />
+<a href="https://linuxwiki.de/hdparm" target="_blank">https://linuxwiki.de/hdparm</a><br />
+<a href="https://wiki.debianforum.de/Hdparm" target="_blank">https://wiki.debianforum.de/Hdparm</a><br />
+<a href="https://wiki.ubuntuusers.de/Notebook-Festplatten-Bug" target="_blank">https://wiki.ubuntuusers.de/Notebook-Festplatten-Bug</a><br />
+<a href="https://www.pks.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/sec.pmanage.silenthd.html" target="_blank">https://www.pks.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/sec.pmanage.silenthd.html</a><br />
+<a href="https://openmediavault.readthedocs.io/en/latest/administration/storage/disks.html" target="_blank">https://openmediavault.readthedocs.io/en/latest/administration/storage/disks.html</a><br />
+<a href="https://www.technikaffe.de/forum/index.php?thread/741-omv-power-management-festplatten/" target="_blank">https://www.technikaffe.de/forum/index.php?thread/741-omv-power-management-festplatten</a><br />
+<a href="https://linuxundich.de/hardware/festplatten-automatisch-im-betrieb-in-den-standby-schalten" target="_blank">https://linuxundich.de/hardware/festplatten-automatisch-im-betrieb-in-den-standby-schalten</a>&nbsp;<br />
+<br />
+https://www.heise.de/ct/ausgabe/2013-1-Energiespareinstellungen-bei-Festplatten-konfigurieren-2331846.html (kostenpflichtiger Artikel auf heise.de, leider etwas alt)&nbsp;<br />
+https://mrattun.de/festplatten_standby.html&nbsp;<br />
+https://forum.openmediavault.org/index.php/Thread/20301-OMV-for-ROCK64-and-other-RK3328-devices-soon/&nbsp;<br />
+http://www.tacticalcode.de/2013/01/festplatte-automatisch-in-standby-mit-hdparm-und-udev.html&nbsp;<br />
+http://www.gtkdb.de/index_7_243.html<hr />
+</div>
+**********</div>
+</div>
+<script>
+var ugvisible=1;
+document.getElementById("unteregrenze").style.display=(ugvisible==0)?"inline":"none";
+ugvisible=1-ugvisible;
+</script>   <br />
+<strong>Hinweise:<br />
+</strong>
+<ul>
+    <li>Anmerkung zu ext4. Bei Schnellformatierung beendet ein daemon (ext4lazyinit) die Formatierung im Hintergrund.&nbsp;Es kann also passieren, dass das Laufwerk in den ersten Stunden nicht in den Standby geht.</li>
+    <li>Tipps f&uuml;r HDparm gibt die Linuxwiki:&nbsp;<a href="https://linuxwiki.de/hdparm#Spindown.2C_notfalls_mit_Gewalt" target="_blank">https://linuxwiki.de/hdparm#</a>.</li>
+    <li>Die Log Datei wird bei jedem Programmstart neu angelegt.&nbsp;</li>
+    <li>USB Platten mit externem Netzteil wechseln bei abgeschalteter USB Spannung sofort in den Tiefschlaf mit nur noch 0,3W. Leider habe ich bisher keinen Weg gedunden, davon zu profitieren, da nach dem Wiedereinschalten ein remount (mit mount -a) erforderlich wird, selbst bei vorherigem spindown.&nbsp;</li>
+    <li>USB Platten bleiben wach, solange der Anschluss Spannung erh&auml;lt. Das gilt insbesondere f&uuml;r Computer im Standby, weil hier die USB Schnittstellen aktiv bleiben. Das ist so beabsichtigt, weil von einer angeschlossen Maus oder Tastatur das Signal zum Aufwachen kommt.&nbsp;</li>
+    <li>Ein Easteregg leistet sich Seagate mit dem Modell USB plus Hub. Der auf der Platte befindliche Hub kommt dem notorisch knappen Vorrat an USB3 Schnittstellen entgegen. Das ist gut gemeint,. leider bleiben wegen des aktiven Hubs alle nachfolgenden Festplatten am Leben, auch wenn der Computer ausgeschaltet wurde und die erste Platte l&auml;ngst im Tiefschlaf liegt. &Uuml;ber die abgeschaltete USB Schnittstelle kann ein spindown Kommando von aussen nicht mehr erfolgen.</li>
+    <li>Wer eine Anleitung zur Installation von HdIdle sucht, k&ouml;nnte z. Bsp. hier f&uuml;ndig werden:&nbsp;<a href="https://www.foxplex.com/sites/festplatten-standby-im-leerlauf-mit-hdparm-und-hd-idle/">https://www.foxplex.com/sites/festplatten-standby-im-leerlauf-mit-hdparm-und-hd-idle</a>. Der Vollst&auml;ndigkeit halber soll ein kleines Manko nicht unerwaehnt bleiben: Es werden von HD-Idle keine nachgesteckten Platten erkannt. &nbsp;</li>
+    <li>Der Smartstatus dient vor allem der Herstellerabsicherug in Gewaehrleistungsfragen. Der Status ist zur Prognose von bevorstehenden Ausfaellen nur unzul&auml;nglich geeignet, wie Untersuchungen gezeigt haben.</li>
+    <li>Es kann vorkommen, dass Platten laut Werkseinstellung nach 10 Minuten von sich aus in den Standby gehen. Mir ist allerdings aktuell kein Beispiel bekannt.</li>
+    <li>Zuweilen wird die Festplatte nach kurzer Zeit wieder hochgefahren, oft l&auml;sst sich der Verursacher schwer ermitteln. Das ist kontraproduktiv und verk&uuml;rzt die Lebensdauer. Am besten Neuinstallation oder man verwendet SSD.</li>
+    <li>Trim Kommando fuer SSDS hinzugefuegt</li>
+</ul>
+<br type="_moz" />
+<hr />
+<strong>### Skript start </strong>(<a href="https://sites.google.com/site/nikolausdulgeridis/downloads/disk_spindown.sh?attredirects=0&amp;d=1">das Programm findet man auch im Downloadbereich</a>) <strong>###</strong><hr />
+<div>
+<div>
+<div>
+<div>#!/bin/bash</div>
+<div># Notes:&nbsp;</div>
+<div># the original source can be found&nbsp;</div>
+<div># https://linuxwiki.de/hdparm#disk_spindown.sh</div>
+<div># I felt free to do some minor changes</div>
+<div># - delay is performed before the first check, to avoid unnecessary standby procedure after boot</div>
+<div># - not existent drives are skipped</div>
+<div># - output to logfile /var/log/diskspindown.log</div>
+<div># - ramdrive changed to /var/tmp</div>
+<div># - optional parameter: spindowntime may be overwritten with param 1 (default: 2100)&nbsp;</div>
+<div># - optional parameter: new maxcount may be set with param 2 (default: 0, respective infinit)</div>
+<div># - contact: nikolausdulgeridis at gmail.com</div>
+<div>&nbsp;</div>
+<div># Purpose of this script:&nbsp;</div>
+<div># Check for disk data transfer and spin them down after approx. 20 min</div>
+<div># explanation: often harddrive firmware fails to spindwon with hdparm -B oder -S settings.</div>
+<div># but the hdparm -y command works directly with (nearly) every disk.&nbsp;</div>
+<div># So that is a script for monitoring that harddrives.and spin them down after a given time</div>
+<div># documentation: http://linuxwiki.de/hdparm</div>
+<div>#</div>
+<div># Installation:</div>
+<div># ---------------</div>
+<div># For this script hdparm must be installed, but not configured!</div>
+<div># Only a apm=255 is maybe needed in the hdparm.conf for the Drive.</div>
+<div>#</div>
+<div># - Put it to /usr/local/bin/disk_spindown.sh</div>
+<div># - Set the Permissons sudo chmod 744 /usr/local/bin/disk_spindown.sh</div>
+<div># - Startup: we put a new line in /etc/rc.local for systemwide start.</div>
+<div># /usr/local/bin/disk_spindown.sh &amp; &gt;/dev/null</div>
+<div># exit 0</div>
+<div>#</div>
+<div># Now you can reboot the pc, for activate or to activate a change.</div>
+<div>#</div>
+<div># #</div>
+<div># # *** some information for older disks ***</div>
+<div># #&nbsp;</div>
+<div># # Western Digital Green Harddrives (mostly not suitable with hdparm -S or -B)</div>
+<div># # ---------------------------------------------------------------------------</div>
+<div># # Modern Western Digital &quot;Green&quot; Drives include the Intellipark feature that stops the disk when not in use.</div>
+<div># # Unfortunately, the default timer setting is not perfect on linux/unix systems, including many NAS,</div>
+<div># # and leads to a dramatic increase of the Load Cycle Count value (SMART attribute #193).</div>
+<div># # Please deactivat it with http://idle3-tools.sourceforge.net/ (normally in the Distro)</div>
+<div>#</div>
+<div># # get the Info: idle3ctl -g /dev/sd(x)</div>
+<div># # disabling : &nbsp; idle3ctl -d /dev/sd(x)</div>
+<div># # The idle3 timer seems to be a power on only setting.&nbsp;</div>
+<div># # That means that the drive needs to be powered OFF and then ON to use the new setting.</div>
+<div># # I turn off the Computer, plug the power off and push the start button, for a short while the fan go's on.&nbsp;</div>
+<div># # All power it out.&nbsp;</div>
+<div># # Or turn off for few minutes to take the effect.</div>
+<div># # **************************************************</div>
+<div>&nbsp;</div>
+<div>##################################################</div>
+<div>### troubleshooting ###</div>
+<div># please check your PATH settings if you run into problems, also make sure your script is executing with root permissions</div>
+<div># especially when using crontab, it may happen, that the path settings differ from what you expect.&nbsp;</div>
+<div># so you should &nbsp;test under real conditions, to be sure its working&nbsp;</div>
+<div># typical paths</div>
+<div># which diff</div>
+<div># &nbsp; &nbsp;/usr/bin/diff</div>
+<div># which hdparm</div>
+<div># &nbsp; &nbsp;/sbin/hdparm</div>
+<div># which cat</div>
+<div># &nbsp; &nbsp;/bin/cat</div>
+<div>### logfile watching&nbsp;</div>
+<div># watch &quot;cat /var/log/disk_spindown.log &amp;&amp; echo --- &amp;&amp; ps -ef | grep spindown | grep -vw grep&quot;</div>
+<div>##################################################</div>
+<div>&nbsp;</div>
+<div>### Logfile:</div>
+<div>diskspindownlog=&quot;/var/log/disk_spindown.log&quot;</div>
+<div>&nbsp;</div>
+<div># Where is your Ramdrive?&nbsp;</div>
+<div># Check it out with &nbsp;df -h or mount command.</div>
+<div># Possible Values Examples: /dev/shm , /run/shm&nbsp;</div>
+<div>#ramdrive=/run/shm</div>
+<div>ramdrive=/var/tmp</div>
+<div>&nbsp;</div>
+<div># The Spindwon Time in Seconds</div>
+<div># The Raktion done in $spindowntime maximum of 2 times. Depending build by the script. Protects for the cpu load.&nbsp;</div>
+<div>spindowntime=2100;&nbsp;</div>
+<div>if [ $1 ] ; then let spindowntime=&quot;$1&quot;; fi</div>
+<div>&nbsp;</div>
+<div># Counter</div>
+<div># counter, 0 means infinite &nbsp;</div>
+<div>let counter=0;</div>
+<div>if [ $2 ] ; then let counter=&quot;$2&quot;; fi</div>
+<div>&nbsp;</div>
+<div># Log&nbsp;</div>
+<div># appendlog= append log, newlog=new log (default), nolog= no output to logfile&nbsp;</div>
+<div>logmode=&quot;newlog&quot;;&nbsp;</div>
+<div>if [ $3 ] ; then logmode=&quot;$3&quot;; fi</div>
+<div>if [ &quot;$logmode&quot; == &quot;nolog&quot; ]; then diskspindownlog=&quot;/dev/null&quot;; fi #!!caution!! stringcompare spaces: if_[_$1_==_$2_]; then usw.</div>
+<div>if [ &quot;$logmode&quot; == &quot;newlog&quot; ]; then rm $diskspindownlog; fi</div>
+<div>&nbsp;</div>
+<div># Wich disks are handled&nbsp;</div>
+<div>diskvolumes=&quot;a b c d e f g h i j k l m n o p q r s t u v w x y z&quot;</div>
+<div>#watch &quot;date &amp;&amp; cat /proc/diskstats | grep sd&quot;</div>
+<div>&nbsp;</div>
+<div># Build onece the tempfiles&nbsp;</div>
+<div>if [ ! -f $ramdrive/diskstate1 ]; then touch $ramdrive/diskstate1;fi&nbsp;</div>
+<div>if [ ! -f $ramdrive/diskstate2 ]; then touch $ramdrive/diskstate2;fi</div>
+<div>&nbsp;</div>
+<div>###&nbsp;</div>
+<div>#Wait before 1st run and initialize file diskstate1</div>
+<div>#Start logging</div>
+<div>echo '***'</div>
+<div>echo start disk monitoring: disk_spindown.sh - harddrive standby after inactivity</div>
+<div>echo start disk monitoring: disk_spindown.sh - harddrive standby after inactivity &gt;&gt; $diskspindownlog</div>
+<div>echo &quot;date: $(date) &nbsp;--- settings: &quot;seconds:$spindowntime repeat:$counter &quot;</div>
+<div>echo &quot;date: $(date) &nbsp;--- settings: &quot;seconds:$spindowntime repeat:$counter &quot; &nbsp;&gt;&gt; $diskspindownlog</div>
+<div>echo '************************************************************************ '</div>
+<div>echo '* usage: &nbsp; [/bin/bash] disk_spindown.sh [ &lt;delay&gt; [ &lt;count&gt; [ [newlog|appendlog|nolog] ] ] ] '</div>
+<div>echo '* example: /usr/local/bin/disk_spindown.sh 600 0 &gt;/dev/null &amp; # stby after approx.10 min, infinite'</div>
+<div>echo &quot;* view log: &nbsp;cat /var/log/disk_spindown.log&quot;</div>
+<div>echo '************************************************************************ '</div>
+<div>echo '*** ps -ef | grep spindown | grep -vw grep ***'</div>
+<div>ps -ef | grep spindown | grep -vw grep&nbsp;</div>
+<div>echo '*** ps -ef | grep spindown | grep -vw grep ***' &nbsp;&gt;&gt; $diskspindownlog</div>
+<div>ps -ef | grep spindown | grep -vw grep &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &gt;&gt; $diskspindownlog</div>
+<div>echo '****************************************************************'</div>
+<div>cat /proc/diskstats &gt; $ramdrive/diskstate1</div>
+<div>sleep $spindowntime</div>
+<div>&nbsp;</div>
+<div># Here we go...&nbsp;</div>
+<div>let count=0;</div>
+<div>let shutdown=0;</div>
+<div>while [ true ] ; do</div>
+<div>echo '('&quot;$count&quot;')' $(date)</div>
+<div>echo '('&quot;$count&quot;')' $(date) &gt;&gt; $diskspindownlog</div>
+<div>&nbsp;</div>
+<div># cycle it to test for activity&nbsp;</div>
+<div>mv $ramdrive/diskstate1 $ramdrive/diskstate2&nbsp;</div>
+<div>cat /proc/diskstats &gt; $ramdrive/diskstate1</div>
+<div>&nbsp;</div>
+<div># Loop through all array disks and spin down idle disks.&nbsp;</div>
+<div>let allidle=1;</div>
+<div>for disk in $diskvolumes&nbsp;</div>
+<div>do</div>
+<div>&nbsp; &nbsp;if [ &quot;$(diff $ramdrive/diskstate1 $ramdrive/diskstate2 | grep -w sd$disk )&quot; = &nbsp;&quot;&quot; ] ; then&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> # skip drive letters that are currently not used</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> if [ $(cat $ramdrive/diskstate1 | grep -cw -m 1 sd$disk ) != &quot;0&quot; ] ; then&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; sudo hdparm -y /dev/sd$disk &gt;/dev/null 2&gt;&amp;1;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #echo hdparm -y /dev/sd$disk &nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; #echo hdparm -C /dev/&quot;sd$disk&quot;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null | grep &quot;sd$disk&quot; -A 1) &nbsp;&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null| grep &quot;sd$disk&quot; -A 1) &gt;&gt; $diskspindownlog</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; echo spindown &quot;sd$disk&quot; &nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; echo spindown &quot;sd$disk&quot; &nbsp;&gt;&gt; $diskspindownlog&nbsp;</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> fi;</div>
+<div>&nbsp; &nbsp;else</div>
+<div><span class="Apple-tab-span" style="white-space:pre">	</span> let allidle=0;</div>
+<div>&nbsp; &nbsp;fi;</div>
+<div>done&nbsp;</div>
+<div>&nbsp;</div>
+<div>let count+=1; if [ &quot;$counter&quot; -eq &quot;$count&quot; ]; then break; fi &nbsp;&nbsp;</div>
+<div>if [ $((count % 999)) -eq 0 ]; then rm $diskspindownlog; echo remove; fi &nbsp;# simple logfile size limit</div>
+<div>&nbsp;</div>
+<div>if [ $allidle -eq 1 ] ; then</div>
+<div>&nbsp; let allidlecount=$allidlecount+1;</div>
+<div>else</div>
+<div>&nbsp; let allidlecount=0;</div>
+<div>fi;</div>
+<div>&nbsp;</div>
+<div>if [ $allidle -eq 1 ] ; then</div>
+<div>&nbsp; sudo fstrim -av</div>
+<div>fi;</div>
+<div>&nbsp;</div>
+<div>&nbsp; #echo allidle $allidle; echo allidle $allidle &gt;&gt; $diskspindownlog</div>
+<div>&nbsp; #echo allidlecount $allidlecount; &nbsp;echo allidlecount $allidlecount &gt;&gt; $diskspindownlog &nbsp;</div>
+<div>&nbsp; ##check networkactivity 1 sec</div>
+<div>&nbsp; #nwstat=($(dstat -n --bw 1 1 | grep -v e)); &nbsp;let nwaktiv=0; for ele in &quot;${nwstat[@]}&quot;; do if [ $ele != &quot;0&quot; ]; then let nwaktiv+=1 ;fi ; done ;&nbsp;</div>
+<div>&nbsp; #for ele in &quot;${nwstat[@]}&quot;; do echo $i $ele; let i+=1; done</div>
+<div>&nbsp; #echo nwaktiv $nwaktiv</div>
+<div>&nbsp; #if [ $nwaktiv -ge 1 ] ; then&nbsp;</div>
+<div>&nbsp; # &nbsp;allidlecount=0;</div>
+<div>&nbsp; #fi</div>
+<div>&nbsp;</div>
+<div>#Wait</div>
+<div>sleep $spindowntime</div>
+<div>&nbsp;</div>
+<div>done</div>
+<div>&nbsp;</div>
+<div>exit 0</div>
+<div>&nbsp;</div>
+<div>#changes 11.1.2020&nbsp;</div>
+<div># removed status check hdparm -C and replaced with following lines, reason is some drives wake up when receiving status quests &nbsp;</div>
+<div>#<span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null | grep &quot;sd$disk&quot; -A 1) &nbsp;&nbsp;</div>
+<div>#<span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; # removed: echo $(hdparm -C /dev/&quot;sd$disk&quot; 2&gt; /dev/null| grep &quot;sd$disk&quot; -A 1) &gt;&gt; $diskspindownlog</div>
+<div>#<span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; echo spindown &quot;sd$disk&quot; &nbsp;</div>
+<div>#<span class="Apple-tab-span" style="white-space:pre">	</span> &nbsp; echo spindown &quot;sd$disk&quot; &nbsp;&gt;&gt; $diskspindownlog&nbsp;</div>
+<div># remarks:</div>
+<div># - allidle, allidlecount: not used, the idea was to detect inactivity and power down after some time&nbsp;</div>
+<div># - i tested also with -Y (sleep) instead of -y (spindown), but with seagate i got n advantage, quite the contrary</div>
+<div># &nbsp; same power consumption but long spinup time (5 seconds)&nbsp;</div>
+<div>#changes 2.2.2020&nbsp;</div>
+<div>#added trim command for ssds</div>
+<div>#if [ $allidle -eq 1 ] ; then</div>
+<div># &nbsp;sudo fstrim -av</div>
+<div>#fi;</div>
+<div>#changes 8.2.2020&nbsp;</div>
+<div>#line added:</div>
+<div>#if [ $((count % 999)) -eq 0 ]; then rm $diskspindownlog; echo remove; fi &nbsp;# simple logfile size limit</div>
+</div>
+<div>&nbsp;</div>
+</div>
+</div>
+<hr />
+last update: 28.2.2019 <br />
+last update: 10.7.2019<br />
+last update: 11.1.2020<br />
+last update: 2.2.2020</div>

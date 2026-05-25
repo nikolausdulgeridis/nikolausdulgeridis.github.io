@@ -1,0 +1,196 @@
+<h3>Permutationen erzeugen</h3>
+<pre>
+
+I) Permutationen per Rekursion erzeugen
+
+Ein einfaher Ansatz besteht darin die Eingabe-Liste zu rotieren, um jedes
+Element genau einmal zu verwenden:
+### permutationen_von {1,2,3}
+=== 1+ permutationen_von {23}
+=== 2+ permutationen_von {31}
+=== 3+ permutationen_von {12}
+
+Sollen die Permutationen sortiert vorliegen, darf man nicht rotieren:
+### permutationen_von {1,2,3}
+=== 1+ permutationen_von {23}
+=== 2+ permutationen_von {13}
+=== 3+ permutationen_von {12}
+<!--
+'****** Codebeispiel in Basic: rekursiver Ansatz mit Rotation *****
+perm "result= " , "abc" 'start Permutationen
+SUB perm (l$, r$)
+IF LEN(r$) < 1 THEN PRINT l$ 'ende der rekursion? -> Ausgabe
+FOR i = 1 TO LEN(r$) 'fuer alle elemente in r$
+perm l$+LEFT$(r$,1) , MID$(r$,2) 'rekursion
+r$ = MID$(r$,2) + LEFT$(r$,1) 'rotiere string r$
+NEXT
+END SUB
+'******************************************************************
+-->
+II) Permutationen iterativ erzeugen
+
+Ein alternativer Ansatz besteht darin, die Permutationen in eine lexikalische
+Ordnung zu bringen. Ein Vorteil dieser Loesung besteht darin, dass es
+moeglich ist zu jedem Element einen Nachfolger zu ermitteln.
+
+Beschreibung:
+Sortiert man eine Ziffernfolge 123-132-213-231-312-321 ergibt sich eine
+natuerliche Ordnung entsprechend dem Zahlenwert der Kombination. Wie man sieht, 
+ist das Ergebnis eine Umkehrung der Sortierung.
+
+Vorgehensweise: --------------------------- 1432 ecfdba 123 132
+1. pruefe sortierung (von re nach li) ----- -432 --fdba --3 -32
+2. umbruch bei ---------------------------- 1--- -c---- -2- 1--
+3. naechstgroesserer Wert aus rechter liste ---2 ---d-- --3 --2
+4. tausche -------------------------------- 2431 edfcba 132 231
+5. sortiere rechte liste (reverse) -------- 2134 edabcf 132 213
+
+<pre>
+siehe auch: 
+- <a href="http://www.matheboard.de/archive/4255/3/thread.html" target="_blank">http://www.matheboard.de/archive/4255/3/thread.html</a>
+-&nbsp;http://www.c-plusplus.de/forum/viewtopic...-is-178286.html
+- <a href="http://www.cplusplus.com/reference/algorithm/next_permutation/">http://www.cplusplus.com/reference/algorithm/next_permutation/</a>
+- <a href="https://www.nayuki.io/page/next-lexicographical-permutation-algorithm" target="_blank">https://www.nayuki.io/page/next-lexicographical-permutation-algorithm</a>
+
+<br type="_moz" /></pre>
+</pre>
+<h4>Beispiel: Permutation (JavaScript)</h4>
+<script>
+document.write(""+reverse("")+"<br>");
+function reverse(s)
+ {
+  if(s.length<=1) return s;
+  return (reverse(s.substr(1))+s.substr(0,1));
+ }
+</script>  <script>
+ /* Permutation mit Sortierung. Aufruf: permsort ('','abc') */
+ var trenner="<br>";
+ function permsort(l,r)
+ {
+  var tmp="";
+  if(r.length<=1) {return (l+r+trenner)};
+  for(var i=0;i<r.length;i++)
+   {
+   tmp+= permsort(l+r.substr(i,1), r.substring(0,i)+r.substr(i+1));  
+   }
+  return tmp;
+ }
+</script>     <script>
+/* Permutation mit Rotation. Aufruf: permrotat ('','abc') */
+var trenner="<br>";
+function permrotat(l,r)
+ {
+  var tmp="";
+  if(r.length<=1) {return (l+r+trenner)};
+  for(var i=0;i<r.length;i++)
+   {
+   tmp+= permrotat(l+r.substr(0,1), r.substr(1));  
+   r = r.substr(1) + r.substr(0,1) /*rotiere*/
+   }
+  return tmp;
+ }
+</script>  <script>
+/* Lexikalische Permutation. Aufruf: permlex ('abc','trenner') */
+function permlex (eingabe,trenner)
+{
+ var tmp= eingabe;
+ var result= eingabe;
+ while(tmp= permlexnext(tmp))
+   result += trenner+tmp;
+ return result; 
+}
+
+/**
+ * lexikalisch naechste Permutation (kein Nachfolger => int 0)
+ */
+function permlexnext (r)
+{
+
+ if(r.length<=1) return 0; /* leer oder nur 1 Zeichen => kein Nachfolger */
+
+ /* 1. pruefe Sortierung von re nach li */
+ for(var i=r.length-1; i>=0 ;i--)
+  {
+   if(i==0) return 0; /* letztes Element */
+   if(r.substr(i-1,1) < r.substr(i,1)) break;
+  }
+ 
+ /* 2. Umbruch bei */
+ var umbruch=i-1; 
+
+ /* 3. naechstgroesserer Wert aus rechter liste */
+ for(var i=r.length-1; i>umbruch; i--)
+   if(r.substr(i,1)> r.substr(umbruch,1)) break;
+
+ /* 4. tausche */
+ var tli= r.substr(umbruch,1);
+ var tre= r.substr(i,1);
+ var tmp1= r.substr(0,umbruch) + tre + r.substr(umbruch+1);
+ var tmp2= tmp1.substr(0,i)    + tli + tmp1.substr(i+1);
+
+ /* 5. reverse sort */
+ return (tmp2.substr(0,umbruch+1) + reverse(tmp2.substr(umbruch+1)));
+}
+</script>
+<table cellspacing="1" cellpadding="8" border="4">
+    <tbody>
+        <tr>
+            <td>
+            <table cellspacing="1" cellpadding="8" border="4">
+                <tbody>
+                    <tr>
+                        <td>Permutation</td>
+                        <td><input type="text" value="123" onkeyup='refreshtable();' size="8" name="pp" id="permIn" /></td>
+                        <td>.</td>
+                    </tr>
+                    <tr>
+                        <td>Rotation</td>
+                        <td>Sortierung</td>
+                        <td>Lexikalisch</td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <div id="permOutR">rot</div>
+                        </td>
+                        <td>
+                        <div id="permOutS">sort</div>
+                        </td>
+                        <td>
+                        <div id="permOutL">lex</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+            <td>
+            <pre>
+&lt;script&gt;
+/* Permutation mit Rotation */
+permrotat (' ','abc'); 
+function permrotat(l,r)
+ {
+  if(r.length &lt;= 0) {document.write(l)};
+  for(var i=0; i &lt; r.length; i++)
+   {
+   permrotat(l+r.substr(0,1), r.substr(1));  
+   r = r.substr(1) + r.substr(0,1) /*rotiere*/
+   }
+  return;
+ }
+&lt;/script&gt;
+</pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<script>
+function refreshtable()
+ {
+ document.getElementById("permOutR").innerHTML=permrotat ("",document.getElementById("permIn").value);
+ document.getElementById("permOutS").innerHTML=permsort ("",document.getElementById("permIn").value);
+ document.getElementById("permOutL").innerHTML=permlex(document.getElementById("permIn").value,"<br>");
+ };
+refreshtable();
+</script>  <hr />
+<!-- Last updated 6.3.2014 --> Last updated 18.3.2016
