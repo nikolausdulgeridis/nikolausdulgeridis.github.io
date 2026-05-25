@@ -11,20 +11,28 @@
     background: transparent;
   }
 
-  .explorer {
-    width: 300px;
-    background: #fff;
-    border-right: 1px solid #ddd;
-    border-radius: 6px;
-    overflow: hidden;
-  }
 
-  .header {
-    padding: 10px;
-    font-weight: 600;
-    border-bottom: 1px solid #ddd;
-    background: #f6f8fa;
-  }
+.explorer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  flex-shrink: 0;
+}
+
+#tree {
+  flex: 1;
+  overflow-y: auto;   /* ✅ Scroll nur im Tree */
+}
+
+
+#tree {
+  scrollbar-width: thin; /* Firefox */
+}
+
+
 
   .row {
     display: flex;
