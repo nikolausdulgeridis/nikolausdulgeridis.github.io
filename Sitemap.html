@@ -162,13 +162,10 @@ try {
   isSitemapPage = false;
 }
 
-if (inIframe && isSitemapPage) {
+if (inIframe && window.top.location.pathname.toLowerCase().endsWith("sitemap.html")) {
   window.top.location.href = window.location.href;
 }
-else 
-{
-  ;//document.body.style.display = "block";
-}
+
 
 fetch("/sitemap.xml")
   .then(res => res.text())
