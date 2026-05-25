@@ -1,0 +1,36 @@
+<div><big>Finde doppelte Datei- Verzeichnisnamen auf ext4 Laufwerken</big></div>
+<div>&nbsp;</div>
+<div>Linux Dateisysteme erlauben Case sensitive Dateinamen, d.h. &quot;abc&quot; und &quot;ABC&quot; sind zwei unterschiedliche Dateien. Vor dem &Uuml;berspielen auf NTFS oder vor Verwendung im CIFS Netzwerk ist daher eine Pr&uuml;fung auf solche F&auml;lle n&uuml;tzlich.<br />
+<br />
+<div>Der folgende Einzeiler ist nicht gro&szlig; kommentiert, wer es braucht wird wissen wie es zu verwenden ist.</div>
+<div>Achtung: Das Skript ist etwas lahm (bei einer gro&szlig;en Platte muss man durchaus 1 Stunde Laufzeit rechnen) und es gibt keine Fortschrittsanzeige, deshalb erst an einem kleineren Verzeichnis testen. Zur Pr&uuml;fung kann man irgendwo einen Problemfall einbauen.&nbsp;</div>
+<div>&nbsp;</div>
+<div>Ausgegeben werden nur doppelte Dateinamen, bleibt die Ausgabe leer, ist das Laufwerk &quot;sauber.&quot;</div>
+<div>Die Zahl der gefundenen doppelten Dateien wird zu Anfang angegeben.</div>
+<div>Ist die Zahl 0, handelt es sich um ein Problem mit dem Zeichensatz.</div>
+<div>&nbsp;</div>
+<div>Linux bash oder Bourne shell:<br />
+<div><code><br />
+<div>find &quot;$PWD&quot; -exec sh -c 'i=&quot;{}&quot;; cnt=$( find &quot;$(dirname &quot;$i&quot;)&quot; -maxdepth 1 -iname &quot;$(basename &quot;$i&quot;)&quot;| wc -l) ; l0=$(find &quot;$(dirname &quot;$i&quot;)&quot; -maxdepth 0 -iname &quot;${i##*/}&quot;); res=&quot;$l0/$(basename &quot;$i&quot;)&quot;; if [ x&quot;$res&quot; = x&quot;$i&quot; ]; then cnt=$((cnt-1)); fi; if [ $cnt -gt 1 ]; then echo - $cnt; echo $(dirname &quot;$i&quot;)/$(basename &quot;$i&quot;) &quot;&lt;--&quot;; find $(dirname &quot;$i&quot;) -maxdepth 1 -iname &quot;${i##*/}&quot; ; fi; ' \;</div>
+<div>&nbsp;</div>
+<br type="_moz" />
+</code></div>
+<div>&nbsp;</div>
+</div>
+<div>Ausgabe:</div>
+<div>- 3</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/Cde &lt;--</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/cde</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/CDE</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/Cde</div>
+<div>- 3</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/ABC &lt;--</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/abC</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/abc</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/mc-root/ABC</div>
+<div>- 2</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/XYZ &lt;--</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/xyz</div>
+<div>/srv/dev-disk-by-label-sg8tbru/_uIntenso3tb/##HD/##PVR/tmp/XYZ</div>
+</div>
+<div>&nbsp;</div>
