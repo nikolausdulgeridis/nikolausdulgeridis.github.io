@@ -34,6 +34,7 @@
     font-size: 14px;
   }
 
+
   .row:hover {
     background: #e8f0fe;
   }
@@ -41,6 +42,12 @@
 	.ext:hover {
 	  color: #1f6feb;
 	}
+
+	.row span:last-child:hover {
+	  opacity: 1;
+	  color: #1f6feb;
+	}
+
 
 
   .indent {
@@ -104,6 +111,14 @@
   height: 800px;
   border: 1px solid #ccc;
 }
+
+
+.active {
+  background: #d0e3ff;
+}
+
+
+
 
   
 </style>
@@ -178,14 +193,18 @@ fetch("/sitemap.xml")
       const name = document.createElement("span");
       name.className = "name";
       name.textContent = key;
-      if (inIframe) { name.textContent += " ↗"; }
 
 
 	if (value === null) {
 
 	  const url = basePath + "/" + key;
 
-	  // 👉 Name = iframe Navigation
+	  const linkWrapper = document.createElement("span");
+	  linkWrapper.style.display = "flex";
+	  linkWrapper.style.alignItems = "center";
+	  linkWrapper.style.gap = "6px";
+
+	  // 👉 Name (iframe Navigation)
 	  const link = document.createElement("a");
 	  link.href = "#";
 	  link.appendChild(name);
@@ -194,33 +213,32 @@ fetch("/sitemap.xml")
 		e.preventDefault();
 
 		if (inIframe) {
-		  // 👉 Wenn wir selbst im iframe sind → extern öffnen
 		  window.open(url, "_blank", "noopener");
 		} else {
-		  // 👉 sonst im Ziel-iframe anzeigen
 		  const iframe = document.getElementById("viewer");
 		  if (iframe) iframe.src = url;
 		}
 	  };
 
-	  row.appendChild(link);
-
-	  // 👉 separater Pfeil für neues Fenster
+	  // 👉 Pfeil direkt daneben
 	  const ext = document.createElement("span");
 	  ext.textContent = "↗";
-	  ext.style.marginLeft = "6px";
 	  ext.style.fontSize = "12px";
 	  ext.style.cursor = "pointer";
+	  ext.style.opacity = "0.7";
 
 	  ext.onclick = (e) => {
 		e.stopPropagation();
 		window.open(url, "_blank", "noopener");
 	  };
 
-	  row.appendChild(ext);
+	  // 👉 zusammenbauen
+	  linkWrapper.appendChild(link);
+	  linkWrapper.appendChild(ext);
 
+	  row.appendChild(linkWrapper);
 	  container.appendChild(row);
-	  }
+	}
 	  else {
         row.appendChild(name);
         container.appendChild(row);
