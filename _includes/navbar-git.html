@@ -2,9 +2,10 @@
 
 <style>
 #navMillHeader h1 {
-    font-size: 6px;       /* Schriftgröße anpassen */
+    font-size: 12px;       /* Schriftgröße anpassen */
     color: silver;         /* Schriftfarbe Silber */
-    opacity: 0.1;          /* Transparenz (0.0 ist unsichtbar, 1.0 voll sichtbar) */
+    opacity: 0.5;          /* Transparenz (0.0 ist unsichtbar, 1.0 voll sichtbar) */
+	}
 </style>
 
 
@@ -13,7 +14,7 @@
 </div>
 
 <script>
- (document.getElementById("navMillHeader")).style.display="none";
+ if ((window.location.href).indexOf("navbar")<1) (document.getElementById("navMillHeader")).style.display="none";
 </script>
 
 <div class="unterhaltung-nav">
