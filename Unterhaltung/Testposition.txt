@@ -1,0 +1,428 @@
+<br />
+<strong>Endspiel - Gewinn kurz</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000200000211021000000000218&amp;level=4&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=000200000211021000000000218 Zug Nr. 218</a><br />
+<br />
+<b><a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=120000000010000000210200+103&amp;level=3&amp;takefrommillallowed=0&amp;moves=1DNCKIFBfFEPORVUXHGpPzELHMXWMQLTPYTLYxlDPNspOPQMPdfMqiCFQMFcsXYWXUTCFTlxFcrLTCFYPFckTOVUMKCFKngFCOKCFNCUTKRFIPODPOQIFCVPOVUFIQEOPEKIFRLFCUDTUKIBKLHURDjcKDHYPHJCHFCHFJHPJXPUDQISRHUMQJYIXFSKJLMWFBICHEKTEUWI" target="_blank">https://nikolausdulgeridis.github.io/Muehle.html?pos=120000000010000000210200+103&amp;level=3&amp;takefrommillallowed=0&amp;moves=1DNCKIFBfFEPORVUXHGpPzELHMXWMQLTPYTLYxlDPNspOPQMPdfMqiCFQMFcsXYWXUTCFTlxFcrLTCFYPFckTOVUMKCFKngFCOKCFNCUTKRFIPODPOQIFCVPOVUFIQEOPEKIFRLFCUDTUKIBKLHURDjcKDHYPHJCHFCHFJHPJXPUDQISRHUMQJYIXFSKJLMWFBICHEKTEUWI</a></b><br />
+<br />
+<b>Endspiel - Gewinn lang</b><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000100001200221000000000143&amp;level=6&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=000100001200221000000000143 Zug Nr. 143</a><br />
+<br />
+<strong>Endspiel - Gewinn lang 2<br />
+</strong><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000010222011000000000+73&amp;level=6&amp;fast=1&amp;takefrommillallowed=0&amp;moves=1EIPSJUOFCRXNQKMLHiVzHILtxMhfUXEfvTuqFGRQGfuSRCBNsbHMXYFGYXJnxKWNJWXMhxQNOVNOIFOqfPDRKDCKrhCDSFJIQCVOCPONRUNSPRDCRNGOUYCDNLONFJDPYKSRJQRUQmnUOKN" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000010222011000000000+73&amp;level=6&amp;fast=1&amp;takefrommillallowed=0&amp;moves=1EIPSJUOFCRXNQKMLHiVzHILtxMhfUXEfvTuqFGRQGfuSRCBNsbHMXYFGYXJnxKWNJWXMhxQNOVNOIFOqfPDRKDCKrhCDSFJIQCVOCPONRUNSPRDCRNGOUYCDNLONFJDPYKSRJQRUQmnUOKN</a><br />
+<br />
+<br />
+<br />
+<strong>W Gewinn - vielfaeltig</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00021212201221001212001016&amp;level=7&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=00021212201221001212001016 Zug Nr. 16</a><br />
+<br />
+<strong>white to win</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=21001022121021211202012118&amp;level=5&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=21001022121021211202012118 Zug Nr. 18</a><br />
+<br />
+<strong>stellung davor, Weiss gewinnt Mittelspiel Zug:16 18 2</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20001022121021001002012114&amp;level=3&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=20001022121021001002012114 Zug Nr. 14</a><br />
+<br />
+<strong>unfertig</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=0000000111001200010200029&amp;level=1&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=0000000111001200010200029 Zug Nr. 9</a><br />
+<br />
+<strong>black to win bester Zug: 7</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01102000102012121102001215&amp;level=2&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=01102000102012121102001215 Zug Nr. 15</a><br />
+<br />
+<strong>S am Zug Zugnr 6 Gewinn</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00002020002110010100211211&amp;level=3&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=00002020002110010100211211 Zug Nr. 11</a><br />
+<br />
+<strong>S am Zug Zugnr 6</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=10012000011202000011200011&amp;level=3&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=10012000011202000011200011 Zug Nr. 11</a><br />
+<br />
+<strong>f&uuml;hrt zu</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=10012001011202002011221015&amp;level=6&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=10012001011202002011221015 Zug Nr. 15</a><br />
+<br />
+<strong>S Gewinn Zug 6</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00210000020000102002111111&amp;level=5&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=00210000020000102002111111 Zug Nr. 11</a><br />
+<br />
+<strong>Kurios / f&uuml;hrt zu</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=10012000011202000011200011&amp;level=3&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=10012000011202000011200011 Zug Nr. 11</a><br />
+<br />
+<strong>Remis</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=10001020012101002002011213&amp;level=4&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=10001020012101002002011213 Zug Nr. 13</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=21102010102122120100000115&amp;level=3&amp;internally=1&amp;takefrommillallowed=0" target="_blank">pos=21102010102122120100000115 Zug Nr. 15</a><br />
+<br />
+<strong>Test mit Zugliste</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=10012000021000000020100060&amp;moves=01UNYOPQWSXsSDsRSVIHGMsWKMLKwqLMWKRqiDCNJKwjONGFQRCdrHIWKNJDCMhyXWJNCbhISPYVjuYXSLXULsuWXNWFISNIFJOFEOFXUNTKLWXUVXK" target="_blank">pos=10012000021000000020100060 Zug Nr. 60</a><br />
+<br />
+<strong>W gewinnt</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01201222201111200021020134&amp;level=6&amp;internally=1&amp;takefrommillallowed=0&amp;moves=1FRLNEGTrMPCWYSUBKOIzPDNJSNMhdLMKLWXCDBCYPXYUXTULTELXWCB" target="_blank">pos=01201222201111200021020134 Zug Nr. 34<br />
+</a><strong>Tatsaechlich haette aber S remis gehalten</strong><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=120112000212211001120102+17&amp;level=6&amp;takefrommillallowed=0&amp;moves=1FRLNEGTrMPCWYSUBKOI" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=120112000212211001120102+17&amp;level=6&amp;takefrommillallowed=0&amp;moves=1FRLNEGTrMPCWYSUBKOI</a><br />
+<br />
+<br />
+<br />
+<br />
+S gewinnt prima f&uuml;r Benchmarks<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=11102011112212001200020017&amp;level=4&amp;takefrommillallowed=0&amp;moves=1DLNOISCFBfFHKJkMKWRPzRULEUXOgxKLWKNOSNOV" target="_blank">pos=11102011112212001200020017 Zug Nr. 17</a><br />
+<br />
+<br />
+<strong>w gewinn mittelinteressant</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20011102010112022222101019&amp;level=5&amp;takefrommillallowed=0&amp;moves=19zLKTLFCIFCDUTVUBCDPCDKWFCPydCDWKDPKwpLKYPTLPyo" target="_blank">pos=20011102010112022222101019 Zug Nr. 19</a><br />
+<br />
+<strong>weisser Gewinn keine Herausforderung</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00011222101221121012000220&amp;level=4&amp;takefrommillallowed=0&amp;moves=19zURVUFCIFJINJPDJNLKML" target="_blank">pos=00011222101221121012000220 Zug Nr. 20</a><br />
+<br />
+<strong>Gewinn in 9</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22221100021001200000121117&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=18UzONPOYPURVURQURQMRQMHQMHIMHIJHIOVGov" target="_blank">pos=22221100021001200000121117 Zug Nr. 17</a><br />
+<br />
+<strong>weisser Gewinn?</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=21201212011001221021002237&amp;level=4&amp;takefrommillallowed=0&amp;moves=37WKQMRQXWUXTUQRIJHimJNIHNJHmjUTRU" target="_blank">pos=21201212011001221021002237 Zug Nr. 37</a><br />
+<br />
+<strong>w Gewinn?</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00021212201221001212001016&amp;level=5&amp;takefrommillallowed=0&amp;moves=17BKzXYUXTUMQBCQMCDKWOpxWXPOMQOpxNOYxoQMXymGO" target="_blank">pos=00021212201221001212001016 Zug Nr. 16</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00211100012101202001202216&amp;level=4&amp;takefrommillallowed=0&amp;moves=17WCzKBRSMQSRFICFBCRSIJSNQMNSJNSRNSRQSRFICfvDCUvcXUWXPDOPLTPotDPELPDLeuDC" target="_blank">pos=00211100012101202001202216 Zug Nr. 16</a><br />
+<br />
+<strong>Endspiel 6 gegen 3, 15 nach 24 verliert</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01002000010102220001110088&amp;level=5&amp;takefrommillallowed=0&amp;moves=17WKzXYMQYPUXTUQMPDKBWKBCKWCBDCMQLTELOvxNOWxjBKXWQmfCFKBWxbONVOIjoUVNOTusOPRQGOQrpJNFCLTXWMLHMLEMLEFRSNJSNJIWKIJURTULEJIKWIHNJHMELMHJIHMIHMQHMUXLKXYRUYPUTONCbnFLWXLU" target="_blank">pos=01002000010102220001110088 Zug Nr. 88</a><br />
+<br />
+<strong>W gewinnt Zug 7</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20001200021200002011121014&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1URXMTOVoWFKLBlLGICDQzVOMHOvgQMFerCFURBCTuc" target="_blank">pos=20001200021200002011121014 Zug Nr. 14</a><br />
+<br />
+<strong>W gewinn</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20011100001201000012200012&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=13NPJYSyCzFIPdiEFDPFecBCEFCBSR" target="_blank">pos=20011100001201000012200012 Zug Nr. 12</a><br />
+<br />
+<strong>W gewinn</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20011100001201000012200012&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=13NPJYSyCzFIPdiEFDPFecBCEFCBSR" target="_blank">pos=20011100001201000012200012 Zug Nr. 12</a><br />
+<br />
+<strong>Zugwi Test</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=21201212011201212002021128&amp;level=4&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1LUFWRMOBKIXDCPYJHGzRSJNSRNJRSJNSRNSRQSRLEMLHMUVXUWXMH" target="_blank">pos=21201212011201212002021128 Zug Nr. 28</a><br />
+<br />
+<strong>W gewinnt in Test</strong><br />
+#<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01212100002111202001212232&amp;level=9&amp;takefrommillallowed=0&amp;fast=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSRNSFIGFLKELIJFIJNIJKBLKRQSRNSJN" target="_blank">pos=01212100002111202001212232 Zug Nr. 32</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01001102020202110010100052&amp;level=8&amp;takefrommillallowed=1&amp;fast=0&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVHMLTBKCDKLQRIHRulOqg" target="_blank"><br />
+pos=01001102020202110010100052 Zug Nr. 52</a>
+<p>Debuggen: Fehler in Version AB nicht in Test (geloest)<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01001122001021001000100053&amp;lang=xx&amp;level=8&amp;takefrommillallowed=1&amp;fast=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVBKQRONPokNjlONJORQHEVUEBFE"><br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01001122001021001000100053&amp;lang=xx&amp;level=8&amp;takefrommillallowed=1&amp;fast=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVBKQRONPokNjlONJORQHEVUEBFE</a><br />
+<br />
+Zugwie Test<br />
+<a href="https://nikolausdulgeridis.de.tl/muehle.htm?pos=21202000020000002101220065&amp;lang=xx&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1UNFXYLQHSREKGlIOVJBzFCIFQMXwcMLHIUtfWXTUXweOPIFYXBCGOCblOGKLPOLkgUTRUOGURTUBCJICbiUTFITLIFLMKLXUNOMQLkgQGOPGNPDNCDPUNPDNUDPCJPDUCRUJLWXLW">https://nikolausdulgeridis.de.tl/muehle.htm?pos=21202000020000002101220065&amp;lang=xx&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1UNFXYLQHSREKGlIOVJBzFCIFQMXwcMLHIUtfWXTUXweOPIFYXBCGOCblOGKLPOLkgUTRUOGURTUBCJICbiUTFITLIFLMKLXUNOMQLkgQGOPGNPDNCDPUNPDNUDPCJPDUCRUJLWXLW</a><br />
+<br />
+W steuert Wiederholung an S vermeidet in Zug 32 die Wiederholung zum eigenen Nachteil<br />
+<a href="https://nikolausdulgeridis.de.tl/muehle.htm?pos=21202000020010002100220064&amp;lang=xx&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1UNFXYLQHSREKGlIOVJBzFCIFQMXwcMLHIUtfWXTUXweOPIFYXBCGOCblOGKLPOLkgUTRUOGURTUBCJICbiUTFITLIFLMKLXUNOMQLkgQGOPGNPDNCDPUNPDNU"> https://nikolausdulgeridis.de.tl/muehle.htm?pos=21202000020010002100220064&amp;lang=xx&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1UNFXYLQHSREKGlIOVJBzFCIFQMXwcMLHIUtfWXTUXweOPIFYXBCGOCblOGKLPOLkgUTRUOGURTUBCJICbiUTFITLIFLMKLXUNOMQLkgQGOPGNPDNCDPUNPDNU</a><br />
+<br />
+Zugwiederholung erzwungen<br />
+<a href="https://nikolausdulgeridis.de.tl/muehle.htm?pos=111020001120102202020111+21&amp;level=4&amp;takefrommillallowed=0&amp;classicmoves=1.e4-d6--2.d7-d3--3.g1-d2--4.d1-b4--5.g7-f4--6.a1xf4-g4--7.a7xg4-g4--8.e5-e3--9.a4xd6-d6--10.e5d5-d3c3--11.d5e5-c3c4--12.e4f4-e3e4--13.e5d5-c4c3--14.d5c5" target="_blank">https://nikolausdulgeridis.de.tl/muehle.htm?pos=111020001120102202020111+21&amp;level=4&amp;takefrommillallowed=0&amp;classicmoves=1.e4-d6--2.d7-d3--3.g1-d2--4.d1-b4--5.g7-f4--6.a1xf4-g4--7.a7xg4-g4--8.e5-e3--9.a4xd6-d6--10.e5d5-d3c3--11.d5e5-c3c4--12.e4f4-e3e4--13.e5d5-c4c3--14.d5c5</a><br />
+<br />
+Zwangslaeufige Zugw<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=200000212112211222010002+30&amp;level=3&amp;takefrommillallowed=0&amp;classicmoves=1.b4-d3--2.d2-e4--3.a4-e5--4.d5-e3xb4--5.b4-c3xb4--6.b4-c4--7.f4-c5xd5--8.d5-g7--9.g4-a1--10.a4a7-g7d7--11.a7a4-a1d1--12.g4g1-d7a7--13.g1g4-d1a1--14.g4g7-a1d1--15.g7g4-d1g1<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+trickreich: S gewinnt.Wie?&nbsp;<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=111120010200212020021010+15&amp;level=9&amp;takefrommillallowed=0&amp;moves=1DNCKIFBfFEPORVUXLGkKzIHRQHMURXUNsm">https://nikolausdulgeridis.github.io/Muehle.html?pos=111120010200212020021010+15&amp;level=9&amp;takefrommillallowed=0&amp;moves=1DNCKIFBfFEPORVUXLGkKzIHRQHMURXUNsm</a><br />
+<br />
+<br />
+W gew &uuml;berraschend<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20021220022101001012110014&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OKFLMUVGRBWETHCJIuUzONGONSJNIJHIMquLMRumOPUrpELRulKL"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20021220022101001012110014&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OKFLMUVGRBWETHCJIuUzONGONSJNIJHIMquLMRumOPUrpELRulKL</a><br />
+<br />
+<br />
+W gewinnt<br />
+<a href="https://nikolausdulgeridis.de.tl/MuehleOpt.htm?pos=22221001021012210001000014&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML">https://nikolausdulgeridis.de.tl/MuehleOpt.htm?pos=22221001021012210001000014&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML</a><br />
+<br />
+<br />
+Remis&nbsp;</p>
+<p><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20001212012221221112101029&amp;lang=xx&amp;level=7&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-d2--2.b4-c4--3.f4-d7--4.f2-d5--5.d3-f6--6.c5-a7--7.g7-e4--8.e3-c3--9.b2-b6--10.g7g4-d7g7--11.b4a4-b6b4--12.g4g1-g7g4--13.g1d1-d5e5--14.d6d7-e5d5--15.d7d6">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20001212012221221112101029&amp;lang=xx&amp;level=7&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-d2--2.b4-c4--3.f4-d7--4.f2-d5--5.d3-f6--6.c5-a7--7.g7-e4--8.e3-c3--9.b2-b6--10.g7g4-d7g7--11.b4a4-b6b4--12.g4g1-g7g4--13.g1d1-d5e5--14.d6d7-e5d5--15.d7d6</a></p>
+<p>oder doch nicht Remis?&nbsp;<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=012212100211111200212020132&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FULMOCVIRGHBDNSQTEzDPCDLKELPYDPYXIJFCJICFBCXYLETLCBLTMLYXBCHMCDXYDCYXPYXWIHKBYXOPGOPDXYDPHIMHLKWXKWHMOGBKELVOCBPDBCMHYPXYWXKWLETLQMWKCBLTELDCPDRQLETLDPSRNSKWUVRUSRWKXWCDBCYXCBDCPYLTMLQMYPCDBCXYWXMQIJKWJNQMRQWKNJURJITULTKLCBDCBKCBPDYPIJBCJIRSKBSniBKHikQRMHRQNjqXW">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=012212100211111200212020132&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FULMOCVIRGHBDNSQTEzDPCDLKELPYDPYXIJFCJICFBCXYLETLCBLTMLYXBCHMCDXYDCYXPYXWIHKBYXOPGOPDXYDPHIMHLKWXKWHMOGBKELVOCBPDBCMHYPXYWXKWLETLQMWKCBLTELDCPDRQLETLDPSRNSKWUVRUSRWKXWCDBCYXCBDCPYLTMLQMYPCDBCXYWXMQIJKWJNQMRQWKNJURJITULTKLCBDCBKCBPDYPIJBCJIRSKBSniBKHikQRMHRQNjqXW</a><br />
+<br />
+Teste<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=021212102121012210102021115&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-d2--2.b4-c4--3.f4-d7--4.f2-d5--5.d3-f6--6.c5-a7--7.g7-e4--8.e3-c3--9.b2-b6--10.g7g4-d7g7--11.b4a4-b6b4--12.g4g1-g7g4--13.g1d1-d5e5--14.d6d7-e5d5--15.d7d6-a7d7--16.d1g1-b4b6--17.b2b4-d7a7--18.b4b2-c4b4--19.g1d1-a7d7--20.c5c4-d7g7--21.d1g1-g7d7--22.g1d1-g4g1--23.d1a1-d5c5--24.a4a7-g1d1--25.f4g4-f6f4--26.g4g7-d1g1--27.g7g4-c5d5--28.c4c5-b4a4--29.a1d1-a4a1--30.c5c4-f4f6--31.a7a4-b6b4--32.f2f4-d7a7--33.g4g7-a7d7--34.c4c5-g1g4--35.d1g1-a1d1--36.a4a1-b4b6--37.b2b4-c3c4--38.a1a4-d7a7--39.b4b2-b6b4--40.g7d7-g4g7--41.d3c3-b4b6--42.b2b4-g7g4--43.e3d3-e4e3--44.a4a1-d2f2--45.d3d2-e3d3--46.a1a4-d1a1--47.d7g7-a7d7--48.g1d1-d7a7--49.g7d7-g4g1--50.b4b2-c4b4--51.c3c4-g1g4--52.d7g7-a7d7--53.d1g1-a1d1--54.c4c3-d5e5--55.a4a1-e5e4--56.c3c4-d3c3--57.a1a4-e4e5--58.d2d3-e5d5--59.b2d2-b4b2--60.a4b4-d7a7--61.g7d7-a7a4--62.d7a7-g4g7--63.g1g4-d5e5--64.a7d7-e5d5--65.d3e3-a4a7--66.e3e4xd5-a7a4--67.c5d5xa4-c3d3--68.c4c5-d3c3--69.e4e5xc3-d1a1">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=021212102121012210102021115&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-d2--2.b4-c4--3.f4-d7--4.f2-d5--5.d3-f6--6.c5-a7--7.g7-e4--8.e3-c3--9.b2-b6--10.g7g4-d7g7--11.b4a4-b6b4--12.g4g1-g7g4--13.g1d1-d5e5--14.d6d7-e5d5--15.d7d6-a7d7--16.d1g1-b4b6--17.b2b4-d7a7--18.b4b2-c4b4--19.g1d1-a7d7--20.c5c4-d7g7--21.d1g1-g7d7--22.g1d1-g4g1--23.d1a1-d5c5--24.a4a7-g1d1--25.f4g4-f6f4--26.g4g7-d1g1--27.g7g4-c5d5--28.c4c5-b4a4--29.a1d1-a4a1--30.c5c4-f4f6--31.a7a4-b6b4--32.f2f4-d7a7--33.g4g7-a7d7--34.c4c5-g1g4--35.d1g1-a1d1--36.a4a1-b4b6--37.b2b4-c3c4--38.a1a4-d7a7--39.b4b2-b6b4--40.g7d7-g4g7--41.d3c3-b4b6--42.b2b4-g7g4--43.e3d3-e4e3--44.a4a1-d2f2--45.d3d2-e3d3--46.a1a4-d1a1--47.d7g7-a7d7--48.g1d1-d7a7--49.g7d7-g4g1--50.b4b2-c4b4--51.c3c4-g1g4--52.d7g7-a7d7--53.d1g1-a1d1--54.c4c3-d5e5--55.a4a1-e5e4--56.c3c4-d3c3--57.a1a4-e4e5--58.d2d3-e5d5--59.b2d2-b4b2--60.a4b4-d7a7--61.g7d7-a7a4--62.d7a7-g4g7--63.g1g4-d5e5--64.a7d7-e5d5--65.d3e3-a4a7--66.e3e4xd5-a7a4--67.c5d5xa4-c3d3--68.c4c5-d3c3--69.e4e5xc3-d1a1</a><br />
+<br />
+Verschwendet zu viel Rechenzeit mit f4f6 und c4c5 (gebessert)<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=021120012221012210102121121&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FULMOCVIRGHBDNSQTEzDPCDLKELPYDPYXIJFCJICFBCXYLETLCBLTMLYXBCHMCDXYDCYXPYXWIHKBYXOPGOPDXYDPHIMHLKWXKWHMOGBKELVOCBPDBCMHYPXYWXKWLETLQMWKCBLTELDCPDRQLETLDPSRNSKWUVRUSRWKXWCDBCYXCBDCPYLTMLQMYPCDBCXYWXMQIJKWJNQMLKHIELMQNJFEGFQMRQURVUOGPOYPXYRSQRWXKWSNRSMHCB">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=021120012221012210102121121&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FULMOCVIRGHBDNSQTEzDPCDLKELPYDPYXIJFCJICFBCXYLETLCBLTMLYXBCHMCDXYDCYXPYXWIHKBYXOPGOPDXYDPHIMHLKWXKWHMOGBKELVOCBPDBCMHYPXYWXKWLETLQMWKCBLTELDCPDRQLETLDPSRNSKWUVRUSRWKXWCDBCYXCBDCPYLTMLQMYPCDBCXYWXMQIJKWJNQMLKHIELMQNJFEGFQMRQURVUOGPOYPXYRSQRWXKWSNRSMHCB</a><br />
+<br />
+<br />
+Teststellung<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=12012111102112011112100099&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=12012111102112011112100099&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=12112111102112211112100099&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=12112111102112211112100099&amp;lang=xx&amp;level=9&amp;takefrommillallowed=0&amp;fast=1</a><br />
+<br />
+Debuggen:&nbsp;<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01201222201111200021002133&amp;lang=xx&amp;level=6&amp;takefrommillallowed=0&amp;fast=0&amp;moves=1FRLNEGTrMPCWYSUBKOIzPDNJSNMhdLMKLWXCDBCYPXYUXTULTELXWYXPYNSJNSrhDPRSWKSrkNS" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01201222201111200021002133&amp;lang=xx&amp;level=6&amp;takefrommillallowed=0&amp;fast=0&amp;moves=1FRLNEGTrMPCWYSUBKOIzPDNJSNMhdLMKLWXCDBCYPXYUXTULTELXWYXPYNSJNSrhDPRSWKSrkNS</a>-</p>
+<p>Vers 74a zeigt die Variante d1a1 d7a7 g7d7 vermutlich wegen zu harten Prunings. Fehler wurde entsch&auml;rft.&nbsp;</p>
+<p>Kurios<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00000011212222121211102019&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-f4--2.d2-b4--3.b2-c4--4.f2xb4-c3--5.c5-b4--6.a4-e4--7.g4-e3--8.d3-e5xd3--9.d3-d1--10.d6d5-f4f6--11.f2f4-f6d6--12.f4f2xd1-e4f4--13.d2d1-f4e4xd1--14.g4g1 " target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00000011212222121211102019&amp;lang=xx&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;classicmoves=1.d6-f4--2.d2-b4--3.b2-c4--4.f2xb4-c3--5.c5-b4--6.a4-e4--7.g4-e3--8.d3-e5xd3--9.d3-d1--10.d6d5-f4f6--11.f2f4-f6d6--12.f4f2xd1-e4f4--13.d2d1-f4e4xd1--14.g4g1&nbsp;<br />
+<br />
+</a><br />
+W Gewinnt in 8 Zuegen<br />
+Problem von <a href="https://lp.muehle-spiel.eu/muehle-spiel-online?gad_source=1&amp;gad_campaignid=23498487500&amp;gbraid=0AAAABBPzJQQGmnHzSZU0vIsJ2D9fz1CfJ&amp;gclid=Cj0KCQiAp-zLBhDkARIsABcYc6s6_auG9MoI_PJjE0bRFVMC-4es_2YS40hdVFB17skIWlZVfDBrYSMaAq1EEALw_wcB#section-WtQuN2wGbE" target="_blank">https://lp.muehle-spiel.eu/muehle-spiel-online?gad_source=1&amp;gad_campaignid=23498487500&amp;gbraid=0AAAABBPzJQQGmnHzSZU0vIsJ2D9fz1CfJ&amp;gclid=Cj0KCQiAp-zLBhDkARIsABcYc6s6_auG9MoI_PJjE0bRFVMC-4es_2YS40hdVFB17skIWlZVfDBrYSMaAq1EEALw_wcB#section-WtQuN2wGbE<br />
+</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22111020212101201210210232&amp;lang=xde&amp;level=9&amp;takefrommillallowed=0&amp;fast=0" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22111020212101201210210232&amp;lang=xde&amp;level=9&amp;takefrommillallowed=0&amp;fast=0</a><br />
+<br />
+<br />
+<br />
+W hat bereits verloren<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=102120112112000000200200+12&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFKMHDIJBWET" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=102120112112000000200200+12&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFKMHDIJBWET</a><br />
+<br />
+<br />
+Taktische Aufgabe, im Problemmode langsamer</p>
+<p><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=210011220010201100001000+50&amp;level=9&amp;takefrommillallowed=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVONPoiBEFIEFOPHOIHFMCFNEFIEJ">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=210011220010201100001000+50&amp;level=9&amp;takefrommillallowed=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVONPoiBEFIEFOPHOIHFMCFNEFIEJ</a><br />
+&nbsp;<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=012222002010210211011221+18&amp;level=6&amp;takefrommillallowed=0&amp;classicmoves=1.b4-a1--2.f4-g7--3.d2-d6--4.g1-e5--5.f2-f6--6.e3-e4--7.d3-b6xd3--8.d3-c3--9.d7-d1--10.b4b2xd1-d6d5--11.g1d1xb6-c3c4--12.b2b4-c4c5xb4--13.d3c3-d5d6" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=012222002010210211011221+18&amp;level=6&amp;takefrommillallowed=0&amp;classicmoves=1.b4-a1--2.f4-g7--3.d2-d6--4.g1-e5--5.f2-f6--6.e3-e4--7.d3-b6xd3--8.d3-c3--9.d7-d1--10.b4b2xd1-d6d5--11.g1d1xb6-c3c4--12.b2b4-c4c5xb4--13.d3c3-d5d6</a><br />
+<br />
+<br />
+S gewinnt (mnoch zu pruefen)<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=202100010221010010210200+13&amp;level=6&amp;takefrommillallowed=0&amp;classicmoves=1.d6-b4--2.d2-g7--3.f4-a1--4.d5-a4--5.c4-b2--6.b6-a7xd6--7.d3-d1--8.g1-d7xb6--9.b6-f6--10.d5d6-g7g4--11.d3e3-g4g7xf4--12.c4c3-f6f4--13.d2d3xf4-b4c4--14.b6b4-g7g4--15.d3d2-g4g7xd6" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?</a><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=202100010221010010210200+13&amp;level=6&amp;takefrommillallowed=0&amp;classicmoves=1.d6-b4--2.d2-g7--3.f4-a1--4.d5-a4--5.c4-b2--6.b6-a7xd6--7.d3-d1--8.g1-d7xb6--9.b6-f6--10.d5d6-g7g4--11.d3e3-g4g7xf4--12.c4c3-f6f4--13.d2d3xf4-b4c4--14.b6b4-g7g4--15.d3d2-g4g7xd6" target="_blank">pos=202100010221010010210200+13&amp;level=6&amp;takefrommillallowed=0&amp;classicmoves=1.d6-b4--2.d2-g7--3.f4-a1--4.d5-a4--5.c4-b2--6.b6-a7xd6--7.d3-d1--8.g1-d7xb6--9.b6-f6--10.d5d6-g7g4--11.d3e3-g4g7xf4--12.c4c3-f6f4--13.d2d3xf4-b4c4--14.b6b4-g7g4--15.d3d2-g4g7xd6</a><br />
+<br />
+Weisser Verlustzug?<br />
+<br />
+Verlust:&nbsp;<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100211100211020120222010+17&amp;level=8&amp;takefrommillallowed=0&amp;moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100211100211020120222010+17&amp;level=8&amp;takefrommillallowed=0&amp;moves=1LTMRFKXVHUxXOQoOGEBIzBCOPGOPDFGEFONVOXYOvcLETLGODcoYP</a><br />
+<br />
+oder Remis:<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000211101211020120222010+17&amp;level=8&amp;takefrommillallowed=0&amp;moves=1LTMRFKXVHUxXOQoOGEJIzJNKWFCEFCDWKDCKBNSONGOFGCFBKFCGFCDFGDPKBXWBCWkcUXLETueMLIJLmvUTMLTusHmjUT" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000211101211020120222010+17&amp;level=8&amp;takefrommillallowed=0&amp;moves=1LTMRFKXVHUxXOQoOGEJIzJNKWFCEFCDWKDCKBNSONGOFGCFBKFCGFCDFGDPKBXWBCWkcUXLETueMLIJLmvUTMLTusHmjUT</a><br />
+<br />
+Debuggen: Schwarz entscheidet sich oft fuer einen schlechten Zug<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehletest.htm?pos=00000100000012002000201079&amp;lang=de&amp;level=6&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OFNLQUSTJlRVXvPfIVGKCzPDXWDprURPYGfvYpwCDKLDclOGTUQMCDGofUXOVXYNORQOnqIOSRYSMLDWVUOYUXWFLTYUJISGPOUenRSGLOGFKXWEmiSRMDRULHWXDJGOJVTLHSURKGONSTLMTorMUGRUGVBXFBEGI" target="_blank">https://nikolausdulgeridis.de.tl/Muehletest.htm?pos=00000100000012002000201079&amp;lang=de&amp;level=6&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OFNLQUSTJlRVXvPfIVGKCzPDXWDprURPYGfvYpwCDKLDclOGTUQMCDGofUXOVXYNORQOnqIOSRYSMLDWVUOYUXWFLTYUJISGPOUenRSGLOGFKXWEmiSRMDRULHWXDJGOJVTLHSURKGONSTLMTorMUGRUGVBXFBEGI</a><br />
+(vermutlich gel&ouml;st)<br />
+<br />
+Gewinnen Sie mit weiss<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehletest.htm?pos=112011020211210020212200+16&amp;level=1&amp;takefrommillallowed=0&amp;moves=1LRFWONUTCIBDMVGK">https://nikolausdulgeridis.de.tl/Muehletest.htm?pos=112011020211210020212200+16&amp;level=1&amp;takefrommillallowed=0&amp;moves=1LRFWONUTCIBDMVGK</a>&nbsp;<br />
+<br />
+W gewinnt<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010022212012111201020000+16&amp;level=2&amp;takefrommillallowed=0&amp;moves=1LHOQSMoPFCUNGOgJIG" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010022212012111201020000+16&amp;level=2&amp;takefrommillallowed=0&amp;moves=1LHOQSMoPFCUNGOgJIG</a></p>
+Stellung gedreht<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=200220010100120121021210+39&amp;level=4&amp;takefrommillallowed=0&amp;moves=1RUWVOFLGETeEKNPSQJfIzEFUXRUQRFCKBWKXWLMTLUXVUOVIFNOLecMQPDOndGOJI" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=200220010100120121021210+39&amp;level=4&amp;takefrommillallowed=0&amp;moves=1RUWVOFLGETeEKNPSQJfIzEFUXRUQRFCKBWKXWLMTLUXVUOVIFNOLecMQPDOndGOJI</a><br />
+<br />
+noch zu untersuchen<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=120211000010021021102020+13&amp;level=8&amp;takefrommillallowed=0&amp;moves=1FOPXTCLEBVGRSK" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=120211000010021021102020+13&amp;level=8&amp;takefrommillallowed=0&amp;moves=1FOPXTCLEBVGRSK</a><br />
+<br />
+<br type="_moz" />
+warum der letzte Zug<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010011220112221221012000+17&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FOLNPRUHKMSQfFVCIG" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010011220112221221012000+17&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FOLNPRUHKMSQfFVCIG<br />
+<br />
+Debuggen Warum der letzte Zug  <br />
+</a><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100000111200100000200200+9&amp;level=3&amp;takefrommillallowed=0&amp;classicmoves=1.c5-a4--2.d5-b4--3.e4-a1--4.a7-b2--5.e5xb4">nikolausdulgeridis - Muehle<br />
+<br />
+</a> <br />
+<br />
+Kompliziert. Gewinn fuer W <br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010011220112221221012000+17&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FOLNPRUHKMSQfFVCIG" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?</a>pos=010010221012010020020210+12&amp;level=1&amp;takefrommillallowed=0&amp;moves=1FRLUXMOHCIJWS<br />
+<br />
+<br />
+6gegen4 gewinnt<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=001010120211222100020000+25&amp;level=4&amp;takefrommillallowed=0&amp;moves=1CNQGFIHODPdMiVcLKTEDIzQRNSRqeSntQRVURqgNJ" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=001010120211222100020000+25&amp;level=4&amp;takefrommillallowed=0&amp;moves=1CNQGFIHODPdMiVcLKTEDIzQRNSRqeSntQRVURqgNJ</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/muehleAB.htm?pos=00200201022100000011110141&amp;lang=de&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OLXRCMIKoWETFYfFQJPGczPOMHQMRUYPURXURSPYKBOvjBCUxsCDWKDPKwhLKMQELXufPDQMLEIFELUxkDUWKGWFGLPTluPRLTRE" target="_blank">https://nikolausdulgeridis.de.tl/muehleAB.htm?pos=00200201022100000011110141&amp;lang=de&amp;level=3&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1OLXRCMIKoWETFYfFQJPGczPOMHQMRUYPURXURSPYKBOvjBCUxsCDWKDPKwhLKMQELXufPDQMLEIFELUxkDUWKGWFGLPTluPRLTRE</a><br />
+<br />
+6gegen5 w gewinnt<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000111000012221000221000+12&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FOLNPUETGtTVMDYCIBoOzBKMHKbiHIBK" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000111000012221000221000+12&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FOLNPUETGtTVMDYCIBoOzBKMHKbiHIBK</a><br />
+<br />
+W gewinnt (Routine Uebung)<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020010222012121100221010+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FULTVONIPMXHQJfFCS" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020010222012121100221010+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FULTVONIPMXHQJfFCS</a><br />
+<br />
+<br />
+<br />
+Zugzwang<br />
+<br />
+<br type="_moz" />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000010222011000000000+73&amp;level=6&amp;fast=0&amp;takefrommillallowed=0&amp;moves=1EIPSJUOFCRXNQKMLHiVzHILtxMhfUXEfvTuqFGRQGfuSRCBNsbHMXYFGYXJnxKWNJWXMhxQNOVNOIFOqfPDRKDCKrhCDSFJIQCVOCPONRUNSPRDCRNGOUYCDNLONFJDPYKSRJQRUQmnUOKN" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000010222011000000000+73&amp;level=6&amp;fast=0&amp;takefrommillallowed=0&amp;moves=1EIPSJUOFCRXNQKMLHiVzHILtxMhfUXEfvTuqFGRQGfuSRCBNsbHMXYFGYXJnxKWNJWXMhxQNOVNOIFOqfPDRKDCKrhCDSFJIQCVOCPONRUNSPRDCRNGOUYCDNLONFJDPYKSRJQRUQmnUOKN</a><br />
+<br />
+xx<br type="_moz" />
+<br />
+Gewinn<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehletest1.htm?pos=11211102021122120020021022&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1LRFWONUTCIBDMVGKEkKzOPVOUXRQ">https://nikolausdulgeridis.de.tl/Muehletest1.htm?pos=11211102021122120020021022&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1LRFWONUTCIBDMVGKEkKzOPVOUXRQ</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01212100002111202001212232&amp;level=9&amp;takefrommillallowed=0&amp;fast=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSRNSFIGFLKELIJFIJNIJKBLKRQSRNSJN">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=01212100002111202001212232&amp;level=9&amp;takefrommillallowed=0&amp;fast=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSRNSFIGFLKELIJFIJNIJKBLKRQSRNSJN</a><br />
+<br type="_moz" />
+<br />
+<br />
+<br type="_moz" />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=022111000121012020012122+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSRNSFIGFLKELIJFIJNIJKBLKRQSRNSJN" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=022111000121012020012122+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSRNSFIGFLKELIJFIJNIJKBLKRQSRNSJN</a><br />
+<br />
+<br />
+<br />
+<br type="_moz" />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle15.htm?pos=00001022211222112100000014&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLNPIUJSHuKMQRUYWTzWXOGPOYPKBPDBCDPCD" target="_blank">https://nikolausdulgeridis.de.tl/Muehle15.htm?pos=00001022211222112100000014&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLNPIUJSHuKMQRUYWTzWXOGPOYPKBPDBCDPCD</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00001200011101222222101016&amp;lang=de&amp;level=4&amp;internally=1&amp;takefrommillallowed=0&amp;moves=1FULRXPOTVQKSkKGMgG">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00001200011101222222101016&amp;lang=de&amp;level=4&amp;internally=1&amp;takefrommillallowed=0&amp;moves=1FULRXPOTVQKSkKGMgG</a>  <br />
+Teststellung W Gewinn in 15 <br />
+<a href="https://nikolausdulgeridis.de.tl/muehle.htm?pos=012121000021112020012122+32&amp;level=9&amp;takefrommillallowed=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSR" target="_blank"> https://nikolausdulgeridis.de.tl/muehle.htm?pos=012121000021112020012122+32&amp;level=9&amp;takefrommillallowed=0&amp;moves=17WCzMHRSKBSNFICFBCNJHMJNIJNSJNSR </a><br />
+<br />
+<br />
+Gewinn f&uuml;r S<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000021201021112111020000+15&amp;level=9&amp;takefrommillallowed=0&amp;moves=1QHNLSURhHMFJuUOPGI">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000021201021112111020000+15&amp;level=9&amp;takefrommillallowed=0&amp;moves=1QHNLSURhHMFJuUOPGI</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=200112000211020000121100+13&amp;level=5&amp;takefrommillallowed=0&amp;moves=1FOLBEWTwGVUMKWDH">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=200112000211020000121100+13&amp;level=5&amp;takefrommillallowed=0&amp;moves=1FOLBEWTwGVUMKWDH</a><br />
+<br />
+S gewinnt<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.htm?pos=100022012121110222010120+33&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTONCRKMHXBDJIWxXzOPNSJNFGCFDCPOIJFIMqhLMTLOPCFPOLemKLQMLkmFCIFELOPJIPOIHNJHMJNMquFIRUNJSNOPNOJNQrn" target="_blank"> https://nikolausdulgeridis.github.io/Muehle.htm?pos=100022012121110222010120+33&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTONCRKMHXBDJIWxXzOPNSJNFGCFDCPOIJFIMqhLMTLOPCFPOLemKLQMLkmFCIFELOPJIPOIHNJHMJNMquFIRUNJSNOPNOJNQrn</a><br />
+<br />
+<br />
+<br />
+<br />
+<strong>Testpartien https://www.bernhard-gaul.de/spiele/muehle/muehle2.php</strong><br />
+<br />
+meister weiss<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=101110000202010002000001+42&amp;level=9&amp;takefrommillallowed=1&amp;moves=1LOFUBVGTgGNPRXEISCsQzPdqRQDPURPdrVUBKNSKbuTUXYUrlDPELFERUPduQMCfoSCGOCkfIFLS">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=101110000202010002000001+42&amp;level=9&amp;takefrommillallowed=1&amp;moves=1LOFUBVGTgGNPRXEISCsQzPdqRQDPURPdrVUBKNSKbuTUXYUrlDPELFERUPduQMCfoSCGOCkfIFLS</a><br />
+<p>Variante, mittel weiss, nur d5 ist gut<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100211010010221020222010+15&amp;level=9&amp;takefrommillallowed=1&amp;classicmoves=1.b4-f4--2.d6-d2--3.a7-f2--4.f6-b2xf6--5.f6-e4--6.g4-d3--7.d1-b6--8.d5">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100211010010221020222010+15&amp;level=9&amp;takefrommillallowed=1&amp;classicmoves=1.b4-f4--2.d6-d2--3.a7-f2--4.f6-b2xf6--5.f6-e4--6.g4-d3--7.d1-b6--8.d5</a></p>
+meister, schwarz<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=210020200122002200000000+76&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FLOETUJCNPSpPHIVRXGzHMLKTLKBXYPdyOPGOLKELMHLMPYDPKWPdhWKDPYXPdvKLBKXYKblYPUXPYDPFEPdyELDPLEPdeJFIJNERQSLDPFtpJIEHOPTDXULTCFDCPDTLUTLOTLOKDPHUIhu">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=210020200122002200000000+76&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FLOETUJCNPSpPHIVRXGzHMLKTLKBXYPdyOPGOLKELMHLMPYDPKWPdhWKDPYXPdvKLBKXYKblYPUXPYDPFEPdyELDPLEPdeJFIJNERQSLDPFtpJIEHOPTDXULTCFDCPDTLUTLOTLOKDPHUIhu</a><br />
+<br />
+Notation:&nbsp;<a href="https://muehlespieler.de/x_uebungen/index.php?page=begriffe_notation">https://muehlespieler.de/x_uebungen/index.php?page=begriffe_notation</a><br />
+https://muehlespieler.de/download/muehle_lehrbuch.pdf<br />
+<br />
+Muehle Datenbank&nbsp; Gewinn in 165<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=221221220200100100100100+22&amp;level=1&amp;takefrommillallowed=1" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=221221220200100100100100+22&amp;level=1&amp;takefrommillallowed=1</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000222001000001000111000+72&amp;level=9&amp;takefrommillallowed=1&amp;moves=23NJKLQMBKTULTMLHMWXKWXYMQYPQRPOWKUvrTUONKWNouCBDCBKVUIHJIKBUvwBKVUHMONMQURQMCDKBGOBKIJFCRUCFOVKBDPBCLtcMgnVO" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000222001000001000111000+72&amp;level=9&amp;takefrommillallowed=1&amp;moves=23NJKLQMBKTULTMLHMWXKWXYMQYPQRPOWKUvrTUONKWNouCBDCBKVUIHJIKBUvwBKVUHMONMQURQMCDKBGOBKIJFCRUCFOVKBDPBCLtcMgnVO</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100210100212000100000210+73&amp;level=5&amp;takefrommillallowed=1&amp;moves=23NJKLQMBKTULTMLHMUVTUJNMQWXCBDCIHNohFIGFKWFgiQMGFURONMHCDRQVOHIDpiBKPDKBDCQROVRQVUQMURMHRQBKCBHMNJMHJIHMIH" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=100210100212000100000210+73&amp;level=5&amp;takefrommillallowed=1&amp;moves=23NJKLQMBKTULTMLHMUVTUJNMQWXCBDCIHNohFIGFKWFgiQMGFURONMHCDRQVOHIDpiBKPDKBDCQROVRQVUQMURMHRQBKCBHMNJMHJIHMIH</a><br />
+<br />
+Die l&auml;ngste Win-Situation besteht insgesamt aus 204 Z&uuml;gen im M&uuml;hlespiel. Zugphase - 8 (wei&szlig;) vs 7 (schwarz) - Schwarz beginnt - Wei&szlig; gewinnt nach 204. Z&uuml;gen<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=201002211000120012221011+31&amp;level=1&amp;takefrommillallowed=0">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=201002211000120012221011+31&amp;level=1&amp;takefrommillallowed=0</a><br />
+<br type="_moz" />
+<br />
+Benchmark:&nbsp;<br />
+<a href="file:///C:/tools/temp/Desktop/muehl14/A127PzohQma9grid.htm?pos=020111222121120000000001+64&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FXLURHOCPNVJSIfFYWQzLMUTVUCDWKTLUVDCFgqIFMqfCFQMFimGFXWRQWXQMXUSRUXVUXWUXLTKLTURSUTLEWKXUYXOgtNOSNKLPYXWUXWKXWKBWKBCYPCBPDBCKBLTELTUBkuCB">A127PzohQma9grid.htm?pos=020111222121120000000001+64&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FXLURHOCPNVJSIfFYWQzLMUTVUCDWKTLUVDCFgqIFMqfCFQMFimGFXWRQWXQMXUSRUXVUXWUXLTKLTURSUTLEWKXUYXOgtNOSNKLPYXWUXWKXWKBWKBCYPCBPDBCKBLTELTUBkuCB</a><br />
+<br type="_moz" />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22221100021001200000121117&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=18UzONPOYPURVURQURQMRQMHQMHIMHIJHIOVGov" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22221100021001200000121117&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=18UzONPOYPURVURQURQMRQMHQMHIMHIJHIOVGov</a><br />
+<br />
+S verliert<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=120010002010210002121010+39&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbiNJWXOnxKWMQLkqNOWXOnyPOELXwgUXBCLECbeDCKLXUWXCDLK" target="_blank"> https://nikolausdulgeridis.github.io/Muehle.html?pos=120010002010210002121010+39&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbiNJWXOnxKWMQLkqNOWXOnyPOELXwgUXBCLECbeDCKLXUWXCDLK</a><br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=120010000100200002021111+41&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbiNJWXOnxKWMQLkqNOWXOnxYXGOTLUTKWTULkoELBCJICbiDCPylSRKLRSYPCDFGURPysDF"> https://nikolausdulgeridis.github.io/Muehle.html?pos=120010000100200002021111+41&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbiNJWXOnxKWMQLkqNOWXOnxYXGOTLUTKWTULkoELBCJICbiDCPylSRKLRSYPCDFGURPysDF</a><br type="_moz" />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=11102011112212001200020017&amp;level=4&amp;takefrommillallowed=0&amp;moves=1DLNOISCFBfFHKJkMKWRPzRULEUXOgxKLWKNOSNOV" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=11102011112212001200020017&amp;level=4&amp;takefrommillallowed=0&amp;moves=1DLNOISCFBfFHKJkMKWRPzRULEUXOgxKLWKNOSNOV</a><br />
+<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=111020111122120002000200+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1DLNOISCFBfFHKJkMKWXP" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=111020111122120002000200+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1DLNOISCFBfFHKJkMKWXP</a><br type="_moz" />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/MuehleP.htm?pos=21001122001002110000100049&amp;lang=de&amp;level=9&amp;takefrommillallowed=1&amp;fast=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVONPoiBEFIEFOPHOIHFMCFNEFIEJ" target="_blank"> https://nikolausdulgeridis.de.tl/MuehleP.htm?pos=21001122001002110000100049&amp;lang=de&amp;level=9&amp;takefrommillallowed=1&amp;fast=1&amp;moves=19zOGUTLeiNOJioTLIJHmwJibKBCDBkdFCPOYPXUPDKBIflUTELTUDPSNLeuNJELMHRUJIUVONPoiBEFIEFOPHOIHFMCFNEFIEJ</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/MuehleP.htm?pos=00000011212222121211102019&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOULTMVlQHLKNPSRJrRXzFIOGVOGFOvxNOUXOnxPY" target="_blank"> https://nikolausdulgeridis.de.tl/MuehleP.htm?pos=00000011212222121211102019&amp;lang=de&amp;level=5&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOULTMVlQHLKNPSRJrRXzFIOGVOGFOvxNOUXOnxPY</a><br />
+<br />
+<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22221001001012210201021220&amp;lang=de&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22221001001012210201021220&amp;lang=de&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML<br />
+</a><br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00220001212121021211002134&amp;lang=de&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOULTMVlQHLKNPSRJrRXzFIOGVOLETLEFPYFCKBGFLTMLHMCDBKFEOvlELVODPOvlNOTloPOLtoJNIJNOTlxOT" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=00220001212121021211002134&amp;lang=de&amp;level=9&amp;takefrommillallowed=0&amp;fast=1&amp;moves=1FOULTMVlQHLKNPSRJrRXzFIOGVOLETLEFPYFCKBGFLTMLHMCDBKFEOvlELVODPOvlNOTloPOLtoJNIJNOTlxOT</a><br />
+<br type="_moz" />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22111020212101201210210232&amp;lang=xde&amp;level=9&amp;takefrommillallowed=0&amp;fast=0" target="_blank"> https://nikolausdulgeridis.de.tl/Muehle.htm?pos=22111020212101201210210232&amp;lang=xde&amp;level=9&amp;takefrommillallowed=0&amp;fast=0</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=222210010210122102010102+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=222210010210122102010102+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLKUEICQBWPNDwWYwWSzWXKWLKSRIHELHMOGNORSQrsLEML</a><br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/muehle.htm?pos=000212122112210012120210+18&amp;level=7&amp;takefrommillallowed=0&amp;moves=17KWzXY"> https://nikolausdulgeridis.de.tl/muehle.htm?pos=000212122112210012120210+18&amp;level=7&amp;takefrommillallowed=0&amp;moves=17KWzXY</a><br />
+<p>weisser &Uuml;berfall</p>
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=111112220020201020210010+22&amp;level=9&amp;takefrommillallowed=0&amp;classicmoves=1.d6-b4--2.f4-b2--3.b6-f6--4.d2-d3--5.g7-e4--6.d7-d5--7.a7xd5-d5--8.g1-a4--9.g4xa4-c5--10.g1d1-e4e5xg4--11.f4g4-e5e4--12.d1g1xe4-b4c4<br />
+<br />
+gegen Win Muehle hhtp://www.via-software.de/games&nbsp;<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=112122100212210000121010+17&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNBDHYzHINJOPGOIHJIXWYXPYDPCDIJBCJncHI" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010120020212220112121000+30&amp;level=4&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNRHQSzCBHIBCIjxCDJIOPGOPYIjyDCJI<br />
+<br />
+<span style="color: rgb(0, 0, 0);"><br />
+S gewinnt<br />
+</span><font color="#000000">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=112122100212210000121010+17&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNBDHYzHINJOPGOIHJIXWYXPYDPCDIJBCJncHI<br />
+</font><br />
+</a><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=112122100212210000121010+17&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNBDHYzHINJOPGOIHJIXWYXPYDPCDIJBCJncHI" target="_blank"><span style="color: rgb(0, 0, 0);">S gewinnt vielleicht<br />
+</span></a><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=110122000212112022121010+23&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNBDHRzHIDPIJNSJNKWBK" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=110122000212112022121010+23&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LUEKTuUOFVGCMXNBDHRzHIDPIJNSJNKWBK</a><br />
+<p style="margin: 0px 0px 15px; padding: 0px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-variant-alternates: inherit; font-variant-position: inherit; font-variant-emoji: inherit; font-stretch: inherit; line-height: 22px; font-family: Dosis, sans-serif; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; vertical-align: baseline; color: white;">&nbsp;</p>
+<p>via muehle S, W gewinnt<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000111000012221000221000+12&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FOLNPUETGtTVMDYCIBoOzBKMHKbiHIBK<br />
+<br />
+Brilliant Muehle:</p>
+<p>Die l&auml;ngste Win-Situation besteht insgesamt aus 204 Z&uuml;gen im M&uuml;hlespiel. Zugphase - 8 (wei&szlig;) vs 7 (schwarz) - Schwarz beginnt - Wei&szlig; gewinnt nach 204. Z&uuml;gen</p>
+<p><font color="#0000ee"><u>https://nikolausdulgeridis.de.tl/Muehle.htm?pos=201002211000120012221011+19</u></font><a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=20100221100012012221011+19"><br />
+<br />
+</a><br />
+&nbsp; Remis oder nicht?&nbsp;<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=012212020112221000121001+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbsNJWXMhfKweDCLkcIFKL">https://nikolausdulgeridis.github.io/Muehle.html?pos=012212020112221000121001+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FOLGVUTECIYNPDKMWSzCbsNJWXMhfKweDCLkcIFKL</a></p>
+<p>Brilliant Muehle:</p>
+<p>remis 9 gegen 3<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000100200200212202100222+22<br type="_moz" />
+<br />
+S gewinnt in 26Hz Wbeginnt<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000210000010010000220000+18">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000210000010010000220000+18</a></p>
+<br />
+Spielezar<br />
+<div>https://www.spielezar.ch/portal/funzone/muehle-spielen</div>
+<div>https://www.spielezar.ch/modules/genzo_zar/vendor/muehle/MorrisScripts/MorrisEngine.js</div>
+<div>https://www.spielezar.ch/modules/genzo_zar/vendor/muehle/MorrisScripts/MorrisBoard.js</div>
+<div>https://www.spielezar.ch/modules/genzo_zar/vendor/muehle/MorrisScripts/MorrisEngine.js</div>
+<div><br />
+Zar w 15 sek. S gewinnt<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.htm?pos=120002010120121200020120+55&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTONCRKMHXBDJIWxXzOPNSJNFGCFDCPOIJFIMqhLMTLOPCFPOLemKLQMLkmFCIFELOPJIPOIHNJHMJNMquFIRUNJSNOPNOJN" target="_blank"> https://nikolausdulgeridis.github.io/Muehle.htm?pos=120002010120121200020120+55&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTONCRKMHXBDJIWxXzOPNSJNFGCFDCPOIJFIMqhLMTLOPCFPOLemKLQMLkmFCIFELOPJIPOIHNJHMJNMquFIRUNJSNOPNOJN</a><br />
+&nbsp;</div>
+<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020210111220210120112000+16&amp;level=5&amp;takefrommillallowed=0&amp;moves=1FLOVUETNHRICJvVQKMlLzUXKWTUCDXYDP<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=221210000210001020111212+25&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FLOCUKMBDWmMYXRTIVrRzOPIHVOLEMLHMOvm<br />
+<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=221111212121021020001020+24&amp;level=6&amp;takefrommillallowed=0&amp;moves=1FULHETGtTVORJICPBDYzLKTLRQURQMYXPYRUDPURPD<br />
+<br />
+Zar entscheidet sich in dieser Stellung f&uuml;r d6-f6 (15 Sek)<br />
+Das deutet auf eine mittlere Rechentiefe ca 8 Hz<br />
+Spiel gegen Zar (schwarz, 15 sek)&nbsp;<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=221010010212212001010222+26&amp;level=4&amp;takefrommillallowed=0&amp;moves=1LFUCIKOBDWdDPRXEYdDJzRSJNIJFIEFIHJIHMFGMHIJCFUvnXUOnuPOJI<br />
+<br type="_moz" />
+Zar 15s gegen Bernhard Gaul<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000002000010020002102111+38&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FOLUEGTgGVNPRXIKMWSzPysRSKBIjbYPSRPyjMQLMNsvELUvmXUQMFesRSEFOPUxmPofYPONPynSolWKGWTLOGLMGL<br />
+<br />
+Zar S 15sm W gew<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=210001100212010210010210+45&amp;level=9&amp;takefrommillallowed=1&amp;moves=1FLOKMCUBDWmMPRXHIYQzUVLEMLXUYXQMFgiEFHIMHRSHMONPOIjoFINouCFDCIHJIMQSRHMIHFIVui<br />
+<br />
+Zar S 15 gegen gegen Sloppy Muehle W<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=001012222020210122110001+17&amp;level=5&amp;takefrommillallowed=0&amp;moves=1FLOGUNYRDSQJqTHQIuUWzQM" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=001012222020210122110001+17&amp;level=5&amp;takefrommillallowed=0&amp;moves=1FLOGUNYRDSQJqTHQIuUWzQM</a><br />
+<br />
+<br />
+<br />
+Zar 30s (auf www.x-oo.com/flash-online-games/brettspiele/muehle-master.html) gegen Sloppy<br />
+<font color="#0000ee"><u><a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=000100012111010000210010+49&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTQGEOVCIMRSXtTYPzXWSnuRUCBQRFCUxbTUWKNJKwpOPWKGOKwjONWKCFKwuFGVONJXUGFWKFCYxmCTRQPBQmb" target="_blank">https://nikolausdulgeridis.github.io/Muehle.html?pos=000100012111010000210010+49&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTQGEOVCIMRSXtTYPzXWSnuRUCBQRFCUxbTUWKNJKwpOPWKGOKwjONWKCFKwuFGVONJXUGFWKFCYxmCTRQPBQmb</a></u></font><a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=000100012111010000210010+49&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTQGEOVCIMRSXtTYPzXWSnuRUCBQRFCUxbTUWKNJKwpOPWKGOKwjONWKCFKwuFGVONJXUGFWKFCYxmCTRQPBQmb"><br />
+</a><br />
+Interessante Variante aus der Partie, W gewinnt&nbsp;<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.html?pos=020122010012020110211020+14&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTQGEOVCIMRX" target="_blank">https://nikolausdulgeridis.github.io/Muehle.html?<br />
+pos=020122010012020110211020+14&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LFUTQGEOVCIMRX</a><br />
+<br />
+<br />
+<br />
+<br />
+S rettet Remis, Zar - Sloppy<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020112121021112000210020+15&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FLOTEGUXHCJINPMDQdWzNSPysQRCBRqiLkjMLBCLmgCboMLBCLmcYPFCTLCBPybQRKBRqlYP" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020112121021112000210020+15&amp;level=4&amp;takefrommillallowed=0&amp;moves=1FLOTEGUXHCJINPMDQdWzNSPysQRCBRqiLkjMLBCLmgCboMLBCLmcYPFCTLCBPybQRKBRqlYP</a><br />
+<br />
+Testposition 3 gegen 3<br />
+Zar spielt fehlerhaft d1, Sloppy erkennt den Fehler in weniger als 1 Sek<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010010020000000000022010+36&amp;level=9&amp;takefrommillallowed=1&amp;moves=20OPMLHMLKMLURPUIFNEKWEKWXLVJNKtnRCTI" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=010010020000000000022010+36&amp;level=9&amp;takefrommillallowed=1&amp;moves=20OPMLHMLKMLURPUIFNEKWEKWXLVJNKtnRCTI</a><br />
+selbe<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000210000010010000220000+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=19zFVTGVFGXFRUWRYXGYFGKFBWGBFEBLWBLWMGWFBKTBELXOYWUED" target="_blank"><br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000210000010010000220000+18&amp;level=9&amp;takefrommillallowed=0&amp;moves=19zFVTGVFGXFRUWRYXGYFGKFBWGBFEBLWBLWMGWFBKTBELXOYWUED</a><br />
+selbe<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000000001112000022000+34&amp;level=5&amp;takefrommillallowed=1&amp;moves=20DGONYOFIOJIFPOELGVLMJTHIOuiFOTPMTVX" target="_blank"><br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000000001112000022000+34&amp;level=5&amp;takefrommillallowed=1&amp;moves=20DGONYOFIOJIFPOELGVLMJTHIOuiFOTPMTVX</a><br />
+<br />
+<br />
+https://nikolausdulgeridis.de.tl/Muehle.htm?pos=000000000001112000022000+34&amp;level=5&amp;takefrommillallowed=1&amp;moves=20DGONYOFIOJIFPOELGVLMJTHIOuiFOTPMTVX<br />
+<br />
+<a href="https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020210010020001000000000+92&amp;level=4&amp;takefrommillallowed=1&amp;classicmoves=10.--g7f6--11.f4e4-g1f4--12.d6d5-g4e5--13.c5c4-e5g4--14.b6b4-g4c5--15.b4a4-f4b4--16.d5d6-f6d5--17.e4f4-c5b6--18.f4g4-b6b2--19.g4g7-b4d2--20.d6d7-d5a7--21.d7d6-a7d3--22.g7d7-b2b4--23.c4c5-d3d5--24.c5c4-d2b6--25.d7g7-d5d7--26.g7g4-b6b2--27.g4f4-d7d2--28.c4c3-b4d3--29.c3c4-d2b4--30.a4a1-d3d1--31.a1a4-b4d2--32.c4b4-d1f6--33.a4a7-b2d3--34.a7d7-d3b6--35.d7a7-d2a4--36.d6d5-a4d2--37.d5d6-f6d3--38.a7d7-d3b2--39.f4f6-d2f2--40.d6d5-b6d6--41.f6f4-b2d2--42.b4a4-f2f6--43.f4e4-d2b4--44.e4f4-f6b2--45.f4g4-d6b6xd7--46.a4d6-b2d7" target="_blank">https://nikolausdulgeridis.de.tl/Muehle.htm?pos=020210010020001000000000+92&amp;level=4&amp;takefrommillallowed=1&amp;classicmoves=10.--g7f6--11.f4e4-g1f4--12.d6d5-g4e5--13.c5c4-e5g4--14.b6b4-g4c5--15.b4a4-f4b4--16.d5d6-f6d5--17.e4f4-c5b6--18.f4g4-b6b2--19.g4g7-b4d2--20.d6d7-d5a7--21.d7d6-a7d3--22.g7d7-b2b4--23.c4c5-d3d5--24.c5c4-d2b6--25.d7g7-d5d7--26.g7g4-b6b2--27.g4f4-d7d2--28.c4c3-b4d3--29.c3c4-d2b4--30.a4a1-d3d1--31.a1a4-b4d2--32.c4b4-d1f6--33.a4a7-b2d3--34.a7d7-d3b6--35.d7a7-d2a4--36.d6d5-a4d2--37.d5d6-f6d3--38.a7d7-d3b2--39.f4f6-d2f2--40.d6d5-b6d6--41.f6f4-b2d2--42.b4a4-f2f6--43.f4e4-d2b4--44.e4f4-f6b2--45.f4g4-d6b6xd7--46.a4d6-b2d7</a><br />
+<br />
+<br />
+Sehr tief. S gewinnt<br />
+<a href="https://nikolausdulgeridis.github.io/Muehle.htm?pos=200012121121210221120012+32&amp;level=2&amp;takefrommillallowed=0&amp;moves=1FLOGUNMTERKCHQSPJIzKBLKELPDUXTUXYDPLTKLYXPYBKCBFCIF" target="_blank">https://nikolausdulgeridis.github.io/Muehle.htm?pos=200012121121210221120012+32&amp;level=2&amp;takefrommillallowed=0&amp;moves=1FLOGUNMTERKCHQSPJIzKBLKELPDUXTUXYDPLTKLYXPYBKCBFCIF</a><br />
+<br />
+Test<br />
+https://nikolausdulgeridis.github.io/Unterhaltung/Muehle.html?pos=000210212012010112122010+15&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FULVTEOMRJXHQSICYNozLKELKwuVUWKCBFENOKwoBkqRQKBWKURKwlSNWKRsqTLBCEFCBFCNOKwsOGXUJNLEGOEfoBKCBMLUxkLCYPHYWKYWIJNUPDUQXYWRJI<br />
+Benchmark:&nbsp;<br />
+?pos=200210212112210112022010+24&amp;level=9&amp;takefrommillallowed=0&amp;moves=1FULVTEOMRJXHQSICYNxzYXCBLKBCTLCB<br />
+<br />
+Kann W gewinnen?<br />
+https://nikolausdulgeridis.github.io/Unterhaltung/Muehle.html?pos=000211222012120100112200+16&amp;level=9&amp;takefrommillallowed=0&amp;moves=1LOFMUITVGENHQJqQWPRzLKELPDOPGORSUXVUDCSRCBRS<br />
+<br />
+<br />
+https://www.bernhard-gaul.de/spiele/muehle/muehle.js?v=2.8<br />
+https://www.bernhard-gaul.de/spiele/muehle/MorrisScripts/MorrisEngine.js<br />
+https://www.bernhard-gaul.de/spiele/muehle/MorrisScripts/MorrisBoard.js?v=1.3<br />
+https://www.bernhard-gaul.de/spiele/muehle/CommonScripts/kinetic-v3.9.8.js<br />
+<br type="_moz" />
+<br />
