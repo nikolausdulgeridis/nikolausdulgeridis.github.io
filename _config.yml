@@ -19,7 +19,7 @@ defaults:
       layout: "default"
 
   - scope:
-      path: "google*.html"
+      path: "/google*"
       type: "pages"
     values:
       sitemap: false
