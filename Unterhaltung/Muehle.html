@@ -762,7 +762,7 @@ function closelayer() {
     document.getElementById("nervigerlayer").style.display = 'none'; 
 }
 
-window.setTimeout(closeEinleitung, 8000); 
+window.setTimeout(closeEinleitung, 6000); 
 function closeEinleitung() {
     document.getElementById("einleitung").style.display = 'none'; 
 }
@@ -956,7 +956,7 @@ function gibtZugstatistikHtml() {
     var ausgabetext = ""; // letzteWertung zuverlässiger als globalbestwertung
     ausgabetext += `
 <div style="background: #f4f9ff; color: #220066; border: 1px solid #ccddee;
-     min-width: 220px; max-width: 240px; margin-top: 0px; padding: 2px; 
+     min-width: 230px; max-width: 250px; margin-top: 0px; padding: 2px; 
      font-family: Arial, Helvetica, sans-serif; border-radius: 8px; 
      box-shadow: silver; font-variant-numeric: tabular-nums;">
 
@@ -1829,7 +1829,7 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.html?pos=122210121112211120000221+34&level=3&takefrommillallowed=0&moves=1FURWYNPDEGTdDICBMVQzLKMLIJQMFICFVOFCIHGFRQFIEFLETLUROVNOJNRUQRIJHIMQLMELNSOGVOJNIJLEKLWKJIUVRUQRIJKWMQWKJIKWBKCBQmnRQIJQRMQBCSnrCBJIBCIHCBNSBCSncDCHmc" target=""><b>10 men morris game</b></a>
+<a href="./Muehle.html?pos=122210121112211120000221+34&level=3&takefrommillallowed=0&moves=1FURWYNPDEGTdDICBMVQzLKMLIJQMFICFVOFCIHGFRQFIEFLETLUROVNOJNRUQRIJHIMQLMELNSOGVOJNIJLEKLWKJIUVRUQRIJKWMQWKJIKWBKCBQmnRQIJQRMQBCSnrCBJIBCIHCBNSBCSncDCHmc" target=""><b>difficult 10 men morris position</b></a>
 </td></tr>
 
 
@@ -1865,12 +1865,11 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 	</span>
 
 &nbsp; &nbsp; 
-&nbsp; &nbsp; 
 
 
 <!-- Der klickbare Radiobutton -->
 <small style=" color: maroon;">
-10 men
+ten Men Morris
 </small>
 <input  type="radio" id="10stoneBtn" title="play 10 men morris" onclick="toggle10stone()" />
 </span>
@@ -2536,7 +2535,7 @@ var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2
 initTT(globalCsize);
 
 function initTT(Csize) {
-  TT_SIZE  = 1024*1024*4>>>(Csize*2);
+  TT_SIZE  = 1024*1024*1>>>(Csize*2);
   TT_SIZE2 = TT_SIZE + (PROBES - 1);
 
   TThash32keys   = new Uint32Array(TT_SIZE2);
@@ -3420,6 +3419,20 @@ function showZugHistory(zughistoryp,zugnr) {
     return output;
     // document.getElementById("textelem").value = output;
 } /* Ende showZugHistory */
+
+
+function showZugHistoryShort(zughistoryp,zugnr) {
+    var output = "";
+    output += "pos="
+	output += spf2string(spfeld,zugnr);
+	output += "&moves=" ; 
+	output += encodeZugliste(zughistoryp, zugnr);
+	output+= "&level=" + getLevelValue();
+    return output;
+} /* Ende showZugHistoryShort */
+
+
+
 
 function initvlist(variable,anzahl)
 { for(var ivl=0; ivl<anzahl; ivl++) variable.push(new zugspeicher());}
@@ -5708,6 +5721,8 @@ window.addEventListener('keydown', e => {
 	if (e.key === 'Z') toggleZufall();
 });
 
+var lastbestwertung=0;
+
 async function computemoveA() {
 
 	if (global10stone) {
@@ -5866,28 +5881,36 @@ async function computemoveA() {
     Statistik += "Position " + savepos;
     // computemoveFertigGlobal=1;  // Optional: Entfernen, da wir jetzt mit Promise warten
 	
+
 	//TT Statistik
-	console.log(
-	"hits: " + ttHits.toLocaleString('de-DE') + " " +
-	"miss: " + ttMiss.toLocaleString('de-DE') + " " +
-	"Collision1: " + ttCollision.toLocaleString('de-DE')+ " " +
-	"Collision2: " + ttCollision2.toLocaleString('de-DE')+ " " +
-	"realCollision: " + ttRealCollision.toLocaleString('de-DE')
-	);
-	console.log( "Hitrate: " + ttHits/(ttHits + ttMiss +ttCollision+1)  );
-	let usedSlots = 0;
-	for (let i = 0; i < TThash32keys.length; i++) {
-	if (TThash32keys[i] !== 0) usedSlots++;
-	}
+	if(globalCsize<1)
+	{
+		console.log(
+		"hits: " + ttHits.toLocaleString('de-DE') + " " +
+		"miss: " + ttMiss.toLocaleString('de-DE') + " " +
+		"Collision1: " + ttCollision.toLocaleString('de-DE')+ " " +
+		"Collision2: " + ttCollision2.toLocaleString('de-DE')+ " " +
+		"realCollision: " + ttRealCollision.toLocaleString('de-DE')
+		);
+		console.log( "Hitrate: " + ttHits/(ttHits + ttMiss +ttCollision+1)  );
+		let usedSlots = 0;
+		for (let i = 0; i < TThash32keys.length; i++) {
+		if (TThash32keys[i] !== 0) usedSlots++;
+		}
 
-console.log(
-  `used Slots: ${usedSlots.toLocaleString('de-DE')} ` +
-  `free Slots: ${(TThash32keys.length - usedSlots).toLocaleString('de-DE')} ` +
-  `Slots gesamt: ${TThash32keys.length.toLocaleString('de-DE')}`
-);
-
+		console.log(
+	   `used Slots: ${usedSlots.toLocaleString('de-DE')} ` +
+	   `free Slots: ${(TThash32keys.length - usedSlots).toLocaleString('de-DE')} ` +
+	   `Slots gesamt: ${TThash32keys.length.toLocaleString('de-DE')}`
+	    );
 	//console.log("used Slots: " + usedSlots +" free Slots: "+ (TThash32keys.length-usedSlots) + " Slots gesamt: "+ TThash32keys.length);
 	console.log("Load factor:", usedSlots / TThash32keys.length);
+
+	}
+
+	
+	if(Math.abs(lastbestwertung+bestzug.wertung) > 25 && zugnr>14)  console.log("Bestwertung:"+lastbestwertung+" wird zu: "+bestzug.wertung+" "+showZugHistoryShort(zughistory,zugnr));
+	lastbestwertung=bestzug.wertung;
 }
 
 
@@ -5980,7 +6003,7 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 //checkpivotmuehlen();
 //checkquermuehlen();
 //debugverbose=1;
-console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
+if (globalCsize<1)console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
 //debugverbose=0;
 
 
@@ -6251,7 +6274,7 @@ async function berbestzug_async (rtv, restsel, alpha, beta, zufa) {  // <-- NEU:
 
   if (globalAwaitCounter > 2222) {
      var mygtime = Date.now() - globalAwaitCounterT;
-     if (mygtime < 666) {
+     if (mygtime < 777) {
        globalAwaitCounter = 0;
      } else {
        await new Promise(requestAnimationFrame);
@@ -8887,6 +8910,7 @@ function toggleRemissuche() {
 --A146PzohQma9grid.htm--  
 --Muehle147.htm--  
 --Muehle149.htm--         openmillssingleduo ersetzt das alte openmill
+--Muehle150.htm--         openmillssingleduo ersetzt das alte openmill
 
 
 */
