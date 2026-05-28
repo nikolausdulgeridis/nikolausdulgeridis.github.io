@@ -6,119 +6,44 @@ sitemap: false
 
 
 
-<style>
-h1 {
-    font-size: 1.1em;
-    margin: 0 0 16px 0px;
-}
-
-h3 {
-    font-size: 0.9em;
-    margin: 4px 0 2px 0;
-}
-
-
-#Beschreibung {
-    margin: 8px 0px 16px 0px;
-    max-width: 55ch;
-    line-height: 1.1;
-}
-
-
-ul {
-    margin: 8px 0px 16px 0px;
-    padding-left: 33px;
-    padding-top: 0px;
-}
-
-p {
-    margin: 6px 0;
-}
-
-
-</style>
-
-
-
 
 <!-- Layout Container -->
 <div style="display:flex; align-items:flex-start; gap:20px;">
 
-
-  <!-- 
+  <!-- Explorer links -->
   <iframe 
     src="https://nikolausdulgeridis.github.io/Sitemap.html"
     width="304"
     height="550"
     style="border:1px solid #ccc; border-radius:6px;">
   </iframe>
-  Title Image verkleinert -->
 
+  <!-- Rechte Seite -->
+  <div>
 
-
-
-    <!-- Sitemap Button -->
-
-    <!-- Intro Text -->
-<div>
-
-<h1>Sloppy Mill - Online Mühle Spiel</h1>
-
-<h3>Folgende Inhalte sind hier zu finden:</h3>
-
-<ul>
-  <li><em><span style="font-family: Tahoma;">Sloppy Mill</span></em> <br> Online Mühle Spiel und Analyseprogramm</li>
-</ul>
-
-<h3>Computerthemen</h3>
-<ul>
-  <li>Linux Shell Anwendungen</li>
-  <li>JavaScript Beispiele und Tools</li>
-  <li>NAS Energieverbrauch optimieren</li>
-  <li>URL Decoder</li>
-  <li>Projekt Home automation mit Grafner Funksteckdose</li>  
-</ul>
-
-
-<p id="Beschreibung">
-<em>Sloppy Mill</em> ist ein Online Mühle Spiel (Nine Men's Morris), das direkt im Browser gespielt werden kann.
-Zusätzlich bietet es Analysefunktionen und unterstützt die Variante Ten Men's Morris.
-Unterstützt klassische (WMD) und Kurnik Notation (playok). 
-Spielstände können gesichert und mit anderen geteilt werden. 
-</p>
-<div>Viele Inhalte gibt es zweisprachig in Deutsch und Englisch.</div>
-<div>Enjoy 🙂</div>
-
-
-
-    <div
-        id="toggleBtnU"
-        onclick="toggleAufgaben();"
-        style="
-            display: inline-block;
-            padding: 10px 16px;
-            background-color: #eee;
-            border: 1px solid #333;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.8em;
-            user-select: none;
-            margin-top:20px;
-        "
-    >
-        <a href="/Sitemap.html" target="_self" title="Sloppy Mill Sitemap" style="text-decoration: none; color: #459;">
-            <b>Sitemap</b>
-        </a>
-    </div>
-</div>
-
-
+    <!-- Title Image verkleinert -->
     <img id="titlePicture"
          src="data:image/gif;base64,R0lGODlhAQABAJEAAAAAAAAAAAAAAAAAACH5BAkIAAEALAAAAAABAAEAAAICTAEAOw=="
          width="700"
          height="466"
 		 style="object-fit:cover; border:2px solid black; display:block; margin-bottom:10px;"		
-		 alt="Sloppy Mill – Online Mühle Spiel Ankündigung"		 />
+         alt="Homepage Nikolaus Dulgeridis, special: nine and ten men morris game full analyse board" />
+
+<p id="introduce">
+<b>Willkomen auf der Hompage von Nikolaus Dulgeridis. </b><br><br>
+Hier geht es um Computerthemen zum Schwerpunkt Linux und JavaScript. <br>
+Besonderheit ist ein Mills game full analyse board.<br>
+Neu: nun auch inklusive <b>Ten Men Morris</b> <br>
+Viele Inhalte gibt es zweisprachig in deutsch und englisch.<br>
+Enjoy.
+</p>
+
+  </div>
+
+</div>
+
+
+
 
 <style>
 #navMillHeader h1 {
@@ -136,8 +61,6 @@ Spielstände können gesichert und mit anderen geteilt werden.
 <br><br>
 
 <script>
-if (typeof globalLanguageFlag == "undefined") globalLanguageFlag = "de";
-
 var leer=new Image();
 var Unterhaltung=new Image();
 var Entertain=new Image();
@@ -178,5 +101,5 @@ setInterval(() => {
             setTitlePictureEn();
         }
     }
-}, 1000);
+}, 300);
 </script>
