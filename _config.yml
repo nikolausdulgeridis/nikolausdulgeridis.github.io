@@ -19,10 +19,16 @@ defaults:
       layout: "default"
 
   - scope:
-      path: "/google*"
+      path: "google*"
       type: "pages"
     values:
       sitemap: false
+
+  - scope:
+      path: "sitemap.xml"
+    values:
+      layout: null
+
 
 
 plugins:
