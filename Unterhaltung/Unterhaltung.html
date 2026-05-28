@@ -7,13 +7,32 @@ sitemap: false
 <!-- Layout Container -->
 <div style="display:flex; align-items:flex-start; gap:20px;">
 
-  <!-- Explorer links -->
+  <!-- Explorer links 
   <iframe 
     src="https://nikolausdulgeridis.github.io/Sitemap.html"
     width="304"
     height="550"
     style="border:1px solid #ccc; border-radius:6px;">
   </iframe>
+	-->
+    <div
+        id="btnSitemap"
+        style="
+            display: inline-block;
+            padding: 6px 8px;
+            background-color: #eee;
+            border: 1px solid #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.4em;
+            user-select: none;
+            margin-top:20px;
+        "
+    >
+        <a href="/Sitemap.html" target="_self" title="Sloppy Mill Sitemap" style="text-decoration: none; color: #459;">
+            <b>Sitemap</b>
+        </a>
+    </div>
 
   <!-- Rechte Seite -->
   <div>
@@ -33,6 +52,8 @@ sitemap: false
 <br><br>
 
 <script>
+if (typeof globalLanguageFlag == "undefined") globalLanguageFlag = "de";
+
 var leer=new Image();
 var Unterhaltung=new Image();
 var Entertain=new Image();
@@ -70,5 +91,5 @@ setInterval(() => {
             setTitlePictureEn();
         }
     }
-}, 300);
+}, 1000);
 </script>
