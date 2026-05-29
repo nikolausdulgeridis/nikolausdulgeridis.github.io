@@ -1,4 +1,66 @@
 <!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>404 – Seite nicht gefunden</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+  </style>
+
+  <script>
+    (function() {
+      const path = window.location.pathname.toLowerCase();
+      const query = window.location.search; // Parameter behalten
+	const path = window.location.pathname.toLowerCase();
+
+      // Spezialfall: muehle.htm
+      if (path.includes("muehle.htm")) {
+        window.location.replace(
+          "/Unterhaltung/Muehle.html" + query
+        );
+        return;
+      }
+
+      // Standard: nach 5 Sekunden zur Startseite
+      setTimeout(function() {
+        window.location.href = "/";
+      }, 5000);
+    })();
+  </script>
+</head>
+
+<body>
+  <h1>404 – Page not found</h1>
+
+  <p>The requested page does not exist.</p>
+  <p>(GitHub Pages is very strict about case sensitivity.)</p>
+
+  <p> You will be redirected to the homepage in 5 seconds.  </p>
+
+  <p> <a href="/">Go to homepage now</a>  </p>
+
+  <hr>
+
+  <h1>404 – Seite nicht gefunden</h1>
+
+  <p>Die angeforderte Seite existiert nicht.</p>
+  <p>(GitHub ist sehr streng bei Groß- und Kleinschreibung.)</p>
+
+  <p> Du wirst in 5 Sekunden zur Startseite weitergeleitet.  </p>
+
+  <p> <a href="/">Jetzt zur Startseite</a> </p>
+</body>
+
+
+</html>
+
+<!-- old version 
+<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="refresh" content="0; url=/index.html">
@@ -10,3 +72,4 @@
   <p>Redirecting...</p>
 </body>
 </html>
+-->
