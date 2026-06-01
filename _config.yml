@@ -25,10 +25,9 @@ defaults:
       sitemap: false
 
   - scope:
-      path: "sitemap.xml"
+      path: "/sitemap.xml"
     values:
       layout: null
-
 
 
 plugins:
