@@ -2667,14 +2667,8 @@ function TTclear() {
 
 
 function ttIndex_alt(hash32) { return (hash32 >>> 0) % TT_SIZE; }
-
-function ttIndex(hash32) {
-    hash32 ^= hash32 >>> 16;
-    return hash32 & (TT_SIZE - 1);
-}
-
+function ttIndex(hash32)  {hash32 ^= hash32 >>> 16; return hash32 & (TT_SIZE - 1); }
 function ttIndex0(hash32) {hash32 ^= hash32 >>> 16; return hash32 & (TT_SIZE - 1); }
-
 function ttIndex1(hash32) {
     hash32 ^= hash32 >>> 15;
     hash32 *= 0x85ebca6b;
@@ -2719,8 +2713,8 @@ function protectedByDepthHeight(idx, hb) {
 
   return (
     depth[idx] > hb.searchdepth &&
-    height[idx] > hb.height &&
-    Math.abs(height[idx] - hb.height) < 20
+    height[idx]+1 > hb.height &&
+    Math.abs(height[idx] - hb.height) < 22
   );
 
 }
@@ -2787,7 +2781,7 @@ function writeTohash32(hb) {
 
   const idx0 = ttIndex0(key); // Hauptslot
   //const idx1 = ttIndex1(key); // Nebenslot
-  const idx1 = idx0+1; //ttIndex1(key); // Nebenslot
+  const idx1 = idx0+1; // Nebenslot
 
   
   if(hb.zf==0) {console.log("Fehler bei write 2"); return}
@@ -2839,84 +2833,96 @@ function writeTohash32(hb) {
 }
 
 
-// ********************** write to hash 
-
-function writeTohash32_oldversion(hb) {
-    const idx = ttIndex(hb.Hash32key);
-
-    // Replacement-Strategie: Depth bevorzugen
-    if (TThash32keys[idx] !== 0) {
-        //if (depth[idx] > hb.searchdepth) return;
-        if (depth[idx] > hb.searchdepth && height[idx]+4 > hb.height && Math.abs(height[idx]-hb.height)<12) return;
-    }
-
-    TThash32keys[idx] = hb.Hash32key >>> 0;
-
-    //TTchecksum8[idx] = hb.checksum8 & 0xFF;
-	TTchecksum48[idx] = hb.checksum48;
-	//TTchecksum48[idx] = hb.checksum48 % 0x10000000000000; // 2^52
-
-    //TTaf[idx] = hb.af & 0xFF;
-    //TTzf[idx] = hb.zf & 0xFF;
-    //TTwnf[idx] = hb.wnf & 0xFF;
-    //flags[idx] = hb.TTflag & 0xFF;
-	// gepackt in 32 Bit Array 
-    TTafzfwnfflags[idx] =
-    (hb.af & 0xFF) |
-    ((hb.zf & 0xFF) << 8) |
-    ((hb.wnf & 0xFF) << 16) |
-    ((hb.TTflag & 0xFF) << 24);
-
-    // Bewertung 
-    TTwertung[idx] = hb.wertung;
-    //TTwertung[idx] = Math.round(hb.wertung*10);
-
-    depth[idx] = hb.searchdepth & 0xFF;
-    height[idx] = hb.height & 0xFF;
-}
 
 // ********************** write to hash 
 // ********************** write to hash 
 // ********************** write to hash 
+
 
 function readFromhash32(hash32, checksum52) {
- 
-  // ---------- Probe 0 (Hauptslot) ----------
+
   const idx0 = ttIndex0(hash32);
+  //const idx1 = ttIndex1(hash32);
+  const idx1 = idx0+1;  // Nebenslot
 
-  if (TThash32keys[idx0] == 0) { ttMiss++;	return null; }
+  let bestIdx = -1;
 
-  if (TThash32keys[idx0] == hash32) 
-	{
-		if ( ((TTchecksum48[idx0] & 0xFFFFFFFF) >>> 0) != ((checksum52 & 0xFFFFFFFF) >>> 0) ) 
-			{ttRealCollision++; if(0)console.log("collision1 "+" "+ ttRealCollision +" "+(TTchecksum48[idx0] ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16))}
-		else 
-		{
-			ttHits++;
-			TTgen[idx0] = currentGen;   // Aging refresh 
-			return decodeEntry(idx0);
-		} 
-	}
-  ttCollision++;    
+  // ---------- Probe 0 ----------
+  if (TThash32keys[idx0] !== 0 && TThash32keys[idx0] === hash32) {
+    if ( ((TTchecksum48[idx0] & 0xFFFFFFFF) >>> 0) === ((checksum52 & 0xFFFFFFFF) >>> 0) ) {
+      bestIdx = idx0;
+    } else {
+      ttRealCollision++;
+    }
+  } else {
+    if (TThash32keys[idx0] !== 0) ttCollision++;
+  }
 
-  // ---------- Probe 1 (Nebenslot) ----------
-  const idx1 = ttIndex1(hash32);
+  // ---------- Probe 1 ----------
+  if (TThash32keys[idx1] !== 0 && TThash32keys[idx1] === hash32) {
+    if ( ((TTchecksum48[idx1] & 0xFFFFFFFF) >>> 0) === ((checksum52 & 0xFFFFFFFF) >>> 0) ) {
 
-  if (TThash32keys[idx1] == hash32) 
-	{
-		if ( ((TTchecksum48[idx1] & 0xFFFFFFFF) >>> 0) != ((checksum52 & 0xFFFFFFFF) >>> 0) ) 
-			{ttRealCollision++; if(0)console.log("collision1 "+" "+ ttRealCollision +" "+(TTchecksum48[idx1] ).toString(16)+" "+(spfeld2hash(spfeld)).toString(16))}
-		else 
-		{
-			ttHits++;
-			TTgen[idx1] = currentGen;   // Aging refresh 
-			return decodeEntry(idx1);
-		} 
-	}
-   ttCollision++;
-   ttCollision2++;
-   return null;
+      if (bestIdx === -1) {
+        bestIdx = idx1;
+      } else {
+        // 🔥 beide gültig → besseren wählen
+        bestIdx = betterEntry(bestIdx, idx1);
+      }
+
+    } else {
+      ttRealCollision++;
+    }
+  } else {
+    if (TThash32keys[idx1] !== 0) ttCollision++;
+  }
+
+  // ---------- Ergebnis ----------
+  if (bestIdx !== -1) {
+    ttHits++;
+    TTgen[bestIdx] = currentGen;
+    return decodeEntry(bestIdx);
+  }
+
+  ttMiss++;
+  ttCollision2++;
+  return null;
 }
+
+
+
+function betterEntry(i0, i1) {
+  const f0 = getFlag(i0);
+  const f1 = getFlag(i1);
+
+  const exact0 = (f0 === TTFlag.EXACT);
+  const exact1 = (f1 === TTFlag.EXACT);
+
+  // 1. EXACT gewinnt immer
+  if (exact0 && !exact1) return i0;
+  if (!exact0 && exact1) return i1;
+
+  // 2. größere Tiefe gewinnt
+  if (depth[i0] > depth[i1]) return i0;
+  if (depth[i1] > depth[i0]) return i1;
+
+  // 3. jünger gewinnt (kleiner age)
+  const a0 = ageOf(i0);
+  const a1 = ageOf(i1);
+
+  if (a0 < a1) return i0;
+  if (a1 < a0) return i1;
+
+  // 4. Tie-Break: Hauptslot bevorzugen
+  return i0;
+}
+
+
+
+
+
+
+
+
 
 
 function decodeEntry(idx) {
@@ -6247,14 +6253,14 @@ if (rootEntry) {
     }
 	
 	// Zuege der Ieration fertig
-	if(isRunning && rtvi>2) 
+	if(isRunning ) 
 	{
        // Hashkey ermitteln
 		var hashbucket= new TThashBucket();
 		const [h32, h52] = spfeld2hash32(spfeld, zugnr);
 		hashbucket.Hash32key  = h32; // 32 Bit
 		// Hasheintrag schreiben sofern Zugberechnung nicht abgebrochen und mindestens 4 Hz
-		if(isRunning && rtvi>2) 
+		if(isRunning && rtvi>0) 
 		{
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld)); // 8 Bit 
 			hashbucket.checksum48  = h52; // 48 Bit 
@@ -6912,6 +6918,8 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 			hashbucket.zf  = bestzug2.zf;
 			hashbucket.wnf = bestzug2.wnf;
 
+			if(0) // Pruefung wird hier umgangen, an der Stelle immer exakt 
+			{
 			// FLAG bestimmen
 			if (bestwertung <= alphaOrig)
 				hashbucket.TTflag = TTFlag.UPPERBOUND;
@@ -6919,7 +6927,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 				hashbucket.TTflag = TTFlag.LOWERBOUND;
 			else
 				hashbucket.TTflag = TTFlag.EXACT;
+			}
 
+			hashbucket.TTflag = TTFlag.EXACT;
 			writeTohash32(hashbucket);
 		}
 
@@ -9673,7 +9683,7 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle147.htm--  
 --Muehle149.htm--         openmillssingleduo ersetzt das alte openmill
 --Muehle150.htm--         TTWertung: 1 Nachkommastelle (oder auch nicht)
---Muehle154.htm--         playok Notation + Faq
+--Muehle154.htm--         playok Notation, Faq, TT readFromhash32: es werden immer beide probes geholt und die bessere zurückgegeben  
 
 
 */
