@@ -762,7 +762,7 @@ function closelayer() {
     document.getElementById("nervigerlayer").style.display = 'none'; 
 }
 
-window.setTimeout(closeEinleitung, 6000); 
+window.setTimeout(closeEinleitung, 4000); 
 function closeEinleitung() {
     document.getElementById("einleitung").style.display = 'none'; 
 }
@@ -2258,7 +2258,7 @@ async function selfplayauto() {
         await computemove();           // Berechnet + führt aus → farbe & zugnr bereits korrekt
         highafstarted=1;
         await highaf();                // Animation bis zum Ende warten
-        await new Promise(r => setTimeout(r, 500));  // halbe Sekunde Pause
+        await new Promise(r => setTimeout(r, timebase*1.5/animationspeed ));  // halbe Sekunde Pause
         highafstarted=0;
 
         if (selfplaymode) {
@@ -2268,7 +2268,8 @@ async function selfplayauto() {
 }
 
 var mymove = 0;
-var timebase = 333;
+var animationspeed=1; 
+var timebase = 333/animationspeed;
 var highafstarted=0;
 // highaf startet die Animation und gibt ein Promise zurück
 function highaf() {
@@ -2593,7 +2594,7 @@ var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2
 initTT(globalCsize);
 
 function initTT(Csize) {
-  TT_SIZE  = 1024*1024*1>>>(Csize*2);
+  TT_SIZE  = 1024*1024*4>>>(Csize*3);
   TT_SIZE2 = TT_SIZE + (PROBES - 1);
 
   TThash32keys   = new Uint32Array(TT_SIZE2);
@@ -2719,7 +2720,7 @@ function protectedByDepthHeight(idx, hb) {
   return (
     depth[idx] > hb.searchdepth &&
     height[idx] > hb.height &&
-    Math.abs(height[idx] - hb.height) < 16
+    Math.abs(height[idx] - hb.height) < 20
   );
 
 }
@@ -5805,6 +5806,7 @@ window.addEventListener('keydown', e => {
 	if (e.key === 'T') toggleZugstatistik();
 	if (e.key === 'z') toggleZufall();
 	if (e.key === 'Z') toggleZufall();
+	if (e.key === '+') toggleAnimationspeed();
 });
 
 var lastbestwertung=0;
@@ -6201,7 +6203,7 @@ if (rootEntry) {
 			rtvdelaymove[rtvi]=new zugspeicher();
 			rtvdelaymovezugliste[rtvi]=[];
 			}
-		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>30) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
+		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>12) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
 		  rtvdelay+=1; // Bestzug gekippt, setze mit reduzierter Suchtiefe fort
 		  copyzugspei(nextzug,rtvdelaymove[rtvi]); 
          rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
@@ -8856,7 +8858,6 @@ if (globalToggleBg) document.getElementById("board").style.backgroundImage = "ur
 else document.getElementById("board").style.backgroundImage = "url("+ board30_add27_L9_marmor +")";
 }
 
-
 function toggleLang() {
     if(givelanguage()=="de") {melde("Language en"); setlangen();return}
     if(givelanguage()=="en") {melde("Language de"); setlangde();return}
@@ -8974,6 +8975,19 @@ function toggleCache() {
 	initTT(globalCsize);
     melde(CacheSizeString);
 }
+
+
+function toggleAnimationspeed() {
+	if (typeof timebase == "undefined") return;
+	if (typeof animationspeed == "undefined") return;
+	animationspeed*=2;
+	if(animationspeed>8) animationspeed=1;
+	timebase=333/animationspeed;
+    melde("Animation Speed " + animationspeed);
+}
+
+
+
 
 // Remissuche: In der Grundeinstellung bekommt jeder Zug einen zufälligen Bonus (zufbonus). 
 // Das hat den Effekt, dass das Programm im Grundsatz optimistisch gestimmt ist, da sich auch in ausgeglichenen Stellungen fast immer ein Zug mit einer positiven Wertung findet. 
@@ -9210,18 +9224,18 @@ function convertPlayOkToWmd(playOkString) {
 // ==========================================
 
 // Test 1: Extrem unsaubere Formatierung (sollte fehlerfrei durchlaufen)
-const unsauber = "1. 4 5\n1.4 5\n8. 19x 10 10 9. 22 x 20 20   10.  14-13 2-- 3"; 
+//const unsauber = "1. 4 5\n1.4 5\n8. 19x 10 10 9. 22 x 20 20   10.  14-13 2-- 3"; 
 // Hinweis zum Test: Die doppelte "1. 4 5" am Anfang sorgt laut Logik bei der zweiten "1." für einen Abbruch, 
 // daher testen wir hier die bereinigten Zeilen einzeln oder als fortlaufendes Protokoll.
 
-console.log("--- Test 1 (Toleranz-Test) ---");
-const testInput1 = "1. 4 5 2. 14 20 8. 19x10 10 9. 22 x 20 20 10. 14-13 2--3";
-console.log(convertPlayOkToWmd(testInput1));
+//console.log("--- Test 1 (Toleranz-Test) ---");
+//const testInput1 = "1. 4 5 2. 14 20 8. 19x10 10 9. 22 x 20 20 10. 14-13 2--3";
+//console.log(convertPlayOkToWmd(testInput1));
 
 // Test 2: Ihr Abbruch-Beispiel (Sollte exakt nach der 14 stoppen)
-console.log("\n--- Test 2 (Abbruch-Test) ---");
-const testInput2 = "1. 4 5 2. 14 3. 12";
-console.log(convertPlayOkToWmd(testInput2));
+//console.log("\n--- Test 2 (Abbruch-Test) ---");
+//const testInput2 = "1. 4 5 2. 14 3. 12";
+//console.log(convertPlayOkToWmd(testInput2));
 
 
 
