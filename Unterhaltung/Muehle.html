@@ -2590,7 +2590,7 @@ let height;
 let TTgen;
 var CacheSizeString="";
 
-var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2=1,7MB
+var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2=1,7MB // 3 Stufen: 0=88MB 1=11MB 2=1,7MB
 initTT(globalCsize);
 
 function initTT(Csize) {
@@ -6493,7 +6493,7 @@ if (rootEntry) {
 		const [h32, h52] = spfeld2hash32(spfeld, zugnr);
 		hashbucket.Hash32key  = h32; // 32 Bit
 		// Hasheintrag schreiben sofern Zugberechnung nicht abgebrochen und mindestens 4 Hz
-		if(isRunning && rtvi>0) 
+		if(isRunning && rtvi>1) 
 		{
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld)); // 8 Bit 
 			hashbucket.checksum48  = h52; // 48 Bit 
@@ -6502,7 +6502,8 @@ if (rootEntry) {
 			hashbucket.wnf = bestzug.wnf; // 0..24
 			hashbucket.wertung = aktwertung; //-10000 ... +1000  
 			hashbucket.searchdepth = searchdepth; // 0..31
-			hashbucket.TTflag = TTFlag.LOWERBOUND; // 1..3 
+			//hashbucket.TTflag = TTFlag.LOWERBOUND; // 1..3 
+			hashbucket.TTflag = TTFlag.EXACT; // 1..3 
 			hashbucket.height = searchdepth+zugnr; // 0..24	
             writeTohash32(hashbucket);
 		}		
@@ -6687,12 +6688,14 @@ if (alpha >= beta) {
     let needVerify =
         entry.searchdepth < rtv || 
         entry.TTflag !== TTFlag.EXACT ||
-        Math.abs(entry.wertung - beta) < 9; // Margin frei wählbar
+        Math.abs(entry.wertung - beta) < 5; // Margin frei wählbar
 
      if((Math.abs(entry.wertung) >300) && (Math.abs(entry.wertung) <998) ) needVerify =false; // wenn Gewinnwert
 
     if (needVerify) {
         // Verifiziere mit enger Suche
+
+if (globalCsize<2)console.log("start Verification Search");
         let verifyList = await berbestzug_async(
             rtv - 1,
             restsel,
@@ -6700,6 +6703,7 @@ if (alpha >= beta) {
             betaOrig,
             Math.floor(zufa/2)
         );
+if (globalCsize<2)console.log("end Verification Search");
 
         let verifyScore = verifyList[verifyList.length - 1].wertung;
 
