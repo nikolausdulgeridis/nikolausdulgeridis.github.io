@@ -2712,8 +2712,8 @@ function protectedByDepthHeight(idx, hb) {
   if (flag !== TTFlag.EXACT) return false;
 
   return (
-    (depth[idx] > hb.searchdepth ||
-    height[idx] > hb.height )
+    depth[idx] > hb.searchdepth &&
+    height[idx] +1 > hb.height 
 	&&
     Math.abs(height[idx] - hb.height) < 22
   );
@@ -2757,6 +2757,18 @@ function shouldOverwriteSameKey(idx, hb) {
 // Schreiboperation in Arrays
 function writeEntryAt(idx, hb) {
   if(hb.zf==0) {console.log("Fehler bei write 1"); return}
+  
+  if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // Gewinn in x gilt für die Stellung auch bei hoher Suchtiefe
+  {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
+	    hb.searchdepth=32;
+	 else
+	    if (globalfast) 
+			hb.searchdepth=Math.max(hb.searchdepth, 16);
+		else
+			hb.searchdepth=Math.max(hb.searchdepth, 6);
+  }
+  else
+    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
 
   TThash32keys[idx] = hb.Hash32key >>> 0;
   TTchecksum48[idx] = hb.checksum48;
@@ -3059,6 +3071,26 @@ new Array(10,0,0,23), new Array(20,0,22,24), new Array(15,0,23,0));
 
 const eckfeld= new Array (1,0,1, 2,0,2, 1,0,1, 0,0,0, 0,0,0, 1,0,1, 2,0,2, 1,0,1);
 
+// Transponieren in 4 Uint8Arrays
+const zugmatr0 = new Uint8Array(zugmatr.length);
+const zugmatr1 = new Uint8Array(zugmatr.length);
+const zugmatr2 = new Uint8Array(zugmatr.length);
+const zugmatr3 = new Uint8Array(zugmatr.length);
+
+for (let i = 0; i < zugmatr.length; i++) {
+  zugmatr0[i] = zugmatr[i][0];
+  zugmatr1[i] = zugmatr[i][1];
+  zugmatr2[i] = zugmatr[i][2];
+  zugmatr3[i] = zugmatr[i][3];
+}
+
+
+if(0){
+	console.log(zugmatr0);
+	console.log(zugmatr1);
+	console.log(zugmatr2);
+	console.log(zugmatr3);
+}
 
 
 // ***********************************************
@@ -3072,7 +3104,7 @@ const eckfeld= new Array (1,0,1, 2,0,2, 1,0,1, 0,0,0, 0,0,0, 1,0,1, 2,0,2, 1,0,1
 //Pivot Muehlen:
 const pvmatr= new Array (1,24,7,18,4,21); // 4+21 sind Mittelreihe, daher am Ende
 
-
+//! zugmatropt korrespondiert nicht mehr mit pmuehmatr (waager-senkr) ud spart lediglich 1 Nanosekunde
 const zugmatropt= new Array(
 new Array(0,0,0,0) ,
 new Array(10,2,0,0) , new Array(5,1,3,0)   , new Array(15,2,0,0),
@@ -3085,20 +3117,20 @@ new Array(11,20,0,0),new Array(17,23,19,21), new Array(14,20,0,0),
 new Array(10,23,0,0), new Array(20,22,24,0), new Array(15,23,0,0));
 
 
-//const zugmatropt0 = new Uint8Array([  0, 10, 5, 15, 11, 2, 14, 12, 5, 13, 1, 4, 7, 9, 6, 3, 12, 20, 13, 11, 17, 14, 10, 20, 15]);
-//const zugmatropt1 = new Uint8Array([  0, 2, 1, 2, 5, 8, 5, 8, 7, 8, 22, 19, 16, 18, 21, 24, 17, 16, 17, 20, 23, 20, 23, 22, 23]);
-//const zugmatropt2 = new Uint8Array([  0, 0, 3, 0, 0, 4, 0, 0, 9, 0, 11, 10, 11, 14, 13, 14, 0, 18, 0, 0, 19, 0, 0, 24, 0]);
-//const zugmatropt3 = new Uint8Array([  0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 12, 0, 0, 15, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0]);
+const zugmatropt0 = new Uint8Array([  0, 10, 5, 15, 11, 2, 14, 12, 5, 13, 1, 4, 7, 9, 6, 3, 12, 20, 13, 11, 17, 14, 10, 20, 15]);
+const zugmatropt1 = new Uint8Array([  0, 2, 1, 2, 5, 8, 5, 8, 7, 8, 22, 19, 16, 18, 21, 24, 17, 16, 17, 20, 23, 20, 23, 22, 23]);
+const zugmatropt2 = new Uint8Array([  0, 0, 3, 0, 0, 4, 0, 0, 9, 0, 11, 10, 11, 14, 13, 14, 0, 18, 0, 0, 19, 0, 0, 24, 0]);
+const zugmatropt3 = new Uint8Array([  0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 12, 0, 0, 15, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0]);
 
-const zugmatropt0 = new Array(  0, 10, 5, 15, 11, 2, 14, 12, 5, 13, 1, 4, 7, 9, 6, 3, 12, 20, 13, 11, 17, 14, 10, 20, 15);
-const zugmatropt1 = new Array(  0, 2, 1, 2, 5, 8, 5, 8, 7, 8, 22, 19, 16, 18, 21, 24, 17, 16, 17, 20, 23, 20, 23, 22, 23);
-const zugmatropt2 = new Array(  0, 0, 3, 0, 0, 4, 0, 0, 9, 0, 11, 10, 11, 14, 13, 14, 0, 18, 0, 0, 19, 0, 0, 24, 0);
-const zugmatropt3 = new Array(  0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 12, 0, 0, 15, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0);
+//const zugmatropt0 = new Array(  0, 10, 5, 15, 11, 2, 14, 12, 5, 13, 1, 4, 7, 9, 6, 3, 12, 20, 13, 11, 17, 14, 10, 20, 15);
+//const zugmatropt1 = new Array(  0, 2, 1, 2, 5, 8, 5, 8, 7, 8, 22, 19, 16, 18, 21, 24, 17, 16, 17, 20, 23, 20, 23, 22, 23);
+//const zugmatropt2 = new Array(  0, 0, 3, 0, 0, 4, 0, 0, 9, 0, 11, 10, 11, 14, 13, 14, 0, 18, 0, 0, 19, 0, 0, 24, 0);
+//const zugmatropt3 = new Array(  0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 12, 0, 0, 15, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0);
 
-const pmuehmatr0 = new Array(0, 2, 1, 1, 5, 4, 4, 8, 7, 7, 11, 10, 10, 14, 13, 13, 17, 16, 16, 20, 19, 19, 23, 22, 22);
-const pmuehmatr1 = new Array(0, 3, 3, 2, 6, 6, 5, 9, 9, 8, 12, 12, 11, 15, 15, 14, 18, 18, 17, 21, 21, 20, 24, 24, 23);
-const pmuehmatr2 = new Array(0, 10, 5, 15, 11, 2, 14, 12, 2, 13, 1, 4, 7, 9, 6, 3, 7, 20, 9, 4, 17, 6, 1, 17, 3);
-const pmuehmatr3 = new Array(0, 22, 8, 24, 19, 8, 21, 16, 5, 18, 22, 19, 16, 18, 21, 24, 12, 23, 13, 11, 23, 14, 10, 20, 15);
+const pmuehmatr0 = new Uint8Array([ 0, 2, 1, 1, 5, 4, 4, 8, 7, 7, 11, 10, 10, 14, 13, 13, 17, 16, 16, 20, 19, 19, 23, 22, 22 ]);
+const pmuehmatr1 = new Uint8Array([ 0, 3, 3, 2, 6, 6, 5, 9, 9, 8, 12, 12, 11, 15, 15, 14, 18, 18, 17, 21, 21, 20, 24, 24, 23 ]);
+const pmuehmatr2 = new Uint8Array([ 0, 10, 5, 15, 11, 2, 14, 12, 2, 13, 1, 4, 7, 9, 6, 3, 7, 20, 9, 4, 17, 6, 1, 17, 3 ]);
+const pmuehmatr3 = new Uint8Array([ 0, 22, 8, 24, 19, 8, 21, 16, 5, 18, 22, 19, 16, 18, 21, 24, 12, 23, 13, 11, 23, 14, 10, 20, 15 ]);
 
 
 function zggcountsingle(feld){
@@ -3862,7 +3894,7 @@ function bewerte(zuf, mwert)
 	   { 
 	   if(takefrommillallowed) return 900-rta;  // Farbe hat Muehle=> Gewinn
 	   if (zughistory[zugnr-1].wnf==0) return 900-rta; // tfma Farbe hat Muehle=> Gewinn 
-	   return 111; // tfma Farbe hat Muehle aber kann nicht schlagen=> Gewinn, aber in einer Nebenvariante
+	   return 222; // tfma Farbe hat Muehle aber kann nicht schlagen=> Gewinn, aber in einer Nebenvariante
 	   }
 	if (om==-2) // Farbe hat keine Muehle, aber der Gegner 2 => -Gewinn
 	   {
@@ -4589,56 +4621,135 @@ function makezgglistziehen_grok(zuglist, farbex) {
 }
 
 
-
 if(0) alert("################");
-function zggcounty (farbex)
+function zggcounty_nurdebug (farbex)
 {
  var af,zf,wnf,ri;
  var zugsum=0;
  var msum= 0;
+ Obaf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Unaf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Unzf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Liaf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Reaf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ Rezf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ 
  for(af=1; af<=24; af+=1)
  {
+console.log("---");
+
+   waagerechtflag=0;
    if (spfeld[af] == farbex)
    {
-    zf = zugmatropt0[af];
-    if(zf) if (spfeld[zf]==0)
+    zf = zugmatr0[af]; // Zug nach oben
+    if(zf) if (spfeld[zf]==0) // Feld leer, kann betreten werden
       { zugsum+=1;
-        if  (spfeld[pmuehmatr0[zf]] == farbex)
-         if (spfeld[pmuehmatr1[zf]] == farbex)
-           msum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex) //waager Muehle1
+         if (spfeld[pmuehmatr1[zf]] == farbex) //waager Muehle2
+           {msum+=1; Obaf=af;Obzf=zf;
+		   	console.log(
+	"msum "+msum+
+	" Obaf:"+Obaf+
+	" Obzf:"+Obzf+
+	" Unaf:"+Unaf+
+	" Unzf:"+Unzf+
+
+	" Liaf:"+Liaf+
+	" Lizf:"+Lizf+
+	" Reaf:"+Reaf+
+	" Rezf:"+Rezf);
+}
       }
-    zf = zugmatropt1[af];
-    if(zf) if (spfeld[zf]==0)
+    zf = zugmatr1[af]; // Zug nach unten
+    if(zf) if (spfeld[zf]==0) // Feld leer, kann betreten werden
       { zugsum+=1;
-        if  (spfeld[pmuehmatr0[zf]] == farbex)
-         if (spfeld[pmuehmatr1[zf]] == farbex)
-           msum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex) //waager Muehle1
+         if (spfeld[pmuehmatr1[zf]] == farbex) //waager Muehle1
+           {msum+=1; Unaf=af;Unzf=zf;
+		   	console.log(
+	"msum "+msum+
+	" Obaf:"+Obaf+
+	" Obzf:"+Obzf+
+	" Unaf:"+Unaf+
+	" Unzf:"+Unzf+
+
+	" Liaf:"+Liaf+
+	" Lizf:"+Lizf+
+	" Reaf:"+Reaf+
+	" Rezf:"+Rezf);
+}
       }
 
-    zf = zugmatropt2[af];    
+    zf = zugmatr2[af];    // Zug nach li
 	if(zf) 
-	{ //---
 	      if (spfeld[zf]==0)
       { zugsum+=1;
-        if  (spfeld[pmuehmatr2[zf]] == farbex)
-         if (spfeld[pmuehmatr3[zf]] == farbex)
-           msum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex) //senkr Muehle1
+         if (spfeld[pmuehmatr3[zf]] == farbex) //senkr Muehle2
+           {msum+=1; Liaf=af;Lizf=zf;
+		   	console.log(
+	"msum "+msum+
+	" Obaf:"+Obaf+
+	" Obzf:"+Obzf+
+	" Unaf:"+Unaf+
+	" Unzf:"+Unzf+
+
+	" Liaf:"+Liaf+
+	" Lizf:"+Lizf+
+	" Reaf:"+Reaf+
+	" Rezf:"+Rezf);
+}
       }
-    zf = zugmatropt3[af];
+    zf = zugmatr3[af];	// Zug nach re
     if(zf) if (spfeld[zf]==0)
       { zugsum+=1;
-        if  (spfeld[pmuehmatr2[zf]] == farbex)
-         if (spfeld[pmuehmatr3[zf]] == farbex)
-           msum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex) //senkr Muehle1
+         if (spfeld[pmuehmatr3[zf]] == farbex) //senkr Muehle2
+           {msum+=1; Reaf=af;Rezf=zf;
+		   	console.log(
+	"msum "+msum+
+	" Obaf:"+Obaf+
+	" Obzf:"+Obzf+
+	" Unaf:"+Unaf+
+	" Unzf:"+Unzf+
+
+	" Liaf:"+Liaf+
+	" Lizf:"+Lizf+
+	" Reaf:"+Reaf+
+	" Rezf:"+Rezf);
+
+		   }
       }
-	}  // ---
 	  
    }
  }
  if (zugnr>17)
    { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 111};;
+	
+	//if (msum) if(erfolgfeldwzf==erfolgfeldszf) msum--;
+	
+	if (msum>2) //if(erfolgfeldwzf!=erfolgfeldszf) 
+	console.log(
+	"msum "+msum+
+	" Obaf:"+Obaf+
+	" Obzf:"+Obzf+
+	" Unaf:"+Unaf+
+	" Unzf:"+Unzf+
+
+	" Liaf:"+Liaf+
+	" Lizf:"+Lizf+
+	" Reaf:"+Reaf+
+	" Rezf:"+Rezf);
+	if (msum>1) //if(erfolgfeldwzf!=erfolgfeldszf) 
+	console.log(thispos());
+
+	if (msum>2) debugger;
+
+
+	if (msum>1) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 444};}
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -4646,6 +4757,14 @@ function zggcounty (farbex)
      return zugsum + (msum?stwert:0);
    }
  else return zugsum + msum + msum;
+}
+
+
+//Testposition? pos=020100101001102101000002+39&moves=1LFUTQGEOVCIMRXJNHnNzRSCDUrnOPVOXyoJNPOIjoGORUOpuNOTUOnmURNODCLmcFCOnrCINOYNQR
+
+function thispos()
+{
+return "pos="+spf2string(spfeld,zugnr);
 }
 
 
@@ -4700,6 +4819,136 @@ function zggcounty_alt (farbex)
    }
  else return zugsum + msum + msum;
 }
+
+
+
+function zggcounty(farbex)
+{
+ var af=0;
+ var zf=0;
+ var zugsum=0;
+ var msum= 0;
+ var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
+ var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
+
+ 
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == farbex)
+   {
+    zf = zugmatr0[af]; // Zug nach oben
+    if(zf) if (spfeld[zf]==0) // Feld leer, kann betreten werden
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex) //waager Muehle1
+         if (spfeld[pmuehmatr1[zf]] == farbex) //waager Muehle2
+           {msum+=1; Obzf=zf;   }
+	   }
+		   
+    zf = zugmatr1[af]; // Zug nach unten
+    if(zf) if (spfeld[zf]==0) // Feld leer, kann betreten werden
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex) //waager Muehle1
+         if (spfeld[pmuehmatr1[zf]] == farbex) //waager Muehle1
+           {msum+=1; Obzf=zf; }
+	  }
+		   
+    zf = zugmatr2[af];    // Zug nach li
+	if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex) //senkr Muehle1
+         if (spfeld[pmuehmatr3[zf]] == farbex) //senkr Muehle2
+           {msum+=1; Lizf=zf; }
+	  }
+
+    zf = zugmatr3[af];	// Zug nach re
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex) //senkr Muehle1
+         if (spfeld[pmuehmatr3[zf]] == farbex) //senkr Muehle2
+           {msum+=1; Lizf=zf; }
+      }
+   }
+ }
+ if (zugnr>17)
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+     //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
+	
+	if (msum>1) if(Obzf==Lizf) msum--;
+
+	if (msum) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 444};}
+	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
+	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
+	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
+     return zugsum + msum + msum + (msum?stwert:0);
+   }
+ else return zugsum + msum + msum + msum;
+}
+
+
+//Testposition? pos=020100101001102101000002+39&moves=1LFUTQGEOVCIMRXJNHnNzRSCDUrnOPVOXyoJNPOIjoGORUOpuNOTUOnmURNODCLmcFCOnrCINOYNQR
+
+function thispos()
+{
+return "pos="+spf2string(spfeld,zugnr);
+}
+
+
+if(0) alert("################");
+function zggcounty_alt (farbex)
+{
+ var af,zf,wnf,ri;
+ var zugsum=0;
+ var msum= 0;
+ for(af=1; af<=24; af+=1)
+ {
+   if (spfeld[af] == farbex)
+   {
+    zf = zugmatr[af][0];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex)
+         if (spfeld[pmuehmatr1[zf]] == farbex)
+           msum+=1;
+      }
+    zf = zugmatr[af][1];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr0[zf]] == farbex)
+         if (spfeld[pmuehmatr1[zf]] == farbex)
+           msum+=1;
+      }
+    zf = zugmatr[af][2];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex)
+         if (spfeld[pmuehmatr3[zf]] == farbex)
+           msum+=1;
+      }
+    zf = zugmatr[af][3];
+    if(zf) if (spfeld[zf]==0)
+      { zugsum+=1;
+        if  (spfeld[pmuehmatr2[zf]] == farbex)
+         if (spfeld[pmuehmatr3[zf]] == farbex)
+           msum+=1;
+      }
+   }
+ }
+ if (zugnr>17)
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+     //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
+	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
+	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
+	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
+     return zugsum + (msum?stwert:0);
+   }
+ else return zugsum + msum + msum;
+}
+
+
+
+
+
 
 
 if(0) alert("################");
@@ -5001,8 +5250,8 @@ function openmillssingleduo(farbe) // test auf mind 1M oder 2 M // 0=kein 1= 1M,
  return -openmillsduo(gegfarbe>>>0,gegststone>>>0); 
 }
 
-
-
+//optimierte Muehledrohungserkennung Spring Phase (test auf: drohen mind 2 Muehlen)
+//ich konnte tatsächlich keinen CPU Takt mehr finden, den man hier noch sparen könnte
 function openmillsduo(farbe,start) // check kreuz Muehle springen 0=kein 1=1 M gef 2= 2 M gef 
 {
 //console.log("enter");
@@ -5024,16 +5273,16 @@ function openmillsduo(farbe,start) // check kreuz Muehle springen 0=kein 1=1 M g
    if (spfeld[af] != farbe) continue;  // ueberspringe leere Felder
    //if (spfeld[af] == farbe) //1. Stein gefunden 
    {
-    li = spfeld[pmuehmatr0[af]];
+    li = spfeld[pmuehmatr0[af]]; // li,re aus Sicht der Tabelle 
     re = spfeld[pmuehmatr1[af]];
     ob = spfeld[pmuehmatr2[af]];
     un = spfeld[pmuehmatr3[af]];
     if ((li==farbe && re==0) || (li==0 && re==farbe) ) mc+=1; // waagerecht 2 farbe + 1 leer
     if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) mc+=1; // senkr 2 farbe + 1 leer
-	//if(mc>1) return 2; // 2 M gef		
+	//if(mc>1) return 2; // 2 M gef, sogar dieser return wird eingespart	
     if(mc==1)  //nächster Stein (mc ist 1)
     {
-	if(li==farbe && re==0) nextstone= pmuehmatr0[af]; // 1. gefundene Muehle war waagerecht
+	if(li==farbe && re==0) nextstone= pmuehmatr0[af]; // 1. gefundene Muehle war waagerecht?
 	if(re==farbe && li==0) nextstone= pmuehmatr1[af]; 
 	if(nextstone)
 		{ 
@@ -5041,7 +5290,7 @@ function openmillsduo(farbe,start) // check kreuz Muehle springen 0=kein 1=1 M g
 		un = spfeld[pmuehmatr3[nextstone]];
 		if ((ob==farbe && un==0) || (ob==0 && un==farbe) ) return 2; // aenkr 2 farbe + 1 leer
 		}
-		else {
+	else {
 		 if(ob==farbe && un==0) nextstone= pmuehmatr2[af]; // 1. gefundene Muehle war senkr
 		 if(un==farbe && ob==0) nextstone= pmuehmatr3[af]; 
 			{ 
@@ -5233,7 +5482,7 @@ function openmill12_weg()
 }
 
 if(0) alert("################");
-function openmill (farbex)
+function openmill (farbex) //Wird ersetzt durch openmillssingleduo
 {
 //console.log("openmill");
  var af,li;
@@ -5255,27 +5504,7 @@ function openmill (farbex)
  return 0;
 }
 
-if(0) alert("################");
-function openmill_weg (farbex)
-{
- var af,li;
- var m2=0;
- for(af=1; af<=24; af+=1)
- {
-   if (spfeld[af] == 0)
-   {
-   if  (li = spfeld[pmuehmatr[af][0]])
-     if (li==spfeld[pmuehmatr[af][1]])
-       {if (li==farbex) return 888; else m2+=1;};;
-   if  (li = spfeld[pmuehmatr[af][2]])
-     if (li==spfeld[pmuehmatr[af][3]])
-       {if (li==farbex) return 888; else m2+=1;};;
-   }
- }
- if(m2)
-   {if(m2>1) return-777; else return-4;}
- return 0;
-}
+
 
 if(0) alert("################");
 if(0) alert("################");
@@ -6079,6 +6308,7 @@ async function berbestzug1_async (rtv,alpha,maxzug)
   var rtvdelaymove=[]; 
   var rtvdelaymovezugliste=[];
   var rtvdelaydepth=0;
+  var merkeglobalfast=globalfast;
   //nextzug=zuglist[0];
   //alert ("af:"+nextzug.af+" zf:"+nextzug.zf+" wnf:"+nextzug.wnf+" wertung:"+nextzug.wertung)
 
@@ -6107,6 +6337,8 @@ if (globalCsize<1)console.log("bewertemuehlen Wert:"+ bewertemuehlen(1));
   var beta = CONSTmaxwertung;      // NEU: Beta mit Maximum initialisieren
   for(rtvi=0;rtvi<rtv;rtvi++) /*iterative Suche*/
   {
+  if (rtvi>4 || (rtvi>1 && zuglist.length>25) ) globalfast=merkeglobalfast; else globalfast=0;
+
    //alert("rtvi "+rtvi); 
    globalrtvi= rtvi;
    globalrtacut=rtvi+globalrestsel+5;
@@ -6249,8 +6481,8 @@ if (rootEntry) {
         //alert("principal variation ändern");
         //dispzugliste(globalpv);
       }
-      if(globalfast) if(bestwertung>333) if(rtvi>2) break;
-      if(tzuza>maxmaxzug || !isRunning) {bestzug.wnfAM=rtvi; return bestzug;}
+      if(globalfast) if(bestwertung>300) if(rtvi>2) break;
+      if(tzuza>maxmaxzug || !isRunning) {bestzug.wnfAM=rtvi; globalfast=merkeglobalfast; return bestzug;}
     }
 	
 	// Zuege der Ieration fertig
@@ -6283,7 +6515,7 @@ if (rootEntry) {
     if(bestzug.wertung< CONSTminwertung+80) break;
     /* if(tzuza/10>maxzug*10 || !isRunning)  {alert("tzuza"+tzuza+" maxzug"+maxzug); break;} */
     if(tzuza>maxzug || !isRunning)  {break;}
-    if(globalfast) if(bestwertung>333 || bestwertung <-333) if(rtvi>2) break;
+    if(globalfast) if(bestwertung>300 || bestwertung <-300) if(rtvi>2) break;
   }
   if(xdebug) alert(rtvi+" rtv"+rtv);
   bestzug.wnfAM=rtvi;
@@ -6299,6 +6531,7 @@ if (rootEntry) {
   //alert(globalpv.length);
   //alert("principal variation abschluss");
 
+  globalfast=merkeglobalfast; 
   return bestzug;
 }
 
@@ -6454,9 +6687,9 @@ if (alpha >= beta) {
     let needVerify =
         entry.searchdepth < rtv || 
         entry.TTflag !== TTFlag.EXACT ||
-        Math.abs(entry.wertung - beta) < 7; // Margin frei wählbar
+        Math.abs(entry.wertung - beta) < 9; // Margin frei wählbar
 
-     if((Math.abs(entry.wertung) >300) && (Math.abs(entry.wertung) <996) ) needVerify =false; // wenn Gewinnwert
+     if((Math.abs(entry.wertung) >300) && (Math.abs(entry.wertung) <998) ) needVerify =false; // wenn Gewinnwert
 
     if (needVerify) {
         // Verifiziere mit enger Suche
@@ -6890,6 +7123,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		hb.zf = bestzug2.zf;
 		hb.wnf = bestzug2.wnf;
 		hb.TTflag = TTFlag.LOWERBOUND;
+		
+		if(globalfast) if (hb.wertung > 300) hb.TTflag = TTFlag.EXACT;
+		
 		hb.height = zugnr + rtv;
 		writeTohash32(hb);   // <-- setzt INTERN TTgen[idx] = currentGen
 		}
@@ -6929,8 +7165,8 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 			else
 				hashbucket.TTflag = TTFlag.EXACT;
 			}
-
-			hashbucket.TTflag = TTFlag.EXACT;
+			else 
+				hashbucket.TTflag = TTFlag.EXACT;
 			writeTohash32(hashbucket);
 		}
 
@@ -9105,18 +9341,18 @@ function convertWmdToPlayOk(wmdString) {
 // ==========================================
 // TEST DES FEHLERFALLS
 // ==========================================
-const testInput = "Zugliste Classic\n1.a7-d7--2.g7-b6--3.d6-f6--4.c5-d5--5.e5";
-console.log(convertWmdToPlayOk(testInput));
+//const testInput = "Zugliste Classic\n1.a7-d7--2.g7-b6--3.d6-f6--4.c5-d5--5.e5";
+//console.log(convertWmdToPlayOk(testInput));
 
 // ==========================================
 // TEST-AUFRUFE MIT IHREN BEISPIELEN
 // ==========================================
 
-const beispiel1 = "Zugliste WMD Classic\n1.b6-d6--2.f4-d2--3.c4-g4--4.g1-d7--5.b4-d5xb4--6.b4-a4--7.d1-c5--8.b2xa4-a4--9.a1xd2-d2--10.f4e4-d7g7--11.e4e3-g7d7xe3--12.c4c3-c5c4--13.c3d3-d7a7--14.d3c3-a7d7xc3";
-console.log(convertWmdToPlayOk(beispiel1));
+//const beispiel1 = "Zugliste WMD Classic\n1.b6-d6--2.f4-d2--3.c4-g4--4.g1-d7--5.b4-d5xb4--6.b4-a4--7.d1-c5--8.b2xa4-a4--9.a1xd2-d2--10.f4e4-d7g7--11.e4e3-g7d7xe3--12.c4c3-c5c4--13.c3d3-d7a7--14.d3c3-a7d7xc3";
+//console.log(convertWmdToPlayOk(beispiel1));
 
-const beispiel2 = "Zugliste WMD Classic\n1.--a7--2.f4-g7--3.b4-a4--4.a1-d7xa1--5.a1-d3--6.b2-f2--7.g4-e4--8.b6xf2-e3--9.f2xd3-e5xa1--10.b6d6-e3d3--11.d6b6xe4-d7d6--12.d2d1-e5d5";
-console.log(convertWmdToPlayOk(beispiel2));
+//const beispiel2 = "Zugliste WMD Classic\n1.--a7--2.f4-g7--3.b4-a4--4.a1-d7xa1--5.a1-d3--6.b2-f2--7.g4-e4--8.b6xf2-e3--9.f2xd3-e5xa1--10.b6d6-e3d3--11.d6b6xe4-d7d6--12.d2d1-e5d5";
+//console.log(convertWmdToPlayOk(beispiel2));
 
 
 
@@ -9685,6 +9921,8 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle149.htm--         openmillssingleduo ersetzt das alte openmill
 --Muehle150.htm--         TTWertung: 1 Nachkommastelle (oder auch nicht)
 --Muehle154.htm--         2.6.26 playok Notation, Faq, TT readFromhash32: es werden immer beide probes geholt und die bessere zurückgegeben  
+--Muehle155.htm--         Fehler korrigiert zugmatropt
+
 
 */
 
