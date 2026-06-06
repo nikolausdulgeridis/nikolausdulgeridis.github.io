@@ -2381,7 +2381,11 @@ function pos2url()
 
   //outstring+=  '&'+'internally='+internally;
   //if(globalZoom!=1.00) outstring+=  '&zoom=' + globalZoom*100;
- window.location.href = (((location.href + '?').split('?'))[0]) + outstring;
+ //window.location.href = (((location.href + '?').split('?'))[0]) + outstring;
+ //window.open((((location.href + '?').split('?'))[0]) + outstring, '_blank');
+  alert("neues Fenster/ new window");
+  const zielUrl = (((location.href + '?').split('?'))[0]) + outstring;
+  window.open(zielUrl, '_blank', 'noopener'); 
 }
 
 function btntakeback(strlastpos)
@@ -2760,7 +2764,7 @@ function writeEntryAt(idx, hb) {
   
   if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // Gewinn in x gilt für die Stellung auch bei hoher Suchtiefe
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
-	    hb.searchdepth=32;
+	    hb.searchdepth=Math.max(hb.searchdepth, 32);
 	 else
 	    if (globalfast) 
 			hb.searchdepth=Math.max(hb.searchdepth, 16);
@@ -2804,6 +2808,21 @@ function writeTohash32(hb) {
   //if(hb.wertung % 1 !== 0) {if(Math.abs(hb.wertung % 1)>1) console.log(hb.wertung % 1); return}; // Zugwiederholung nicht in TT speichern 
   //if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
   if(Math.abs(hb.wertung) <1 && hb.wertung!=0) {return}; // Zugwiederholung nicht in TT speichern, z.B -0.1
+
+
+  if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // "Gewinn in x" gilt für die Stellung auch bei hoher Suchtiefe
+  {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
+	    hb.searchdepth=Math.max(hb.searchdepth, 48);
+	 else
+	    if (globalfast) 
+			hb.searchdepth=Math.max(hb.searchdepth, 22);
+		else
+			hb.searchdepth=Math.max(hb.searchdepth, 7);
+  }
+  else
+    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
+
+
 
 
   // 1) Falls Key bereits vorhanden: update dort (Hauptslot zuerst)
@@ -4726,7 +4745,7 @@ console.log("---");
    }
  }
  if (zugnr>17)
-   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test // alte Fassung
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
 	
 	//if (msum) if(erfolgfeldwzf==erfolgfeldszf) msum--;
@@ -4809,7 +4828,7 @@ function zggcounty_alt (farbex)
    }
  }
  if (zugnr>17)
-   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+   { if(zugsum==0 && zugnr>18) if(stz[farbex]>3) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
      if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
@@ -4830,7 +4849,7 @@ function zggcounty(farbex)
  var msum= 0;
  var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
  var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
-
+ if(stz[farbex]==3) return 14; // Beweglichkeit von 3 Steinnen 
  
  for(af=1; af<=24; af+=1)
  {
@@ -4869,8 +4888,8 @@ function zggcounty(farbex)
       }
    }
  }
- if (zugnr>17)
-   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+ if (zugnr>18)
+   { if(zugsum==0 && zugnr>18) if(stz[farbex]>3) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
 	
 	if (msum>1) if(Obzf==Lizf) msum--;
@@ -4934,7 +4953,7 @@ function zggcounty_alt (farbex)
    }
  }
  if (zugnr>17)
-   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test
+   { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test //alte Fassung
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
      if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
@@ -9926,6 +9945,7 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle150.htm--         TTWertung: 1 Nachkommastelle (oder auch nicht)
 --Muehle154.htm--         2.6.26 playok Notation, Faq, TT readFromhash32: es werden immer beide probes geholt und die bessere zurückgegeben  
 --Muehle155.htm--         Fehler korrigiert zugmatropt
+--Muehle156.htm--         Fehler korrigiert in zggcounty
 
 
 */
