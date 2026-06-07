@@ -2354,7 +2354,7 @@ function finalizeAnimation(resolve) {
 }
 
 //var globalZoom=1;
-var globalfast=1;
+var globalfast=2; // globalfast==0 slow// globalfast==1//2 break if mate_threshold 300 // globalfast==2 Zugbaum beschneiden 
 function pos2url()
 {
  clearVmark();
@@ -2612,6 +2612,7 @@ function initTT(Csize) {
 
   currentGen = 0;
   CacheSizeString=CacheSize2String();
+  TTclear();
 }
 
 
@@ -2717,7 +2718,7 @@ function protectedByDepthHeight(idx, hb) {
 
   return (
     depth[idx] > hb.searchdepth &&
-    height[idx] +1 > hb.height 
+    height[idx] > hb.height 
 	&&
     Math.abs(height[idx] - hb.height) < 22
   );
@@ -2751,7 +2752,7 @@ function shouldOverwriteSameKey(idx, hb) {
   const oldFlag = getFlag(idx);
 
   // neue Info ist besser?
-  if (hb.searchdepth > depth[idx]) return true;
+  if (hb.searchdepth >= depth[idx]) return true;
   if (hb.TTflag === TTFlag.EXACT && oldFlag !== TTFlag.EXACT) return true;
 
   // sonst: wenn du willst, kannst du zumindest generation aktualisieren (machen wir beim Schreiben ohnehin)
@@ -2764,12 +2765,12 @@ function writeEntryAt(idx, hb) {
   
   if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // Gewinn in x gilt für die Stellung auch bei hoher Suchtiefe
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
-	    hb.searchdepth=Math.max(hb.searchdepth, 32);
+	    hb.searchdepth=Math.max(hb.searchdepth, 32);		  // > 900 exakter Gewinn, > 300 nicht exakter Gewinn
 	 else
 	    if (globalfast) 
-			hb.searchdepth=Math.max(hb.searchdepth, 16);
+			hb.searchdepth=Math.max(hb.searchdepth, 22);
 		else
-			hb.searchdepth=Math.max(hb.searchdepth, 6);
+			hb.searchdepth=Math.max(hb.searchdepth, 7);
   }
   else
     {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
@@ -2820,7 +2821,7 @@ function writeTohash32(hb) {
 			hb.searchdepth=Math.max(hb.searchdepth, 7);
   }
   else
-    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
+    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 9)} // Nicht exakt, leichter Schutz
 
 
 
@@ -2837,7 +2838,7 @@ function writeTohash32(hb) {
     return;
   }
 
-  // 2) Freien Slot bevorzugen (Hauptslot zuerst)
+  // 1) Freien Slot bevorzugen (Hauptslot zuerst)
   if (TThash32keys[idx0] === 0) { writeEntryAt(idx0, hb); return; }
   if (TThash32keys[idx1] === 0) { writeEntryAt(idx1, hb); return; }
 
@@ -2897,7 +2898,7 @@ function readFromhash32(hash32, checksum52) {
       if (bestIdx === -1) {
         bestIdx = idx1;
       } else {
-        // 🔥 beide gültig → besseren wählen
+        // beide gültig → besseren wählen
         bestIdx = betterEntry(bestIdx, idx1);
       }
 
@@ -2971,6 +2972,10 @@ function decodeEntry(idx) {
 
   entry.wertung     = TTwertung[idx];
   //entry.wertung     = TTwertung[idx]/10;
+if (entry.TTflag === TTFlag.EXACT) entry.wertung+=.01; 
+if (entry.TTflag === TTFlag.LOWERBOUND) entry.wertung+=.02; 
+if (entry.TTflag === TTFlag.UPPERBOUND) entry.wertung+=.03; 
+ 
   entry.searchdepth = depth[idx];
   entry.height      = height[idx];
   entry.ttgen      = TTgen[idx];
@@ -3521,19 +3526,19 @@ var classicString=	zuglist2classicstring (zughistoryp, zugnr);
 	output += "\n" ; 
 	output += "\n" ; 
 var playOkString=	convertWmdToPlayOk(zuglist2classicstring (zughistoryp, zugnr));
-    if (0)output += "Zugliste Classic->playok->Classic\n";
-	if (0)output += convertPlayOkToWmd(playOkString); 
-	if (0)output += "\n" ; 
-	if (0)output += "\n" ; 
+    if (1)output += "Zugliste Classic->playok->Classic\n";
+	if (1)output += convertPlayOkToWmd(playOkString); 
+	if (1)output += "\n" ; 
+	if (1)output += "\n" ; 
     output += "Zugliste playok\n";
 	//output += wmdToPlayOK(zuglist2classicstring (zughistoryp, zugnr)); 
 	output += convertWmdToPlayOk(zuglist2classicstring (zughistoryp, zugnr)); 
-if (classicString!=convertPlayOkToWmd(playOkString))
+if (0&&classicString!=convertPlayOkToWmd(playOkString))
     {
 	 console.log("Ungleich classic -> playok-> classic");
 	 console.log("*"+classicString+"*");
-	 console.log("*"+convertPlayOkToWmd(playOkString)+"*");
 	 console.log("*"+playOkString+"*");	 
+	 console.log("*"+convertPlayOkToWmd(playOkString)+"*");
 	}
 	
 //convertPlayOkToWmd(playOkString);	
@@ -3672,31 +3677,6 @@ function pmuehcheck_weg(zf,farb)
  return 0;
 }
 
-function pmuehcheckx_fehlerhaft_und_kannweg(zf,farb)
-{
- if (farb == 0) return 0;
- var m1=0;
- if (spfeld[pmuehmatr[zf][0]] == farb) m1++;
- if (spfeld[pmuehmatr[zf][1]] == farb) m1++;
- if (spfeld[pmuehmatr[zf][2]] == farb) m1++;
- if (spfeld[pmuehmatr[zf][3]] == farb) m1++; 
- if(m1>2) return 1;
- return 0;
-}
-// Prüfe ob letzter Zug Muehle droht
-function pmuehdroht_fehlerhaft_und_kannweg(zf) 
-{
-farb=spfeld[zf];
-if(farb==0) return 0;
-var zfcand0=zugmatr[zf][0];
-if(zfcand0) if(spfeld[zfcand0]==0) if(pmuehcheckx(zfcand0,farb)) return 1; 
-var zfcand1=zugmatr[zf][1];
-if(zfcand1) if(spfeld[zfcand1]==0) if(pmuehcheckx(zfcand1,farb)) return 1; 
-var zfcand2=zugmatr[zf][2];
-if(zfcand2) if(spfeld[zfcand2]==0) if(pmuehcheckx(zfcand2,farb)) return 1; 
-var zfcand3=zugmatr[zf][3];
-if(zfcand3) if(spfeld[zfcand3]==0) if(pmuehcheckx(zfcand3,farb)) return 1; 
-}
 
 
 // Wert von Wnf vor Zugausfuehrung
@@ -3734,49 +3714,49 @@ function wnfwert(wnf) {
  */
 function pmuehdroht(zf) {
   var farb = spfeld[zf];
-  if (!zf || farb === 0) return 0;
+  if (zf==0 || farb === 0) return 0;
 
   // === A) zf selbst kann im nächsten Zug eine Mühle schließen ===
-  var up = zugmatr[zf][0], down = zugmatr[zf][1];     // senkrechte Nachbarn
-  var left = zugmatr[zf][2], right = zugmatr[zf][3];  // waagerechte Nachbarn
+  var up = zugmatr0[zf], down = zugmatr1[zf];     // senkrechte Nachbarn
+  var left = zugmatr2[zf], right = zugmatr3[zf];  // waagerechte Nachbarn
 
   // Prüfe senkrechte Kandidaten -> waagerechte Mühle?
   if (up && spfeld[up] === 0) {
-    if (spfeld[pmuehmatr[up][0]] === farb && spfeld[pmuehmatr[up][1]] === farb) return 1;
+    if (spfeld[pmuehmatr0[up]] === farb && spfeld[pmuehmatr1[up]] === farb) return 1;
   }
   if (down && spfeld[down] === 0) {
-    if (spfeld[pmuehmatr[down][0]] === farb && spfeld[pmuehmatr[down][1]] === farb) return 3;
+    if (spfeld[pmuehmatr0[down]] === farb && spfeld[pmuehmatr1[down]] === farb) return 3;
   }
 
   // Prüfe waagerechte Kandidaten -> senkrechte Mühle?
   if (left && spfeld[left] === 0) {
-    if (spfeld[pmuehmatr[left][2]] === farb && spfeld[pmuehmatr[left][3]] === farb) return 6;
+    if (spfeld[pmuehmatr2[left]] === farb && spfeld[pmuehmatr3[left]] === farb) return 6;
   }
   if (right && spfeld[right] === 0) {
-    if (spfeld[pmuehmatr[right][2]] === farb && spfeld[pmuehmatr[right][3]] === farb) return 8;
+    if (spfeld[pmuehmatr2[right]] === farb && spfeld[pmuehmatr3[right]] === farb) return 8;
   }
 
   // === B) zf hat eine Zwei-in-Reihe erzeugt, die ein anderer Stein schließen kann ===
   // Waagerechte Linie prüfen
-  var a = pmuehmatr[zf][0], b = pmuehmatr[zf][1];
+  var a = spfeld[pmuehmatr0[zf]], b = spfeld[pmuehmatr1[zf]];
   if (spfeld[a] === farb && spfeld[b] === 0) {
     // Prüfe senkrechte Nachbarn von b
-    var upB = zugmatr[b][0], downB = zugmatr[b][1];
+    var upB = zugmatr0[b], downB = zugmatr1[b];
     if ((upB && spfeld[upB] === farb) || (downB && spfeld[downB] === farb)) return 9;
   }
   if (spfeld[b] === farb && spfeld[a] === 0) {
-    var upA = zugmatr[a][0], downA = zugmatr[a][1];
+    var upA = zugmatr0[a], downA = zugmatr1[a];
     if ((upA && spfeld[upA] === farb) || (downA && spfeld[downA] === farb)) return 10;
   }
 
   // Senkrechte Linie prüfen
-  var c = pmuehmatr[zf][2], d = pmuehmatr[zf][3];
+  var c = pmuehmatr2[zf], d = pmuehmatr3[zf];
   if (spfeld[c] === farb && spfeld[d] === 0) {
-    var leftD = zugmatr[d][2], rightD = zugmatr[d][3];
+    var leftD = zugmatr2[d], rightD = zugmatr3[d];
     if ((leftD && spfeld[leftD] === farb) || (rightD && spfeld[rightD] === farb)) return 11;
   }
   if (spfeld[d] === farb && spfeld[c] === 0) {
-    var leftC = zugmatr[c][2], rightC = zugmatr[c][3];
+    var leftC = zugmatr2[c], rightC = zugmatr3[c];
     if ((leftC && spfeld[leftC] === farb) || (rightC && spfeld[rightC] === farb)) return 12;
   }
 
@@ -3935,7 +3915,7 @@ function bewerte(zuf, mwert)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+  else if (stz[gegfarbe]==3 && openmillzi(farbe))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
  return wertung;
 }
@@ -3974,7 +3954,7 @@ function bewerte_alt(zuf, mwert)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
  return wertung;
 }
@@ -4015,14 +3995,17 @@ if(zugnr>18 && stz[1]==3 && stz[2]==3)
  wertung += (stz[farbe] - stz[gegfarbe]) * stwert;
 if (stz[1]<7 && stz[2]<7) wertung=Math.floor(wertung/3);
 if(farbe==1) wertung += mwert; else wertung -= mwert; 
+
+//if(spfeld[zughistory[zugnr].zf]!=gegfarbe)console.log("zughistory[zugnr].af:"+zughistory[zugnr].af+" zughistory[zugnr].zf:"+zughistory[zugnr].zf+" fehler2");
  if(globalProblem==0)
    {
    wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmill12zi()==farbe)
+  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;
  return wertung;
 }
+
 
 
 function bewertefast_alt(zuf,zggcountgegfarbe,mwert)
@@ -4843,7 +4826,7 @@ function zggcounty_alt (farbex)
 
 function zggcounty(farbex)
 {
- var af=0;
+ var af=1;
  var zf=0;
  var zugsum=0;
  var msum= 0;
@@ -5020,7 +5003,8 @@ function zggcounty_weg (farbex)
 if(0) alert("################");
 function zggcount (farbex)
 {
- var af,zf;
+ var af=1;
+ var zf=0;
  var zugsum= 0;
 
  for(af=1; af<=24; af++)
@@ -5044,7 +5028,8 @@ function zggcount (farbex)
 if(0) alert("################");
 function zggcount_notopt (farbex)
 {
- var af,zf;
+ var af=1;
+ var zf=0;
  var zugsum= 0;
 
  for(af=1; af<=24; af+=1)
@@ -5063,7 +5048,8 @@ function zggcount_notopt (farbex)
 if(0) alert("################");
 function zggcountfast (farbex) //zaehlt nur ob mind 1 Zug
 {
- var af,zf;
+ var af=1;
+ var zf=0;
 
  for(af=1; af<=24; af+=1)
  {
@@ -5084,7 +5070,7 @@ function zggcountfast (farbex) //zaehlt nur ob mind 1 Zug
 if(0) alert("################");
 function openmillzi(farbe) // teste mind 1 M zi
 {
- var af,li;
+ var af=1;
  var m2=0;
  for(af=1; af<=24; af+=1)
  {
@@ -5092,11 +5078,11 @@ function openmillzi(farbe) // teste mind 1 M zi
    {
    if  (farbe == spfeld[pmuehmatr0[af]]) //waag
      if (farbe == spfeld[pmuehmatr1[af]])
-       if (farbe == spfeld[zugmatr[af][0]] || farbe == spfeld[zugmatr[af][1]]) // senkr
+       if (farbe == spfeld[zugmatr0[af]] || farbe == spfeld[zugmatr1[af]]) // senkr
 	     return 1;
    if  (farbe == spfeld[pmuehmatr2[af]])
      if (farbe == spfeld[pmuehmatr3[af]])
-       if (farbe == spfeld[zugmatr[af][2]] || li==spfeld[zugmatr[af][3]]) // senkr
+       if (farbe == spfeld[zugmatr2[af]] || farbe==spfeld[zugmatr3[af]]) // senkr
          return 1;
    }
  }
@@ -5106,7 +5092,8 @@ function openmillzi(farbe) // teste mind 1 M zi
 if(0) alert("################");
 function openmill12zi() // // teste mind 1 M zi
 {
- var af,li;
+ var af=1;
+ var li=0;
  var m2=0;
  for(af=1; af<=24; af+=1)
  {
@@ -5232,6 +5219,34 @@ if (wert2 >= 2 && wert1 !== -2) {
 
 return wert1; 
 }
+
+//
+function openmillssingle(farbe) // test auf mind 1M springen
+{
+ //console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=1;
+ var li=0;
+ var re=0;
+ var count=0; 
+ 
+ for(af; af<=24; ++af)
+ {
+   if (spfeld[af] == farbe) // Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]]
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) return 1; // waagerecht 2 farbe + 1 leer
+    li = spfeld[pmuehmatr2[af]]; // li +re sind hier oben und unten 
+    re = spfeld[pmuehmatr3[af]];
+    if ((li==farbe && re==0) || (li==0 && re==farbe) ) return 1; // senkr 2 farbe + 1 leer
+	if(count) break; //beende Suche beim 2. Stein (keine M mehr moeglich)
+	count++;
+   }
+ }
+ return 0;
+}
+
 
 
 function openmillssingleduo(farbe) // test auf mind 1M oder 2 M // 0=kein 1= 1M, -1= 1M, -2=2M
@@ -6461,12 +6476,12 @@ if (rootEntry) {
 			rtvdelaymove[rtvi]=new zugspeicher();
 			rtvdelaymovezugliste[rtvi]=[];
 			}
-		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>12) if(rtvdelay<9) if(rtvdelaymove[rtvi-1].zf==0) {
+		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>12) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
 		  rtvdelay+=1; // Bestzug gekippt, setze mit reduzierter Suchtiefe fort
 		  copyzugspei(nextzug,rtvdelaymove[rtvi]); 
          rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
 		  rtvdelaydepth=rtvi;
-		  console.log ("rtvi:"+rtvi+" rtvdelay:"+rtvdelay);
+		  console.log ("rtvi:"+rtvi+" rtvdelay:"+rtvdelay+" letzteWertung:"+letzteWertung+" aktwertung:"+aktwertung);
 		}
 		
 		//if(zli==0)  alert("aktwertung"+aktwertung+"bestwertung"+bestwertung+"rtvi"+rtvi+"rtvdelay"+rtvdelay); 
@@ -6710,11 +6725,11 @@ if (alpha >= beta) {
         Math.abs(entry.wertung - beta) < 5; // Margin frei wählbar
 
      if((Math.abs(entry.wertung) >300) && (Math.abs(entry.wertung) <998) ) needVerify =false; // wenn Gewinnwert
-
+needVerify=false;
     if (needVerify) {
         // Verifiziere mit enger Suche
 
-if (globalCsize<2)console.log("start Verification Search");
+if (globalCsize<0)console.log("start Verification Search");
         let verifyList = await berbestzug_async(
             rtv - 1,
             restsel,
@@ -6816,6 +6831,7 @@ if (globalCsize<2)console.log("end Verification Search");
                 spfeld[nextzug.af]=0;
                 spfeld[nextzug.zf]=old_af;
                 if (pmuehdroht(nextzug.zf)) 
+                //if (openmillzi(farbe)) 
                       flag_droht=1;
                 else if(pMuehleBlocked (nextzug.zf)) 
                      flag_droht=2;
@@ -6997,7 +7013,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
      // Zugbaum beschneiden
      if(1)
-     if(globalfast==1)     
+     if(globalfast==2)     
      {
      if (Math.abs(wf-stwertung) <90) { 
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >12+rtv*4) {mybonuswf-=0.1;};
@@ -7015,7 +7031,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
      }
 
   	 if(1)
-	 if(globalfast==1){
+	 if(globalfast==2){
 		//if(mymoves+gegmoves>16) if (Math.abs(wf-stwertung) >20) {mybonuswf-=0.3;};
 		if(rtv<7)
 		{
@@ -7043,17 +7059,19 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		
 		// NEU: Alpha-Beta Übergabe nach Negamax-Schema: (-beta, -maxWert)
 
-		 if(nextzug.wnfAM < -1) mybonus-=1/2;
-		 if(nextzug.wnfAM < -2) mybonus-=1/2;
+		 if(nextzug.wnfAM < -1) mybonus-=1/4;
+		 if(nextzug.wnfAM < -2) mybonus-=1/3;
 	     if(nextzug.wnfAM < -3) mybonus-=1/2; // nextzug.wnfAM ist nur gültig, wenn wnf!=0 && wnfwert vorher aufgerufen
-      }  
-	  if(rtv>6) if(mybonuswf>0.5) mybonuswf=0.5;
-	  if(rtv>5) if(mybonuswf>0.7) mybonuswf=0.7;
-	  if(rtv>4) if(mybonuswf>1) mybonuswf=1;
 
-	  if(rtv>6) if(mybonuswf<-0.5) mybonuswf=-0.5;
+      }  
+	  if(rtv>5) if(mybonuswf>0.7) mybonuswf=0.7;
 	  if(rtv>5) if(mybonuswf<-0.7) mybonuswf=-0.7;
-	  if(rtv>4) if(mybonuswf<-1) mybonuswf=-1;
+
+   	  if(rtv>2) // A
+	    {
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.2}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.2};}
+		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
+		}
 	
 	const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
 
@@ -7332,7 +7350,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 		var mybonuswf=0; //Wertungsfenster
 		if(0)
 		if(rtv>2)
-		if(globalfast==1)
+		if(globalfast==2)
 		if (Math.abs(wf-stwertung)<50){
 		var mymoves= zuglist.length;
 		var gegmoves= zggcount(farbe);
@@ -7414,7 +7432,13 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
-      // NEU: Negamax-Alpha-Beta Übergabe: (-beta, -maxWert)
+
+   	  if(rtv>2) //B
+	    {
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.1}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.1};}
+		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
+		}
+
       var nextrtv=rtv - 1 + sel+mybonuswf;
 	  if(rta>=globalrtacut && nextrtv>1) nextrtv=1;
 
@@ -7673,6 +7697,12 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
 var mybonuswf=0;
+   	  if(rtv>2) // C
+	    {
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};}
+		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};
+		}
+
   // --- Schleife  ---
   for (var i446 = 0; i446 < zuglist.length; i446++) {
 
@@ -9162,9 +9192,8 @@ function toggleZufall() {
 }
 
 function toggleFast() {
-	globalfast=1-globalfast;
-    if(globalfast) melde("fast on");
-    if(!globalfast) melde("fast off");
+	globalfast+=1; if (globalfast>2) globalfast=0;
+    melde("fast="+globalfast);
 }
 
 var global2player=0;
@@ -9429,7 +9458,7 @@ function convertPlayOkToWmd(playOkString) {
     const tokens = clean.split(' ').filter(t => t.length > 0);
 
     let result = [];
-    let expectedRound = 1;
+    let expectedRound = 0;
     let i = 0;
 
     // ==========================================
@@ -9437,7 +9466,8 @@ function convertPlayOkToWmd(playOkString) {
     // ==========================================
     while (i < tokens.length) {
         // 1. Prüfe die Rundennummer
-        if (tokens[i] !== `${expectedRound}.`) {
+        if(expectedRound==0) expectedRound=parseInt(tokens[i]);
+		if (tokens[i] !== `${expectedRound}.`) {
             break; // Abbruch bei falscher Zugnummer
         }
         i++; // Springe zum weißen Zug
@@ -9493,20 +9523,24 @@ function convertPlayOkToWmd(playOkString) {
 // TEST-AUFRUFE FÜR DIE VALIDIERUNG
 // ==========================================
 
+if(1)
+{
 // Test 1: Extrem unsaubere Formatierung (sollte fehlerfrei durchlaufen)
-//const unsauber = "1. 4 5\n1.4 5\n8. 19x 10 10 9. 22 x 20 20   10.  14-13 2-- 3"; 
+const unsauber = "1. 4 5\n1.4 5\n8. 19x 10 10 9. 22 x 20 20   10.  14-13 2-- 3"; 
 // Hinweis zum Test: Die doppelte "1. 4 5" am Anfang sorgt laut Logik bei der zweiten "1." für einen Abbruch, 
 // daher testen wir hier die bereinigten Zeilen einzeln oder als fortlaufendes Protokoll.
 
-//console.log("--- Test 1 (Toleranz-Test) ---");
-//const testInput1 = "1. 4 5 2. 14 20 8. 19x10 10 9. 22 x 20 20 10. 14-13 2--3";
-//console.log(convertPlayOkToWmd(testInput1));
+const testInput1 = "1. 4 5 2. 14 20 8. 19x10 10 9. 22 x 20 20 10. 14-13 2--3";
+console.log("--- Test 1 (Toleranz-Test) ---");
+console.log(testInput1);
+console.log(convertPlayOkToWmd(testInput1));
 
 // Test 2: Ihr Abbruch-Beispiel (Sollte exakt nach der 14 stoppen)
-//console.log("\n--- Test 2 (Abbruch-Test) ---");
-//const testInput2 = "1. 4 5 2. 14 3. 12";
-//console.log(convertPlayOkToWmd(testInput2));
-
+const testInput2 = "1. 4 5 2. 14 3. 12";
+console.log("\n--- Test 2 (Abbruch-Test) ---");
+console.log(testInput2);
+console.log(convertPlayOkToWmd(testInput2));
+}
 
 
 
