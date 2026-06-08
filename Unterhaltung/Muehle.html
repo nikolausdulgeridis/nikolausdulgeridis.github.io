@@ -3714,49 +3714,49 @@ function wnfwert(wnf) {
  */
 function pmuehdroht(zf) {
   var farb = spfeld[zf];
-  if (zf==0 || farb === 0) return 0;
+  if (!zf || farb === 0) return 0;
 
   // === A) zf selbst kann im nächsten Zug eine Mühle schließen ===
-  var up = zugmatr0[zf], down = zugmatr1[zf];     // senkrechte Nachbarn
-  var left = zugmatr2[zf], right = zugmatr3[zf];  // waagerechte Nachbarn
+  var up = zugmatr[zf][0], down = zugmatr[zf][1];     // senkrechte Nachbarn
+  var left = zugmatr[zf][2], right = zugmatr[zf][3];  // waagerechte Nachbarn
 
   // Prüfe senkrechte Kandidaten -> waagerechte Mühle?
   if (up && spfeld[up] === 0) {
-    if (spfeld[pmuehmatr0[up]] === farb && spfeld[pmuehmatr1[up]] === farb) return 1;
+    if (spfeld[pmuehmatr[up][0]] === farb && spfeld[pmuehmatr[up][1]] === farb) return 1;
   }
   if (down && spfeld[down] === 0) {
-    if (spfeld[pmuehmatr0[down]] === farb && spfeld[pmuehmatr1[down]] === farb) return 3;
+    if (spfeld[pmuehmatr[down][0]] === farb && spfeld[pmuehmatr[down][1]] === farb) return 3;
   }
 
   // Prüfe waagerechte Kandidaten -> senkrechte Mühle?
   if (left && spfeld[left] === 0) {
-    if (spfeld[pmuehmatr2[left]] === farb && spfeld[pmuehmatr3[left]] === farb) return 6;
+    if (spfeld[pmuehmatr[left][2]] === farb && spfeld[pmuehmatr[left][3]] === farb) return 6;
   }
   if (right && spfeld[right] === 0) {
-    if (spfeld[pmuehmatr2[right]] === farb && spfeld[pmuehmatr3[right]] === farb) return 8;
+    if (spfeld[pmuehmatr[right][2]] === farb && spfeld[pmuehmatr[right][3]] === farb) return 8;
   }
 
   // === B) zf hat eine Zwei-in-Reihe erzeugt, die ein anderer Stein schließen kann ===
   // Waagerechte Linie prüfen
-  var a = spfeld[pmuehmatr0[zf]], b = spfeld[pmuehmatr1[zf]];
+  var a = pmuehmatr[zf][0], b = pmuehmatr[zf][1];
   if (spfeld[a] === farb && spfeld[b] === 0) {
     // Prüfe senkrechte Nachbarn von b
-    var upB = zugmatr0[b], downB = zugmatr1[b];
+    var upB = zugmatr[b][0], downB = zugmatr[b][1];
     if ((upB && spfeld[upB] === farb) || (downB && spfeld[downB] === farb)) return 9;
   }
   if (spfeld[b] === farb && spfeld[a] === 0) {
-    var upA = zugmatr0[a], downA = zugmatr1[a];
+    var upA = zugmatr[a][0], downA = zugmatr[a][1];
     if ((upA && spfeld[upA] === farb) || (downA && spfeld[downA] === farb)) return 10;
   }
 
   // Senkrechte Linie prüfen
-  var c = pmuehmatr2[zf], d = pmuehmatr3[zf];
+  var c = pmuehmatr[zf][2], d = pmuehmatr[zf][3];
   if (spfeld[c] === farb && spfeld[d] === 0) {
-    var leftD = zugmatr2[d], rightD = zugmatr3[d];
+    var leftD = zugmatr[d][2], rightD = zugmatr[d][3];
     if ((leftD && spfeld[leftD] === farb) || (rightD && spfeld[rightD] === farb)) return 11;
   }
   if (spfeld[d] === farb && spfeld[c] === 0) {
-    var leftC = zugmatr2[c], rightC = zugmatr3[c];
+    var leftC = zugmatr[c][2], rightC = zugmatr[c][3];
     if ((leftC && spfeld[leftC] === farb) || (rightC && spfeld[rightC] === farb)) return 12;
   }
 
@@ -4894,6 +4894,11 @@ function thispos()
 return "pos="+spf2string(spfeld,zugnr);
 }
 
+function aktspf()
+{
+return "pos="+spf2string(spfeld,zugnr);
+}
+
 
 if(0) alert("################");
 function zggcounty_alt (farbex)
@@ -5066,6 +5071,9 @@ function zggcountfast (farbex) //zaehlt nur ob mind 1 Zug
  return 0;
 }
 
+//var testpos="110020111122121212000200+19";
+//string2spf(testpos);
+//console.log("openmillzi(1)"+openmillzi(1));
 
 if(0) alert("################");
 function openmillzi(farbe) // teste mind 1 M zi
@@ -5078,8 +5086,12 @@ function openmillzi(farbe) // teste mind 1 M zi
    {
    if  (farbe == spfeld[pmuehmatr0[af]]) //waag
      if (farbe == spfeld[pmuehmatr1[af]])
+	{                                         
+       //if(af==3) console.log("A0"+"zugmatr0[af]"+zugmatr0[af]+"zugmatr1[af]"+zugmatr1[af]+"spfeld[zugmatr1[af]]"+spfeld[zugmatr1[af]]);
        if (farbe == spfeld[zugmatr0[af]] || farbe == spfeld[zugmatr1[af]]) // senkr
 	     return 1;
+	}
+
    if  (farbe == spfeld[pmuehmatr2[af]])
      if (farbe == spfeld[pmuehmatr3[af]])
        if (farbe == spfeld[zugmatr2[af]] || farbe==spfeld[zugmatr3[af]]) // senkr
@@ -6830,8 +6842,8 @@ if (globalCsize<2)console.log("end Verification Search");
                 zugnr+=1;
                 spfeld[nextzug.af]=0;
                 spfeld[nextzug.zf]=old_af;
-                if (pmuehdroht(nextzug.zf)) 
-                //if (openmillzi(farbe)) 
+                //if (pmuehdroht(nextzug.zf)) 
+                if (openmillzi(farbe)) 
                       flag_droht=1;
                 else if(pMuehleBlocked (nextzug.zf)) 
                      flag_droht=2;
@@ -6961,7 +6973,8 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
     var gegmoves= zggcount(farbe);
     var stwertung=(stz[3 - farbe] - stz[farbe])*stwert; 
     var wf=letzteWertung; if(zugnr%2==globalstartzugnr%2) wf=-wf;
-    var pmd=pmuehdroht(nextzug.zf);
+    var pmuehdroh=pmuehdroht(nextzug.zf);
+    //var pmd=openmillzi(3-farbe);
     var pmb=pMuehleBlocked(nextzug.zf);
   if(rta+rtv>globalrtvi+globalrestsel+6) mybonus-=1;
 
@@ -7002,12 +7015,16 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	if (rtv>1) if (restsel>0) if (zugnr > 18 && (stz[1]+stz[2])<7) if (openmill12()) sel = 1; else if(openmillsflag==0) mybonuswf-=globalmymalus; //openmill(1) ist etwas komisch funktioniert aber
     // A RT-Bonus für Stellungen mit wenig Zugmöglichkeiten
     //  if (zuglist.length<9){rtv+=1-0.1*zuglist.length;}  
-    if (1)
+ 
+//if (pmuehdroht(nextzug.zf)) if (openmillzi(3-farbe)==0) {console.log("fehler7"+"farbe"+farbe+"nextzug.zf:"+nextzug.zf+aktspf()); debugger}
+	if (1)
       {      
         //if (rta+rtv<globalrtvi+6) if (gegmoves < 15) if (zuglist.length < 9) if (gegmoves <16) mybonus += RT_BONUS_TABLE[zuglist.length];
         //if (rta+rtv<globalrtvi+6) if (mymoves < 16)  if (gegmoves < 9) mybonus += 1/2*RT_BONUS_TABLE[gegmoves];
-        if (pmd+pmb)
+        if (pmuehdroh+pmb)
           if (gegmoves < 9) mybonus += 1/2*RT_BONUS_TABLE[gegmoves];
+		else
+          if (gegmoves < 9) mybonus += 1/8*RT_BONUS_TABLE[gegmoves];
       }     
 
 
@@ -7020,6 +7037,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >15+rtv*4) {mybonuswf-=0.2;};
 	 }
      if (Math.abs(wf-stwertung) <90) { 
+        if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >22+rtv*5) {mybonuswf-=0.5;  restsel-=0};
         if(mymoves+gegmoves>24)  if (Math.abs(wf-stwertung) >24+rtv*5) {mybonuswf-=0.4;  restsel-=1};
@@ -7069,12 +7087,14 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
    	  if(rtv>2) // A
 	    {
-		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.2}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.2};}
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(pmuehdroh==0 ) {mybonuswf-=.2}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.2};}
 		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
 		}
 	
 	const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
 
+    //var pmuehdroh=pmuehdroht(nextzug.zf);
+    //var pmuehdroh=pmuehdroht(nextzug.zf)+openmillzi(farbe);
 	if (wiederholungsflag) {
 	   berbestzugzugliste=[];
 	   aktwertung=0.01*rta*(rta%2==ConstRemisPos? -1:1);
@@ -7082,9 +7102,9 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	else if (rtv < (zuglist.length<16&&stz[farbe]>5&&stz[3-farbe]>5?(fastbase+1):(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?fastbase:(fastbase-1))) )
 	//else if (rtv < (zuglist.length<16&&stz[farbe]>4&&stz[3-farbe]>4?5:(zuglist.length<24&&stz[farbe]>4&&stz[3-farbe]>4?4:3)) )
 	{
-        if (pmuehdroht(nextzug.zf)) mybonus+=1/8;
-        if (rtv > 1) if (restsel>0) if (zugnr > 18                    ) if (pmuehdroht(nextzug.zf)) mybonus+=1/4; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/4;;
-        if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroht(nextzug.zf)) mybonus+=1/2; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/2;;
+        if (pmuehdroh) mybonus+=1/8;
+        if (rtv > 1) if (restsel>0) if (zugnr > 18                    ) if (pmuehdroh) mybonus+=1/4; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/4;;
+        if (rtv > 1) if (restsel>0) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroh) mybonus+=1/2; else if (pMuehleBlocked(nextzug.zf)) mybonus+=1/2;;
         berbestzugzugliste=[];
 		if(globalProblem) mybonus=mybonus/2;
 		aktwertung = berbestzugfast(rtv - 1 + sel+mybonus+mybonuswf, restsel - sel, -beta, -bestwertung, -zufa, mwert);
@@ -7100,11 +7120,11 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		if ( rtv<7)  
 		if ( rta+rtv+0<globalrtvi+restsel+7+rta*0.2) { 
 			//if (zuglist.length < 18 && gegmoves<7) 
-			  if (zugnr > 18)if (pmuehdroht(nextzug.zf)) mybonus+=1/8;
+			  if (zugnr > 18)if (pmuehdroh) mybonus+=1/8;
 			//if (zuglist.length < 11) 
 			   if (zugnr > 18 && (stz[3-farbe]) >3) if (pMuehleBlocked(nextzug.zf)) mybonus+=1/8;
-			if (rtv > 1) if (restsel>1) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroht(nextzug.zf)) mybonus+=1/8;
-			if (rtv > 1) if (restsel>1) if (zugnr > 18 && (stz[farbe]) ==3) if (pMuehleBlocked(nextzug.zf)) mybonus+=1/8;
+			if (rtv > 1) if (restsel>1) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroh) mybonus+=1/8;
+			if (rtv > 1) if (restsel>1) if (zugnr > 18 && (stz[farbe]) ==3) if (pmuehdroh) mybonus+=1/8;
 		}	 
 	  }	 
 	  
@@ -7114,7 +7134,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 	  // Berechne
 	  {
 		if(nextzug.wnfAM < -2) mybonus-=1/2;
-        if (rtv > 1) if (restsel) if (zugnr > 18 ) if (pmuehdroht(nextzug.zf)) mybonus+=1/5;
+        if (rtv > 1) if (restsel) if (zugnr > 18 ) if (pmuehdroh) mybonus+=1/5;
         if (rtv > 1) if (restsel) if (zugnr > 18 ) if (pMuehleBlocked(nextzug.zf)) mybonus+=1/5;
 		if(globalProblem) mybonus=mybonus/2;
         berbestzugzugliste = await berbestzug_async(rtv - 1 + sel+mybonus+mybonuswf, restsel - sel, -beta, -bestwertung, -zufa);
@@ -7433,7 +7453,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
 
-   	  if(rtv>2) //B
+   	  if(0&&rtv>2) //B
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.1}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.1};}
 		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
@@ -7697,7 +7717,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
 var mybonuswf=0;
-   	  if(rtv>2) // C
+   	  if(0&&rtv>2) // C
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};}
 		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};
@@ -9980,6 +10000,7 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle154.htm--         2.6.26 playok Notation, Faq, TT readFromhash32: es werden immer beide probes geholt und die bessere zurückgegeben  
 --Muehle155.htm--         Fehler korrigiert zugmatropt
 --Muehle156.htm--         Fehler korrigiert in zggcounty
+--Muehle157.htm--         
 
 
 */
