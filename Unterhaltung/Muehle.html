@@ -2354,7 +2354,7 @@ function finalizeAnimation(resolve) {
 }
 
 //var globalZoom=1;
-var globalfast=2; // globalfast==0 slow// globalfast==1//2 break if mate_threshold 300 // globalfast==2 Zugbaum beschneiden 
+var globalfast=2; // globalfast==0 slow// globalfast>1 break if mate_threshold 300 // globalfast>0 Zugbaum beschneiden 
 function pos2url()
 {
  clearVmark();
@@ -2718,7 +2718,7 @@ function protectedByDepthHeight(idx, hb) {
 
   return (
     depth[idx] > hb.searchdepth &&
-    height[idx] > hb.height 
+    height[idx] +1 > hb.height 
 	&&
     Math.abs(height[idx] - hb.height) < 22
   );
@@ -2752,7 +2752,8 @@ function shouldOverwriteSameKey(idx, hb) {
   const oldFlag = getFlag(idx);
 
   // neue Info ist besser?
-  if (hb.searchdepth >= depth[idx]) return true;
+  if (hb.searchdepth == depth[idx]) if (Math.abs(hb.wertung)>Math.abs(TTwertung[idx]))return true;
+  if (hb.searchdepth > depth[idx]) return true;
   if (hb.TTflag === TTFlag.EXACT && oldFlag !== TTFlag.EXACT) return true;
 
   // sonst: wenn du willst, kannst du zumindest generation aktualisieren (machen wir beim Schreiben ohnehin)
@@ -2767,7 +2768,7 @@ function writeEntryAt(idx, hb) {
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
 	    hb.searchdepth=Math.max(hb.searchdepth, 32);		  // > 900 exakter Gewinn, > 300 nicht exakter Gewinn
 	 else
-	    if (globalfast) 
+	    if (globalfast>1) 
 			hb.searchdepth=Math.max(hb.searchdepth, 22);
 		else
 			hb.searchdepth=Math.max(hb.searchdepth, 7);
@@ -2815,7 +2816,7 @@ function writeTohash32(hb) {
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
 	    hb.searchdepth=Math.max(hb.searchdepth, 48);
 	 else
-	    if (globalfast) 
+	    if (globalfast>1) 
 			hb.searchdepth=Math.max(hb.searchdepth, 22);
 		else
 			hb.searchdepth=Math.max(hb.searchdepth, 7);
@@ -2838,7 +2839,7 @@ function writeTohash32(hb) {
     return;
   }
 
-  // 1) Freien Slot bevorzugen (Hauptslot zuerst)
+  // 2) Freien Slot bevorzugen (Hauptslot zuerst)
   if (TThash32keys[idx0] === 0) { writeEntryAt(idx0, hb); return; }
   if (TThash32keys[idx1] === 0) { writeEntryAt(idx1, hb); return; }
 
@@ -2972,10 +2973,12 @@ function decodeEntry(idx) {
 
   entry.wertung     = TTwertung[idx];
   //entry.wertung     = TTwertung[idx]/10;
+if(0)
+{
 if (entry.TTflag === TTFlag.EXACT) entry.wertung+=.01; 
 if (entry.TTflag === TTFlag.LOWERBOUND) entry.wertung+=.02; 
 if (entry.TTflag === TTFlag.UPPERBOUND) entry.wertung+=.03; 
- 
+}
   entry.searchdepth = depth[idx];
   entry.height      = height[idx];
   entry.ttgen      = TTgen[idx];
@@ -4832,7 +4835,7 @@ function zggcounty(farbex)
  var msum= 0;
  var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
  var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
- if(stz[farbex]==3) return 14; // Beweglichkeit von 3 Steinnen 
+ if(stz[farbex]==3) if(zugnr>18) return 15; // Beweglichkeit von 3 Steinnen 
  
  for(af=1; af<=24; af+=1)
  {
@@ -6527,7 +6530,7 @@ if (rootEntry) {
         //alert("principal variation ändern");
         //dispzugliste(globalpv);
       }
-      if(globalfast) if(bestwertung>300) if(rtvi>2) break;
+      if(globalfast>1) if(bestwertung>300) if(rtvi>2) break;
       if(tzuza>maxmaxzug || !isRunning) {bestzug.wnfAM=rtvi; globalfast=merkeglobalfast; return bestzug;}
     }
 	
@@ -6562,7 +6565,7 @@ if (rootEntry) {
     if(bestzug.wertung< CONSTminwertung+80) break;
     /* if(tzuza/10>maxzug*10 || !isRunning)  {alert("tzuza"+tzuza+" maxzug"+maxzug); break;} */
     if(tzuza>maxzug || !isRunning)  {break;}
-    if(globalfast) if(bestwertung>300 || bestwertung <-300) if(rtvi>2) break;
+    if(globalfast>1) if(bestwertung>300 || bestwertung <-300) if(rtvi>2) break;
   }
   if(xdebug) alert(rtvi+" rtv"+rtv);
   bestzug.wnfAM=rtvi;
@@ -7030,7 +7033,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
      // Zugbaum beschneiden
      if(1)
-     if(globalfast==2)     
+     if(globalfast)     
      {
      if (Math.abs(wf-stwertung) <90) { 
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >12+rtv*4) {mybonuswf-=0.1;};
@@ -7049,7 +7052,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
      }
 
   	 if(1)
-	 if(globalfast==2){
+	 if(globalfast){
 		//if(mymoves+gegmoves>16) if (Math.abs(wf-stwertung) >20) {mybonuswf-=0.3;};
 		if(rtv<7)
 		{
@@ -7271,6 +7274,24 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if(0) alert("################# bewertefast ###############################");
 if(0) alert("################");
 if(0) alert("################");
@@ -7370,7 +7391,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
 		var mybonuswf=0; //Wertungsfenster
 		if(0)
 		if(rtv>2)
-		if(globalfast==2)
+		if(globalfast>0)
 		if (Math.abs(wf-stwertung)<50){
 		var mymoves= zuglist.length;
 		var gegmoves= zggcount(farbe);
@@ -7956,7 +7977,8 @@ if (window.location.search != "")
     if (("?"+params[ipar]).indexOf("takefrommillallowed=0")==1) {takefrommillallowed=0;}
     if (("?"+params[ipar]).indexOf("takefrommillallowed=1")==1) {takefrommillallowed=1;}
     if (("?"+params[ipar]).indexOf("fast=0")==1) {globalfast=0;}
-    if (("?"+params[ipar]).indexOf("fast=1")==1) {globalfast=1;}
+    if (("?"+params[ipar]).indexOf("fast=1")==1) {globalfast=2;}
+    if (("?"+params[ipar]).indexOf("fast=2")==1) {globalfast=2;}
     if (("?"+params[ipar]).indexOf("moves=")==1) newmoves=params[ipar].substr(6);
     if (("?"+params[ipar]).indexOf("classicmoves=")==1) classicmoves=params[ipar].substr(13);
     if (("?"+params[ipar]).indexOf("playokmoves=")==1) playokmoves=params[ipar].substr(12);
@@ -9996,11 +10018,12 @@ if(0) alert("-------------------------------------------------------------------
 --A146PzohQma9grid.htm--  
 --Muehle147.htm--  
 --Muehle149.htm--         openmillssingleduo ersetzt das alte openmill
---Muehle150.htm--         TTWertung: 1 Nachkommastelle (oder auch nicht)
+--Muehle150.htm--         TTwertung: 1 Nachkommastelle (oder auch nicht)
 --Muehle154.htm--         2.6.26 playok Notation, Faq, TT readFromhash32: es werden immer beide probes geholt und die bessere zurückgegeben  
 --Muehle155.htm--         Fehler korrigiert zugmatropt
---Muehle156.htm--         Fehler korrigiert in zggcounty
+--Muehle156.htm--         Fehler korrigiert in zggcounty (kleiner Fehler bei neu und noch im Test)
 --Muehle157.htm--         
+--Muehle158.htm--         globalfast korrektur, wenn fast=1 in der url
 
 
 */
