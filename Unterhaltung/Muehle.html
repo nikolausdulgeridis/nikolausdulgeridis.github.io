@@ -2598,7 +2598,7 @@ var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2
 initTT(globalCsize);
 
 function initTT(Csize) {
-  TT_SIZE  = 1024*1024*4>>>(Csize*3);
+  TT_SIZE  = 1024*1024*4*2>>>(Csize*3);
   TT_SIZE2 = TT_SIZE + (PROBES - 1);
 
   TThash32keys   = new Uint32Array(TT_SIZE2);
@@ -7475,7 +7475,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
 
-   	  if(0&&rtv>2) //B
+   	  if(rtv>2) //B
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.1}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.1};}
 		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
@@ -7739,10 +7739,10 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
 var mybonuswf=0;
-   	  if(0&&rtv>2) // C
+   	  if(rtv>2) // C
 	    {
-		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};}
-		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.2};
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2; }}
+		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.1};
 		}
 
   // --- Schleife  ---
