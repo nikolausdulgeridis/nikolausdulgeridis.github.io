@@ -1881,11 +1881,11 @@ document.querySelectorAll('.zoom-item').forEach(item => {
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.html?pos=221221220200100100100100+22&level=3" target=""><b>Mühle‑Datenbank – Gewinn in 165</b></a>
+<a href="./Muehle.html?pos=221221220200100100100100+22&level=3" target=""><b>Mühle‑Datenbank – Gewinn in 68</b></a>
 </td></tr>
 
 <tr><td>
-<a href="./Muehle.html?pos=122210121112211120000221+34&level=3&takefrommillallowed=0&moves=1FURWYNPDEGTdDICBMVQzLKMLIJQMFICFVOFCIHGFRQFIEFLETLUROVNOJNRUQRIJHIMQLMELNSOGVOJNIJLEKLWKJIUVRUQRIJKWMQWKJIKWBKCBQmnRQIJQRMQBCSnrCBJIBCIHCBNSBCSncDCHmc" target=""><b>difficult 10 men morris position</b></a>
+<a href="./Muehle.html?pos=122210121112211120000221+34&level=3&takefrommillallowed=1&moves=1FURWYNPDEGTdDICBMVQzLKMLIJQMFICFVOFCIHGFRQFIEFLETLUROVNOJNRUQRIJHIMQLMELNSOGVOJNIJLEKLWKJIUVRUQRIJKWMQWKJIKWBKCBQmnRQIJQRMQBCSnrCBJIBCIHCBNSBCSncDCHmc" target=""><b>difficult 10 men morris position</b></a>
 </td></tr>
 
 
@@ -7188,7 +7188,8 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		hb.wnf = bestzug2.wnf;
 		hb.TTflag = TTFlag.LOWERBOUND;
 		
-		if(globalfast) if (hb.wertung > 300) hb.TTflag = TTFlag.EXACT;
+		if(globalfast>0) if (hb.wertung > 300) hb.TTflag = TTFlag.EXACT;
+		if(globalfast>1) if (hb.wertung > 900) hb.TTflag = TTFlag.EXACT;
 		
 		hb.height = zugnr + rtv;
 		writeTohash32(hb);   // <-- setzt INTERN TTgen[idx] = currentGen
