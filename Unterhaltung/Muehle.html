@@ -4835,7 +4835,8 @@ function zggcounty(farbex)
  var msum= 0;
  var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
  var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
- if(stz[farbex]==3) if(zugnr>18) return 15; // Beweglichkeit von 3 Steinnen 
+ if(stz[farbex]==3) if(zugnr>18) 
+   if (openmillssingle(farbex))return 18; else return 12;// Beweglichkeit von 3 Steinnen 
  
  for(af=1; af<=24; af+=1)
  {
@@ -6491,7 +6492,7 @@ if (rootEntry) {
 			rtvdelaymove[rtvi]=new zugspeicher();
 			rtvdelaymovezugliste[rtvi]=[];
 			}
-		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>12) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
+		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>22) if(rtvdelay<8) if(rtvdelaymove[rtvi-1].zf==0) {
 		  rtvdelay+=1; // Bestzug gekippt, setze mit reduzierter Suchtiefe fort
 		  copyzugspei(nextzug,rtvdelaymove[rtvi]); 
          rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
@@ -6542,7 +6543,7 @@ if (rootEntry) {
 		const [h32, h52] = spfeld2hash32(spfeld, zugnr);
 		hashbucket.Hash32key  = h32; // 32 Bit
 		// Hasheintrag schreiben sofern Zugberechnung nicht abgebrochen und mindestens 4 Hz
-		if(isRunning && rtvi>1) 
+		if(isRunning) 
 		{
 			//hashbucket.checksum8  = checksum32to8_mix(spfeld2hash(spfeld)); // 8 Bit 
 			hashbucket.checksum48  = h52; // 48 Bit 
@@ -6816,8 +6817,9 @@ if (globalCsize<2)console.log("end Verification Search");
    // //if (rta==1 && globalpv.length==2) alert("rta:"+rta+" pvkillerzug "+ pvkillerzug.af+ " " +pvkillerzug.zf+ " " +pvkillerzug.wnf);
    // //if (rta==1 && globalpv.length==2 && pvkillerzug.zf==0) dispzugliste(globalpv);
     
-    var liste1 = []; // pv killerzug
-    var liste2 = []; // muehleKillerzug
+    var liste0 = []; // pv killerzug
+    var liste1 = []; // muehleKillerzug
+    var liste2 = []; // 
     var liste3 = []; // pMuehzuege
     var liste4 = []; // Muehlezuege
     var liste5 = []; // restzuege
@@ -6857,7 +6859,7 @@ if (globalCsize<2)console.log("end Verification Search");
             }
         
         if (nextzug.af == pvkillerzug.af && nextzug.zf == pvkillerzug.zf && nextzug.wnf == pvkillerzug.wnf) {
-            liste1.push(nextzug);
+            liste0.push(nextzug);
         } else if (nextzug.wnf && nextzug.wnf == globalLastZf) {
             liste2.push(nextzug);
         } else if (nextzug.wnf) {
@@ -6883,7 +6885,8 @@ if (globalCsize<2)console.log("end Verification Search");
     // Zusammenführen in ein Ergebnisarray
     var ergebnis = []; 
 
-    Array.prototype.push.apply(ergebnis, liste1); // Den PV-Killerzug an den Anfang
+    Array.prototype.push.apply(ergebnis, liste0); // Den PV-Killerzug an den Anfang
+    Array.prototype.push.apply(ergebnis, liste1); 
     Array.prototype.push.apply(ergebnis, liste2);
     Array.prototype.push.apply(ergebnis, liste3);
     Array.prototype.push.apply(ergebnis, liste4);
@@ -6896,7 +6899,7 @@ if (globalCsize<2)console.log("end Verification Search");
     //  alert ("suspicious"+farbe+" "+spfeld[pvkillerzug.af]); // plaus check
     //  alert("rta:"+rta+" pvkillerzug "+ pvkillerzug.af+ " " +pvkillerzug.zf+ " " +pvkillerzug.wnf);
     //  dispzugliste(globalpv);
-    //  alert("Killerzuglänge: "+liste1.length);
+    //  alert("Killerzuglänge: "+liste0.length);
     //  alert("rta:"+rta+" pvkillerzug "+ pvkillerzug.af+ " " +pvkillerzug.zf+ " " +pvkillerzug.wnf);
     //  }
     // }
@@ -6911,14 +6914,14 @@ if (globalCsize<2)console.log("end Verification Search");
 
 
 
-  // Sortierung 2 (nur wenn pvkillerzug in liste1)
+  // Sortierung 2 (nur wenn pvkillerzug in liste0)
 
 var berbestzugprev0=new zugspeicher();
 var berbestzugprev1=new zugspeicher();
 var berbestzugprevwert=0;
 var berbestzugprevdepth=0;
 
-  if (rtv>3 && liste1.length==0) {
+  if (rtv>3 && liste0.length==0) {
 if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev0);
     var length=zuglist.length;
     var tmptzuza=tzuza;
@@ -7035,11 +7038,11 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
      if(1)
      if(globalfast)     
      {
-     if (Math.abs(wf-stwertung) <90) { 
+     if (Math.abs(wf-stwertung) <1190) { 
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >12+rtv*4) {mybonuswf-=0.1;};
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >15+rtv*4) {mybonuswf-=0.2;};
 	 }
-     if (Math.abs(wf-stwertung) <90) { 
+     if (Math.abs(wf-stwertung) <1190) { 
         if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >22+rtv*5) {mybonuswf-=0.5;  restsel-=0};
@@ -7058,7 +7061,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		{
 		  if (stz[1]>3 && stz[2]>3)
 		  if (rta+rtv> globalrtvi+2+globalrestsel)
-		  if (Math.abs(wf-stwertung) <60)
+		  if (Math.abs(wf-stwertung) <1180)
 		  {
 			if(mymoves+gegmoves>12)  if (Math.abs(wf-stwertung) >5+rtv*3) {mybonuswf-=0.2;};
 			if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >7+rtv*3) {mybonuswf-=0.3;};
@@ -7069,7 +7072,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 		{		  
 		  if (stz[1]>3 && stz[2]>3)
 		  if (rta+rtv> globalrtvi+2+globalrestsel)
-		  if (Math.abs(wf-stwertung) <50)
+		  if (Math.abs(wf-stwertung) <1150)
 		  {
 			if(mymoves+gegmoves>15)  if (Math.abs(wf-stwertung) >14+rtv*4) {mybonuswf-=1.4-1/10*rtv;};
 			if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >16+rtv*4) {mybonuswf-=1.4-1/10*rtv;};
@@ -7091,7 +7094,7 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
    	  if(rtv>2) // A
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(pmuehdroh==0 ) {mybonuswf-=.2}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.2};}
-		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
+		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.2};
 		}
 	
 	const fastbase=4;	// die letzten Hz im Schnelldurchlauf a)wenig Zugmögl. und mehr 3 Steine: fstbase+1 b) mittlere Zuege: fastbase c) viele Z:fastbase-1
@@ -7475,7 +7478,7 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
 
-   	  if(rtv>2) //B
+   	  if(0&&rtv>2) //B
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.1}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.1};}
 		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
@@ -7739,7 +7742,7 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
 var mybonuswf=0;
-   	  if(rtv>2) // C
+   	  if(0&&rtv>2) // C
 	    {
 		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2; }}
 		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.1};
