@@ -2598,7 +2598,7 @@ var globalCsize=2; // 3 Stufen: 0=112MB 1=28MB 2=7MB // 3 Stufen: 0=28MB 1=7MB 2
 initTT(globalCsize);
 
 function initTT(Csize) {
-  TT_SIZE  = 1024*1024*4*2>>>(Csize*3);
+  TT_SIZE  = 1024*1024*4>>>(Csize*3);
   TT_SIZE2 = TT_SIZE + (PROBES - 1);
 
   TThash32keys   = new Uint32Array(TT_SIZE2);
@@ -3918,7 +3918,8 @@ function bewerte(zuf, mwert)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmillzi(farbe))
+  //else if (stz[gegfarbe]==3 && openmillzi(farbe))
+  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (takefrommillallowed==1 || alleSteineInMuehle(gegfarbe)==0))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
  return wertung;
 }
@@ -3957,7 +3958,8 @@ function bewerte_alt(zuf, mwert)
    {
    wertung += zggcounty(farbe) - zggcount(gegfarbe) + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
+  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (takefrommillallowed==1 || alleSteineInMuehle(3-farbex)==0))
+  //else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;   
  return wertung;
 }
@@ -3987,10 +3989,6 @@ if(zugnr>18 && stz[1]==3 && stz[2]==3)
 	return zuf +om; 
 	}
 
-
-
-
-
    
    
  if(zugnr<18) wertung += openmillsetz(farbe);
@@ -4004,7 +4002,8 @@ if(farbe==1) wertung += mwert; else wertung -= mwert;
    {
    wertung += zggcounty(farbe) - zggcountgegfarbe + zuf;
    }
-  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
+  //else if (stz[gegfarbe]==3 && openmillzi(farbe) && (zughistory[zugnr].wnf==0))
+  else if (stz[gegfarbe]==3 && openmillzi(farbe) && (takefrommillallowed==1 || alleSteineInMuehle(gegfarbe)==0))
     wertung += 311;//zggcounty(farbe) - zggcountgegfarbe + zuf;
  return wertung;
 }
@@ -4754,7 +4753,7 @@ console.log("---");
 	if (msum>2) debugger;
 
 
-	if (msum>1) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 444};}
+	if (msum>1) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 1444};}
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -4816,7 +4815,7 @@ function zggcounty_alt (farbex)
  if (zugnr>17)
    { if(zugsum==0 && zugnr>18) if(stz[farbex]>3) return -444; // neu und noch im Test
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 1555};;
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -4881,7 +4880,8 @@ function zggcounty(farbex)
 	
 	if (msum>1) if(Obzf==Lizf) msum--;
 
-	if (msum) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 444};}
+	//if (msum) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 444};}
+	if (msum) {if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (alleSteineInMuehle(3-farbex)==0) return 444};}
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -4947,7 +4947,7 @@ function zggcounty_alt (farbex)
  if (zugnr>17)
    { if(zugsum==0 && zugnr>18) return -444; // neu und noch im Test //alte Fassung
      //if(msum && openmill12zi()==0) console.log(spf2string(spfeld,zugnr));
-     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 555};;
+     if (msum) if(stz[3-farbex]==3)  {if (takefrommillallowed) return 777; else if (zughistory[zugnr].wnf==0) return 1555};;
 	 // takefrommillallowed: Falls alle 3 Steine in einer Muehle stehen, dann muss im letzten Zug eine Mühle gebildet worden sein.
 	 // Daraus folgt .wnf!=0. Einzige Ausnahme: die andere Seite hat ebenfalls nur Muehlen. Wenn aber beide Seiten nur
 	 // Muehlen haben, dann kann in diesem Zug keine Muehle offen stehen. ==> Pruefung .wnf==0 reicht. 
@@ -5237,6 +5237,34 @@ return wert1;
 }
 
 //
+function alleSteineInMuehle(farbe) // test auf alle Steine in Muehle
+{
+ //console.log("enter");
+ //if(stz[farbe]!=3) return 0;
+ var af=1;
+ var li=0;
+ var re=0;
+ var count=0; 
+ 
+ for(af=1; af<=24; ++af)
+ {
+   if (spfeld[af] == farbe) // Stein gefunden 
+   {
+    li = spfeld[pmuehmatr0[af]];
+    re = spfeld[pmuehmatr1[af]]
+    if (!(li==farbe && re==farbe)) count++; // waagerecht 3 farbe
+    li = spfeld[pmuehmatr2[af]]; // li +re sind hier oben und unten 
+    re = spfeld[pmuehmatr3[af]];
+    if (!(li==farbe && re==farbe)) count++; // senkr 3 farbe 	
+	if(count==0) return 0; //mind 1 Stein ohne Muehle
+	if (stz[farbe]==3) return 1; //Sonderfall: alle 3 Steine in Muehle
+	if (stz[farbe]==4) return 0; //Sonderfall: 4 Steine, mind 1 Stein ausserhalb
+	count=0;
+   }
+ }
+ return 1; // kein Stein ohne Muehle
+}
+
 function openmillssingle(farbe) // test auf mind 1M springen
 {
  //console.log("enter");
@@ -5246,7 +5274,7 @@ function openmillssingle(farbe) // test auf mind 1M springen
  var re=0;
  var count=0; 
  
- for(af; af<=24; ++af)
+ for(af=1; af<=24; ++af)
  {
    if (spfeld[af] == farbe) // Stein gefunden 
    {
@@ -7093,7 +7121,18 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
 
    	  if(rtv>2) // A
 	    {
-		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(pmuehdroh==0 ) {mybonuswf-=.2}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.2};}
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {
+		 mybonuswf-=.3; 
+		 if(pmuehdroh==1 ) {mybonuswf+=1.2}; 
+		 //if(pmb) {mybonuswf+=1.0}; //?
+		 if(openmillssingle(farbe)==1 ) {mybonuswf+=.1}  }
+		 
+		 if(stz[farbe]>3 && stz[3-farbe]==3 ) {
+		 mybonuswf-=.3; 		 
+		 if(openmillssingle(farbe)==0 ) {mybonuswf-=.2}  
+		 if(pmb) {mybonuswf+=1.2}; //pmb
+		 if(pmuehdroh==1 ) {mybonuswf+=.2}; 
+		 }; 
 		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.2};
 		}
 	
@@ -7478,10 +7517,10 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
       globalLastZf= nextzug.zf; //Globale Variable, Zf immer vor Aufruf der näechsten Ebene setzen: globalLastZf=nextzug.zf;
 
 
-   	  if(0&&rtv>2) //B
+   	  if(rtv>2) //B
 	    {
-		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {if(openmillzi(3-farbe)==0 ) {mybonuswf-=.1}; if(openmillssingle(farbe)==1 ) {mybonuswf-=.1};}
-		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==0 ) {mybonuswf-=.1};
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {mybonuswf-=.1}
+		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) {mybonuswf-=.1}
 		}
 
       var nextrtv=rtv - 1 + sel+mybonuswf;
@@ -7742,10 +7781,10 @@ function berbestzugprevfast (rtv, restsel, alpha, beta, zufa, mwert) {
   //if (zuglist.length==0) bestwertung=CONSTminwertung+rta; // Keine Zuege -> Verlust, Abfrage nich erf. und wegoptimiert
 
 var mybonuswf=0;
-   	  if(0&&rtv>2) // C
+   	  if(rtv>2) // C
 	    {
-		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) { mybonuswf-=.1; if(openmillssingle(3-farbe)==1) {mybonuswf-=.2; }}
-		 //if(stz[3-farbe]==3 && stz[farbe]> 3 ) if(openmillssingle(3-farbe)==1) {mybonuswf-=.1};
+		 if(stz[farbe]==3 && stz[3-farbe]> 3 ) {mybonuswf-=.1}
+		 if(stz[3-farbe]==3 && stz[farbe]> 3 ) {mybonuswf-=.1}
 		}
 
   // --- Schleife  ---
@@ -10027,7 +10066,7 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle155.htm--         Fehler korrigiert zugmatropt
 --Muehle156.htm--         Fehler korrigiert in zggcounty (kleiner Fehler bei neu und noch im Test)
 --Muehle157.htm--         
---Muehle158.htm--         globalfast korrektur, wenn fast=1 in der url
+--Muehle158.htm--         globalfast korrektur, wenn fast=1 in der url, zggcounty Korrektur: alleSteineInMuehle() hinzugefuegt
 
 
 */
