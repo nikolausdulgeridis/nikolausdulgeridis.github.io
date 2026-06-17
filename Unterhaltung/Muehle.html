@@ -6545,7 +6545,7 @@ async function computemoveA() {
 	}
 
 	
-	if(Math.abs(lastbestwertung+bestzug.wertung) > 25 && zugnr>14)  console.log("Bestwertung:"+lastbestwertung+" wird zu: "+bestzug.wertung+" "+showZugHistoryShort(zughistory,zugnr));
+	if(0)if(Math.abs(lastbestwertung+bestzug.wertung) > 25 && zugnr>14)  console.log("Bestwertung:"+lastbestwertung+" wird zu: "+bestzug.wertung+" "+showZugHistoryShort(zughistory,zugnr));
 	lastbestwertung=bestzug.wertung;
 }
 
@@ -6754,12 +6754,12 @@ if (rootEntry) {
 			rtvdelaymove[rtvi]=new zugspeicher();
 			rtvdelaymovezugliste[rtvi]=[];
 			}
-		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>22) if(rtvdelay<9) if(rtvdelaymove[rtvi-1].zf==0) {
+		if(zli==0) if(rtvi>5) if(letzteWertung-aktwertung>16) if(rtvdelay<7) if(rtvdelaymove[rtvi-1].zf==0) {
 		  rtvdelay+=1; // Bestzug gekippt, setze mit reduzierter Suchtiefe fort
 		  copyzugspei(nextzug,rtvdelaymove[rtvi]); 
          rtvdelaymovezugliste[rtvi]=aktwertungzugliste.slice();
 		  rtvdelaydepth=rtvi;
-		  console.log ("rtvi:"+rtvi+" rtvdelay:"+rtvdelay+" letzteWertung:"+letzteWertung+" aktwertung:"+aktwertung);
+		  if(0)console.log ("rtvi:"+rtvi+" rtvdelay:"+rtvdelay+" letzteWertung:"+letzteWertung+" aktwertung:"+aktwertung+" af:"+nextzug.af+" zf:"+nextzug.zf+" wnf:"+nextzug.wnf);
 		}
 		
 		//if(zli==0)  alert("aktwertung"+aktwertung+"bestwertung"+bestwertung+"rtvi"+rtvi+"rtvdelay"+rtvdelay); 
