@@ -6601,15 +6601,15 @@ async function berbestzug1_async (rtv,alpha,maxzug)
 {
   if (globalProblem) 
 	{
-	 globalgering1=4;
-	 globalgering2=4;
-	 globalgering3=4;
+	 globalgering1=3;
+	 globalgering2=3;
+	 globalgering3=3;
 	}
 	else
 	{
-	 globalgering1=2;
-	 globalgering2=2;
-	 globalgering3=2;
+	 globalgering1=1;
+	 globalgering2=1;
+	 globalgering3=1;
 	}
 
   var zuglist= makezgglist(farbe);
@@ -6870,12 +6870,6 @@ if (rootEntry) {
   globalfast=merkeglobalfast; 
   return bestzug;
 }
-
-
-
-
-
-
 
 
 
@@ -7331,11 +7325,11 @@ if(zuglist.length) copyzugspei(zuglist[0], berbestzugprev1);
      if(1)
      if(globalfast)     
      {
-     if (Math.abs(wf-stwertung) <1190) { 
+     if (Math.abs(wf-stwertung) <111) { 
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >12+rtv*4) {mybonuswf-=0.1;};
         if(mymoves+gegmoves>16)  if (Math.abs(wf-stwertung) >15+rtv*4) {mybonuswf-=0.2;};
 	 }
-     if (Math.abs(wf-stwertung) <1190) { 
+     if (Math.abs(wf-stwertung) <111) { 
         if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>20)  if (Math.abs(wf-stwertung) >17+rtv*5) {mybonuswf-=0.3;};
         if(mymoves+gegmoves>22)  if (Math.abs(wf-stwertung) >22+rtv*5) {mybonuswf-=0.5;  restsel-=0};
@@ -10386,7 +10380,8 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle157.htm--         
 --Muehle158.htm--         globalfast korrektur, wenn fast=1 in der url, zggcounty Korrektur: alleSteineInMuehle() hinzugefuegt
 --Muehle159.htm--         Korrektur Zugwiederholung: hashwert für Grundstellung (hashfirst), globalpv wird ergänzt bis zur ersten Zugw
---Muehle160.htm--         19.06 globalCsize: 0=off 1=2MB 3=100MB, TTwertung: 32 Bit, 3 Nachkommastellen 
+--Muehle160.htm--         19.06 globalCsize: 0=off 1=2MB 3=100MB, TTwertung: 32 Bit, 3 Nachkommastellen. Zugbaum beschneiden korrigiert: 111
+
 */
 
 </script>    
