@@ -2769,12 +2769,12 @@ function writeEntryAt(idx, hb) {
   
   if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // Gewinn in x gilt fuer die Stellung auch bei hoher Suchtiefe
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
-	    hb.searchdepth=Math.max(hb.searchdepth, 32);		  // > 900 exakter Gewinn, > 300 nicht exakter Gewinn
+	    hb.searchdepth=Math.max(hb.searchdepth, 8);		  // > 900 exakter Gewinn, > 300 nicht exakter Gewinn
 	 else
 	    if (globalfast>1) 
-			hb.searchdepth=Math.max(hb.searchdepth, 18);
-		else
 			hb.searchdepth=Math.max(hb.searchdepth, 7);
+		else
+			hb.searchdepth=Math.max(hb.searchdepth, 5);
   }
   else
     {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
@@ -3383,7 +3383,8 @@ if (stz[1]<6 && stz[2]<6) return 0;
         }
     }
     //console.log("Muehlebewertung aus Sicht von Farbe "+pfarbe+" M-Wertung "+zwwert);
-	return zwwert;
+	if (zugnr<18) return zwwert;
+	return zwwert*(30/(zugnr*1,5));
 }
 
 
@@ -5004,7 +5005,7 @@ function zggcounty(farbex)
  var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
  var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
  if(stz[farbex]==3) if(zugnr>18) 
-   if (openmillssingle(farbex))return 4; else return 2;// Beweglichkeit von 3 Steinnen 
+   if (openmillssingle(farbex))return 14; else return 9;// Beweglichkeit von 3 Steinnen 
    //if (openmillssingle(farbex))return 18; else return 12;// Beweglichkeit von 3 Steinnen 
  
  for(af=1; af<=24; af+=1)
@@ -10382,6 +10383,7 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle159.htm--         Korrektur Zugwiederholung: hashwert fuer Grundstellung (hashfirst), globalpv wird ergaenzt bis zur ersten Zugw
 --Muehle160.htm--         19.06 globalCsize: 0=off 1=2MB 3=100MB, TTwertung: 32 Bit, 3 Nachkommastellen. Zugbaum beschneiden korrigiert: 111
 --Muehle161.htm--         29.06 Umlaute
+--Muehle162.htm--         Muehlewertung nimmt Hz 18 ab, Korrektur zggcounty Beweglichkeit von 3 Steinen korrigiert, TT leichter Schutz von Gewinnwert reduziert
 
 */
 
