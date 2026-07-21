@@ -2813,21 +2813,21 @@ if(globalCsize==0) return;
   //.wertung 1 Dezimalstelle
   //hb.wertung=Math.floor(hb.wertung);
   //if(hb.wertung % 1 !== 0) {if(Math.abs(hb.wertung % 1)>1) console.log(hb.wertung % 1); return}; // Zugwiederholung nicht in TT speichern 
-  //if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
+  if(hb.wertung % 1 !== 0) {return}; // Zugwiederholung nicht in TT speichern 
   //if(Math.abs(hb.wertung) <1 && hb.wertung!=0) {return}; // Zugwiederholung nicht in TT speichern, z.B -0.1
 
 
   if (hb.TTflag === TTFlag.EXACT && Math.abs(hb.wertung)>300) // "Gewinn in x" gilt fuer die Stellung auch bei hoher Suchtiefe
   {  if (Math.abs(hb.wertung)>900) 							  // auf die Weise wird ein gefundener exakter Gewinn Wert geschuetzt
-	    hb.searchdepth=Math.max(hb.searchdepth, 48);
+	    hb.searchdepth=Math.max(hb.searchdepth, 8);
 	 else
 	    if (globalfast>1) 
-			hb.searchdepth=Math.max(hb.searchdepth, 14);
-		else
 			hb.searchdepth=Math.max(hb.searchdepth, 7);
+		else
+			hb.searchdepth=Math.max(hb.searchdepth, 5);
   }
   else
-    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 9)} // Nicht exakt, leichter Schutz
+    {if (Math.abs(hb.wertung)>300 && Math.abs(hb.wertung)<995 ) Math.max(hb.searchdepth+0, 4)} // Nicht exakt, leichter Schutz
 
 
 
@@ -5005,8 +5005,7 @@ function zggcounty(farbex)
  var Obzf=0; // waagerecht und senkr nicht als 2 M zaehlen
  var Lizf=0; // waagerecht und senkr nicht als 2 M zaehlen
  if(stz[farbex]==3) if(zugnr>18) 
-   if (openmillssingle(farbex))return 14; else return 9;// Beweglichkeit von 3 Steinnen 
-   //if (openmillssingle(farbex))return 18; else return 12;// Beweglichkeit von 3 Steinnen 
+   if (openmillssingle(farbex))return 18; else return 12;// Beweglichkeit von 3 Steinnen 
  
  for(af=1; af<=24; af+=1)
  {
@@ -7806,8 +7805,8 @@ function berbestzugfast (rtv, restsel, alpha, beta, zufa, mwert) {
     nextzug = zuglist[i444];
     zugausfueh(nextzug);
     copyzugspeishort(nextzug,zughistory[zugnr]); zughistory[zugnr].wnfAM=zugcount; // .wnfAM fuer zugcount missbraucht 
-
-//    if (stz[3-farbe] < 3 && zugnr > 18) alert("Fehler");
+ 
+    //if (stz[3-farbe] < 3 && zugnr > 18) {alert("Fehler"); debugger};
 
     if (stz[farbe] < 3 && zugnr > 18) {
       zugrueck(nextzug);
@@ -8937,8 +8936,12 @@ function decodeZugliste(zuglistecode) {
 //alert("push " + shfieldindex + "af " + zug.af + "zf "+ zug.zf + "wnf"+zug.wnf );
     shfieldindex+=1;
   }
-  for (var tmpi=0; tmpi<99 ; tmpi+=1) 
-    zugliste.push (new zugspeicher());
+  
+  //auffuellen bis zughistorymax
+  for (var tmpi = zugliste.length; tmpi<zughistorymax; tmpi++) {
+    zugliste.push(new zugspeicher());
+  }
+
   //dispzugliste(zugliste);
   return zugliste;
 }
@@ -9142,7 +9145,7 @@ function zuglist2classicstring1Reduced(zuglist, startHz, delimiter, nummerierung
  * Ignoriert xx/yy und bricht bei ungueltigen Sequenzen ab.
  */
 function classicstring2zuglist(classicnot) {
-    let zugliste = Array.from({ length: 1000 }, () => new zugspeicher());
+    let zugliste = Array.from({ length: zughistorymax }, () => new zugspeicher());
     if (!classicnot) return zugliste;
 
     // Tokenizer erkennt Nummern (1.), Platzhalter (-), Felder (a1) und Schlag-x
@@ -9153,7 +9156,7 @@ function classicstring2zuglist(classicnot) {
     let currentHz = 1;
     let i = 0;
 
-    while (i < tokens.length && currentHz < 1000) {
+    while (i < tokens.length && currentHz < zughistorymax) {
         let t = tokens[i];
 
         if (t.endsWith('.')) {
@@ -10383,8 +10386,8 @@ if(0) alert("-------------------------------------------------------------------
 --Muehle159.htm--         Korrektur Zugwiederholung: hashwert fuer Grundstellung (hashfirst), globalpv wird ergaenzt bis zur ersten Zugw
 --Muehle160.htm--         19.06 globalCsize: 0=off 1=2MB 3=100MB, TTwertung: 32 Bit, 3 Nachkommastellen. Zugbaum beschneiden korrigiert: 111
 --Muehle161.htm--         29.06 Umlaute
---Muehle162.htm--         Muehlewertung nimmt Hz 18 ab, Korrektur zggcounty Beweglichkeit von 3 Steinen korrigiert, TT leichter Schutz von Gewinnwert reduziert
-
+--Muehle162.htm--         Muehlewertung nimmt ab Hz 18 ab, Korrektur zggcounty Beweglichkeit von 3 Steinen korrigiert, TT leichter Schutz von Gewinnwert reduziert
+--Muehle163.htm--         22.7.26 Fehler korrigiert in decodezuglist (tmpi<99 war falsch), zughistory bekommt nun die Laenge zughistorymax 
 */
 
 </script>    
